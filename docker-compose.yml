@@ -34,7 +34,7 @@ services:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - ./static:/usr/share/nginx/djangodocker/static
     ports:
-      - "80:80"
+      - "80:83"
     networks:
       - main
     depends_on:

@@ -1,3 +1,11 @@
-from django.shortcuts import render
+from django.http import JsonResponse
+from django.core.serializers import serialize
+from .models import WorldBorder
 
-# Create your views here.
+
+def api(request):
+    return JsonResponse(serialize(
+        'geojson',
+        WorldBorder.objects.all(),
+        geometry_field='mpoly',
+        fields=('name',)), safe=False)

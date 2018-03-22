@@ -1,11 +1,11 @@
 from django.http import JsonResponse
 from django.core.serializers import serialize
-from .models import WorldBorder
+from .models import Kanten
 
 
 def api(request):
     return JsonResponse(serialize(
         'geojson',
-        WorldBorder.objects.all(),
-        geometry_field='mpoly',
-        fields=('name',)), safe=False)
+        Kanten.objects.all()[0:50],
+        geometry_field='geom',
+        fields=('str_name',)), safe=False)

@@ -6,7 +6,6 @@ class ProjectAdmin(admin.ModelAdmin):
     autocomplete_fields = ('edges',)
 
 
-
 class KantenAdmin(admin.OSMGeoAdmin):
     search_fields = ('elem_nr',)
 

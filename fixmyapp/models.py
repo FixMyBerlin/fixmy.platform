@@ -1,7 +1,7 @@
 from django.contrib.gis.db import models
 
 class Kanten(models.Model):
-    objectid = models.IntegerField()
+    objectid = models.IntegerField(primary_key=True)
     gml_parent_id = models.CharField(max_length=255)
     gml_id = models.CharField(max_length=255)
     spatial_geometry = models.CharField(max_length=255)
@@ -11,7 +11,7 @@ class Kanten(models.Model):
     spatial_alias_xsi_nil = models.CharField(max_length=255)
     spatial_type = models.CharField(max_length=255)
     spatial_type_xsi_nil = models.CharField(max_length=255)
-    elem_nr = models.CharField(max_length=255)
+    elem_nr = models.CharField(max_length=255, unique=True)
     elem_nr_xsi_nil = models.CharField(max_length=255)
     strschl = models.CharField(max_length=255)
     strschl_xsi_nil = models.CharField(max_length=255)
@@ -44,6 +44,9 @@ class Kanten(models.Model):
     okstra_id = models.CharField(max_length=255)
     okstra_id_xsi_nil = models.CharField(max_length=255)
     geom = models.MultiLineStringField()
+
+    def __str__(self):
+        return self.elem_nr
 
 
 class Project(models.Model):

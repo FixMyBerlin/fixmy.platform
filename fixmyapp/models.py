@@ -1,6 +1,6 @@
 from django.contrib.gis.db import models
 
-class Kanten(models.Model):
+class Edge(models.Model):
     objectid = models.IntegerField(primary_key=True)
     gml_parent_id = models.CharField(max_length=255)
     gml_id = models.CharField(max_length=255)
@@ -52,7 +52,7 @@ class Kanten(models.Model):
 class Project(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
-    edges = models.ManyToManyField(Kanten)
+    edges = models.ManyToManyField(Edge)
 
     def __str__(self):
         return self.name

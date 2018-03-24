@@ -1,9 +1,9 @@
 import os
 from django.contrib.gis.utils import LayerMapping
-from .models import Kanten
+from .models import Edge
 
-# Auto-generated `LayerMapping` dictionary for Kanten model
-kanten_mapping = {
+# Auto-generated `LayerMapping` dictionary for Edge model
+edge_mapping = {
     'objectid': 'OBJECTID',
     'gml_parent_id': 'gml_parent_id',
     'gml_id': 'gml_id',
@@ -56,7 +56,7 @@ shp = os.path.abspath(
 
 def run(verbose=True):
     lm = LayerMapping(
-        Kanten, shp, kanten_mapping,
+        Edge, shp, edge_mapping,
         transform=False, encoding='utf-8',
     )
     lm.save(strict=True, verbose=verbose)

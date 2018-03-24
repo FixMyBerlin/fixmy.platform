@@ -1,7 +1,6 @@
 from django.contrib.gis.db.models.functions import AsGeoJSON
 from django.http import JsonResponse
-from django.core.serializers import serialize
-from .models import Kanten, Project
+from .models import Project
 import json
 
 

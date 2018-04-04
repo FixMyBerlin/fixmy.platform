@@ -4,6 +4,10 @@ from .models import Edge, Project
 
 class ProjectAdmin(admin.ModelAdmin):
     autocomplete_fields = ('edges',)
+    list_display = ('name', 'has_updated_edges',)
+
+    Project.has_updated_edges.boolean = True
+    Project.has_updated_edges.short_description = 'Has updated edges'
 
 
 class EdgeAdmin(admin.OSMGeoAdmin):

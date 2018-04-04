@@ -1,6 +1,15 @@
 from django.contrib.gis.db import models
 
-class Edge(models.Model):
+
+class BaseModel(models.Model):
+    created_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+
+class Edge(BaseModel):
     objectid = models.IntegerField(primary_key=True)
     gml_parent_id = models.CharField(max_length=255)
     gml_id = models.CharField(max_length=255)
@@ -30,7 +39,7 @@ class Edge(models.Model):
         return self.elem_nr
 
 
-class Project(models.Model):
+class Project(BaseModel):
     name = models.CharField(max_length=100)
     description = models.TextField()
     edges = models.ManyToManyField(Edge)

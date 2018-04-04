@@ -4,7 +4,7 @@ from fixmyapp.models import Edge
 import os
 
 # Auto-generated `LayerMapping` dictionary for Edge model
-kanten_mapping = {
+edge_mapping = {
     'objectid': 'OBJECTID',
     'gml_parent_id': 'gml_parent_id',
     'gml_id': 'gml_id',
@@ -67,7 +67,7 @@ class Command(BaseCommand):
         lm = LayerMapping(
             Edge,
             os.path.abspath(options['file']),
-            kanten_mapping,
+            edge_mapping,
             transform=False,
             encoding='utf-8'
         )

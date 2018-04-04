@@ -11,9 +11,9 @@ class BaseModel(models.Model):
 
 class Edge(BaseModel):
     objectid = models.IntegerField(primary_key=True)
-    gml_parent_id = models.CharField(max_length=255)
+    gml_parent_id = models.CharField(max_length=255, blank=True)
     gml_id = models.CharField(max_length=255)
-    spatial_geometry = models.CharField(max_length=255)
+    spatial_geometry = models.CharField(max_length=255, blank=True)
     spatial_name = models.CharField(max_length=255)
     spatial_alias = models.CharField(max_length=255)
     spatial_type = models.CharField(max_length=255)

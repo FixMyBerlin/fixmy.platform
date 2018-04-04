@@ -44,5 +44,9 @@ class Project(BaseModel):
     description = models.TextField()
     edges = models.ManyToManyField(Edge)
 
+    def has_updated_edges(self):
+        return any([e for e in self.edges.all()
+             if e.modified_date > self.modified_date])
+
     def __str__(self):
         return self.name

@@ -33,7 +33,7 @@ edge_mapping = {
 
 
 class Command(BaseCommand):
-    help = 'Imports street data from ...'
+    help = 'Imports edge data from ...'
 
     def add_arguments(self, parser):
         parser.add_argument('file', type=str, help='A GeoJSON file')

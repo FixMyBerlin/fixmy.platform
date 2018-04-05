@@ -50,7 +50,8 @@ class Command(BaseCommand):
             os.path.abspath(options['file']),
             edge_mapping,
             transform=False,
-            encoding='utf-8'
+            encoding='utf-8',
+            unique=('objectid',)
         )
         lm.save(
             verbose=True if options['verbosity'] > 2 else False,

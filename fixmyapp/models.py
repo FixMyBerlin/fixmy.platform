@@ -1,4 +1,5 @@
 from django.contrib.gis.db import models
+import hashlib
 
 
 class BaseModel(models.Model):
@@ -43,10 +44,19 @@ class Project(BaseModel):
     name = models.CharField(max_length=100)
     description = models.TextField()
     edges = models.ManyToManyField(Edge)
+    geom_hash = models.CharField(max_length=40, null=True)
 
     def has_updated_edges(self):
         return any([e for e in self.edges.all()
              if e.modified_date > self.modified_date])
+
+    def save(self, *args, **kwargs):
+        if self.id:
+            sha1 = hashlib.sha1()
+            for g in self.edges.values_list('geom', flat=True):
+                sha1.update(str(g).encode('ascii'))
+            self.geom_hash = sha1.hexdigest()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name

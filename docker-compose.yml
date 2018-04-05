@@ -3,7 +3,7 @@ version: "3.4"
 services:
   app:
     build: .
-    entrypoint: ./wait-for-it.sh db:5432 -t 5 -s --
+    entrypoint: ./wait-for-it.sh db:5432 -t 15 -s --
     command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/code

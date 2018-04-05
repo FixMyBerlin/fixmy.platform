@@ -32,7 +32,12 @@ class ProjectTests(TestCase):
                 laenge=20100101,
                 gilt_von=20100101,
                 okstra_id='787C5A383D0B434E88FFA2D60EDA90BC',
-                geom=MultiLineString()
+                geom=MultiLineString(
+                    LineString(
+                        (13.3529025205514, 52.4694951051436),
+                        (13.3529481208319, 52.4678335717279)
+                    )
+                )
             ))
 
     def test_geometry_hash_is_saved(self):
@@ -50,7 +55,12 @@ class ProjectTests(TestCase):
         self.assertFalse(self.project.has_updated_edges())
 
         edge = Edge.objects.get(pk=1)
-        edge.str_bez = 'B97'
+        edge.geom = MultiLineString(
+            LineString(
+                (12.3529025205514, 52.4694951051436),
+                (12.3529481208319, 52.4678335717279)
+            )
+        )
         edge.save()
 
         self.assertTrue(self.project.has_updated_edges())

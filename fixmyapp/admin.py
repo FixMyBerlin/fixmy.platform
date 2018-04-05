@@ -4,6 +4,7 @@ from .models import Edge, Project
 
 class ProjectAdmin(admin.ModelAdmin):
     autocomplete_fields = ('edges',)
+    exclude = ('geom_hash',)
     list_display = ('name', 'has_updated_edges',)
 
     Project.has_updated_edges.boolean = True

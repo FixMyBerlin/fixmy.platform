@@ -47,18 +47,18 @@ class Project(BaseModel):
     geom_hash = models.CharField(max_length=40, null=True)
 
     def has_updated_edges(self):
-        sha1 = hashlib.sha1()
-        for g in self.edges.values_list('geom', flat=True):
-            sha1.update(str(g).encode('ascii'))
-        return self.geom_hash != sha1.hexdigest()
+        return self.geom_hash != self.compute_geom_hash()
 
     def save(self, *args, **kwargs):
+        self.geom_hash = self.compute_geom_hash()
+        super().save(*args, **kwargs)
+
+    def compute_geom_hash(self):
         if self.id:
             sha1 = hashlib.sha1()
             for g in self.edges.values_list('geom', flat=True):
                 sha1.update(str(g).encode('ascii'))
-            self.geom_hash = sha1.hexdigest()
-        super().save(*args, **kwargs)
+            return sha1.hexdigest()
 
     def __str__(self):
         return self.name

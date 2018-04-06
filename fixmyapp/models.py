@@ -52,8 +52,9 @@ class Project(BaseModel):
     def compute_geom_hash(self):
         sha1 = hashlib.sha1()
         if self.id:
-            for g in self.edges.values_list('geom', flat=True):
-                sha1.update(str(g).encode('ascii'))
+            geoms = self.edges.values_list('geom', flat=True)
+            for geom_str in sorted(str(g.sort()) for g in geoms):
+                sha1.update(geom_str.encode('ascii'))
         return sha1.hexdigest()
 
     def save(self, *args, **kwargs):

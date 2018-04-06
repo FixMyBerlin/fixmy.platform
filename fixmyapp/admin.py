@@ -10,6 +10,11 @@ class ProjectAdmin(admin.ModelAdmin):
     Project.has_updated_edges.boolean = True
     Project.has_updated_edges.short_description = 'Has updated edges'
 
+    def save_related(self, request, form, formsets, change):
+        super().save_related(request, form, formsets, change)
+        form.instance.geom_hash = form.instance.compute_geom_hash()
+        form.instance.save()
+
 
 class EdgeAdmin(admin.OSMGeoAdmin):
     search_fields = ('elem_nr',)

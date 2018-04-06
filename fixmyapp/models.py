@@ -42,7 +42,7 @@ class Edge(BaseModel):
 
 class Project(BaseModel):
     name = models.CharField(max_length=100)
-    description = models.TextField(blank=True, null=True)
+    description = models.TextField(blank=True)
     edges = models.ManyToManyField(Edge)
     geom_hash = models.CharField(max_length=40, null=True)
 

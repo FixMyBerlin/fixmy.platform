@@ -10,31 +10,24 @@ class BaseModel(models.Model):
         abstract = True
 
 
-class Edge(BaseModel):
-    objectid = models.IntegerField(primary_key=True)
-    gml_parent_id = models.CharField(max_length=255, blank=True)
-    gml_id = models.CharField(max_length=255)
-    spatial_geometry = models.CharField(max_length=255, blank=True)
-    spatial_name = models.CharField(max_length=255)
-    spatial_alias = models.CharField(max_length=255)
-    spatial_type = models.CharField(max_length=255)
-    elem_nr = models.CharField(max_length=255, unique=True)
-    strschl = models.CharField(max_length=255)
-    str_name = models.CharField(max_length=255)
-    str_bez = models.CharField(max_length=255)
-    strklasse1 = models.CharField(max_length=255)
-    strklasse = models.CharField(max_length=255)
-    strklasse2 = models.CharField(max_length=255)
-    vricht = models.CharField(max_length=255)
-    bezirk = models.CharField(max_length=255)
-    stadtteil = models.CharField(max_length=255)
-    ebene = models.CharField(max_length=255)
-    von_vp = models.CharField(max_length=255)
-    bis_vp = models.CharField(max_length=255)
+class Edge(models.Model):
+    elem_nr = models.CharField(max_length=254, primary_key=True)
+    strschl = models.CharField(max_length=254)
+    str_name = models.CharField(max_length=254)
+    str_bez = models.CharField(max_length=254)
+    strklasse1 = models.CharField(max_length=254)
+    strklasse = models.CharField(max_length=254)
+    strklasse2 = models.CharField(max_length=254)
+    vricht = models.CharField(max_length=254)
+    bezirk = models.CharField(max_length=254)
+    stadtteil = models.CharField(max_length=254)
+    ebene = models.FloatField()
+    von_vp = models.CharField(max_length=254)
+    bis_vp = models.CharField(max_length=254)
     laenge = models.FloatField()
-    gilt_von = models.IntegerField()
-    okstra_id = models.CharField(max_length=255)
-    geom = models.MultiLineStringField()
+    gilt_von = models.FloatField()
+    okstra_id = models.CharField(max_length=254)
+    geom = models.MultiLineStringField(srid=25833)
 
     def __str__(self):
         return self.elem_nr

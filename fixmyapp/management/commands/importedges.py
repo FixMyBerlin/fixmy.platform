@@ -5,13 +5,6 @@ import os
 
 # Auto-generated `LayerMapping` dictionary for Edge model
 edge_mapping = {
-    'objectid': 'OBJECTID',
-    'gml_parent_id': 'gml_parent_id',
-    'gml_id': 'gml_id',
-    'spatial_geometry': 'spatial_geometry',
-    'spatial_name': 'spatial_name',
-    'spatial_alias': 'spatial_alias',
-    'spatial_type': 'spatial_type',
     'elem_nr': 'ELEM_NR',
     'strschl': 'STRSCHL',
     'str_name': 'STR_NAME',
@@ -30,6 +23,7 @@ edge_mapping = {
     'okstra_id': 'OKSTRA_ID',
     'geom': 'MULTILINESTRING',
 }
+
 
 
 class Command(BaseCommand):
@@ -51,7 +45,7 @@ class Command(BaseCommand):
             edge_mapping,
             transform=False,
             encoding='utf-8',
-            unique=('objectid',)
+            unique=('elem_nr',)
         )
         lm.save(
             verbose=True if options['verbosity'] > 2 else False,

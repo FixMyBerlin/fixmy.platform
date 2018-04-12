@@ -1,7 +1,9 @@
-from django.contrib.gis.db.models.functions import AsGeoJSON
+from django.contrib.gis.db.models.functions import Transform
+from django.contrib.gis.geos import GeometryCollection
 from django.http import JsonResponse
 from .models import Project
 import json
+
 
 def edges(request):
     edges = Project.objects.all()
@@ -9,19 +11,25 @@ def edges(request):
 
     return JsonResponse(result, safe=False)
 
-def projects(request):
-    projects = Project.objects.all()
-    result = []
 
-    for p in projects:
-        features = {
-            'type': 'FeatureCollection',
-            'features': [json.loads(e.json) for e in p.edges.annotate(json=AsGeoJSON('geom')).all()],
+def projects(request):
+    result = {
+        'type': 'FeatureCollection',
+        'features': []
+    }
+
+    for p in Project.objects.all():
+        feature = {
+            'type': 'Feature',
+            'geometry': json.loads(
+                GeometryCollection(
+                    [e.geom_4326 for e in p.edges.annotate(
+                        geom_4326=Transform('geom', srid=4326)).all()]).json),
             'properties': {
                 'name': p.name,
                 'description': p.description
             }
         }
-        result.append(features)
+        result['features'].append(feature)
 
     return JsonResponse(result, safe=False)

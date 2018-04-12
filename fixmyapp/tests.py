@@ -50,10 +50,14 @@ class ProjectTests(TestCase):
         self.assertTrue(self.project.has_updated_edges())
 
     def test_modifying_edges_is_detected(self):
-        self.assertFalse(self.project.has_updated_edges())
 
         for e in self.edges:
             self.project.edges.add(e)
+
+        self.project.geom_hash = self.project.compute_geom_hash()
+        self.project.save()
+
+        self.assertFalse(self.project.has_updated_edges())
 
         edge = Edge.objects.all()[0]
         edge.geom = MultiLineString(
@@ -64,11 +68,19 @@ class ProjectTests(TestCase):
         )
         edge.save()
 
+        self.project.refresh_from_db()
         self.assertTrue(self.project.has_updated_edges())
 
     def test_removing_edges_is_detected(self):
+
+        for e in self.edges:
+            self.project.edges.add(e)
+
+        self.project.geom_hash = self.project.compute_geom_hash()
+        self.project.save()
+
         self.assertFalse(self.project.has_updated_edges())
 
-        self.project.edges.remove(Edge.objects.all())
+        self.project.edges.remove(Edge.objects.all()[0])
 
-        self.project.has_updated_edges()
+        self.assertTrue(self.project.has_updated_edges())

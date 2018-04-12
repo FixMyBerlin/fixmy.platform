@@ -3,8 +3,13 @@ from django.http import JsonResponse
 from .models import Project
 import json
 
+def edges(request):
+    edges = Project.objects.all()
+    result = []
 
-def api(request):
+    return JsonResponse(result, safe=False)
+
+def projects(request):
     projects = Project.objects.all()
     result = []
 

@@ -1,7 +1,8 @@
 from django.urls import path
-from .views import api
+from .views import projects, edges
 
 
 urlpatterns = [
-    path('', api, name='api')
+    path('projects', projects, name='projects'),
+    path('edges', edges, name='edges')
 ]

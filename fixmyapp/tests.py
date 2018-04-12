@@ -11,11 +11,6 @@ class ProjectTests(TestCase):
 
         for i in range(3):
             self.edges.append(Edge.objects.create(
-                objectid=i,
-                gml_id='re_vms_detailnetz_str.9999',
-                spatial_name='9999',
-                spatial_alias='Mariendorfer Damm',
-                spatial_type='LineString',
                 elem_nr='45460003_45460015.0' + str(i),
                 strschl='02959',
                 str_name='Mariendorfer Damm',
@@ -60,7 +55,7 @@ class ProjectTests(TestCase):
         for e in self.edges:
             self.project.edges.add(e)
 
-        edge = Edge.objects.get(pk=1)
+        edge = Edge.objects.all()[0]
         edge.geom = MultiLineString(
             LineString(
                 (12.3529025205514, 52.4694951051436),
@@ -74,6 +69,6 @@ class ProjectTests(TestCase):
     def test_removing_edges_is_detected(self):
         self.assertFalse(self.project.has_updated_edges())
 
-        self.project.edges.remove(Edge.objects.get(pk=1))
+        self.project.edges.remove(Edge.objects.all())
 
         self.project.has_updated_edges()

@@ -25,7 +25,6 @@ edge_mapping = {
 }
 
 
-
 class Command(BaseCommand):
     help = 'Imports edge data from ...'
 
@@ -43,7 +42,7 @@ class Command(BaseCommand):
             Edge,
             os.path.abspath(options['file']),
             edge_mapping,
-            transform=False,
+            transform=True,
             encoding='utf-8',
             unique=('elem_nr',)
         )

@@ -1,4 +1,4 @@
-from django.contrib.gis.geos import GeometryCollection
+from django.contrib.gis.db.models import Union
 from django.http import JsonResponse
 from .models import Project
 import json
@@ -18,10 +18,10 @@ def projects(request):
     }
 
     for p in Project.objects.all():
+        geometry = p.edges.aggregate(Union('geom'))['geom__union']
         feature = {
             'type': 'Feature',
-            'geometry': json.loads(
-                GeometryCollection([e.geom for e in p.edges.all()]).json),
+            'geometry': json.loads(geometry.json),
             'properties': {
                 'name': p.name,
                 'description': p.description
@@ -29,4 +29,4 @@ def projects(request):
         }
         result['features'].append(feature)
 
-    return JsonResponse(result, safe=False)
+    return JsonResponse(result)

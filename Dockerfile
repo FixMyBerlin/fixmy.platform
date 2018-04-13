@@ -12,6 +12,7 @@ RUN apt-get update; apt-get --assume-yes --auto-remove install \
     gdal-bin \
     libproj-dev \
     locales \
+    postgresql-client \
     unzip
 
 RUN rm -rf /var/lib/apt/lists/*

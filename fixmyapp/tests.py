@@ -29,8 +29,8 @@ class ProjectTests(TestCase):
                 okstra_id='787C5A383D0B434E88FFA2D60EDA90BC',
                 geom=MultiLineString(
                     LineString(
-                        (13.3529025205514, 52.4694951051436),
-                        (13.3529481208319, 52.4678335717279)
+                        (13.3529025205514 + i, 52.4694951051436 + i),
+                        (13.3529481208319 + i, 52.4678335717279 + i)
                     )
                 )
             ))
@@ -81,3 +81,23 @@ class ProjectTests(TestCase):
         self.project.edges.remove(Edge.objects.all()[0])
 
         self.assertTrue(self.project.has_updated_edges())
+
+    def test_reordering_edge_geometries_is_ignored(self):
+        for e in self.edges:
+            self.project.edges.add(e)
+
+        self.project.geom_hash = self.project.compute_geom_hash()
+        self.project.save()
+
+        self.assertFalse(self.project.has_updated_edges())
+
+        edge = Edge.objects.all()[0]
+        edge.geom = MultiLineString(
+            LineString(
+                (13.3529481208319, 52.4678335717279),
+                (13.3529025205514, 52.4694951051436)
+            )
+        )
+        edge.save()
+
+        self.assertFalse(self.project.has_updated_edges())

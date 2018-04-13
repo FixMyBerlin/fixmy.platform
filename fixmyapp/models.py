@@ -46,10 +46,9 @@ class Project(BaseModel):
         sha1 = hashlib.sha1()
         if self.id:
             geoms = self.edges.values_list('geom', flat=True)
-            for g in geoms:
-                g.sort()
-            for geom_str in sorted(str(g) for g in geoms):
-                sha1.update(geom_str.encode('ascii'))
+            points = set(p for ml in geoms for l in ml for p in l)
+            for point in sorted(points):
+                sha1.update(str(point).encode('ascii'))
         return sha1.hexdigest()
 
     def save(self, *args, **kwargs):

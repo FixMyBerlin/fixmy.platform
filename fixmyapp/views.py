@@ -1,4 +1,3 @@
-from django.contrib.gis.db.models.functions import Transform
 from django.contrib.gis.geos import GeometryCollection
 from django.http import JsonResponse
 from .models import Project
@@ -22,9 +21,7 @@ def projects(request):
         feature = {
             'type': 'Feature',
             'geometry': json.loads(
-                GeometryCollection(
-                    [e.geom_4326 for e in p.edges.annotate(
-                        geom_4326=Transform('geom', srid=4326)).all()]).json),
+                GeometryCollection([e.geom for e in p.edges.all()]).json),
             'properties': {
                 'name': p.name,
                 'description': p.description

@@ -46,7 +46,9 @@ class Project(BaseModel):
         sha1 = hashlib.sha1()
         if self.id:
             geoms = self.edges.values_list('geom', flat=True)
-            for geom_str in sorted(str(g.sort()) for g in geoms):
+            for g in geoms:
+                g.sort()
+            for geom_str in sorted(str(g) for g in geoms):
                 sha1.update(geom_str.encode('ascii'))
         return sha1.hexdigest()
 

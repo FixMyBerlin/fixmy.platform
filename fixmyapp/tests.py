@@ -50,7 +50,6 @@ class ProjectTests(TestCase):
         self.assertTrue(self.project.has_updated_edges())
 
     def test_modifying_edges_is_detected(self):
-
         for e in self.edges:
             self.project.edges.add(e)
 
@@ -68,11 +67,9 @@ class ProjectTests(TestCase):
         )
         edge.save()
 
-        self.project.refresh_from_db()
         self.assertTrue(self.project.has_updated_edges())
 
     def test_removing_edges_is_detected(self):
-
         for e in self.edges:
             self.project.edges.add(e)
 

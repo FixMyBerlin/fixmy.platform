@@ -27,7 +27,7 @@ class Edge(models.Model):
     laenge = models.FloatField()
     gilt_von = models.FloatField()
     okstra_id = models.CharField(max_length=254)
-    geom = models.MultiLineStringField(srid=25833)
+    geom = models.MultiLineStringField(srid=4326)
 
     def __str__(self):
         return self.elem_nr

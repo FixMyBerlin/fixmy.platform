@@ -30,7 +30,7 @@ class Edge(models.Model):
     geom = models.MultiLineStringField(srid=4326)
 
     def __str__(self):
-        return self.elem_nr
+        return self.str_name + " (Elem Nr: " + self.elem_nr + ")"
 
 
 class Project(BaseModel):

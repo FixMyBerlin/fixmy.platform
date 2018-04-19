@@ -1,11 +1,11 @@
 from django.contrib.gis.db.models import Union
 from django.http import JsonResponse
-from .models import Project
+from .models import PlanningSection
 import json
 
 
 def edges(request):
-    edges = Project.objects.all()
+    edges = PlanningSection.objects.all()
     result = []
 
     return JsonResponse(result, safe=False)
@@ -17,7 +17,7 @@ def projects(request):
         'features': []
     }
 
-    for p in Project.objects.all():
+    for p in PlanningSection.objects.all():
         geometry = p.edges.aggregate(Union('geom'))['geom__union']
         feature = {
             'type': 'Feature',

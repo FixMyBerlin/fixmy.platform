@@ -1,14 +1,14 @@
 from django.contrib.gis import admin
-from .models import Edge, Project
+from .models import Edge, PlanningSection
 
 
-class ProjectAdmin(admin.ModelAdmin):
+class PlanningSectionAdmin(admin.ModelAdmin):
     autocomplete_fields = ('edges',)
     exclude = ('geom_hash',)
     list_display = ('name', 'has_updated_edges',)
 
-    Project.has_updated_edges.boolean = True
-    Project.has_updated_edges.short_description = 'Has updated edges'
+    PlanningSection.has_updated_edges.boolean = True
+    PlanningSection.has_updated_edges.short_description = 'Has updated edges'
 
     def save_related(self, request, form, formsets, change):
         super().save_related(request, form, formsets, change)
@@ -24,4 +24,4 @@ class EdgeAdmin(admin.OSMGeoAdmin):
 
 
 admin.site.register(Edge, EdgeAdmin)
-admin.site.register(Project, ProjectAdmin)
+admin.site.register(PlanningSection, PlanningSectionAdmin)

@@ -1,12 +1,12 @@
 from django.contrib.gis.geos import LineString, MultiLineString
 from django.test import TestCase
-from .models import Edge, Project
+from .models import Edge, PlanningSection
 
 
 class ProjectTests(TestCase):
 
     def setUp(self):
-        self.project = Project.objects.create(name='Lorem ipsum')
+        self.project = PlanningSection.objects.create(name='Lorem ipsum')
         self.edges = []
 
         for i in range(3):

@@ -33,7 +33,7 @@ class Edge(models.Model):
         return self.str_name + " (Elem Nr: " + self.elem_nr + ")"
 
 
-class Project(BaseModel):
+class PlanningSection(BaseModel):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     edges = models.ManyToManyField(Edge)

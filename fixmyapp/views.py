@@ -11,7 +11,7 @@ def edges(request):
     return JsonResponse(result, safe=False)
 
 
-def projects(request):
+def planning_sections(request):
     result = {
         'type': 'FeatureCollection',
         'features': []

@@ -1,8 +1,12 @@
 from django.urls import path
-from .views import projects, edges
+from .views import planning_sections, edges
 
 
 urlpatterns = [
-    path('projects', projects, name='projects'),
+    path(
+        'planning-sections',
+        planning_sections,
+        name='planning-sections'
+    ),
     path('edges', edges, name='edges')
 ]

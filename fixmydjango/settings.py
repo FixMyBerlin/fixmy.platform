@@ -23,9 +23,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'l$1cu6s#k*+8(5ai05+y3-0w+xw^(+)@t=(2r704g_y+yub@d='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '35.234.67.137',
+]
 
 
 # Application definition
@@ -77,9 +80,9 @@ WSGI_APPLICATION = 'fixmydjango.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'docker',
-        'USER': 'docker',
-        'PASSWORD': 'docker',
+        'NAME': os.getenv('DATABASE_NAME', 'docker'),
+        'USER': os.getenv('DATABASE_USER', 'docker'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD', 'docker'),
         'HOST': 'db',
         'PORT': 5432,
     }
@@ -122,4 +125,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = 'http://storage.googleapis.com/fixmyberlin-201008/static/'
+
+STATIC_ROOT = '/code/static'

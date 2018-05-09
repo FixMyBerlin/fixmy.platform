@@ -47,6 +47,8 @@ spec:
             secretKeyRef:
               key: password
               name: cloudsql
+        - name: STATIC_URL
+          value: http://storage.googleapis.com/fixmyberlin-201008/static/
         image: gcr.io/fixmyberlin-201008/fixmyberlin:0.4
         imagePullPolicy: Always
         name: fixmyberlin-app

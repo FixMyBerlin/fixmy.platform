@@ -4,13 +4,6 @@ from .models import PlanningSection
 import json
 
 
-def edges(request):
-    edges = PlanningSection.objects.all()
-    result = []
-
-    return JsonResponse(result, safe=False)
-
-
 def planning_sections(request):
     result = {
         'type': 'FeatureCollection',

@@ -5,7 +5,8 @@ from .models import Edge, PlanningSection
 class PlanningSectionAdmin(admin.ModelAdmin):
     autocomplete_fields = ('edges',)
     exclude = ('geom_hash',)
-    list_display = ('name', 'has_updated_edges',)
+    list_display = ('name', 'progress', 'has_updated_edges',)
+    list_filter = ('progress',)
 
     PlanningSection.has_updated_edges.boolean = True
     PlanningSection.has_updated_edges.short_description = 'Has updated edges'

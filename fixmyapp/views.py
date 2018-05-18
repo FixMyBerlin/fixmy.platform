@@ -47,7 +47,7 @@ def planning_sections_in_progress(request):
         result['features'].append(feature)
         center = {
             'type': 'Feature',
-            'geometry': json.loads(geometry.centroid.json),
+            'geometry': json.loads(geometry.point_on_surface.json),
             'properties': {
                 'id': p.pk
             }

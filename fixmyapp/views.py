@@ -2,7 +2,7 @@ from django.contrib.gis.db.models import Union
 from django.http import JsonResponse
 from .models import PlanningSection
 import json
-
+import random
 
 def planning_sections(request):
     result = {
@@ -18,7 +18,18 @@ def planning_sections(request):
             'properties': {
                 'id': p.pk,
                 'name': p.name,
-                'progress': p.progress,
+                'sides': [
+                  {
+                    'progress': p.progress,
+                    'index': round(random.randint(5,50)*0.1, 1),
+                    'side': 0
+                  },
+                  {
+                    'progress': p.progress,
+                    'index': round(random.randint(5,50)*0.1, 1),
+                    'side': 1
+                  }
+                ]
             }
         }
         result['features'].append(feature)

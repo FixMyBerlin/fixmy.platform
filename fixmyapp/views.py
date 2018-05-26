@@ -18,18 +18,10 @@ def planning_sections(request):
             'properties': {
                 'id': p.pk,
                 'name': p.name,
-                'sides': [
-                  {
-                    'progress': p.progress,
-                    'index': round(random.randint(5,50)*0.1, 1),
-                    'side': 0
-                  },
-                  {
-                    'progress': p.progress,
-                    'index': round(random.randint(5,50)*0.1, 1),
-                    'side': 1
-                  }
-                ]
+                'side0_progress': p.progress,
+                'side0_index': round(random.randint(5,50)*0.1, 1),
+                'side1_progress': p.progress,
+                'side1_index': round(random.randint(5,50)*0.1, 1)
             }
         }
         result['features'].append(feature)

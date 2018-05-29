@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import django_heroku
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -149,3 +151,9 @@ REST_FRAMEWORK = {
     )
 }
 
+
+# Activate Django-Heroku.
+# https://devcenter.heroku.com/articles/django-app-configuration
+# This overrides DATABASES if DATABASE_URL env variable or on Heroku
+django_heroku.settings(locals())
+DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'

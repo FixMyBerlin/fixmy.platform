@@ -87,10 +87,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': os.getenv('DATABASE_NAME', 'docker'),
-        #'USER': os.getenv('DATABASE_USER', 'docker'),
-        #'PASSWORD': os.getenv('DATABASE_PASSWORD', 'docker'),
-        #'HOST': 'db',  # TODO
-        #'PORT': 5432,
+        'USER': os.getenv('DATABASE_USER', 'docker'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD', 'docker'),
+        'HOST': 'db',
+        'PORT': 5432,
     }
 }
 

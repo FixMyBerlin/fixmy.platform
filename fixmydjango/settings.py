@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.flatpages',
     'fixmyapp',
+    'accounts',
     'rest_framework',
 ]
 
@@ -86,13 +87,15 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': os.getenv('DATABASE_NAME', 'docker'),
-        'USER': os.getenv('DATABASE_USER', 'docker'),
-        'PASSWORD': os.getenv('DATABASE_PASSWORD', 'docker'),
-        'HOST': 'db',
-        'PORT': 5432,
+        #'USER': os.getenv('DATABASE_USER', 'docker'),
+        #'PASSWORD': os.getenv('DATABASE_PASSWORD', 'docker'),
+        #'HOST': 'db',  # TODO
+        #'PORT': 5432,
     }
 }
 
+
+AUTH_USER_MODEL = 'accounts.User'
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators

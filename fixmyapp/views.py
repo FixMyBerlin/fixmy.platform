@@ -1,9 +1,14 @@
 from django.contrib.gis.db.models import Union
 from django.http import JsonResponse
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
 from .models import PlanningSection
 import json
 import random
 
+
+@api_view()
 def planning_sections(request):
     result = {
         'type': 'FeatureCollection',
@@ -26,9 +31,10 @@ def planning_sections(request):
         }
         result['features'].append(feature)
 
-    return JsonResponse(result)
+    return Response(result)
 
 
+@api_view()
 def planning_sections_in_progress(request):
     result = {
         'type': 'FeatureCollection',
@@ -57,4 +63,4 @@ def planning_sections_in_progress(request):
         }
         result['features'].append(center)
 
-    return JsonResponse(result)
+    return Response(result)

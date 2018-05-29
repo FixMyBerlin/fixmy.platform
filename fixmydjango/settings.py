@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.flatpages',
     'fixmyapp',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -139,4 +140,11 @@ SITE_ID = 1
 # Activate Django-Heroku.
 # https://devcenter.heroku.com/articles/django-app-configuration
 django_heroku.settings(locals())
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ]
+}
 

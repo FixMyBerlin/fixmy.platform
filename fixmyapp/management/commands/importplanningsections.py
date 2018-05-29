@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
-from fixmyapp.models import Edge, PlanningSection
+
+from fixmyapp.importing import import_planning_sections
 import argparse
-import csv
 import sys
 
 
@@ -23,13 +23,5 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        reader = csv.DictReader(options['file'])
-        for row in reader:
-            obj, created = PlanningSection.objects.get_or_create(
-                pk=row['MetaID']
-            )
-            obj.name = row['Straßen Name']
-            obj.edges.add(Edge.objects.get(pk=row['ElemNr']))
-            obj.geom_hash = obj.compute_geom_hash()
-            obj.save()
+        import_planning_sections(options['file'])
 

@@ -11,6 +11,7 @@ class BaseModel(models.Model):
 
 
 class Edge(models.Model):
+    # TODO: Switch to unique=True
     elem_nr = models.CharField(max_length=254, primary_key=True)
     strschl = models.CharField(max_length=254)
     str_name = models.CharField(max_length=254)

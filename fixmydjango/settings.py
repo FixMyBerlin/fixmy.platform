@@ -13,8 +13,6 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import django_heroku
-
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -139,14 +137,6 @@ STATIC_ROOT = '/code/static'
 
 
 SITE_ID = 1
-
-# Activate Django-Heroku.
-# https://devcenter.heroku.com/articles/django-app-configuration
-django_heroku.settings(locals())
-
-DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
-GDAL_LIBRARY_PATH = "/app/.heroku/vendor/lib/libgdal.so"
-GEOS_LIBRARY_PATH = "/app/.heroku/vendor/lib/libgeos_c.so"
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [

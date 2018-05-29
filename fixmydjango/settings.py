@@ -144,10 +144,9 @@ SITE_ID = 1
 # https://devcenter.heroku.com/articles/django-app-configuration
 django_heroku.settings(locals())
 
-if os.getenv('GDAL_LIBRARY_PATH'):
-    DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
-    GDAL_LIBRARY_PATH = os.getenv('GDAL_LIBRARY_PATH')
-    GEOS_LIBRARY_PATH = os.getenv('GEOS_LIBRARY_PATH')
+DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
+GDAL_LIBRARY_PATH = os.getenv('GDAL_LIBRARY_PATH')
+GEOS_LIBRARY_PATH = os.getenv('GEOS_LIBRARY_PATH')
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [

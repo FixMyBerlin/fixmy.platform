@@ -5,6 +5,9 @@ from accounts.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
+    """
+    Serializer to create users
+    """
     email = serializers.EmailField(
         required=True,
         validators=[UniqueValidator(queryset=User.objects.all())]

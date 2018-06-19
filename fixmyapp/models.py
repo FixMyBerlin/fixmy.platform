@@ -59,3 +59,40 @@ class PlanningSection(BaseModel):
 
     def __str__(self):
         return self.name
+
+
+class Profile(BaseModel):
+    MALE = 'm'
+    FEMALE = 'f'
+    OTHER = 'o'
+    SEX_CHOICES = (
+        (MALE, 'male'),
+        (FEMALE, 'female'),
+        (OTHER, 'other'),
+    )
+    RACING_CYCLE = 'racing cycle'
+    CITY_BIKE = 'city bike'
+    MOUNTAIN_BIKE = 'mountain bike'
+    E_BIKE = 'e-bike'
+    CARGO_BIKE = 'cargo bike'
+    E_CARGO_BIKE = 'e-cargo-bike'
+    CATEGORY_OF_BIKE_CHOICES = (
+        (RACING_CYCLE, 'racing cycle'),
+        (CITY_BIKE, 'city bike'),
+        (MOUNTAIN_BIKE, 'mountain bike'),
+        (E_BIKE, 'e-bike'),
+        (CARGO_BIKE, 'cargo bike'),
+        (E_CARGO_BIKE, 'e-cargo-bike'),
+    )
+    NEVER = 0
+    ONCE_PER_DAY = 1
+    ONCE_PER_WEEK = 2
+    ONCE_PER_MONTH = 3
+    age = models.PositiveSmallIntegerField()
+    category_of_bike = models.CharField(max_length=20)
+    has_trailer = models.BooleanField()
+    postal_code = models.CharField(max_length=5)
+    sex = models.CharField(max_length=1, choices=SEX_CHOICES)
+    speed = models.PositiveSmallIntegerField()
+    security = models.PositiveSmallIntegerField()
+    usage = models.PositiveSmallIntegerField()

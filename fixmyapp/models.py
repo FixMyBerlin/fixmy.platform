@@ -97,11 +97,12 @@ class Profile(BaseModel):
     )
     age = models.PositiveSmallIntegerField(blank=True, null=True)
     category_of_bike = models.CharField(
-        blank=True, max_length=20, choices=CATEGORY_OF_BIKE_CHOICES)
+        blank=True, null=True, max_length=20, choices=CATEGORY_OF_BIKE_CHOICES)
     has_trailer = models.NullBooleanField(blank=True, null=True)
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    postal_code = models.CharField(blank=True, max_length=5)
-    sex = models.CharField(blank=True, max_length=1, choices=SEX_CHOICES)
+    postal_code = models.CharField(blank=True, null=True, max_length=5)
+    sex = models.CharField(
+        blank=True, null=True, max_length=1, choices=SEX_CHOICES)
     speed = models.PositiveSmallIntegerField(blank=True, null=True)
     security = models.PositiveSmallIntegerField(blank=True, null=True)
     usage = models.PositiveSmallIntegerField(

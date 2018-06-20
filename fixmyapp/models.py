@@ -70,12 +70,12 @@ class Profile(BaseModel):
         (FEMALE, 'female'),
         (OTHER, 'other'),
     )
-    RACING_CYCLE = 'racing cycle'
-    CITY_BIKE = 'city bike'
-    MOUNTAIN_BIKE = 'mountain bike'
-    E_BIKE = 'e-bike'
-    CARGO_BIKE = 'cargo bike'
-    E_CARGO_BIKE = 'e-cargo-bike'
+    RACING_CYCLE = 'racing_cycle'
+    CITY_BIKE = 'city_bike'
+    MOUNTAIN_BIKE = 'mountain_bike'
+    E_BIKE = 'e_bike'
+    CARGO_BIKE = 'cargo_bike'
+    E_CARGO_BIKE = 'e_cargo_bike'
     CATEGORY_OF_BIKE_CHOICES = (
         (RACING_CYCLE, 'racing cycle'),
         (CITY_BIKE, 'city bike'),
@@ -85,9 +85,9 @@ class Profile(BaseModel):
         (E_CARGO_BIKE, 'e-cargo-bike'),
     )
     NEVER = 0
-    ONCE_PER_DAY = 1
+    ONCE_PER_MONTH = 1
     ONCE_PER_WEEK = 2
-    ONCE_PER_MONTH = 3
+    ONCE_PER_DAY = 3
     USAGE_CHOICES = (
         (NEVER, 'never'),
         (ONCE_PER_DAY, 'once per day'),
@@ -95,7 +95,8 @@ class Profile(BaseModel):
         (ONCE_PER_MONTH, 'once per month'),
     )
     age = models.PositiveSmallIntegerField()
-    category_of_bike = models.CharField(max_length=20, choices=CATEGORY_OF_BIKE_CHOICES)
+    category_of_bike = models.CharField(
+        max_length=20, choices=CATEGORY_OF_BIKE_CHOICES)
     has_trailer = models.BooleanField()
     postal_code = models.CharField(max_length=5)
     sex = models.CharField(max_length=1, choices=SEX_CHOICES)

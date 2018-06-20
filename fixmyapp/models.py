@@ -95,13 +95,14 @@ class Profile(BaseModel):
         (ONCE_PER_WEEK, 'once per week'),
         (ONCE_PER_MONTH, 'once per month'),
     )
-    age = models.PositiveSmallIntegerField()
+    age = models.PositiveSmallIntegerField(blank=True, null=True)
     category_of_bike = models.CharField(
-        max_length=20, choices=CATEGORY_OF_BIKE_CHOICES)
-    has_trailer = models.BooleanField()
+        blank=True, max_length=20, choices=CATEGORY_OF_BIKE_CHOICES)
+    has_trailer = models.NullBooleanField(blank=True, null=True)
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    postal_code = models.CharField(max_length=5)
-    sex = models.CharField(max_length=1, choices=SEX_CHOICES)
-    speed = models.PositiveSmallIntegerField()
-    security = models.PositiveSmallIntegerField()
-    usage = models.PositiveSmallIntegerField(choices=USAGE_CHOICES)
+    postal_code = models.CharField(blank=True, max_length=5)
+    sex = models.CharField(blank=True, max_length=1, choices=SEX_CHOICES)
+    speed = models.PositiveSmallIntegerField(blank=True, null=True)
+    security = models.PositiveSmallIntegerField(blank=True, null=True)
+    usage = models.PositiveSmallIntegerField(
+        blank=True, null=True, choices=USAGE_CHOICES)

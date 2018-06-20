@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
+import django_heroku
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -133,3 +134,9 @@ STATIC_ROOT = '/code/static'
 
 
 SITE_ID = 1
+
+
+# Activate Django-Heroku
+# https://devcenter.heroku.com/articles/django-app-configuration
+
+django_heroku.settings(locals())

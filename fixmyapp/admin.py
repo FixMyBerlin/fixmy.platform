@@ -1,5 +1,5 @@
 from django.contrib.gis import admin
-from .models import Edge, PlanningSection
+from .models import Edge, PlanningSection, Profile
 
 
 class PlanningSectionAdmin(admin.ModelAdmin):
@@ -26,3 +26,4 @@ class EdgeAdmin(admin.OSMGeoAdmin):
 
 admin.site.register(Edge, EdgeAdmin)
 admin.site.register(PlanningSection, PlanningSectionAdmin)
+admin.site.register(Profile)

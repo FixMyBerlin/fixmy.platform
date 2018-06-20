@@ -140,3 +140,4 @@ SITE_ID = 1
 # https://devcenter.heroku.com/articles/django-app-configuration
 
 django_heroku.settings(locals())
+DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'

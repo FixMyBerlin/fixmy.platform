@@ -42,8 +42,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
-    'django.contrib.sites',
-    'django.contrib.flatpages',
     'fixmyapp',
 ]
 
@@ -131,9 +129,6 @@ USE_TZ = True
 STATIC_URL = os.getenv('STATIC_URL', '/static/')
 
 STATIC_ROOT = '/code/static'
-
-
-SITE_ID = 1
 
 
 # Activate Django-Heroku

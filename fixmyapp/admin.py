@@ -26,7 +26,7 @@ class EdgeAdmin(admin.OSMGeoAdmin):
 
 class ProfileAdmin(admin.ModelAdmin):
     ordering = ('-created_date',)
-    list_display = ('category_of_bike', 'usage', 'created_date')
+    list_display = ('id', 'category_of_bike', 'usage', 'created_date')
     list_filter = ('category_of_bike', 'usage')
 
 

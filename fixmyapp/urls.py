@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import planning_sections, planning_sections_in_progress, profiles
+from .views import planning_sections, planning_sections_in_progress, profile
 
 
 urlpatterns = [
@@ -14,8 +14,8 @@ urlpatterns = [
         name='planning-sections-in-progress'
     ),
     path(
-        'profiles',
-        profiles,
-        name='profiles'
+        'profiles/<str:profile_id>',
+        profile,
+        name='profile'
     )
 ]

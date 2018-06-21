@@ -24,9 +24,11 @@ def planning_sections(request):
                 'id': p.pk,
                 'name': p.name,
                 'side0_progress': p.progress,
-                'side0_index': p.happy_bike_index(0),
+                'side0_v': p.velocity_index(0),
+                'side0_s': p.security_index(0),
                 'side1_progress': p.progress,
-                'side1_index': p.happy_bike_index(1)
+                'side1_v': p.velocity_index(1),
+                'side1_s': p.security_index(1)
             }
         }
         result['features'].append(feature)

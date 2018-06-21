@@ -42,7 +42,10 @@ class PlanningSection(BaseModel):
     edges = models.ManyToManyField(Edge)
     geom_hash = models.CharField(max_length=40, null=True)
 
-    def happy_bike_index(self, side):
+    def velocity_index(self, side):
+        return round(random.randint(5, 50) * 0.1, 1)
+
+    def security_index(self, side):
         return round(random.randint(5, 50) * 0.1, 1)
 
     def has_updated_edges(self):

@@ -43,10 +43,10 @@ class PlanningSection(BaseModel):
     geom_hash = models.CharField(max_length=40, null=True)
 
     def velocity_index(self, side):
-        return round(random.randint(5, 50) * 0.1, 1)
+        return round(random.randint(5, 35) * 0.1, 1)
 
     def security_index(self, side):
-        return round(random.randint(5, 50) * 0.1, 1)
+        return round(random.randint(5, 45) * 0.1, 1)
 
     def has_updated_edges(self):
         return self.geom_hash != self.compute_geom_hash()

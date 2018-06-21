@@ -24,6 +24,12 @@ class EdgeAdmin(admin.OSMGeoAdmin):
         return False
 
 
+class ProfileAdmin(admin.ModelAdmin):
+    ordering = ('-created_date',)
+    list_display = ('category_of_bike', 'usage', 'created_date')
+    list_filter = ('category_of_bike', 'usage')
+
+
 admin.site.register(Edge, EdgeAdmin)
 admin.site.register(PlanningSection, PlanningSectionAdmin)
-admin.site.register(Profile)
+admin.site.register(Profile, ProfileAdmin)

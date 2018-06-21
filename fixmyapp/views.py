@@ -23,6 +23,8 @@ def planning_sections(request):
             'properties': {
                 'id': p.pk,
                 'name': p.name,
+                'v': (p.velocity_index(0) + p.velocity_index(1)) / 2,
+                's': (p.security_index(0) + p.security_index(1)) / 2,
                 'side0_progress': p.progress,
                 'side0_v': p.velocity_index(0),
                 'side0_s': p.security_index(0),

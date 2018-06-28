@@ -30,7 +30,7 @@ class Command(BaseCommand):
 
         for file in (f for f in files if f != ''):
             target = '/tmp/' + file
-            key = options['dir'] + file
+            key = directory + file
             default_storage.bucket.download_file(key, target)
             if options['verbosity'] > 1:
                 self.stdout.write(

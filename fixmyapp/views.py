@@ -6,7 +6,6 @@ from rest_framework.response import Response
 from .models import PlanningSection, Profile
 from .serializers import ProfileSerializer
 import json
-import random
 
 
 def planning_sections(request):

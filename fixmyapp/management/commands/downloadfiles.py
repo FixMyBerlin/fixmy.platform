@@ -32,7 +32,12 @@ class Command(BaseCommand):
             target = '/tmp/' + file
             key = options['dir'] + file
             default_storage.bucket.download_file(key, target)
-            self.stdout.write(
-                'Successfully downloaded "{}" to "{}".'.format(key, target))
+            if options['verbosity'] > 1:
+                self.stdout.write(
+                    'Successfully downloaded "{}" to "{}".'.format(
+                        key, target
+                    )
+                )
 
-        self.stdout.write('Finished downloading files from bucket.')
+        if options['verbosity'] > 0:
+            self.stdout.write('Finished downloading files from bucket.')

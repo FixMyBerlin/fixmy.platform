@@ -2,6 +2,7 @@ from django.contrib.gis.db.models import Union
 from django.http import JsonResponse
 from rest_framework import generics, mixins, status
 from rest_framework.decorators import api_view
+from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from .models import PlanningSection, Profile
 from .serializers import PlanningSectionSerializer, ProfileSerializer
@@ -10,14 +11,8 @@ import json
 
 class PlanningSectionDetail(generics.GenericAPIView, mixins.RetrieveModelMixin):
     queryset = PlanningSection.objects.all()
+    renderer_classes = (JSONRenderer,)
     serializer_class = PlanningSectionSerializer
-
-    def get_serializer_context(self):
-        return {
-            'request': self.request,
-            'format': 'json',
-            'view': self
-        }
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)

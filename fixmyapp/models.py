@@ -154,16 +154,25 @@ class Planning(BaseModel):
         (READY, 'ready')
     )
 
+    RIGHT = 0
+    LEFT = 1
+    SIDE_CHOICES = (
+        (RIGHT, 'right'),
+        (LEFT, 'left'),
+    )
+
     planning_section = models.ForeignKey(
         PlanningSection, related_name='plannings', on_delete=models.CASCADE
     )
     title = models.CharField(max_length=256)
+    side = models.PositiveSmallIntegerField(blank=True, null=True, choices=SIDE_CHOICES)
     description = MarkdownxField()
     short_description = models.CharField(max_length=200)
+    project_key = models.CharField(blank=True, null=True, max_length=100)
     costs = models.PositiveIntegerField(blank=True, null=True)
-    draft = models.DateField(blank=True, null=True)
-    start_of_construction = models.DateField(blank=True, null=True)
-    completion = models.DateField(blank=True, null=True)
+    draft = models.CharField(blank=True, null=True, max_length=100)
+    start_of_construction = models.CharField(blank=True, null=True, max_length=100)
+    completion = models.CharField(blank=True, null=True, max_length=100)
     phase = models.CharField(max_length=30, choices=PHASE_CHOICES)
     responsible = models.CharField(max_length=256)
     url = models.URLField(blank=True, null=True)

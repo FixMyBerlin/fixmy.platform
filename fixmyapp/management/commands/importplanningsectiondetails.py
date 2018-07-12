@@ -10,7 +10,7 @@ mapping = {
     'tempolimit': 'speed_limit',
     'dailytraffic': 'daily_traffic',
     'dailytraffic_heavy': 'daily_traffic_heavy',
-    'dailytraffic_transporter': 'daily_traffic_cargo',
+    'daily_traffic_transporter': 'daily_traffic_cargo',
     'dailiy_traffic_bus': 'daily_traffic_bus',
     'length': 'length',
     'no_crossing': 'crossings',

@@ -58,7 +58,7 @@ def planning_sections(request):
     return JsonResponse(result)
 
 
-def planning_sections_in_progress(request):
+def plannings(request):
     result = {
         'type': 'FeatureCollection',
         'features': []
@@ -73,18 +73,9 @@ def planning_sections_in_progress(request):
                 'id': p.pk,
                 'name': p.name,
                 'progress': p.progress,
-                'side': 0
             }
         }
         result['features'].append(feature)
-        center = {
-            'type': 'Feature',
-            'geometry': json.loads(geometry.point_on_surface.json),
-            'properties': {
-                'id': p.pk
-            }
-        }
-        result['features'].append(center)
 
     return JsonResponse(result)
 

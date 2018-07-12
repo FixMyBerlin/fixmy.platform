@@ -3,12 +3,17 @@ from .views import (
     PlanningDetail,
     PlanningSectionDetail,
     planning_sections,
-    planning_sections_in_progress,
+    plannings,
     profile
 )
 
 
 urlpatterns = [
+    path(
+        'plannings',
+        plannings,
+        name='plannings'
+    ),
     path(
         'plannings/<int:pk>',
         PlanningDetail.as_view(),
@@ -23,11 +28,6 @@ urlpatterns = [
         'planning-sections/<int:pk>',
         PlanningSectionDetail.as_view(),
         name='planning-section-detail'
-    ),
-    path(
-        'planning-sections/in-progress',
-        planning_sections_in_progress,
-        name='planning-sections-in-progress'
     ),
     path(
         'profiles/<str:profile_id>',

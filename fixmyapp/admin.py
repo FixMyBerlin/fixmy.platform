@@ -1,6 +1,11 @@
 from django.contrib.gis import admin
 from markdownx.admin import MarkdownxModelAdmin
-from .models import Edge, PlanningSection, PlanningSectionDetails, Profile
+from .models import (
+    Edge,
+    PlanningSection,
+    PlanningSectionDetails,
+    Profile,
+    Question)
 
 
 class PlanningSectionAdmin(MarkdownxModelAdmin):
@@ -34,7 +39,12 @@ class ProfileAdmin(admin.ModelAdmin):
     list_filter = ('category_of_bike', 'usage')
 
 
+class QuestionAdmin(admin.ModelAdmin):
+    search_fields = ('text',)
+
+
 admin.site.register(Edge, EdgeAdmin)
 admin.site.register(PlanningSection, PlanningSectionAdmin)
 admin.site.register(PlanningSectionDetails, admin.ModelAdmin)
 admin.site.register(Profile, ProfileAdmin)
+admin.site.register(Question, QuestionAdmin)

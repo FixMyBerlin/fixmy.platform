@@ -70,6 +70,17 @@ class PlanningSection(BaseModel):
         return self.name
 
 
+class Question(BaseModel):
+    text = models.CharField(max_length=256)
+    answer = MarkdownxField()
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        ordering = ('text',)
+
+
 class PlanningSectionDetails(BaseModel):
     RIGHT = 0
     LEFT = 1

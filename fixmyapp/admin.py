@@ -17,6 +17,9 @@ class PlanningSectionAdmin(MarkdownxModelAdmin):
         form.instance.geom_hash = form.instance.compute_geom_hash()
         form.instance.save()
 
+    def has_add_permission(self, request):
+        return False
+
 
 class EdgeAdmin(admin.OSMGeoAdmin):
     search_fields = ('elem_nr',)

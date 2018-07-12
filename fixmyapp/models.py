@@ -129,6 +129,48 @@ class PlanningSectionDetails(BaseModel):
         verbose_name_plural = 'Planning section details'
 
 
+class Planning(BaseModel):
+    UNKNOWN = 'unknown'
+    IDEA = 'idea'
+    PRELIMINARY_PLANNING = 'preliminary planning',
+    BLUEPRINT_PLANNING = 'blueprint planning',
+    APPROVAL_PLANNING = 'approval planning'
+    EXECUTION_PLANNING = 'execution planning'
+    PREPARATION_OF_AWARDING = 'preparation of awarding'
+    AWARDING = 'awarding'
+    EXECUTION_OF_CONSTRUCTION_WORK = 'execution of construction work'
+    READY = 'ready'
+
+    PHASE_CHOICES = (
+        (UNKNOWN, 'unknown'),
+        (IDEA, 'idea'),
+        (PRELIMINARY_PLANNING, 'preliminary planning'),
+        (BLUEPRINT_PLANNING, 'blueprint planning'),
+        (APPROVAL_PLANNING, 'approval planning'),
+        (EXECUTION_PLANNING, 'execution planning'),
+        (PREPARATION_OF_AWARDING, 'preparation of awarding'),
+        (AWARDING, 'awarding'),
+        (EXECUTION_OF_CONSTRUCTION_WORK, 'execution of construction work'),
+        (READY, 'ready')
+    )
+
+    planning_section = models.ForeignKey(
+        PlanningSection, related_name='plannings', on_delete=models.CASCADE
+    )
+    title = models.CharField(max_length=256)
+    description = MarkdownxField()
+    short_description = models.CharField(max_length=200)
+    costs = models.PositiveIntegerField(blank=True, null=True)
+    draft = models.DateField(blank=True, null=True)
+    start_of_construction = models.DateField(blank=True, null=True)
+    completion = models.DateField(blank=True, null=True)
+    phase = models.CharField(max_length=30, choices=PHASE_CHOICES)
+    responsible = models.CharField(max_length=256)
+    url = models.URLField(blank=True, null=True)
+    cross_section_photo = models.ImageField(blank=True, null=True)
+    faq = models.ManyToManyField(Question, blank=True)
+
+
 class Profile(BaseModel):
     MALE = 'm'
     FEMALE = 'f'

@@ -2,10 +2,17 @@ from django.contrib.gis import admin
 from markdownx.admin import MarkdownxModelAdmin
 from .models import (
     Edge,
+    Planning,
     PlanningSection,
     PlanningSectionDetails,
     Profile,
     Question)
+
+
+class PlanningAdmin(admin.ModelAdmin):
+    autocomplete_fields = ('faq',)
+    list_display = ('title',)
+    list_filter = ('phase',)
 
 
 class PlanningSectionAdmin(MarkdownxModelAdmin):
@@ -44,6 +51,7 @@ class QuestionAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Edge, EdgeAdmin)
+admin.site.register(Planning, PlanningAdmin)
 admin.site.register(PlanningSection, PlanningSectionAdmin)
 admin.site.register(PlanningSectionDetails, admin.ModelAdmin)
 admin.site.register(Profile, ProfileAdmin)

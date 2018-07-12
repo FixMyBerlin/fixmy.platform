@@ -1,5 +1,24 @@
 from rest_framework import serializers
-from .models import PlanningSection, PlanningSectionDetails, Profile
+from .models import Planning, PlanningSection, PlanningSectionDetails, Profile
+
+
+class PlanningSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Planning
+        fields = (
+            'title',
+            'description',
+            'short_description',
+            'costs',
+            'draft',
+            'start_of_construction',
+            'completion',
+            'phase',
+            'responsible',
+            'url',
+            'cross_section_photo',
+            'faq'
+        )
 
 
 class PlanningSectionDetailsSerializer(serializers.ModelSerializer):
@@ -33,10 +52,14 @@ class PlanningSectionDetailsSerializer(serializers.ModelSerializer):
 
 class PlanningSectionSerializer(serializers.ModelSerializer):
     details = PlanningSectionDetailsSerializer(many=True)
+    plannings = serializers.HyperlinkedRelatedField(
+        many=True,
+        read_only=True,
+        view_name='planning')
 
     class Meta:
         model = PlanningSection
-        fields = ('id', 'name', 'description', 'details')
+        fields = ('id', 'name', 'description', 'details', 'plannings')
 
 
 class ProfileSerializer(serializers.ModelSerializer):

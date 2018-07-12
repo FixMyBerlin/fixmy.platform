@@ -5,6 +5,7 @@ import csv
 import sys
 
 mapping = {
+    'MetaID': 'planning_section_id',
     'side': 'side',
     'tempolimit': 'speed_limit',
     'dailytraffic': 'daily_traffic',
@@ -52,8 +53,4 @@ class Command(BaseCommand):
             kwargs = {}
             for key in mapping:
                 kwargs[mapping[key]] = row[key].replace(',', '.')
-
-            psd, created = PlanningSectionDetails.objects.get_or_create(
-                planning_section_id=row['MetaID'], **kwargs)
-
-            psd.save()
+            PlanningSectionDetails.objects.update_or_create(**kwargs)

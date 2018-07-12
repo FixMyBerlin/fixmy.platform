@@ -32,4 +32,3 @@ class Command(BaseCommand):
             obj.edges.add(Edge.objects.get(pk=row['ElemNr']))
             obj.geom_hash = obj.compute_geom_hash()
             obj.save()
-

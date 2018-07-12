@@ -4,9 +4,20 @@ from rest_framework import generics, mixins, status
 from rest_framework.decorators import api_view
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
-from .models import PlanningSection, Profile
-from .serializers import PlanningSectionSerializer, ProfileSerializer
+from .models import Planning, PlanningSection, Profile
+from .serializers import (
+    PlanningSerializer, PlanningSectionSerializer, ProfileSerializer
+)
 import json
+
+
+class PlanningDetail(generics.GenericAPIView, mixins.RetrieveModelMixin):
+    queryset = Planning.objects.all()
+    renderer_classes = (JSONRenderer,)
+    serializer_class = PlanningSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
 
 
 class PlanningSectionDetail(generics.GenericAPIView, mixins.RetrieveModelMixin):

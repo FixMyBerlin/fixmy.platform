@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import (
+    PlanningDetail,
     PlanningSectionDetail,
     planning_sections,
     planning_sections_in_progress,
@@ -8,6 +9,11 @@ from .views import (
 
 
 urlpatterns = [
+    path(
+        'plannings/<int:pk>',
+        PlanningDetail.as_view(),
+        name='planning'
+    ),
     path(
         'planning-sections',
         planning_sections,

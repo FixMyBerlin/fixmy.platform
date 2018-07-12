@@ -1,8 +1,9 @@
 from django.contrib.gis import admin
+from markdownx.admin import MarkdownxModelAdmin
 from .models import Edge, PlanningSection, Profile
 
 
-class PlanningSectionAdmin(admin.ModelAdmin):
+class PlanningSectionAdmin(MarkdownxModelAdmin):
     autocomplete_fields = ('edges',)
     exclude = ('geom_hash',)
     list_display = ('name', 'progress', 'has_updated_edges',)

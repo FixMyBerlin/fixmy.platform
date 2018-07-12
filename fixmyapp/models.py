@@ -1,4 +1,5 @@
 from django.contrib.gis.db import models
+from markdownx.models import MarkdownxField
 import hashlib
 import random
 import uuid
@@ -37,7 +38,7 @@ class Edge(models.Model):
 
 class PlanningSection(BaseModel):
     name = models.CharField(max_length=100)
-    description = models.TextField(blank=True)
+    description = MarkdownxField(blank=True)
     progress = models.PositiveSmallIntegerField(default=0)
     edges = models.ManyToManyField(Edge)
     geom_hash = models.CharField(max_length=40, null=True)

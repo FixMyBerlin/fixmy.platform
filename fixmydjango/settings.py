@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.gis',
     'fixmyapp',
+    'markdownx',
 ]
 
 MIDDLEWARE = [

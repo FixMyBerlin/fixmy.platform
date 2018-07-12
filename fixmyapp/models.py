@@ -70,6 +70,54 @@ class PlanningSection(BaseModel):
         return self.name
 
 
+class PlanningSectionDetails(BaseModel):
+    RIGHT = 0
+    LEFT = 1
+    SIDE_CHOICES = (
+        (RIGHT, 'right'),
+        (LEFT, 'left'),
+    )
+    NORTH = 'N'
+    EAST = 'E'
+    SOUTH = 'S'
+    WEST = 'W'
+    ORIENTATION_CHOICES = (
+        (NORTH, 'north'),
+        (EAST, 'east'),
+        (SOUTH, 'south'),
+        (WEST, 'west'),
+    )
+
+    planning_section = models.ForeignKey(
+        PlanningSection, related_name='details', on_delete=models.CASCADE)
+    side = models.PositiveSmallIntegerField(choices=SIDE_CHOICES)
+    speed_limit = models.PositiveSmallIntegerField()
+    daily_traffic = models.DecimalField(max_digits=8, decimal_places=2)
+    daily_traffic_heavy = models.DecimalField(max_digits=8, decimal_places=2)
+    daily_traffic_cargo = models.DecimalField(max_digits=8, decimal_places=2)
+    daily_traffic_bus = models.DecimalField(max_digits=8, decimal_places=2)
+    length = models.DecimalField(max_digits=8, decimal_places=2)
+    crossings = models.PositiveSmallIntegerField()
+    orientation =  models.CharField(max_length=1, choices=ORIENTATION_CHOICES)
+    rva1 = models.DecimalField(max_digits=16, decimal_places=12)
+    rva2 = models.DecimalField(max_digits=16, decimal_places=12)
+    rva3 = models.DecimalField(max_digits=16, decimal_places=12)
+    rva4 = models.DecimalField(max_digits=16, decimal_places=12)
+    rva5 = models.DecimalField(max_digits=16, decimal_places=12)
+    rva6 = models.DecimalField(max_digits=16, decimal_places=12)
+    rva7 = models.DecimalField(max_digits=16, decimal_places=12)
+    rva8 = models.DecimalField(max_digits=16, decimal_places=12)
+    rva9 = models.DecimalField(max_digits=16, decimal_places=12)
+    rva10 = models.DecimalField(max_digits=16, decimal_places=12)
+    rva11 = models.DecimalField(max_digits=16, decimal_places=12)
+    rva12 = models.DecimalField(max_digits=16, decimal_places=12)
+    rva13 = models.DecimalField(max_digits=16, decimal_places=12)
+
+    class Meta:
+        verbose_name = 'Planning section details'
+        verbose_name_plural = 'Planning section details'
+
+
 class Profile(BaseModel):
     MALE = 'm'
     FEMALE = 'f'

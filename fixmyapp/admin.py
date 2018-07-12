@@ -1,6 +1,6 @@
 from django.contrib.gis import admin
 from markdownx.admin import MarkdownxModelAdmin
-from .models import Edge, PlanningSection, Profile
+from .models import Edge, PlanningSection, PlanningSectionDetails, Profile
 
 
 class PlanningSectionAdmin(MarkdownxModelAdmin):
@@ -33,4 +33,5 @@ class ProfileAdmin(admin.ModelAdmin):
 
 admin.site.register(Edge, EdgeAdmin)
 admin.site.register(PlanningSection, PlanningSectionAdmin)
+admin.site.register(PlanningSectionDetails, admin.ModelAdmin)
 admin.site.register(Profile, ProfileAdmin)

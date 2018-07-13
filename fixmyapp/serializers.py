@@ -15,7 +15,7 @@ class QuestionSerializer(serializers.ModelSerializer):
         fields = ('text', 'answer')
 
 
-class PlanningSerializer(serializers.ModelSerializer):
+class PlanningSerializer(serializers.HyperlinkedModelSerializer):
     faq = QuestionSerializer(many=True)
     geometry = GeometryField(precision=14)
     planning_sections = serializers.HyperlinkedRelatedField(
@@ -32,7 +32,7 @@ class PlanningSerializer(serializers.ModelSerializer):
     class Meta:
         model = Planning
         fields = (
-            'id',
+            'url',
             'title',
             'description',
             'short_description',
@@ -81,7 +81,7 @@ class PlanningSectionDetailsSerializer(serializers.ModelSerializer):
         )
 
 
-class PlanningSectionSerializer(serializers.ModelSerializer):
+class PlanningSectionSerializer(serializers.HyperlinkedModelSerializer):
     details = PlanningSectionDetailsSerializer(many=True)
     plannings = serializers.HyperlinkedRelatedField(
         many=True,
@@ -90,7 +90,7 @@ class PlanningSectionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PlanningSection
-        fields = ('id', 'name', 'description', 'details', 'plannings')
+        fields = ('url', 'name', 'description', 'details', 'plannings')
 
 
 class ProfileSerializer(serializers.ModelSerializer):

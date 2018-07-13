@@ -178,6 +178,10 @@ class Planning(BaseModel):
     cross_section_photo = models.ImageField(blank=True, null=True)
     faq = models.ManyToManyField(Question, blank=True)
 
+    def geometry(self):
+        result = self.planning_sections.aggregate(models.Union('edges__geom'))
+        return result['edges__geom__union'].merged
+
 
 class Profile(BaseModel):
     MALE = 'm'

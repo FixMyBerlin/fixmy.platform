@@ -30,6 +30,7 @@ class PlanningSerializer(serializers.ModelSerializer):
     class Meta:
         model = Planning
         fields = (
+            'id',
             'title',
             'description',
             'short_description',

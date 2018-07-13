@@ -11,6 +11,12 @@ from .serializers import (
 import json
 
 
+class PlanningList(generics.ListAPIView):
+    queryset = Planning.objects.all()
+    renderer_classes = (JSONRenderer,)
+    serializer_class = PlanningSerializer
+
+
 class PlanningDetail(generics.RetrieveAPIView):
     queryset = Planning.objects.all()
     renderer_classes = (JSONRenderer,)
@@ -48,28 +54,6 @@ def planning_sections(request):
                 'side1_progress': p.progress,
                 'side1_v': p.velocity_index(1),
                 'side1_s': p.safety_index(1)
-            }
-        }
-        result['features'].append(feature)
-
-    return JsonResponse(result)
-
-
-def plannings(request):
-    result = {
-        'type': 'FeatureCollection',
-        'features': []
-    }
-
-    for p in PlanningSection.objects.filter(progress__gt=0):
-        geometry = p.edges.aggregate(Union('geom'))['geom__union'].merged
-        feature = {
-            'type': 'Feature',
-            'geometry': json.loads(geometry.json),
-            'properties': {
-                'id': p.pk,
-                'name': p.name,
-                'progress': p.progress,
             }
         }
         result['features'].append(feature)

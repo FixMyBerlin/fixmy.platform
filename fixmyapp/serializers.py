@@ -21,7 +21,7 @@ class PlanningSerializer(serializers.ModelSerializer):
     planning_sections = serializers.HyperlinkedRelatedField(
         many=True,
         read_only=True,
-        view_name='planning-section-detail'
+        view_name='planningsection-detail'
     )
     planning_section_ids = serializers.PrimaryKeyRelatedField(
         many=True,

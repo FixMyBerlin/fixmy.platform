@@ -12,26 +12,26 @@ urlpatterns = [
     path(
         'plannings',
         PlanningList.as_view(),
-        name='plannings'
+        name='planning-list'
     ),
     path(
         'plannings/<int:pk>',
         PlanningDetail.as_view(),
-        name='planning'
+        name='planning-detail'
     ),
     path(
         'planning-sections',
         planning_sections,
-        name='planning-sections'
+        name='planningsection-list'
     ),
     path(
         'planning-sections/<int:pk>',
         PlanningSectionDetail.as_view(),
-        name='planning-section-detail'
+        name='planningsection-detail'
     ),
     path(
         'profiles/<str:profile_id>',
         profile,
-        name='profile'
+        name='profile-detail'
     )
 ]

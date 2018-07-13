@@ -183,6 +183,18 @@ class Planning(BaseModel):
         return result['edges__geom__union'].merged
 
 
+class PlanningPhoto(BaseModel):
+    planning = models.ForeignKey(
+        Planning, related_name='photos', on_delete=models.CASCADE)
+    height = models.PositiveIntegerField()
+    width = models.PositiveSmallIntegerField()
+    src = models.ImageField(
+        upload_to='photos',
+        verbose_name='Image',
+        height_field='height',
+        width_field='width')
+
+
 class Profile(BaseModel):
     MALE = 'm'
     FEMALE = 'f'

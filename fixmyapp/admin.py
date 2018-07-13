@@ -3,14 +3,23 @@ from markdownx.admin import MarkdownxModelAdmin
 from .models import (
     Edge,
     Planning,
+    PlanningPhoto,
     PlanningSection,
     PlanningSectionDetails,
     Profile,
     Question)
 
 
+class PlanningPhotoInline(admin.TabularInline):
+    model = PlanningPhoto
+    readonly_fields = ('height', 'width')
+    verbose_name = 'Photo'
+    verbose_name_plural = 'Photos'
+
+
 class PlanningAdmin(admin.ModelAdmin):
     autocomplete_fields = ('faq', 'planning_sections')
+    inlines = (PlanningPhotoInline,)
     list_display = ('title',)
     list_filter = ('phase',)
 

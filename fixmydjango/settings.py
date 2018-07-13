@@ -179,11 +179,6 @@ AWS_S3_USE_SSL = os.getenv('AWS_S3_USE_SSL', True)
 AWS_S3_SIGNATURE_VERSION = os.getenv('AWS_S3_SIGNATURE_VERSION', 's3v4')
 
 
-# Media
-
-MEDIA_ROOT = 'media'
-
-
 # Activate Django-Heroku
 # https://devcenter.heroku.com/articles/django-app-configuration
 

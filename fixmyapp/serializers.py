@@ -16,6 +16,17 @@ class QuestionSerializer(serializers.ModelSerializer):
 
 class PlanningSerializer(serializers.ModelSerializer):
     faq = QuestionSerializer(many=True)
+    planning_sections = serializers.HyperlinkedRelatedField(
+        many=True,
+        read_only=True,
+        view_name='planning-section-detail'
+    )
+    planning_section_ids = serializers.PrimaryKeyRelatedField(
+        many=True,
+        read_only=True,
+        source='planning_sections'
+    )
+
     class Meta:
         model = Planning
         fields = (
@@ -30,7 +41,9 @@ class PlanningSerializer(serializers.ModelSerializer):
             'responsible',
             'url',
             'cross_section_photo',
-            'faq'
+            'faq',
+            'planning_sections',
+            'planning_section_ids'
         )
 
 

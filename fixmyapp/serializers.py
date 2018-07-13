@@ -34,6 +34,7 @@ class PlanningSerializer(serializers.ModelSerializer):
             'title',
             'description',
             'short_description',
+            'side',
             'costs',
             'draft',
             'start_of_construction',

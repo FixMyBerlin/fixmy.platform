@@ -161,7 +161,8 @@ class Planning(BaseModel):
         (LEFT, 'left'),
     )
 
-    planning_sections = models.ManyToManyField(PlanningSection)
+    planning_sections = models.ManyToManyField(
+        PlanningSection, related_name='plannings')
     title = models.CharField(max_length=256)
     side = models.PositiveSmallIntegerField(blank=True, null=True, choices=SIDE_CHOICES)
     description = MarkdownxField()

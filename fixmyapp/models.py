@@ -174,7 +174,7 @@ class Planning(BaseModel):
     completion = models.CharField(blank=True, null=True, max_length=100)
     phase = models.CharField(max_length=30, choices=PHASE_CHOICES)
     responsible = models.CharField(max_length=256)
-    url = models.URLField(blank=True, null=True)
+    external_url = models.URLField(blank=True, null=True)
     cross_section_photo = models.ImageField(blank=True, null=True)
     faq = models.ManyToManyField(Question, blank=True)
 

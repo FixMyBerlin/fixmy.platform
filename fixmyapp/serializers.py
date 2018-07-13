@@ -43,7 +43,7 @@ class PlanningSerializer(serializers.ModelSerializer):
             'completion',
             'phase',
             'responsible',
-            'url',
+            'external_url',
             'cross_section_photo',
             'faq',
             'planning_sections',

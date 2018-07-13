@@ -161,9 +161,7 @@ class Planning(BaseModel):
         (LEFT, 'left'),
     )
 
-    planning_section = models.ForeignKey(
-        PlanningSection, related_name='plannings', on_delete=models.CASCADE
-    )
+    planning_sections = models.ManyToManyField(PlanningSection)
     title = models.CharField(max_length=256)
     side = models.PositiveSmallIntegerField(blank=True, null=True, choices=SIDE_CHOICES)
     description = MarkdownxField()

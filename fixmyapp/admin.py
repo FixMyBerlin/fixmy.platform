@@ -10,7 +10,7 @@ from .models import (
 
 
 class PlanningAdmin(admin.ModelAdmin):
-    autocomplete_fields = ('faq',)
+    autocomplete_fields = ('faq', 'planning_sections')
     list_display = ('title',)
     list_filter = ('phase',)
 
@@ -20,6 +20,7 @@ class PlanningSectionAdmin(MarkdownxModelAdmin):
     exclude = ('geom_hash',)
     list_display = ('name', 'progress', 'has_updated_edges',)
     list_filter = ('progress',)
+    search_fields = ('name',)
 
     PlanningSection.has_updated_edges.boolean = True
     PlanningSection.has_updated_edges.short_description = 'Has updated edges'

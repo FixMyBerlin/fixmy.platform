@@ -175,7 +175,7 @@ class Planning(BaseModel):
     phase = models.CharField(max_length=30, choices=PHASE_CHOICES)
     responsible = models.CharField(max_length=256)
     external_url = models.URLField(blank=True, null=True)
-    cross_section_photo = models.ImageField(blank=True, null=True)
+    cross_section_photo = models.ImageField(upload_to='photos', blank=True, null=True)
     faq = models.ManyToManyField(Question, blank=True)
 
     def geometry(self):

@@ -1,8 +1,21 @@
 from rest_framework import serializers
-from .models import Planning, PlanningSection, PlanningSectionDetails, Profile
+from .models import (
+    Planning,
+    PlanningSection,
+    PlanningSectionDetails,
+    Profile,
+    Question
+)
+
+
+class QuestionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Question
+        fields = ('text', 'answer')
 
 
 class PlanningSerializer(serializers.ModelSerializer):
+    faq = QuestionSerializer(many=True)
     class Meta:
         model = Planning
         fields = (

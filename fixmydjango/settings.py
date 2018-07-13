@@ -64,6 +64,8 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     'fixmyapp',
     'markdownx',
+    'rest_framework',
+    'rest_framework_gis',
 ]
 
 MIDDLEWARE = [

@@ -11,13 +11,10 @@ from .serializers import (
 import json
 
 
-class PlanningDetail(generics.GenericAPIView, mixins.RetrieveModelMixin):
+class PlanningDetail(generics.RetrieveAPIView):
     queryset = Planning.objects.all()
     renderer_classes = (JSONRenderer,)
     serializer_class = PlanningSerializer
-
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
 
 
 class PlanningSectionDetail(generics.GenericAPIView, mixins.RetrieveModelMixin):

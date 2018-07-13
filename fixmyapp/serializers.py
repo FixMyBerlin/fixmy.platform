@@ -86,7 +86,7 @@ class PlanningSectionSerializer(serializers.HyperlinkedModelSerializer):
     plannings = serializers.HyperlinkedRelatedField(
         many=True,
         read_only=True,
-        view_name='planning')
+        view_name='planning-detail')
 
     class Meta:
         model = PlanningSection

@@ -19,7 +19,7 @@ class QuestionSerializer(serializers.ModelSerializer):
 class PlanningPhotoSerializer(serializers.ModelSerializer):
     class Meta:
         model = PlanningPhoto
-        field = ('height', 'width', 'src')
+        fields = ('height', 'width', 'src')
 
 
 class PlanningSerializer(serializers.HyperlinkedModelSerializer):

@@ -53,10 +53,8 @@ def planning_sections(request):
                 'name': p.name,
                 'velocity': (p.velocity_index(0) + p.velocity_index(1)) / 2,
                 'safety': (p.safety_index(0) + p.safety_index(1)) / 2,
-                'side0_progress': p.progress,
                 'side0_velocity': p.velocity_index(0),
                 'side0_safety': p.safety_index(0),
-                'side1_progress': p.progress,
                 'side1_velocity': p.velocity_index(1),
                 'side1_safety': p.safety_index(1)
             }

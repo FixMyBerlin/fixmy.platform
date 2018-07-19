@@ -71,7 +71,7 @@ def planning_sections(request):
             feature['properties'][prefix + 'planning_phase'] = planning.phase
 
         for detail in p.details.all():
-            prefix = 'side{}_'.format(planning.side)
+            prefix = 'side{}_'.format(detail.side)
             feature['properties'][prefix + 'orientation'] = detail.orientation
 
         result['features'].append(feature)

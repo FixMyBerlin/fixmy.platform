@@ -38,7 +38,12 @@ def planning_sections(request):
         'features': []
     }
 
-    for p in PlanningSection.objects.all():
+    if request.GET.get('has-planning', 0):
+        qs = PlanningSection.objects.filter(plannings__isnull=False)
+    else:
+        qs = PlanningSection.objects.all()
+
+    for p in qs:
         geometry = p.edges.aggregate(Union('geom'))['geom__union'].merged
         feature = {
             'type': 'Feature',

@@ -132,8 +132,8 @@ class PlanningSectionDetails(BaseModel):
 class Planning(BaseModel):
     UNKNOWN = 'unknown'
     IDEA = 'idea'
-    PRELIMINARY_PLANNING = 'preliminary planning',
-    BLUEPRINT_PLANNING = 'blueprint planning',
+    PRELIMINARY_PLANNING = 'preliminary planning'
+    BLUEPRINT_PLANNING = 'blueprint planning'
     APPROVAL_PLANNING = 'approval planning'
     EXECUTION_PLANNING = 'execution planning'
     PREPARATION_OF_AWARDING = 'preparation of awarding'

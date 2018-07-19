@@ -1,5 +1,6 @@
 from django.contrib.gis.db.models import Union
 from django.http import JsonResponse
+from django.urls import reverse
 from rest_framework import generics, mixins, status
 from rest_framework.decorators import api_view
 from rest_framework.renderers import JSONRenderer
@@ -59,6 +60,20 @@ def planning_sections(request):
                 'side1_safety': p.safety_index(1)
             }
         }
+
+        for planning in p.plannings.all():
+            prefix = 'side{}_'.format(planning.side)
+            planning_url = request.build_absolute_uri(
+                reverse('planning-detail', args=[planning.id])
+            )
+            feature['properties'][prefix + 'planning_url'] = planning_url
+            feature['properties'][prefix + 'planning_title'] = planning.title
+            feature['properties'][prefix + 'planning_phase'] = planning.phase
+
+        for detail in p.details.all():
+            prefix = 'side{}_'.format(planning.side)
+            feature['properties'][prefix + 'orientation'] = detail.orientation
+
         result['features'].append(feature)
 
     return JsonResponse(result)

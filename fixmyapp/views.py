@@ -76,6 +76,16 @@ def planning_sections(request):
 
         result['features'].append(feature)
 
+        center = {
+            'type': 'Feature',
+            'geometry': json.loads(geometry.point_on_surface.json),
+            'properties': {
+                'id': p.pk
+            }
+        }
+
+        result['features'].append(center)
+
     return JsonResponse(result)
 
 

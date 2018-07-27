@@ -141,7 +141,7 @@ class Planning(BaseModel):
     EXECUTION_OF_CONSTRUCTION_WORK = 'execution of construction work'
     READY = 'ready'
 
-    PHASE_CHOICES = (
+    STATUS_CHOICES = (
         (UNKNOWN, 'unknown'),
         (IDEA, 'idea'),
         (PRELIMINARY_PLANNING, 'preliminary planning'),
@@ -172,7 +172,7 @@ class Planning(BaseModel):
     draft = models.CharField(blank=True, null=True, max_length=100)
     start_of_construction = models.CharField(blank=True, null=True, max_length=100)
     completion = models.CharField(blank=True, null=True, max_length=100)
-    phase = models.CharField(max_length=30, choices=PHASE_CHOICES)
+    status = models.CharField(max_length=30, choices=STATUS_CHOICES)
     responsible = models.CharField(max_length=256)
     external_url = models.URLField(blank=True, null=True)
     cross_section_photo = models.ImageField(upload_to='photos', blank=True, null=True)

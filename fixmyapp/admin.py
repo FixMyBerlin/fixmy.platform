@@ -21,7 +21,7 @@ class PlanningAdmin(admin.ModelAdmin):
     autocomplete_fields = ('faq', 'planning_sections')
     inlines = (PlanningPhotoInline,)
     list_display = ('title',)
-    list_filter = ('phase',)
+    list_filter = ('status',)
 
 
 class PlanningSectionAdmin(MarkdownxModelAdmin):

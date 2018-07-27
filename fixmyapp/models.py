@@ -130,28 +130,28 @@ class PlanningSectionDetails(BaseModel):
 
 
 class Planning(BaseModel):
-    UNKNOWN = 'unknown'
-    IDEA = 'idea'
-    PRELIMINARY_PLANNING = 'preliminary planning'
-    BLUEPRINT_PLANNING = 'blueprint planning'
-    APPROVAL_PLANNING = 'approval planning'
-    EXECUTION_PLANNING = 'execution planning'
-    PREPARATION_OF_AWARDING = 'preparation of awarding'
-    AWARDING = 'awarding'
-    EXECUTION_OF_CONSTRUCTION_WORK = 'execution of construction work'
-    READY = 'ready'
+    STATUS_UNKNOWN = 'unknown'
+    STATUS_IDEA = 'idea'
+    STATUS_PRELIMINARY_PLANNING = 'preliminary planning'
+    STATUS_BLUEPRINT_PLANNING = 'blueprint planning'
+    STATUS_APPROVAL_PLANNING = 'approval planning'
+    STATUS_EXECUTION_PLANNING = 'execution planning'
+    STATUS_PREPARATION_OF_AWARDING = 'preparation of awarding'
+    STATUS_AWARDING = 'awarding'
+    STATUS_EXECUTION_OF_CONSTRUCTION_WORK = 'execution of construction work'
+    STATUS_READY = 'ready'
 
     STATUS_CHOICES = (
-        (UNKNOWN, 'unknown'),
-        (IDEA, 'idea'),
-        (PRELIMINARY_PLANNING, 'preliminary planning'),
-        (BLUEPRINT_PLANNING, 'blueprint planning'),
-        (APPROVAL_PLANNING, 'approval planning'),
-        (EXECUTION_PLANNING, 'execution planning'),
-        (PREPARATION_OF_AWARDING, 'preparation of awarding'),
-        (AWARDING, 'awarding'),
-        (EXECUTION_OF_CONSTRUCTION_WORK, 'execution of construction work'),
-        (READY, 'ready')
+        (STATUS_UNKNOWN, 'unknown'),
+        (STATUS_IDEA, 'idea'),
+        (STATUS_PRELIMINARY_PLANNING, 'preliminary planning'),
+        (STATUS_BLUEPRINT_PLANNING, 'blueprint planning'),
+        (STATUS_APPROVAL_PLANNING, 'approval planning'),
+        (STATUS_EXECUTION_PLANNING, 'execution planning'),
+        (STATUS_PREPARATION_OF_AWARDING, 'preparation of awarding'),
+        (STATUS_AWARDING, 'awarding'),
+        (STATUS_EXECUTION_OF_CONSTRUCTION_WORK, 'execution of construction work'),
+        (STATUS_READY, 'ready')
     )
 
     RIGHT = 0

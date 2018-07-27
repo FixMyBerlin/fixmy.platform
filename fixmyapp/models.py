@@ -128,6 +128,8 @@ class PlanningSectionDetails(BaseModel):
         verbose_name = 'Planning section details'
         verbose_name_plural = 'Planning section details'
 
+    def __str__(self):
+        return '{} {}'.format(self.planning_section, self.SIDE_CHOICES[self.side][1])
 
 class CyclingInfrastructurePhoto(BaseModel):
     planning_section_detail = models.ForeignKey(

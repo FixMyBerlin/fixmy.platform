@@ -24,13 +24,10 @@ class PlanningDetail(generics.RetrieveAPIView):
     serializer_class = PlanningSerializer
 
 
-class PlanningSectionDetail(generics.GenericAPIView, mixins.RetrieveModelMixin):
+class PlanningSectionDetail(generics.RetrieveAPIView):
     queryset = PlanningSection.objects.all()
     renderer_classes = (JSONRenderer,)
     serializer_class = PlanningSectionSerializer
-
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
 
 
 def planning_sections(request):

@@ -135,11 +135,15 @@ class Planning(BaseModel):
     STATUS_PRELIMINARY_PLANNING = 'preliminary planning'
     STATUS_BLUEPRINT_PLANNING = 'blueprint planning'
     STATUS_APPROVAL_PLANNING = 'approval planning'
+    STATUS_EXAMINATION = 'examination'
     STATUS_EXECUTION_PLANNING = 'execution planning'
     STATUS_PREPARATION_OF_AWARDING = 'preparation of awarding'
     STATUS_AWARDING = 'awarding'
+    STATUS_APPLICATION_FOR_CONSTRUCTION_SITE = 'application for construction site'
     STATUS_EXECUTION_OF_CONSTRUCTION_WORK = 'execution of construction work'
     STATUS_READY = 'ready'
+    STATUS_REVIEW = 'review'
+    STATUS_CANCELLED = 'cancelled'
 
     STATUS_CHOICES = (
         (STATUS_UNKNOWN, 'unknown'),
@@ -147,11 +151,15 @@ class Planning(BaseModel):
         (STATUS_PRELIMINARY_PLANNING, 'preliminary planning'),
         (STATUS_BLUEPRINT_PLANNING, 'blueprint planning'),
         (STATUS_APPROVAL_PLANNING, 'approval planning'),
+        (STATUS_EXAMINATION, 'examination'),
         (STATUS_EXECUTION_PLANNING, 'execution planning'),
         (STATUS_PREPARATION_OF_AWARDING, 'preparation of awarding'),
         (STATUS_AWARDING, 'awarding'),
+        (STATUS_APPLICATION_FOR_CONSTRUCTION_SITE, 'application for construction site'),
         (STATUS_EXECUTION_OF_CONSTRUCTION_WORK, 'execution of construction work'),
-        (STATUS_READY, 'ready')
+        (STATUS_READY, 'ready'),
+        (STATUS_REVIEW, 'review'),
+        (STATUS_CANCELLED, 'cancelled'),
     )
 
     RIGHT = 0

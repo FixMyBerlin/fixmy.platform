@@ -129,6 +129,13 @@ class PlanningSectionDetails(BaseModel):
         verbose_name_plural = 'Planning section details'
 
 
+class CyclingInfrastructurePhoto(BaseModel):
+    planning_section_detail = models.ForeignKey(
+        PlanningSectionDetails, related_name='photos', on_delete=models.CASCADE
+    )
+    src = models.ImageField(verbose_name='Photo')
+
+
 class Planning(BaseModel):
     CATEGORY_NEW_INFRASTRUCTURE = 'new cycling infrastructure'
     CATEGORY_RENOVATION = 'renovation of cycling infrastructure'

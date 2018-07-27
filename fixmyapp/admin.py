@@ -1,13 +1,15 @@
 from django.contrib.gis import admin
 from markdownx.admin import MarkdownxModelAdmin
 from .models import (
+    CyclingInfrastructurePhoto,
     Edge,
     Planning,
     PlanningPhoto,
     PlanningSection,
     PlanningSectionDetails,
     Profile,
-    Question)
+    Question
+)
 
 
 class PlanningPhotoInline(admin.TabularInline):
@@ -22,6 +24,17 @@ class PlanningAdmin(admin.ModelAdmin):
     inlines = (PlanningPhotoInline,)
     list_display = ('title',)
     list_filter = ('status',)
+
+
+class CyclingInfrastructurePhotoInline(admin.TabularInline):
+    model = CyclingInfrastructurePhoto
+    verbose_name = 'Photo'
+    verbose_name_plural = 'Photos'
+
+
+class PlanningSectionDetailsAdmin(admin.ModelAdmin):
+    model = PlanningSectionDetails
+    inlines = (CyclingInfrastructurePhotoInline,)
 
 
 class PlanningSectionAdmin(MarkdownxModelAdmin):
@@ -63,6 +76,6 @@ class QuestionAdmin(admin.ModelAdmin):
 admin.site.register(Edge, EdgeAdmin)
 admin.site.register(Planning, PlanningAdmin)
 admin.site.register(PlanningSection, PlanningSectionAdmin)
-admin.site.register(PlanningSectionDetails, admin.ModelAdmin)
+admin.site.register(PlanningSectionDetails, PlanningSectionDetailsAdmin)
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Question, QuestionAdmin)

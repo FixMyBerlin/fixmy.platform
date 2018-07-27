@@ -1,5 +1,7 @@
 from django.core.management.base import BaseCommand
-from fixmyapp.models import PlanningSection, PlanningSectionDetails
+from fixmyapp.models import (
+    CyclingInfrastructurePhoto, PlanningSection, PlanningSectionDetails
+)
 import argparse
 import csv
 import sys
@@ -40,17 +42,16 @@ class Command(BaseCommand):
             default=sys.stdin,
             help='A CSV file'
         )
-        parser.add_argument(
-            '--show-progress',
-            action='store_true',
-            dest='progress',
-            help='display the progress bar in any verbosity level.'
-        )
 
     def handle(self, *args, **options):
         reader = csv.DictReader(options['file'])
         for row in reader:
-            kwargs = {}
-            for key in mapping:
-                kwargs[mapping[key]] = row[key].replace(',', '.')
-            PlanningSectionDetails.objects.update_or_create(**kwargs)
+            kwargs = {
+                mapping[key]: row[key].replace(',', '.') for key in mapping
+            }
+            obj, created = PlanningSectionDetails.objects.update_or_create(**kwargs)
+            for path in row['rva_pics'].split():
+                photo = CyclingInfrastructurePhoto(
+                    src='rva_pics{}'.format(path), planning_section_detail=obj
+                )
+                photo.save()

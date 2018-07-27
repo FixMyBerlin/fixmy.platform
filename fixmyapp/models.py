@@ -172,7 +172,7 @@ class Planning(BaseModel):
     draft = models.CharField(blank=True, null=True, max_length=100)
     start_of_construction = models.CharField(blank=True, null=True, max_length=100)
     completion = models.CharField(blank=True, null=True, max_length=100)
-    status = models.CharField(max_length=30, choices=STATUS_CHOICES)
+    status = models.CharField(blank=True, null=True, max_length=30, choices=STATUS_CHOICES)
     responsible = models.CharField(max_length=256)
     external_url = models.URLField(blank=True, null=True)
     cross_section_photo = models.ImageField(upload_to='photos', blank=True, null=True)

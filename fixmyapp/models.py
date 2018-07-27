@@ -185,8 +185,9 @@ class Planning(BaseModel):
 
 class PlanningPhoto(BaseModel):
     planning = models.ForeignKey(
-        Planning, related_name='photos', on_delete=models.CASCADE)
-    height = models.PositiveIntegerField()
+        Planning, related_name='photos', on_delete=models.CASCADE
+    )
+    height = models.PositiveSmallIntegerField()
     width = models.PositiveSmallIntegerField()
     src = models.ImageField(
         upload_to='photos',

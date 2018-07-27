@@ -130,6 +130,44 @@ class PlanningSectionDetails(BaseModel):
 
 
 class Planning(BaseModel):
+    CATEGORY_NEW_INFRASTRUCTURE = 'new cycling infrastructure'
+    CATEGORY_RENOVATION = 'renovation of cycling infrastructure'
+    CATEGORY_BIKE_STREET = 'bike street'
+    CATEGORY_MODIFICATION_OF_JUNCTION = 'modification of junction'
+    CATEGORY_BIKE_PARKING = 'bike parking'
+    CATEGORY_CROSSING_AID = 'crossing aid'
+    CATEGORY_MODIFICATION_OF_CROSS_SECTION = 'modification of cross section'
+    CATEGORY_MISCELLANEOUS = 'miscellaneous'
+
+    CATEGORY_CHOICES = (
+       (CATEGORY_NEW_INFRASTRUCTURE, 'new cycling infrastructure'),
+       (CATEGORY_RENOVATION, 'renovation of cycling infrastructure'),
+       (CATEGORY_BIKE_STREET, 'bike street'),
+       (CATEGORY_MODIFICATION_OF_JUNCTION, 'modification of junction'),
+       (CATEGORY_BIKE_PARKING, 'bike parking'),
+       (CATEGORY_CROSSING_AID, 'crossing aid'),
+       (CATEGORY_MODIFICATION_OF_CROSS_SECTION, 'modification of cross section'),
+       (CATEGORY_MISCELLANEOUS, 'miscellaneous'),
+    )
+
+    PHASE_DRAFT = 'draft'
+    PHASE_PLANNING = 'planning'
+    PHASE_REVIEW = 'review'
+    PHASE_EXAMINATION = 'examination'
+    PHASE_EXECUTION = 'execution'
+    PHASE_READY = 'ready'
+    PHASE_MISCELLANEOUS = 'miscellaneous'
+
+    PHASE_CHOICES = (
+        (PHASE_DRAFT, 'draft'),
+        (PHASE_PLANNING, 'planning'),
+        (PHASE_REVIEW, 'review'),
+        (PHASE_EXAMINATION, 'examination'),
+        (PHASE_EXECUTION, 'execution'),
+        (PHASE_READY, 'ready'),
+        (PHASE_MISCELLANEOUS, 'miscellaneous'),
+    )
+
     STATUS_UNKNOWN = 'unknown'
     STATUS_IDEA = 'idea'
     STATUS_PRELIMINARY_PLANNING = 'preliminary planning'
@@ -171,15 +209,18 @@ class Planning(BaseModel):
 
     planning_sections = models.ManyToManyField(
         PlanningSection, related_name='plannings')
+    published = models.BooleanField(default=True)
     title = models.CharField(max_length=256)
     side = models.PositiveSmallIntegerField(blank=True, null=True, choices=SIDE_CHOICES)
     description = MarkdownxField()
     short_description = models.CharField(max_length=200)
+    category = models.CharField(blank=True, null=True, max_length=30, choices=CATEGORY_CHOICES)
     project_key = models.CharField(blank=True, null=True, max_length=100)
     costs = models.PositiveIntegerField(blank=True, null=True)
     draft = models.CharField(blank=True, null=True, max_length=100)
     start_of_construction = models.CharField(blank=True, null=True, max_length=100)
     completion = models.CharField(blank=True, null=True, max_length=100)
+    phase = models.CharField(blank=True, null=True, max_length=30, choices=PHASE_CHOICES)
     status = models.CharField(blank=True, null=True, max_length=30, choices=STATUS_CHOICES)
     responsible = models.CharField(max_length=256)
     external_url = models.URLField(blank=True, null=True)

@@ -27,25 +27,27 @@ class PlanningAdmin(admin.ModelAdmin):
 
 
 class CyclingInfrastructurePhotoInline(admin.TabularInline):
+    extra = 0
     model = CyclingInfrastructurePhoto
     verbose_name = 'Photo'
     verbose_name_plural = 'Photos'
 
 
 class PlanningSectionDetailsAdmin(admin.ModelAdmin):
-    model = PlanningSectionDetails
     inlines = (CyclingInfrastructurePhotoInline,)
+    list_display = ('planning_section', 'side', 'orientation', 'length')
+    ordering = ('planning_section',)
 
 
 class PlanningSectionAdmin(MarkdownxModelAdmin):
     autocomplete_fields = ('edges',)
     exclude = ('geom_hash',)
-    list_display = ('name', 'progress', 'has_updated_edges',)
-    list_filter = ('progress',)
+    list_display = ('__str__', 'has_plannings', 'has_updated_edges',)
+    ordering = ('id',)
     search_fields = ('name',)
 
+    PlanningSection.has_plannings.boolean = True
     PlanningSection.has_updated_edges.boolean = True
-    PlanningSection.has_updated_edges.short_description = 'Has updated edges'
 
     def save_related(self, request, form, formsets, change):
         super().save_related(request, form, formsets, change)

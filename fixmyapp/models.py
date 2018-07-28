@@ -52,6 +52,9 @@ class PlanningSection(BaseModel):
     def has_updated_edges(self):
         return self.geom_hash != self.compute_geom_hash()
 
+    def has_plannings(self):
+        return self.plannings.count() > 0
+
     def compute_geom_hash(self):
         sha1 = hashlib.sha1()
         if self.id:
@@ -130,6 +133,7 @@ class PlanningSectionDetails(BaseModel):
 
     def __str__(self):
         return '{} {}'.format(self.planning_section, self.SIDE_CHOICES[self.side][1])
+
 
 class CyclingInfrastructurePhoto(BaseModel):
     planning_section_detail = models.ForeignKey(

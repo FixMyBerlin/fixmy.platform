@@ -3,10 +3,10 @@ from django.test import TestCase
 from .models import Edge, PlanningSection
 
 
-class ProjectTests(TestCase):
+class PlanningSectionTests(TestCase):
 
     def setUp(self):
-        self.project = PlanningSection.objects.create(name='Lorem ipsum')
+        self.planning_section = PlanningSection.objects.create(name='Lorem ipsum')
         self.edges = []
 
         for i in range(3):
@@ -36,27 +36,27 @@ class ProjectTests(TestCase):
             ))
 
     def test_compute_geometry_hash(self):
-        self.assertIsNotNone(self.project.compute_geom_hash())
-        self.project.edges.add(self.edges[0])
-        self.assertIsNotNone(self.project.compute_geom_hash())
-        self.assertEqual(len(self.project.compute_geom_hash()), 40)
+        self.assertIsNotNone(self.planning_section.compute_geom_hash())
+        self.planning_section.edges.add(self.edges[0])
+        self.assertIsNotNone(self.planning_section.compute_geom_hash())
+        self.assertEqual(len(self.planning_section.compute_geom_hash()), 40)
 
     def test_adding_edges_is_detected(self):
-        self.assertFalse(self.project.has_updated_edges())
+        self.assertFalse(self.planning_section.has_updated_edges())
 
         for e in self.edges:
-            self.project.edges.add(e)
+            self.planning_section.edges.add(e)
 
-        self.assertTrue(self.project.has_updated_edges())
+        self.assertTrue(self.planning_section.has_updated_edges())
 
     def test_modifying_edges_is_detected(self):
         for e in self.edges:
-            self.project.edges.add(e)
+            self.planning_section.edges.add(e)
 
-        self.project.geom_hash = self.project.compute_geom_hash()
-        self.project.save()
+        self.planning_section.geom_hash = self.planning_section.compute_geom_hash()
+        self.planning_section.save()
 
-        self.assertFalse(self.project.has_updated_edges())
+        self.assertFalse(self.planning_section.has_updated_edges())
 
         edge = Edge.objects.all()[0]
         edge.geom = MultiLineString(
@@ -67,29 +67,29 @@ class ProjectTests(TestCase):
         )
         edge.save()
 
-        self.assertTrue(self.project.has_updated_edges())
+        self.assertTrue(self.planning_section.has_updated_edges())
 
     def test_removing_edges_is_detected(self):
         for e in self.edges:
-            self.project.edges.add(e)
+            self.planning_section.edges.add(e)
 
-        self.project.geom_hash = self.project.compute_geom_hash()
-        self.project.save()
+        self.planning_section.geom_hash = self.planning_section.compute_geom_hash()
+        self.planning_section.save()
 
-        self.assertFalse(self.project.has_updated_edges())
+        self.assertFalse(self.planning_section.has_updated_edges())
 
-        self.project.edges.remove(Edge.objects.all()[0])
+        self.planning_section.edges.remove(Edge.objects.all()[0])
 
-        self.assertTrue(self.project.has_updated_edges())
+        self.assertTrue(self.planning_section.has_updated_edges())
 
     def test_reordering_edge_geometries_is_ignored(self):
         for e in self.edges:
-            self.project.edges.add(e)
+            self.planning_section.edges.add(e)
 
-        self.project.geom_hash = self.project.compute_geom_hash()
-        self.project.save()
+        self.planning_section.geom_hash = self.planning_section.compute_geom_hash()
+        self.planning_section.save()
 
-        self.assertFalse(self.project.has_updated_edges())
+        self.assertFalse(self.planning_section.has_updated_edges())
 
         edge = Edge.objects.all()[0]
         edge.geom = MultiLineString(
@@ -100,4 +100,4 @@ class ProjectTests(TestCase):
         )
         edge.save()
 
-        self.assertFalse(self.project.has_updated_edges())
+        self.assertFalse(self.planning_section.has_updated_edges())

@@ -130,6 +130,12 @@ class PlanningSectionDetails(BaseModel):
         verbose_name = 'Planning section details'
         verbose_name_plural = 'Planning section details'
 
+    def velocity_index(self):
+        return 0
+
+    def safety_index(self):
+        return 0
+
     def __str__(self):
         return '{} {}'.format(self.planning_section, self.SIDE_CHOICES[self.side][1])
 

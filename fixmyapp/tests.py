@@ -1,6 +1,6 @@
 from django.contrib.gis.geos import LineString, MultiLineString
 from django.test import TestCase
-from .models import Edge, PlanningSection
+from .models import Edge, PlanningSection, PlanningSectionDetails
 
 
 class PlanningSectionTests(TestCase):
@@ -101,3 +101,41 @@ class PlanningSectionTests(TestCase):
         edge.save()
 
         self.assertFalse(self.planning_section.has_updated_edges())
+
+
+class PlanningSectionDetailsTest(TestCase):
+
+    def setUp(self):
+        self.planning_section = PlanningSection.objects.create(
+            name='Lorem ipsum')
+        self.details = PlanningSectionDetails.objects.create(
+            planning_section=self.planning_section,
+            side=PlanningSectionDetails.RIGHT,
+            speed_limit=30,
+            daily_traffic=5110.15,
+            daily_traffic_heavy=40.98,
+            daily_traffic_cargo=521.55,
+            daily_traffic_bus=4.85,
+            length=874.77,
+            crossings=1,
+            orientation=PlanningSectionDetails.SOUTH,
+            rva1=0,
+            rva2=0,
+            rva3=0,
+            rva4=0,
+            rva5=0,
+            rva6=0,
+            rva7=0,
+            rva8=0,
+            rva9=0,
+            rva10=0,
+            rva11=21.9,
+            rva12=0,
+            rva13=0
+        )
+
+    def test_velocity_index(self):
+        self.assertEquals(self.details.velocity_index(), 3.47479194723575)
+
+    def test_safety_index(self):
+        self.assertEquals(self.details.velocity_index(), 2.861230795)

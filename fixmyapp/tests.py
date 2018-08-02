@@ -134,6 +134,12 @@ class PlanningSectionDetailsTest(TestCase):
             rva13=0
         )
 
+    def test_cycling_infrastructure_sum(self):
+        self.assertEqual(self.details.cycling_infrastructure_sum(), 0)
+
+    def test_road_type(self):
+        self.assertEqual(self.details.road_type(), self.details.daily_traffic / 8000)
+
     def test_velocity_index(self):
         self.assertEquals(self.details.velocity_index(), 3.47479194723575)
 

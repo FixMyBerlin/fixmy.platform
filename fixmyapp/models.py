@@ -100,6 +100,8 @@ class PlanningSectionDetails(BaseModel):
         (SOUTH, 'south'),
         (WEST, 'west'),
     )
+    AVG_WIDTH_CROSSINGS = 6
+    RVA_RATIO_MIN = 0.65
 
     planning_section = models.ForeignKey(
         PlanningSection, related_name='details', on_delete=models.CASCADE)
@@ -135,6 +137,59 @@ class PlanningSectionDetails(BaseModel):
 
     def safety_index(self):
         return 0
+
+    def length_without_crossings(self):
+        """Returns length of section without crossings
+
+        We do not count crossings as cycling infrastructure.
+        """
+        return self.length - self.AVG_WIDTH_CROSSINGS * self.crossings
+
+    def cycling_infrastructure_sum(self):
+        """Returns sum of eligible rva fields
+
+        Some rva fields do not match our definition of cycling infrastructure
+        because we discard bus lanes and footpaths which are allowed for
+        cyclists.
+        """
+        return sum([
+            self.rva3,
+            self.rva4,
+            self.rva5,
+            self.rva6,
+            self.rva7,
+            self.rva8,
+            self.rva9,
+            self.rva10
+        ])
+
+    def cycling_infrastructure_ratio(self):
+        return self.cycling_infrastructure_sum() / self.length_without_crossings()
+
+    def road_type(self):
+        """Returns a number categorizing traffic intensity """
+
+        if self.speed_limit <= 20:
+            l = (11000, 18000, 20000)
+        elif self.speed_limit <= 30:
+            l = (8000, 18000, 20000)
+        elif self.speed_limit <= 40:
+            l = (6000, 16000, 19000)
+        elif self.speed_limit <= 50:
+            l = (4000, 10000, 18000)
+        elif self.speed_limit <= 60:
+            l = (2000, 5000, 7000)
+        else:
+            l = (2000, 3000, 6000)
+
+        if self.daily_traffic <= l[0]:
+            return self.daily_traffic / l[0]
+        elif self.daily_traffic <= l[1]:
+            return 1 + (self.daily_traffic - l[0]) / (l[1] - l[0])
+        elif self.daily_traffic <= l[2]:
+            return 2 + (self.daily_traffic - l[1]) / (l[2] - l[1])
+        else:
+            return 3
 
     def __str__(self):
         return '{} {}'.format(self.planning_section, self.SIDE_CHOICES[self.side][1])

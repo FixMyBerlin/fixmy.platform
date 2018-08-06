@@ -2,7 +2,6 @@ from django.contrib.gis.db import models
 from markdownx.models import MarkdownxField
 import decimal
 import hashlib
-import random
 import uuid
 
 
@@ -43,11 +42,11 @@ class PlanningSection(BaseModel):
     edges = models.ManyToManyField(Edge)
     geom_hash = models.CharField(max_length=40, null=True)
 
-    def velocity_index(self, side):
-        return round(random.randint(5, 35) * 0.1, 1)
+    def velocity_index(self):
+        return sum(d.velocity_index() for d in self.details.all()) / len(self.details.all())
 
-    def safety_index(self, side):
-        return round(random.randint(5, 45) * 0.1, 1)
+    def safety_index(self):
+        return sum(d.safety_index() for d in self.details.all()) / len(self.details.all())
 
     def has_updated_edges(self):
         return self.geom_hash != self.compute_geom_hash()

@@ -49,12 +49,8 @@ def planning_sections(request):
             'properties': {
                 'id': p.pk,
                 'name': p.name,
-                'velocity': (p.velocity_index(0) + p.velocity_index(1)) / 2,
-                'safety': (p.safety_index(0) + p.safety_index(1)) / 2,
-                'side0_velocity': p.velocity_index(0),
-                'side0_safety': p.safety_index(0),
-                'side1_velocity': p.velocity_index(1),
-                'side1_safety': p.safety_index(1)
+                'velocity': p.velocity_index(),
+                'safety': p.safety_index()
             }
         }
 
@@ -70,6 +66,8 @@ def planning_sections(request):
         for detail in p.details.all():
             prefix = 'side{}_'.format(detail.side)
             feature['properties'][prefix + 'orientation'] = detail.orientation
+            feature['properties'][prefix + 'velocity'] = detail.velocity_index()
+            feature['properties'][prefix + 'safety'] = detail.safety_index()
 
         result['features'].append(feature)
 

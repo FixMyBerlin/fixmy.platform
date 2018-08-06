@@ -1,5 +1,6 @@
 from django.contrib.gis.db import models
 from markdownx.models import MarkdownxField
+import decimal
 import hashlib
 import random
 import uuid
@@ -133,7 +134,7 @@ class PlanningSectionDetails(BaseModel):
         verbose_name_plural = 'Planning section details'
 
     def velocity_index(self):
-        offset = 0.5
+        offset = decimal.Decimal(0.5)
         weighted_sum = sum([
             self.rva3 * 2,
             self.rva4 * 1,
@@ -161,7 +162,7 @@ class PlanningSectionDetails(BaseModel):
             return offset + ci_factor
 
     def safety_index(self):
-        offset = 3.5
+        offset = decimal.Decimal(3.5)
         weighted_sum = sum([
             self.rva3 * 3,
             self.rva4 * 3,

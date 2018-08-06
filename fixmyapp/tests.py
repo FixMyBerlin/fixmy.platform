@@ -1,6 +1,7 @@
 from django.contrib.gis.geos import LineString, MultiLineString
 from django.test import TestCase
 from .models import Edge, PlanningSection, PlanningSectionDetails
+import decimal
 
 
 class PlanningSectionTests(TestCase):
@@ -106,45 +107,109 @@ class PlanningSectionTests(TestCase):
 class PlanningSectionDetailsTest(TestCase):
 
     def setUp(self):
-        self.planning_section = PlanningSection.objects.create(
-            name='Lorem ipsum')
-        self.details = PlanningSectionDetails.objects.create(
-            planning_section=self.planning_section,
-            side=PlanningSectionDetails.RIGHT,
-            speed_limit=30,
-            daily_traffic=5110.15,
-            daily_traffic_heavy=40.98,
-            daily_traffic_cargo=521.55,
-            daily_traffic_bus=4.85,
-            length=874.77,
-            crossings=1,
-            orientation=PlanningSectionDetails.SOUTH,
-            rva1=0,
-            rva2=0,
-            rva3=0,
-            rva4=0,
-            rva5=0,
-            rva6=0,
-            rva7=0,
-            rva8=0,
-            rva9=0,
-            rva10=0,
-            rva11=21.9,
-            rva12=0,
-            rva13=0
-        )
+        self.planning_sections = [
+            PlanningSection.objects.create(name='Foo'),
+            PlanningSection.objects.create(name='Bar'),
+        ]
+        self.details = [
+            PlanningSectionDetails.objects.create(
+                planning_section=self.planning_sections[0],
+                side=PlanningSectionDetails.RIGHT,
+                speed_limit=30,
+                daily_traffic=decimal.Decimal(5110.15),
+                daily_traffic_heavy=decimal.Decimal(40.98),
+                daily_traffic_cargo=decimal.Decimal(521.55),
+                daily_traffic_bus=decimal.Decimal(4.85),
+                length=decimal.Decimal(874.77),
+                crossings=1,
+                orientation=PlanningSectionDetails.SOUTH,
+                rva1=0,
+                rva2=0,
+                rva3=0,
+                rva4=0,
+                rva5=0,
+                rva6=0,
+                rva7=0,
+                rva8=0,
+                rva9=0,
+                rva10=0,
+                rva11=decimal.Decimal(21.9),
+                rva12=0,
+                rva13=0
+            ),
+            PlanningSectionDetails.objects.create(
+                planning_section=self.planning_sections[0],
+                side=PlanningSectionDetails.LEFT,
+                speed_limit=30,
+                daily_traffic=decimal.Decimal(5110.15),
+                daily_traffic_heavy=decimal.Decimal(40.98),
+                daily_traffic_cargo=decimal.Decimal(521.55),
+                daily_traffic_bus=decimal.Decimal(4.85),
+                length=decimal.Decimal(874.77),
+                crossings=3,
+                orientation=PlanningSectionDetails.NORTH,
+                rva1=0,
+                rva2=0,
+                rva3=0,
+                rva4=0,
+                rva5=0,
+                rva6=0,
+                rva7=0,
+                rva8=0,
+                rva9=0,
+                rva10=0,
+                rva11=0,
+                rva12=0,
+                rva13=0
+            ),
+            PlanningSectionDetails.objects.create(
+                planning_section=self.planning_sections[1],
+                side=PlanningSectionDetails.RIGHT,
+                speed_limit=50,
+                daily_traffic=decimal.Decimal(8295.0),
+                daily_traffic_heavy=decimal.Decimal(532.12),
+                daily_traffic_cargo=decimal.Decimal(846.0),
+                daily_traffic_bus=decimal.Decimal(129.12),
+                length=decimal.Decimal(500.76),
+                crossings=1,
+                orientation=PlanningSectionDetails.EAST,
+                rva1=decimal.Decimal(216.0621912),
+                rva2=0,
+                rva3=decimal.Decimal(485.9469249),
+                rva4=0,
+                rva5=0,
+                rva6=0,
+                rva7=0,
+                rva8=0,
+                rva9=0,
+                rva10=0,
+                rva11=0,
+                rva12=0,
+                rva13=0
+            ),
+        ]
 
     def test_cycling_infrastructure_sum(self):
-        self.assertEqual(self.details.cycling_infrastructure_sum(), 21.9)
+        self.assertAlmostEqual(self.details[0].cycling_infrastructure_sum(), decimal.Decimal(21.9), 4)
+        self.assertAlmostEqual(self.details[1].cycling_infrastructure_sum(), 0, 4)
+        self.assertAlmostEqual(self.details[2].cycling_infrastructure_sum(), decimal.Decimal(485.946924867869), 4)
 
     def test_cycling_infrastructure_ratio(self):
-        self.assertAlmostEqual(self.details.cycling_infrastructure_ratio(), 0.0252080527642529, 4)
+        self.assertAlmostEqual(self.details[0].cycling_infrastructure_ratio(), decimal.Decimal(0.0252080527642529), 4)
+        self.assertAlmostEqual(self.details[1].cycling_infrastructure_ratio(), decimal.Decimal(0), 4)
+        self.assertAlmostEqual(self.details[2].cycling_infrastructure_ratio(), decimal.Decimal(0.982187171290866), 4)
 
     def test_road_type(self):
-        self.assertAlmostEqual(self.details.road_type(), 0.638769205, 4)
+        self.assertAlmostEqual(self.details[0].road_type(), decimal.Decimal(0.638769205), 4)
+        self.assertAlmostEqual(self.details[1].road_type(), decimal.Decimal(0.638769205), 4)
+        self.assertAlmostEqual(self.details[2].road_type(), decimal.Decimal(1.7158333333), 4)
 
     def test_velocity_index(self):
-        self.assertAlmostEqual(self.details.velocity_index(), 3.47479194723575, 4)
+        self.assertAlmostEqual(self.details[0].velocity_index(), decimal.Decimal(3.47479194723575), 4)
+        self.assertAlmostEqual(self.details[1].velocity_index(), decimal.Decimal(3.5), 4)
+        self.assertAlmostEqual(self.details[2].velocity_index(), decimal.Decimal(2.5), 4)
 
     def test_safety_index(self):
-        self.assertAlmostEqual(self.details.safety_index(), 2.861230795, 4)
+        self.assertAlmostEqual(self.details[0].safety_index(), decimal.Decimal(2.861230795), 4)
+        self.assertAlmostEqual(self.details[1].safety_index(), decimal.Decimal(2.861230795), 4)
+        self.assertAlmostEqual(self.details[2].safety_index(), decimal.Decimal(3.92805555556667), 4)

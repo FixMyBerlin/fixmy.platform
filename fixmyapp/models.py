@@ -161,7 +161,30 @@ class PlanningSectionDetails(BaseModel):
             return offset + ci_factor
 
     def safety_index(self):
-        return 0
+        offset = 3.5
+        weighted_sum = sum([
+            self.rva3 * 3,
+            self.rva4 * 3,
+            self.rva5 * 3,
+            self.rva6 * 3,
+            self.rva7 * 2,
+            self.rva8 * 3,
+            self.rva9 * 3,
+            self.rva10 * 3,
+            self.rva11 * 1,
+            self.rva12 * 1,
+            self.rva13 * 1
+        ])
+
+        if self.cycling_infrastructure_ratio() < self.CI_RATIO_MIN:
+            ci_factor = 0
+        else:
+            ci_factor = weighted_sum / self.cycling_infrastructure_sum()
+
+        if ci_factor <= self.road_type():
+            return offset + ci_factor - self.road_type()
+        else:
+            return offset + (ci_factor - self.road_type()) / 3
 
     def length_without_crossings(self):
         """Returns length of section without crossings

@@ -138,13 +138,13 @@ class PlanningSectionDetailsTest(TestCase):
         self.assertEqual(self.details.cycling_infrastructure_sum(), 21.9)
 
     def test_cycling_infrastructure_ratio(self):
-        self.assertAlmostEqual(self.details.cycling_infrastructure_ratio(), 0.0252080527642529)
+        self.assertAlmostEqual(self.details.cycling_infrastructure_ratio(), 0.0252080527642529, 4)
 
     def test_road_type(self):
-        self.assertAlmostEqual(self.details.road_type(), 0.638769205)
+        self.assertAlmostEqual(self.details.road_type(), 0.638769205, 4)
 
     def test_velocity_index(self):
-        self.assertAlmostEqual(self.details.velocity_index(), 3.47479194723575)
+        self.assertAlmostEqual(self.details.velocity_index(), 3.47479194723575, 4)
 
     def test_safety_index(self):
-        self.assertAlmostEqual(self.details.safety_index(), 2.861230795)
+        self.assertAlmostEqual(self.details.safety_index(), 2.861230795, 4)

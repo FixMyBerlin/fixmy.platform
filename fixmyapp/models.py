@@ -101,7 +101,7 @@ class PlanningSectionDetails(BaseModel):
         (WEST, 'west'),
     )
     AVG_WIDTH_CROSSINGS = 6
-    RVA_RATIO_MIN = 0.65
+    CI_RATIO_MIN = 0.65
 
     planning_section = models.ForeignKey(
         PlanningSection, related_name='details', on_delete=models.CASCADE)
@@ -133,7 +133,32 @@ class PlanningSectionDetails(BaseModel):
         verbose_name_plural = 'Planning section details'
 
     def velocity_index(self):
-        return 0
+        offset = 0.5
+        weighted_sum = sum([
+            self.rva3 * 2,
+            self.rva4 * 1,
+            self.rva7 * 2,
+            self.rva8 * 3,
+            self.rva9 * 3,
+            self.rva10 * 3,
+            self.rva11 * 2,
+            self.rva12 * 3,
+            self.rva13 * 2
+        ])
+
+        if self.cycling_infrastructure_sum() > 0:
+            ci_factor = weighted_sum / self.cycling_infrastructure_sum()
+        else:
+            ci_factor = weighted_sum
+
+        if self.cycling_infrastructure_ratio() < self.CI_RATIO_MIN:
+            return (
+                offset +
+                self.cycling_infrastructure_ratio() * ci_factor +
+                (1 - self.cycling_infrastructure_ratio()) * 3
+            )
+        else:
+            return offset + ci_factor
 
     def safety_index(self):
         return 0
@@ -160,14 +185,17 @@ class PlanningSectionDetails(BaseModel):
             self.rva7,
             self.rva8,
             self.rva9,
-            self.rva10
+            self.rva10,
+            self.rva11,
+            self.rva12,
+            self.rva13
         ])
 
     def cycling_infrastructure_ratio(self):
         return self.cycling_infrastructure_sum() / self.length_without_crossings()
 
     def road_type(self):
-        """Returns a number categorizing traffic intensity """
+        """Returns a number categorizing traffic intensity"""
 
         if self.speed_limit <= 20:
             l = (11000, 18000, 20000)

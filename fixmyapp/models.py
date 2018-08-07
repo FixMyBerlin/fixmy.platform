@@ -43,10 +43,16 @@ class PlanningSection(BaseModel):
     geom_hash = models.CharField(max_length=40, null=True)
 
     def velocity_index(self):
-        return sum(d.velocity_index() for d in self.details.all()) / len(self.details.all())
+        if len(self.details.all()) > 0:
+            return sum(d.velocity_index() for d in self.details.all()) / len(self.details.all())
+        else:
+            return 0
 
     def safety_index(self):
-        return sum(d.safety_index() for d in self.details.all()) / len(self.details.all())
+        if len(self.details.all()) > 0:
+            return sum(d.safety_index() for d in self.details.all()) / len(self.details.all())
+        else:
+            return 0
 
     def has_updated_edges(self):
         return self.geom_hash != self.compute_geom_hash()

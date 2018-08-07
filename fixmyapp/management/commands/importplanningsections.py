@@ -15,12 +15,6 @@ class Command(BaseCommand):
             default=sys.stdin,
             help='A CSV file'
         )
-        parser.add_argument(
-            '--show-progress',
-            action='store_true',
-            dest='progress',
-            help='display the progress bar in any verbosity level.'
-        )
 
     def handle(self, *args, **options):
         reader = csv.DictReader(options['file'])

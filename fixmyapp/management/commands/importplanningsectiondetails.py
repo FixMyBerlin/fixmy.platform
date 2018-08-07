@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand
+from django.db.utils import IntegrityError
 from fixmyapp.models import (
     CyclingInfrastructurePhoto, PlanningSection, PlanningSectionDetails
 )
@@ -49,9 +50,13 @@ class Command(BaseCommand):
             kwargs = {
                 mapping[key]: row[key].replace(',', '.') for key in mapping
             }
-            obj, created = PlanningSectionDetails.objects.update_or_create(**kwargs)
-            for path in row['rva_pics'].split():
-                photo = CyclingInfrastructurePhoto(
-                    src='rva_pics{}'.format(path), planning_section_detail=obj
-                )
-                photo.save()
+            try:
+                obj, created = PlanningSectionDetails.objects.update_or_create(**kwargs)
+                for path in row['rva_pics'].split():
+                    photo = CyclingInfrastructurePhoto(
+                        src='rva_pics{}'.format(path), planning_section_detail=obj
+                    )
+                    photo.save()
+            except IntegrityError as e:
+                message = 'Referenced planning section with MetaID {} does not exist.'.format(row['MetaID'])
+                self.stderr.write(message)

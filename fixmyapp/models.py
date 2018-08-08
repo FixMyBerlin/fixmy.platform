@@ -333,16 +333,18 @@ class Planning(BaseModel):
 
     RIGHT = 0
     LEFT = 1
+    BOTH = 2
     SIDE_CHOICES = (
         (RIGHT, 'right'),
         (LEFT, 'left'),
+        (BOTH, 'both')
     )
 
     planning_sections = models.ManyToManyField(
         PlanningSection, related_name='plannings')
     published = models.BooleanField(default=True)
     title = models.CharField(max_length=256)
-    side = models.PositiveSmallIntegerField(blank=True, null=True, choices=SIDE_CHOICES)
+    side = models.PositiveSmallIntegerField(choices=SIDE_CHOICES)
     description = MarkdownxField()
     short_description = models.CharField(max_length=200)
     category = models.CharField(blank=True, null=True, max_length=40, choices=CATEGORY_CHOICES)

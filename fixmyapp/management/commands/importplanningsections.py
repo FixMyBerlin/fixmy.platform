@@ -24,7 +24,7 @@ class Command(BaseCommand):
                 pk=row['MetaID']
             )
             obj.name = row['Straßen Name']
-            obj.street_category = street_categories(row.get('STRKlasse'))
+            obj.street_category = street_categories.get(row['STRKlasse'])
             try:
                 obj.edges.add(Edge.objects.get(pk=row['ElemNr']))
             except Edge.DoesNotExist as e:

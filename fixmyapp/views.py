@@ -105,9 +105,8 @@ def properties_from_plannings(plannings, request):
 
     for planning in plannings:
         prefix = 'side{}_'.format(planning.side)
-        planning_url = request.build_absolute_uri(
-            reverse('planning-detail', args=[planning.id])
-        )
+        planning_url = reverse('planning-detail', args=[planning.id])
+        properties[prefix + 'planning_id'] = planning.id
         properties[prefix + 'planning_url'] = planning_url
         properties[prefix + 'planning_title'] = planning.title
         properties[prefix + 'planning_phase'] = planning.phase

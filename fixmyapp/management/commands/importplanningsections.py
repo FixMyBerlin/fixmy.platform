@@ -18,11 +18,13 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         reader = csv.DictReader(options['file'])
+        street_categories = {'I': 1, 'II': 2, 'III': 3, 'IV': 4, 'V':5}
         for row in reader:
             obj, created = PlanningSection.objects.get_or_create(
                 pk=row['MetaID']
             )
             obj.name = row['Straßen Name']
+            obj.street_category = street_categories(row.get('STRKlasse'))
             try:
                 obj.edges.add(Edge.objects.get(pk=row['ElemNr']))
             except Edge.DoesNotExist as e:

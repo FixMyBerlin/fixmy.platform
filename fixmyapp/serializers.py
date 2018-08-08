@@ -108,7 +108,14 @@ class PlanningSectionSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = PlanningSection
-        fields = ('url', 'name', 'description', 'details', 'plannings')
+        fields = (
+            'url',
+            'name',
+            'description',
+            'street_category',
+            'details',
+            'plannings'
+        )
 
 
 class ProfileSerializer(serializers.ModelSerializer):

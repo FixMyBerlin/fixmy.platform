@@ -22,8 +22,8 @@ class PlanningPhotoInline(admin.TabularInline):
 class PlanningAdmin(admin.ModelAdmin):
     autocomplete_fields = ('faq', 'planning_sections')
     inlines = (PlanningPhotoInline,)
-    list_display = ('title',)
-    list_filter = ('status',)
+    list_display = ('project_key', 'title', 'category', 'phase')
+    list_filter = ('category', 'phase',)
 
 
 class CyclingInfrastructurePhotoInline(admin.TabularInline):

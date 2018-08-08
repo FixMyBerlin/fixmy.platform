@@ -112,16 +112,19 @@ def properties_from_plannings(plannings, request):
         properties[prefix + 'planning_title'] = planning.title
         properties[prefix + 'planning_phase'] = planning.phase
 
-    if plannings[0].phase is not None and plannings[1].phase is not None:
-        properties['planning_phase'] = Planning.PHASE_CHOICES[max(
-            Planning.PHASE_CHOICES.index(
-                (plannings[0].phase, plannings[0].phase)),
-            Planning.PHASE_CHOICES.index(
-                (plannings[1].phase, plannings[1].phase))
-        )][1]
-    elif plannings[0].phase is not None:
-        properties['planning_phase'] = plannings[0].phase
+    if len(plannings) == 2:
+        if plannings[0].phase is not None and plannings[1].phase is not None:
+            properties['planning_phase'] = Planning.PHASE_CHOICES[max(
+                Planning.PHASE_CHOICES.index(
+                    (plannings[0].phase, plannings[0].phase)),
+                Planning.PHASE_CHOICES.index(
+                    (plannings[1].phase, plannings[1].phase))
+            )][1]
+        elif plannings[0].phase is not None:
+            properties['planning_phase'] = plannings[0].phase
+        else:
+            properties['planning_phase'] = plannings[1].phase
     else:
-        properties['planning_phase'] = plannings[1].phase
+        properties['planning_phase'] = plannings[0].phase
 
     return properties

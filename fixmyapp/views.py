@@ -54,20 +54,15 @@ def planning_sections(request):
             }
         }
 
-        for planning in p.plannings.all():
-            prefix = 'side{}_'.format(planning.side)
-            planning_url = request.build_absolute_uri(
-                reverse('planning-detail', args=[planning.id])
-            )
-            feature['properties'][prefix + 'planning_url'] = planning_url
-            feature['properties'][prefix + 'planning_title'] = planning.title
-            feature['properties'][prefix + 'planning_phase'] = planning.phase
-
         for detail in p.details.all():
             prefix = 'side{}_'.format(detail.side)
             feature['properties'][prefix + 'orientation'] = detail.orientation
             feature['properties'][prefix + 'velocity'] = detail.velocity_index()
             feature['properties'][prefix + 'safety'] = detail.safety_index()
+
+        if p.has_plannings():
+            feature['properties'].update(
+                properties_from_plannings(list(p.plannings.all()), request))
 
         result['features'].append(feature)
 
@@ -97,3 +92,35 @@ def profile(request, profile_id):
         serializer.save()
         return Response(serializer.data, status=success_status)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+def properties_from_plannings(plannings, request):
+    properties = {}
+
+    if len(plannings) == 1 and plannings[0].side == Planning.BOTH:
+        plannings.append(plannings[0])
+        plannings[0].side = Planning.RIGHT
+        plannings[1].side = Planning.LEFT
+
+    for planning in plannings:
+        prefix = 'side{}_'.format(planning.side)
+        planning_url = request.build_absolute_uri(
+            reverse('planning-detail', args=[planning.id])
+        )
+        properties[prefix + 'planning_url'] = planning_url
+        properties[prefix + 'planning_title'] = planning.title
+        properties[prefix + 'planning_phase'] = planning.phase
+
+    if plannings[0].phase is not None and plannings[1].phase is not None:
+        properties['planning_phase'] = Planning.PHASE_CHOICES[max(
+            Planning.PHASE_CHOICES.index(
+                (plannings[0].phase, plannings[0].phase)),
+            Planning.PHASE_CHOICES.index(
+                (plannings[1].phase, plannings[1].phase))
+        )][1]
+    elif plannings[0].phase is not None:
+        properties['planning_phase'] = plannings[0].phase
+    else:
+        properties['planning_phase'] = plannings[1].phase
+
+    return properties

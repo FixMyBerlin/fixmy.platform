@@ -9,6 +9,7 @@ from .models import Planning, PlanningSection, Profile
 from .serializers import (
     PlanningSerializer, PlanningSectionSerializer, ProfileSerializer
 )
+import copy
 import json
 
 
@@ -98,7 +99,7 @@ def properties_from_plannings(plannings, request):
     properties = {}
 
     if len(plannings) == 1 and plannings[0].side == Planning.BOTH:
-        plannings.append(plannings[0])
+        plannings.append(copy.copy(plannings[0]))
         plannings[0].side = Planning.RIGHT
         plannings[1].side = Planning.LEFT
 

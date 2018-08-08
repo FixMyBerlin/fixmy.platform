@@ -50,16 +50,16 @@ def planning_sections(request):
             'properties': {
                 'id': p.pk,
                 'name': p.name,
-                'velocity': p.velocity_index(),
-                'safety': p.safety_index()
+                'velocity': float(round(p.velocity_index(), 3)),
+                'safety': float(round(p.safety_index(), 3))
             }
         }
 
         for detail in p.details.all():
             prefix = 'side{}_'.format(detail.side)
             feature['properties'][prefix + 'orientation'] = detail.orientation
-            feature['properties'][prefix + 'velocity'] = detail.velocity_index()
-            feature['properties'][prefix + 'safety'] = detail.safety_index()
+            feature['properties'][prefix + 'velocity'] = float(round(detail.velocity_index(), 3))
+            feature['properties'][prefix + 'safety'] = float(round(detail.safety_index(), 3))
 
         if p.has_plannings():
             feature['properties'].update(

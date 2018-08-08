@@ -354,7 +354,7 @@ class Planning(BaseModel):
     construction_started = models.CharField(blank=True, null=True, max_length=100)
     construction_completed = models.CharField(blank=True, null=True, max_length=100)
     phase = models.CharField(blank=True, null=True, max_length=30, choices=PHASE_CHOICES)
-    status = models.CharField(blank=True, null=True, max_length=30, choices=STATUS_CHOICES)
+    status = models.CharField(blank=True, null=True, max_length=40, choices=STATUS_CHOICES)
     responsible = models.CharField(max_length=256)
     external_url = models.URLField(blank=True, null=True)
     cross_section_photo = models.ImageField(upload_to='photos', blank=True, null=True)

@@ -54,6 +54,7 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'anymail',
     'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -177,6 +178,17 @@ AWS_S3_REGION_NAME = os.getenv('AWS_S3_REGION_NAME')
 AWS_S3_USE_SSL = os.getenv('AWS_S3_USE_SSL', True)
 
 AWS_S3_SIGNATURE_VERSION = os.getenv('AWS_S3_SIGNATURE_VERSION', 's3v4')
+
+
+# Anymail
+# https://anymail.readthedocs.io/en/stable/
+
+EMAIL_BACKEND = os.getenv('EMAIL_BACKEND', 'django.core.mail.backends.smtp.EmailBackend')
+
+ANYMAIL = {
+    'MAILJET_API_KEY': os.getenv('MAILJET_API_KEY', ''),
+    'MAILJET_SECRET_KEY': os.getenv('MAILJET_SECRET_KEY', ''),
+}
 
 
 # Activate Django-Heroku

@@ -1,5 +1,6 @@
 Django==2.0
 boto3==1.7.42
+django-anymail==3.0
 django-cors-headers==2.2.0
 django-heroku==0.3.1
 django-markdownx==2.0.23

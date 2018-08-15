@@ -1,8 +1,6 @@
 from django.core.management.base import BaseCommand
 from django.db.utils import IntegrityError
-from fixmyapp.models import (
-    CyclingInfrastructurePhoto, PlanningSection, PlanningSectionDetails
-)
+from fixmyapp.models import Photo, PlanningSectionDetails
 import argparse
 import csv
 import sys
@@ -53,8 +51,8 @@ class Command(BaseCommand):
             try:
                 obj, created = PlanningSectionDetails.objects.update_or_create(**kwargs)
                 for path in row['rva_pics'].split():
-                    photo = CyclingInfrastructurePhoto(
-                        src='rva_pics{}'.format(path), planning_section_detail=obj
+                    photo = Photo(
+                        src='rva_pics{}'.format(path), content_object=obj
                     )
                     photo.save()
             except IntegrityError as e:

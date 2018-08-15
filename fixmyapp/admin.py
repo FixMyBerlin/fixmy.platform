@@ -1,10 +1,10 @@
+from django.contrib.contenttypes.admin import GenericTabularInline
 from django.contrib.gis import admin
 from markdownx.admin import MarkdownxModelAdmin
 from .models import (
-    CyclingInfrastructurePhoto,
     Edge,
+    Photo,
     Planning,
-    PlanningPhoto,
     PlanningSection,
     PlanningSectionDetails,
     Profile,
@@ -12,29 +12,21 @@ from .models import (
 )
 
 
-class PlanningPhotoInline(admin.TabularInline):
-    model = PlanningPhoto
-    readonly_fields = ('height', 'width')
-    verbose_name = 'Photo'
-    verbose_name_plural = 'Photos'
+class PhotoInline(GenericTabularInline):
+    extra = 1
+    fields = ('src', 'copyright')
+    model = Photo
 
 
 class PlanningAdmin(admin.ModelAdmin):
     autocomplete_fields = ('faq', 'planning_sections')
-    inlines = (PlanningPhotoInline,)
+    inlines = (PhotoInline,)
     list_display = ('project_key', 'title', 'category', 'phase')
     list_filter = ('category', 'phase',)
 
 
-class CyclingInfrastructurePhotoInline(admin.TabularInline):
-    extra = 0
-    model = CyclingInfrastructurePhoto
-    verbose_name = 'Photo'
-    verbose_name_plural = 'Photos'
-
-
 class PlanningSectionDetailsAdmin(admin.ModelAdmin):
-    inlines = (CyclingInfrastructurePhotoInline,)
+    inlines = (PhotoInline,)
     list_display = ('planning_section', 'side', 'orientation', 'length')
     ordering = ('planning_section',)
 

@@ -1,8 +1,8 @@
 from rest_framework import serializers
 from rest_framework_gis.fields import GeometryField
 from .models import (
+    Photo,
     Planning,
-    PlanningPhoto,
     PlanningSection,
     PlanningSectionDetails,
     Profile,
@@ -25,15 +25,15 @@ class QuestionSerializer(serializers.ModelSerializer):
         fields = ('text', 'answer')
 
 
-class PlanningPhotoSerializer(serializers.ModelSerializer):
+class PhotoSerializer(serializers.ModelSerializer):
     class Meta:
-        model = PlanningPhoto
-        fields = ('height', 'width', 'src')
+        model = Photo
+        fields = ('copyright', 'src')
 
 
 class PlanningSerializer(serializers.HyperlinkedModelSerializer):
     faq = QuestionSerializer(many=True)
-    photos = PlanningPhotoSerializer(many=True)
+    photos = PhotoSerializer(many=True)
     geometry = GeometryField(precision=14)
     planning_sections = serializers.HyperlinkedRelatedField(
         many=True,

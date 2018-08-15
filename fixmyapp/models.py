@@ -1,3 +1,6 @@
+from django.contrib.contenttypes.fields import (
+    GenericForeignKey, GenericRelation)
+from django.contrib.contenttypes.models import ContentType
 from django.contrib.gis.db import models
 from markdownx.models import MarkdownxField
 import decimal
@@ -90,6 +93,17 @@ class Question(BaseModel):
         ordering = ('text',)
 
 
+class Photo(BaseModel):
+    content_object = GenericForeignKey('content_type', 'object_id')
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    copyright = models.CharField(blank=True, null=True, max_length=256)
+    object_id = models.PositiveIntegerField()
+    src = models.ImageField(upload_to='photos', verbose_name='File')
+
+    def __str__(self):
+        return self.src.name.split('/')[-1]
+
+
 class PlanningSectionDetails(BaseModel):
     RIGHT = 0
     LEFT = 1
@@ -134,6 +148,7 @@ class PlanningSectionDetails(BaseModel):
     rva11 = models.DecimalField(max_digits=16, decimal_places=12)
     rva12 = models.DecimalField(max_digits=16, decimal_places=12)
     rva13 = models.DecimalField(max_digits=16, decimal_places=12)
+    photos = GenericRelation(Photo)
 
     class Meta:
         verbose_name = 'Planning section details'
@@ -253,13 +268,6 @@ class PlanningSectionDetails(BaseModel):
         return '{} {}'.format(self.planning_section, self.SIDE_CHOICES[self.side][1])
 
 
-class CyclingInfrastructurePhoto(BaseModel):
-    planning_section_detail = models.ForeignKey(
-        PlanningSectionDetails, related_name='photos', on_delete=models.CASCADE
-    )
-    src = models.ImageField(verbose_name='Photo')
-
-
 class Planning(BaseModel):
     CATEGORY_NEW_INFRASTRUCTURE = 'new cycling infrastructure'
     CATEGORY_RENOVATION = 'renovation of cycling infrastructure'
@@ -359,23 +367,11 @@ class Planning(BaseModel):
     external_url = models.URLField(blank=True, null=True)
     cross_section_photo = models.ImageField(upload_to='photos', blank=True, null=True)
     faq = models.ManyToManyField(Question, blank=True)
+    photos = GenericRelation(Photo)
 
     def geometry(self):
         result = self.planning_sections.aggregate(models.Union('edges__geom'))
         return result['edges__geom__union'].merged
-
-
-class PlanningPhoto(BaseModel):
-    planning = models.ForeignKey(
-        Planning, related_name='photos', on_delete=models.CASCADE
-    )
-    height = models.PositiveSmallIntegerField()
-    width = models.PositiveSmallIntegerField()
-    src = models.ImageField(
-        upload_to='photos',
-        verbose_name='Image',
-        height_field='height',
-        width_field='width')
 
 
 class Profile(BaseModel):

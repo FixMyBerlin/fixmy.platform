@@ -76,4 +76,11 @@ class Command(BaseCommand):
             settings.MAPBOX_ACCESS_TOKEN
         )
         response = requests.get(url)
+
+        if response.status_code >= 400:
+            response.raise_for_status()
+
+        if response.json()['error']:
+            raise Exception(response.json()['error'])
+
         return response.json()['progress']

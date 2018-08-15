@@ -1,6 +1,5 @@
 from rest_framework import generics, status
 from rest_framework.decorators import api_view
-from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from .models import Planning, PlanningSection, Profile
 from .serializers import (
@@ -10,19 +9,16 @@ from .serializers import (
 
 class PlanningList(generics.ListAPIView):
     queryset = Planning.objects.all()
-    renderer_classes = (JSONRenderer,)
     serializer_class = PlanningSerializer
 
 
 class PlanningDetail(generics.RetrieveAPIView):
     queryset = Planning.objects.all()
-    renderer_classes = (JSONRenderer,)
     serializer_class = PlanningSerializer
 
 
 class PlanningSectionDetail(generics.RetrieveAPIView):
     queryset = PlanningSection.objects.all()
-    renderer_classes = (JSONRenderer,)
     serializer_class = PlanningSectionSerializer
 
 

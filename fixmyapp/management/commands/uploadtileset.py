@@ -10,7 +10,7 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            'file', type=argparse.FileType, help='A GeoJSON file')
+            'file', type=argparse.FileType('rb'), help='A GeoJSON file')
         parser.add_argument(
             '--show-progress',
             action='store_true',
@@ -21,7 +21,7 @@ class Command(BaseCommand):
     def handle(self, **options):
         credentials = self._retrieve_s3_credentials()
         client = self._create_s3_client(credentials)
-        client.upload_file(
+        client.upload_fileobj(
             options['file'], credentials['bucket'], credentials['key'])
         upload = self._create_upload(credentials['url'])
 

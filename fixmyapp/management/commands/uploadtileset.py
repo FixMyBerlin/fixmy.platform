@@ -26,8 +26,8 @@ class Command(BaseCommand):
         upload = self._create_upload(credentials['url'])
 
         if options['progress'] or options['verbosity'] > 1:
-            self.stdout.write('Uploading tileset {} to Mapbox').format(
-                settings.MAPBOX_UPLOAD_TILESET)
+            self.stdout.write('Uploading tileset {} to Mapbox'.format(
+                settings.MAPBOX_UPLOAD_TILESET))
 
             progress = upload['progress']
 

@@ -193,6 +193,22 @@ ANYMAIL = {
 }
 
 
+# Mapbox
+# https://www.mapbox.com/api-documentation/#uploads
+
+MAPBOX_ACCESS_TOKEN = os.getenv('MAPBOX_ACCESS_TOKEN', '')
+
+MAPBOX_UPLOAD_REGION = os.getenv('MAPBOX_UPLOAD_REGION', 'us-east-1')
+
+MAPBOX_UPLOAD_NAME = os.getenv('MAPBOX_UPLOAD_NAME', '')
+
+MAPBOX_UPLOAD_TILESET = os.getenv('MAPBOX_UPLOAD_TILESET', '')
+
+MAPBOX_UPLOAD_URL = os.getenv('MAPBOX_UPLOAD_URL', 'https://api.mapbox.com/uploads/v1')
+
+MAPBOX_USERNAME = os.getenv('MAPBOX_USERNAME', '')
+
+
 # Activate Django-Heroku
 # https://devcenter.heroku.com/articles/django-app-configuration
 

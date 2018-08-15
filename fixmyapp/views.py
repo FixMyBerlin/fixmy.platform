@@ -25,6 +25,12 @@ class PlanningDetail(generics.RetrieveAPIView):
     serializer_class = PlanningSerializer
 
 
+class PlanningSectionList(generics.ListAPIView):
+    pagination_class = DefaultPagination
+    queryset = PlanningSection.objects.all()
+    serializer_class = PlanningSectionSerializer
+
+
 class PlanningSectionDetail(generics.RetrieveAPIView):
     queryset = PlanningSection.objects.all()
     serializer_class = PlanningSectionSerializer

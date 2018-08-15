@@ -3,6 +3,7 @@ from .views import (
     PlanningDetail,
     PlanningList,
     PlanningSectionDetail,
+    PlanningSectionList,
     profile
 )
 
@@ -17,6 +18,11 @@ urlpatterns = [
         'plannings/<int:pk>',
         PlanningDetail.as_view(),
         name='planning-detail'
+    ),
+    path(
+        'planning-sections',
+        PlanningSectionList.as_view(),
+        name='planningsection-list'
     ),
     path(
         'planning-sections/<int:pk>',

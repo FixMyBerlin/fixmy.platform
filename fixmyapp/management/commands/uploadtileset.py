@@ -26,17 +26,17 @@ class Command(BaseCommand):
         upload = self._create_upload(credentials['url'])
 
         if options['progress'] or options['verbosity'] > 1:
-            self.stdout('Uploading tileset {} to Mapbox').format(
+            self.stdout.write('Uploading tileset {} to Mapbox').format(
                 settings.MAPBOX_UPLOAD_TILESET)
 
             progress = upload['progress']
 
             while progress != 1:
                 progress = self._upload_progress(upload['id'])
-                self.stdout('{} %'.format(int(progress * 100)))
+                self.stdout.write('{} %'.format(int(progress * 100)))
                 time.sleep(1)
 
-            self.stdout('Done')
+            self.stdout.write('Done')
 
     def _retrieve_s3_credentials(self):
         url = '{}/{}/credentials?access_token={}'.format(

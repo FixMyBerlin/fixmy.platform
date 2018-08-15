@@ -32,9 +32,8 @@ class Command(BaseCommand):
             progress = upload['progress']
 
             while progress != 1:
-                progress = self._upload_progress(upload['id'])
-                self.stdout.write('{} %'.format(int(progress * 100)))
                 time.sleep(1)
+                progress = self._upload_progress(upload['id'])
 
             self.stdout.write('Done')
 

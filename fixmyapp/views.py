@@ -1,5 +1,6 @@
 from rest_framework import generics, status
 from rest_framework.decorators import api_view
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from .models import Planning, PlanningSection, Profile
 from .serializers import (
@@ -7,7 +8,14 @@ from .serializers import (
 )
 
 
+class DefaultPagination(PageNumberPagination):
+    max_page_size = 100
+    page_size = 10
+    page_size_query_param = 'page_size'
+
+
 class PlanningList(generics.ListAPIView):
+    pagination_class = DefaultPagination
     queryset = Planning.objects.all()
     serializer_class = PlanningSerializer
 

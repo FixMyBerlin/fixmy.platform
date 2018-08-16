@@ -94,6 +94,7 @@ class PlanningSectionDetailsSerializer(serializers.ModelSerializer):
 
 
 class PlanningSectionSerializer(serializers.HyperlinkedModelSerializer):
+    geometry = GeometryField(precision=14)
     details = PlanningSectionDetailsSerializer(many=True)
     plannings = PlanningSerializer(many=True)
 
@@ -104,6 +105,7 @@ class PlanningSectionSerializer(serializers.HyperlinkedModelSerializer):
             'name',
             'description',
             'street_category',
+            'geometry',
             'details',
             'plannings'
         )

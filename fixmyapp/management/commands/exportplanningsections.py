@@ -42,7 +42,7 @@ class Command(BaseCommand):
             qs = PlanningSection.objects.all()
 
         for p in qs:
-            geometry = p.edges.aggregate(Union('geom'))['geom__union'].merged
+            geometry = p.geometry()
             feature = {
                 'type': 'Feature',
                 'geometry': json.loads(geometry.json),

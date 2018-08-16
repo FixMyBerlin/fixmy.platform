@@ -31,6 +31,7 @@ mapping = {
     'RVA13': 'rva13',
 }
 
+
 class Command(BaseCommand):
     help = 'Imports planning section details'
 
@@ -52,6 +53,7 @@ class Command(BaseCommand):
                 obj, created = PlanningSectionDetails.objects.update_or_create(**kwargs)
                 for path in row['rva_pics'].split():
                     photo = Photo(
+                        copyright='Geoportal Berlin / Radverkehrsanlagen',
                         src='rva_pics{}'.format(path), content_object=obj
                     )
                     photo.save()

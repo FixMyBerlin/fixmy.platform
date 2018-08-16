@@ -10,15 +10,6 @@ from .models import (
 )
 
 
-class ImageUrlField(serializers.RelatedField):
-    def to_representation(self, instance):
-        url = instance.src.url
-        request = self.context.get('request', None)
-        if request is not None:
-            return request.build_absolute_uri(url)
-        return url
-
-
 class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
@@ -71,7 +62,7 @@ class PlanningSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class PlanningSectionDetailsSerializer(serializers.ModelSerializer):
-    photos = ImageUrlField(many=True, read_only=True)
+    photos = PhotoSerializer(many=True)
 
     class Meta:
         model = PlanningSectionDetails

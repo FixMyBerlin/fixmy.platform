@@ -29,6 +29,10 @@ class PlanningSectionDetailsAdmin(admin.ModelAdmin):
     inlines = (PhotoInline,)
     list_display = ('planning_section', 'side', 'orientation', 'length')
     ordering = ('planning_section',)
+    search_fields = ('planning_section__name', 'planning_section__id')
+
+    def has_add_permission(self, request):
+        return False
 
 
 class PlanningSectionAdmin(MarkdownxModelAdmin):
@@ -36,7 +40,7 @@ class PlanningSectionAdmin(MarkdownxModelAdmin):
     exclude = ('geom_hash',)
     list_display = ('__str__', 'has_plannings', 'has_updated_edges',)
     ordering = ('id',)
-    search_fields = ('name',)
+    search_fields = ('name', 'id')
 
     PlanningSection.has_plannings.boolean = True
     PlanningSection.has_updated_edges.boolean = True
@@ -51,7 +55,7 @@ class PlanningSectionAdmin(MarkdownxModelAdmin):
 
 
 class EdgeAdmin(admin.OSMGeoAdmin):
-    search_fields = ('elem_nr',)
+    search_fields = ('elem_nr', 'str_name')
 
     def has_add_permission(self, request):
         return False

@@ -4,11 +4,17 @@ from .views import (
     PlanningList,
     PlanningSectionDetail,
     PlanningSectionList,
+    feedback,
     profile
 )
 
 
 urlpatterns = [
+    path(
+        'feedback',
+        feedback,
+        name='feedback'
+    ),
     path(
         'plannings',
         PlanningList.as_view(),

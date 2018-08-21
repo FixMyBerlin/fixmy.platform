@@ -1,7 +1,10 @@
 from django.contrib.gis.geos import LineString, MultiLineString
-from django.test import TestCase
+from django.core import mail
+from django.test import Client, TestCase
 from .models import Edge, PlanningSection, PlanningSectionDetails
 import decimal
+import json
+import re
 
 
 class PlanningSectionTests(TestCase):
@@ -236,4 +239,37 @@ class PlanningSectionDetailsTest(TestCase):
             self.planning_sections[1].safety_index(),
             self.details[2].safety_index(),
             4
+        )
+
+
+class FeedbackTest(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+
+    def test_post_feedback(self):
+        data = {
+            'name': 'Random cyclist',
+            'email': 'r.c@example.de',
+            'subject': 'Lorem ipsum',
+            'message': 'Lorem ipsum dolor sit'
+        }
+        response = self.client.post(
+            '/api/feedback',
+            data=json.dumps(data),
+            content_type='application/json')
+
+        self.assertEqual(response.status_code, 204)
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIn(
+            'From: {} <{}>'.format(data['name'], data['email']),
+            mail.outbox[0].message()._payload
+        )
+        self.assertIn(
+            'Subject: {}'.format(data['subject']),
+            mail.outbox[0].message()._payload,
+        )
+        self.assertIn(
+            data['message'],
+            mail.outbox[0].message()._payload,
         )

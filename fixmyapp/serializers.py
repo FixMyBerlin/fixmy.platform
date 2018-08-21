@@ -17,12 +17,6 @@ PLACEHOLDER_PHOTO = {
 }
 
 
-class QuestionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Question
-        fields = ('text', 'answer')
-
-
 class ListWithDefaultSerializer(serializers.ListSerializer):
 
     def to_representation(self, data):
@@ -39,6 +33,12 @@ class ListWithDefaultSerializer(serializers.ListSerializer):
         return [
             self.child.to_representation(item) for item in iterable
         ]
+
+
+class QuestionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Question
+        fields = ('text', 'answer')
 
 
 class PhotoSerializer(serializers.ModelSerializer):
@@ -145,3 +145,10 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = '__all__'
+
+
+class FeedbackSerializer(serializers.Serializer):
+    name = serializers.CharField(required=True)
+    email = serializers.EmailField(required=True)
+    subject = serializers.CharField(default='')
+    message = serializers.CharField(required=True)

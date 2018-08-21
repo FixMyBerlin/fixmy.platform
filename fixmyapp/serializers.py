@@ -13,7 +13,7 @@ from .models import (
 
 PLACEHOLDER_PHOTO = {
     'copyright': ' Photo by Anthony Ginsbrook',
-    'src': '/photos/Platzhalter_anthony-ginsbrook-225252-unsplash.jpg'
+    'src': 'photos/Platzhalter_anthony-ginsbrook-225252-unsplash.jpg'
 }
 
 

@@ -1,3 +1,4 @@
+from django.db import models
 from rest_framework import serializers
 from rest_framework_gis.fields import GeometryField
 from .models import (
@@ -10,21 +11,46 @@ from .models import (
 )
 
 
+PLACEHOLDER_PHOTO = {
+    'copyright': ' Photo by Anthony Ginsbrook',
+    'src': 'https://s3.eu-central-1.amazonaws.com/fmb-aws-bucket/photos/Platzhalter_anthony-ginsbrook-225252-unsplash.jpg'
+}
+
+
 class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
         fields = ('text', 'answer')
 
 
+class ListWithDefaultSerializer(serializers.ListSerializer):
+
+    def to_representation(self, data):
+        """
+        List of object instances -> List of dicts of primitive datatypes.
+        """
+        # Dealing with nested relationships, data can be a Manager,
+        # so, first get a queryset from the Manager if needed
+        iterable = data.all() if isinstance(data, models.Manager) else data
+
+        if len(iterable) == 0 and type(self.default) == list:
+            iterable = self.default
+
+        return [
+            self.child.to_representation(item) for item in iterable
+        ]
+
+
 class PhotoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Photo
         fields = ('copyright', 'src')
+        list_serializer_class = ListWithDefaultSerializer
 
 
 class PlanningSerializer(serializers.HyperlinkedModelSerializer):
     faq = QuestionSerializer(many=True)
-    photos = PhotoSerializer(many=True)
+    photos = PhotoSerializer(many=True, default=[Photo(**PLACEHOLDER_PHOTO)])
     geometry = GeometryField(precision=14)
     planning_sections = serializers.HyperlinkedRelatedField(
         many=True,

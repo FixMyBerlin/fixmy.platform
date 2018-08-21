@@ -377,6 +377,9 @@ class Planning(BaseModel):
         result = self.planning_sections.aggregate(models.Union('edges__geom'))
         return result['edges__geom__union'].merged
 
+    def center(self):
+        return self.geometry().point_on_surface
+
 
 class Profile(BaseModel):
     MALE = 'm'

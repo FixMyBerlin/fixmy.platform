@@ -52,6 +52,7 @@ class PlanningSerializer(serializers.HyperlinkedModelSerializer):
     faq = QuestionSerializer(many=True)
     photos = PhotoSerializer(many=True, default=[Photo(**PLACEHOLDER_PHOTO)])
     geometry = GeometryField(precision=14)
+    center = GeometryField(precision=14)
     planning_sections = serializers.HyperlinkedRelatedField(
         many=True,
         read_only=True,
@@ -83,6 +84,7 @@ class PlanningSerializer(serializers.HyperlinkedModelSerializer):
             'planning_sections',
             'planning_section_ids',
             'geometry',
+            'center',
             'photos',
         )
 

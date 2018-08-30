@@ -45,7 +45,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         reader = csv.DictReader(options['file'])
-        for row in reader:
+        for row in (row for row in reader if row['exist'] == '1'):
             kwargs = {
                 mapping[key]: row[key].replace(',', '.') for key in mapping
             }

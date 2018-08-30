@@ -41,7 +41,7 @@ class Edge(models.Model):
 
 class PlanningSection(BaseModel):
     name = models.CharField(max_length=100)
-    description = MarkdownxField(blank=True)
+    suffix = models.CharField(blank=True, null=True, max_length=3)
     street_category = models.PositiveSmallIntegerField(null=True)
     edges = models.ManyToManyField(Edge)
     geom_hash = models.CharField(max_length=40, null=True)

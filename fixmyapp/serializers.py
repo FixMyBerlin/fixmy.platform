@@ -131,7 +131,7 @@ class PlanningSectionSerializer(serializers.HyperlinkedModelSerializer):
         fields = (
             'url',
             'name',
-            'description',
+            'suffix',
             'street_category',
             'geometry',
             'details',

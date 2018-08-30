@@ -38,7 +38,7 @@ class PlanningSectionDetailsAdmin(admin.ModelAdmin):
 class PlanningSectionAdmin(MarkdownxModelAdmin):
     autocomplete_fields = ('edges',)
     exclude = ('geom_hash',)
-    list_display = ('__str__', 'has_plannings', 'has_updated_edges',)
+    list_display = ('__str__', 'suffix', 'has_plannings', 'has_updated_edges',)
     ordering = ('id',)
     search_fields = ('name', 'id')
 

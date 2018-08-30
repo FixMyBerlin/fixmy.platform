@@ -24,6 +24,7 @@ class Command(BaseCommand):
                 pk=row['MetaID']
             )
             obj.name = row['Straßen Name']
+            obj.suffix = row['AbschnittsNr']
             obj.street_category = street_categories.get(row['STRKlasse'])
             try:
                 obj.edges.add(Edge.objects.get(pk=row['ElemNr']))

@@ -44,6 +44,7 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
+        PlanningSectionDetails.objects.all().delete()
         reader = csv.DictReader(options['file'])
         for row in (row for row in reader if row['exist'] == '1'):
             kwargs = {

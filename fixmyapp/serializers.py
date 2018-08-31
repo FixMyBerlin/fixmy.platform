@@ -48,15 +48,20 @@ class PhotoSerializer(serializers.ModelSerializer):
         list_serializer_class = ListWithDefaultSerializer
 
 
+class NestedPlanningSectionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PlanningSection
+        fields = ('url', 'name', 'suffix')
+
+
 class PlanningSerializer(serializers.HyperlinkedModelSerializer):
     faq = QuestionSerializer(many=True)
     photos = PhotoSerializer(many=True, default=[Photo(**PLACEHOLDER_PHOTO)])
     geometry = GeometryField(precision=14)
     center = GeometryField(precision=14)
-    planning_sections = serializers.HyperlinkedRelatedField(
+    planning_sections = NestedPlanningSectionSerializer(
         many=True,
         read_only=True,
-        view_name='planningsection-detail'
     )
     planning_section_ids = serializers.PrimaryKeyRelatedField(
         many=True,

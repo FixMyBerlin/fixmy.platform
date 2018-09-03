@@ -51,7 +51,7 @@ class PhotoSerializer(serializers.ModelSerializer):
 class NestedPlanningSectionDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = PlanningSectionDetails
-        fields = ('length')
+        fields = ('length',)
 
 
 class NestedPlanningSectionSerializer(serializers.ModelSerializer):

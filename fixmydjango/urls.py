@@ -21,5 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
     path('api/', include('fixmyapp.urls')),
+    path('api-auth/', include('rest_framework.urls')),
     path('markdownx/', include('markdownx.urls')),
 ]

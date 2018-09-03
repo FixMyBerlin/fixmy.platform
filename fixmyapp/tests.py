@@ -207,14 +207,14 @@ class PlanningSectionDetailsTest(TestCase):
         self.assertAlmostEqual(self.details[2].road_type(), decimal.Decimal(1.7158333333), 4)
 
     def test_velocity_index(self):
-        self.assertAlmostEqual(self.details[0].velocity_index(), decimal.Decimal(3.47479194723575), 4)
-        self.assertAlmostEqual(self.details[1].velocity_index(), decimal.Decimal(3.5), 4)
-        self.assertAlmostEqual(self.details[2].velocity_index(), decimal.Decimal(2.5), 4)
+        self.assertAlmostEqual(self.details[0].velocity_index(), decimal.Decimal(0.991597315745249), 4)
+        self.assertAlmostEqual(self.details[1].velocity_index(), decimal.Decimal(1), 4)
+        self.assertAlmostEqual(self.details[2].velocity_index(), decimal.Decimal(0.6666666667), 4)
 
     def test_safety_index(self):
-        self.assertAlmostEqual(self.details[0].safety_index(), decimal.Decimal(2.861230795), 4)
-        self.assertAlmostEqual(self.details[1].safety_index(), decimal.Decimal(2.861230795), 4)
-        self.assertAlmostEqual(self.details[2].safety_index(), decimal.Decimal(3.92805555556667), 4)
+        self.assertAlmostEqual(self.details[0].safety_index(), decimal.Decimal(5.312769289), 4)
+        self.assertAlmostEqual(self.details[1].safety_index(), decimal.Decimal(5.312769289), 4)
+        self.assertAlmostEqual(self.details[2].safety_index(), decimal.Decimal(7.713125), 4)
 
     def test_velocity_index_average(self):
         self.assertAlmostEqual(

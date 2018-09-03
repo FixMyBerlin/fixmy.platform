@@ -159,7 +159,6 @@ class PlanningSectionDetails(BaseModel):
         verbose_name_plural = 'Planning section details'
 
     def velocity_index(self):
-        offset = decimal.Decimal(0.5)
         weighted_sum = sum([
             self.rva3 * 2,
             self.rva4 * 1,
@@ -173,21 +172,20 @@ class PlanningSectionDetails(BaseModel):
         ])
 
         if self.cycling_infrastructure_sum() > 0:
-            ci_factor = weighted_sum / self.cycling_infrastructure_sum()
+            ci_factor = weighted_sum / (self.cycling_infrastructure_sum() * 3)
         else:
-            ci_factor = weighted_sum
+            ci_factor = decimal.Decimal(weighted_sum / 3)
 
         if self.cycling_infrastructure_ratio() < self.CI_RATIO_MIN:
             return (
-                offset +
                 self.cycling_infrastructure_ratio() * ci_factor +
-                (1 - self.cycling_infrastructure_ratio()) * 3
+                (1 - self.cycling_infrastructure_ratio())
             )
         else:
-            return offset + ci_factor
+            return ci_factor
 
     def safety_index(self):
-        offset = decimal.Decimal(3.5)
+        offset = decimal.Decimal(3)
         weighted_sum = sum([
             self.rva3 * 3,
             self.rva4 * 3,
@@ -208,9 +206,9 @@ class PlanningSectionDetails(BaseModel):
             ci_factor = weighted_sum / self.cycling_infrastructure_sum()
 
         if ci_factor <= self.road_type():
-            return offset + ci_factor - self.road_type()
+            return (offset + ci_factor - self.road_type()) * decimal.Decimal(2.25)
         else:
-            return offset + (ci_factor - self.road_type()) / 3
+            return (offset + (ci_factor - self.road_type()) / 3) * decimal.Decimal(2.25)
 
     def length_without_crossings(self):
         """Returns length of section without crossings

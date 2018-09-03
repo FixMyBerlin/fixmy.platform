@@ -1,8 +1,9 @@
 from django.conf import settings
 from django.core import mail
 from rest_framework import generics, status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.pagination import PageNumberPagination
+from rest_framework import permissions
 from rest_framework.response import Response
 from .models import Planning, PlanningSection, Profile
 from .serializers import (
@@ -57,6 +58,7 @@ def profile(request, profile_id):
 
 
 @api_view(['POST'])
+@permission_classes((permissions.AllowAny,))
 def feedback(request):
     serializer = FeedbackSerializer(data=request.data)
 

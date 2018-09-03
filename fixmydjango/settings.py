@@ -210,6 +210,16 @@ MAPBOX_UPLOAD_URL = os.getenv('MAPBOX_UPLOAD_URL', 'https://api.mapbox.com/uploa
 MAPBOX_USERNAME = os.getenv('MAPBOX_USERNAME', '')
 
 
+# REST Framework
+# http://dajngo-rest-framework.org
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+    ]
+}
+
+
 # Activate Django-Heroku
 # https://devcenter.heroku.com/articles/django-app-configuration
 

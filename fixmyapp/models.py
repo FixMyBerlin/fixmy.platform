@@ -138,7 +138,7 @@ class PlanningSectionDetails(BaseModel):
     daily_traffic_bus = models.DecimalField(max_digits=8, decimal_places=2)
     length = models.DecimalField(max_digits=8, decimal_places=2)
     crossings = models.PositiveSmallIntegerField()
-    orientation =  models.CharField(max_length=1, choices=ORIENTATION_CHOICES)
+    orientation = models.CharField(max_length=1, choices=ORIENTATION_CHOICES)
     rva1 = models.DecimalField(max_digits=16, decimal_places=12)
     rva2 = models.DecimalField(max_digits=16, decimal_places=12)
     rva3 = models.DecimalField(max_digits=16, decimal_places=12)

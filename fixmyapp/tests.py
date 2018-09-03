@@ -4,7 +4,6 @@ from django.test import Client, TestCase
 from .models import Edge, PlanningSection, PlanningSectionDetails
 import decimal
 import json
-import re
 
 
 class PlanningSectionTests(TestCase):

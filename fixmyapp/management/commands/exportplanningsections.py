@@ -1,4 +1,3 @@
-from django.contrib.gis.db.models import Union
 from django.core.management.base import BaseCommand
 from django.urls import reverse
 from fixmyapp.models import Planning, PlanningSection

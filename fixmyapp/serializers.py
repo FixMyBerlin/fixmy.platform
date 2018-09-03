@@ -59,7 +59,7 @@ class NestedPlanningSectionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PlanningSection
-        fields = ('url', 'name', 'suffix', 'details')
+        fields = ('url', 'name', 'suffix', 'borough', 'details')
 
 
 class PlanningSerializer(serializers.HyperlinkedModelSerializer):
@@ -145,6 +145,7 @@ class PlanningSectionSerializer(serializers.HyperlinkedModelSerializer):
             'url',
             'name',
             'suffix',
+            'borough',
             'street_category',
             'geometry',
             'details',

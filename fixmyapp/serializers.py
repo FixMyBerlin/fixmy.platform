@@ -48,10 +48,18 @@ class PhotoSerializer(serializers.ModelSerializer):
         list_serializer_class = ListWithDefaultSerializer
 
 
+class NestedPlanningSectionDetailsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PlanningSectionDetails
+        fields = ('url', 'length')
+
+
 class NestedPlanningSectionSerializer(serializers.ModelSerializer):
+    details = NestedPlanningSectionDetailsSerializer(many=True)
+
     class Meta:
         model = PlanningSection
-        fields = ('url', 'name', 'suffix')
+        fields = ('url', 'name', 'suffix', 'details')
 
 
 class PlanningSerializer(serializers.HyperlinkedModelSerializer):

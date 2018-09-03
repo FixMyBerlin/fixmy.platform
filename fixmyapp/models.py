@@ -46,6 +46,9 @@ class PlanningSection(BaseModel):
     edges = models.ManyToManyField(Edge)
     geom_hash = models.CharField(max_length=40, null=True)
 
+    def borough(self):
+        return self.edges.first().bezirk
+
     def geometry(self):
         result = self.edges.aggregate(models.Union('geom'))
         return result['geom__union'].merged

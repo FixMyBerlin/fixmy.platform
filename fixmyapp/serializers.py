@@ -55,11 +55,17 @@ class NestedPlanningSectionDetailsSerializer(serializers.ModelSerializer):
             'advisory_bike_lane_ratio',
             'bike_lane_ratio',
             'bike_path_ratio',
+            'cycling_infrastructure_ratio',
+            'cycling_infrastructure_safety',
+            'happy_bike_index',
             'length',
             'orientation',
             'protected_bike_lane_ratio',
+            'road_type',
+            'safety_index',
             'shared_use_path_ratio',
             'side',
+            'velocity_index',
         )
 
 
@@ -121,14 +127,18 @@ class PlanningSectionDetailsSerializer(serializers.ModelSerializer):
             'bike_lane_ratio',
             'bike_path_ratio',
             'crossings',
+            'cycling_infrastructure_ratio',
+            'cycling_infrastructure_safety',
             'daily_traffic',
             'daily_traffic_heavy',
             'daily_traffic_cargo',
             'daily_traffic_bus',
+            'happy_bike_index',
             'length',
             'orientation',
             'photos',
             'protected_bike_lane_ratio',
+            'road_type',
             'rva1',
             'rva2',
             'rva3',
@@ -142,9 +152,11 @@ class PlanningSectionDetailsSerializer(serializers.ModelSerializer):
             'rva11',
             'rva12',
             'rva13',
+            'safety_index',
             'shared_use_path_ratio',
             'side',
             'speed_limit',
+            'velocity_index',
         )
 
 

@@ -195,9 +195,9 @@ class PlanningSectionDetails(BaseModel):
         ci_safety = self.cycling_infrastructure_safety()
 
         if ci_safety <= self.road_type():
-            return (offset + ci_safety - self.road_type()) * decimal.Decimal(2.25)
+            return (offset + ci_safety - self.road_type()) * decimal.Decimal('2.25')
         else:
-            return (offset + (ci_safety - self.road_type()) / 3) * decimal.Decimal(2.25)
+            return (offset + (ci_safety - self.road_type()) / 3) * decimal.Decimal('2.25')
 
     def length_without_crossings(self):
         """Returns length of section without crossings

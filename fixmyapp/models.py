@@ -189,24 +189,7 @@ class PlanningSectionDetails(BaseModel):
 
     def safety_index(self):
         offset = decimal.Decimal(3)
-        weighted_sum = sum([
-            self.rva3 * 3,
-            self.rva4 * 3,
-            self.rva5 * 3,
-            self.rva6 * 3,
-            self.rva7 * 2,
-            self.rva8 * 3,
-            self.rva9 * 3,
-            self.rva10 * 3,
-            self.rva11 * 1,
-            self.rva12 * 1,
-            self.rva13 * 1
-        ])
-
-        if self.cycling_infrastructure_ratio() < self.CI_RATIO_MIN:
-            ci_factor = 0
-        else:
-            ci_factor = weighted_sum / self.cycling_infrastructure_sum()
+        ci_factor = self.cycling_infrastructure_safety()
 
         if ci_factor <= self.road_type():
             return (offset + ci_factor - self.road_type()) * decimal.Decimal(2.25)
@@ -326,6 +309,26 @@ class PlanningSectionDetails(BaseModel):
             return 2 + (self.daily_traffic - l[1]) / (l[2] - l[1])
         else:
             return 3
+
+    def cycling_infrastructure_safety(self):
+        weighted_sum = sum([
+            self.rva3 * 3,
+            self.rva4 * 3,
+            self.rva5 * 3,
+            self.rva6 * 3,
+            self.rva7 * 2,
+            self.rva8 * 3,
+            self.rva9 * 3,
+            self.rva10 * 3,
+            self.rva11 * 1,
+            self.rva12 * 1,
+            self.rva13 * 1
+        ])
+        if self.cycling_infrastructure_ratio() < self.CI_RATIO_MIN:
+            ci_factor = 0
+        else:
+            ci_factor = weighted_sum / self.cycling_infrastructure_sum()
+        return ci_factor
 
     def _ci_category_ratio(self, category_sum):
         if self.cycling_infrastructure_ratio() < 0.1:

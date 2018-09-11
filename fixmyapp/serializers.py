@@ -51,7 +51,16 @@ class PhotoSerializer(serializers.ModelSerializer):
 class NestedPlanningSectionDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = PlanningSectionDetails
-        fields = ('length', 'orientation', 'side')
+        fields = (
+            'advisory_bike_lane_ratio',
+            'bike_lane_ratio',
+            'bike_path_ratio',
+            'length',
+            'orientation',
+            'protected_bike_lane_ratio',
+            'shared_use_path_ratio',
+            'side',
+        )
 
 
 class NestedPlanningSectionSerializer(serializers.ModelSerializer):
@@ -108,15 +117,18 @@ class PlanningSectionDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = PlanningSectionDetails
         fields = (
-            'side',
-            'orientation',
-            'length',
+            'advisory_bike_lane_ratio',
+            'bike_lane_ratio',
+            'bike_path_ratio',
             'crossings',
-            'speed_limit',
             'daily_traffic',
             'daily_traffic_heavy',
             'daily_traffic_cargo',
             'daily_traffic_bus',
+            'length',
+            'orientation',
+            'photos',
+            'protected_bike_lane_ratio',
             'rva1',
             'rva2',
             'rva3',
@@ -130,7 +142,9 @@ class PlanningSectionDetailsSerializer(serializers.ModelSerializer):
             'rva11',
             'rva12',
             'rva13',
-            'photos'
+            'shared_use_path_ratio',
+            'side',
+            'speed_limit',
         )
 
 

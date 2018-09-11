@@ -49,6 +49,19 @@ class PhotoSerializer(serializers.ModelSerializer):
 
 
 class NestedPlanningSectionDetailsSerializer(serializers.ModelSerializer):
+    advisory_bike_lane_ratio = serializers.DecimalField(None, 3)
+    bike_lane_ratio = serializers.DecimalField(None, 3)
+    bike_path_ratio = serializers.DecimalField(None, 3)
+    cycling_infrastructure_ratio = serializers.DecimalField(None, 3)
+    cycling_infrastructure_safety = serializers.DecimalField(None, 1)
+    happy_bike_index = serializers.DecimalField(None, 1)
+    length = serializers.DecimalField(None, 2)
+    protected_bike_lane_ratio = serializers.DecimalField(None, 3)
+    road_type = serializers.DecimalField(None, 1)
+    safety_index = serializers.DecimalField(None, 1)
+    shared_use_path_ratio = serializers.DecimalField(None, 3)
+    velocity_index = serializers.DecimalField(None, 1)
+
     class Meta:
         model = PlanningSectionDetails
         fields = (
@@ -118,7 +131,19 @@ class PlanningSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class PlanningSectionDetailsSerializer(serializers.ModelSerializer):
+    advisory_bike_lane_ratio = serializers.DecimalField(None, 3)
+    bike_lane_ratio = serializers.DecimalField(None, 3)
+    bike_path_ratio = serializers.DecimalField(None, 3)
+    cycling_infrastructure_ratio = serializers.DecimalField(None, 3)
+    cycling_infrastructure_safety = serializers.DecimalField(None, 1)
+    happy_bike_index = serializers.DecimalField(None, 1)
+    length = serializers.DecimalField(None, 2)
     photos = PhotoSerializer(many=True)
+    protected_bike_lane_ratio = serializers.DecimalField(None, 3)
+    road_type = serializers.DecimalField(None, 1)
+    safety_index = serializers.DecimalField(None, 1)
+    shared_use_path_ratio = serializers.DecimalField(None, 3)
+    velocity_index = serializers.DecimalField(None, 1)
 
     class Meta:
         model = PlanningSectionDetails

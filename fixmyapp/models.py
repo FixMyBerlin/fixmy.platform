@@ -161,6 +161,9 @@ class PlanningSectionDetails(BaseModel):
         verbose_name = 'Planning section details'
         verbose_name_plural = 'Planning section details'
 
+    def happy_bike_index(self):
+        return self.velocity_index() + self.safety_index()
+
     def velocity_index(self):
         weighted_sum = sum([
             self.rva3 * 2,
@@ -251,7 +254,7 @@ class PlanningSectionDetails(BaseModel):
     def protected_bike_lane_sum(self):
         """Returns the length of all protected bike lanes
 
-        A cycle track, also called separated bike lane of protected bike lane,
+        A cycle track, also called separated bike lane or protected bike lane,
         is a physically marked and separated lane dedicated for cycling that is
         on or directly adjacent to the roadway but typically excludes all
         motorized traffic with some sort of vertical barrier.

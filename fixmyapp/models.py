@@ -221,11 +221,10 @@ class PlanningSectionDetails(BaseModel):
         return self.length - self.AVG_WIDTH_CROSSINGS * self.crossings
 
     def cycling_infrastructure_sum(self):
-        """Returns sum of eligible rva fields
+        """Returns the length of all cycling infrastructure
 
-        Some rva fields do not match our definition of cycling infrastructure
-        because we discard bus lanes and footpaths which are allowed for
-        cyclists.
+        Some fields are ignored because we do not count them as cycling
+        infrastructure.
         """
         return sum([
             self.rva3,
@@ -241,8 +240,67 @@ class PlanningSectionDetails(BaseModel):
             self.rva13
         ])
 
+    def bike_path_sum(self):
+        """Returns the length of all bike paths
+
+        Bike paths are paths with their own right of way dedicated to cycling,
+        though in many cases shared with pedestrians and other non-motorized
+        traffic.
+        """
+        return sum([self.rva3, self.rva4, self.rva10])
+
+    def shared_use_path_sum(self):
+        """Returns the length of all shared use paths
+
+        A shared use path supports multiple modes, such as walking, bicycling,
+        inline skating and people in wheelchairs.
+        """
+        return sum([self.rva5, self.rva6])
+
+    def bike_lane_sum(self):
+        """Returns the length of all bike lanes
+
+        Bike lanes or cycle lanes, are on-road lanes marked with paint
+        dedicated to cycling and typically excluding all motorized traffic.
+        """
+        return self.rva7
+
+    def protected_bike_lane_sum(self):
+        """Returns the length of all protected bike lanes
+
+        A cycle track, also called separated bike lane of protected bike lane,
+        is a physically marked and separated lane dedicated for cycling that is
+        on or directly adjacent to the roadway but typically excludes all
+        motorized traffic with some sort of vertical barrier.
+        """
+        return sum([self.rva8, self.rva9])
+
+    def advisory_bike_lane_sum(self):
+        """Returns the length of all advisory bike lanes
+
+        An advisory bike lane is a roadway striping configuration which
+        provides for two-way motor vehicle and bicycle traffic using a central
+        vehicular travel lane and “advisory” bike lanes on either side.
+        """
+        return sum([self.rva11, self.rva12, self.rva13])
+
     def cycling_infrastructure_ratio(self):
-        return self.cycling_infrastructure_sum() / self.length_without_crossings()
+        return round(self.cycling_infrastructure_sum() / self.length_without_crossings(), 3)
+
+    def bike_path_ratio(self):
+        return self._ci_category_ratio(self.bike_path_sum())
+
+    def shared_use_path_ratio(self):
+        return self._ci_category_ratio(self.shared_use_path_sum())
+
+    def bike_lane_ratio(self):
+        return self._ci_category_ratio(self.bike_lane_sum())
+
+    def protected_bike_lane_ratio(self):
+        return self._ci_category_ratio(self.protected_bike_lane_sum())
+
+    def advisory_bike_lane_ratio(self):
+        return self._ci_category_ratio(self.advisory_bike_lane_sum())
 
     def road_type(self):
         """Returns a number categorizing traffic intensity"""
@@ -268,6 +326,15 @@ class PlanningSectionDetails(BaseModel):
             return 2 + (self.daily_traffic - l[1]) / (l[2] - l[1])
         else:
             return 3
+
+    def _ci_category_ratio(self, category_sum):
+        if self.cycling_infrastructure_ratio() < 0.1:
+            ratio = 0.0
+        elif self.cycling_infrastructure_ratio() < self.CI_RATIO_MIN:
+            ratio = category_sum / self.length_without_crossings()
+        else:
+            ratio = category_sum / self.cycling_infrastructure_sum()
+        return round(ratio, 3)
 
     def __str__(self):
         return '{} {}'.format(self.planning_section, self.SIDE_CHOICES[self.side][1])

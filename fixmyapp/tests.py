@@ -192,52 +192,52 @@ class PlanningSectionDetailsTest(TestCase):
         ]
 
     def test_cycling_infrastructure_sum(self):
-        self.assertAlmostEqual(self.details[0].cycling_infrastructure_sum(), decimal.Decimal(21.9), 4)
-        self.assertAlmostEqual(self.details[1].cycling_infrastructure_sum(), 0, 4)
-        self.assertAlmostEqual(self.details[2].cycling_infrastructure_sum(), decimal.Decimal(485.946924867869), 4)
+        self.assertAlmostEqual(self.details[0].cycling_infrastructure_sum(), decimal.Decimal('21.90'), 2)
+        self.assertAlmostEqual(self.details[1].cycling_infrastructure_sum(), decimal.Decimal('0.00'), 2)
+        self.assertAlmostEqual(self.details[2].cycling_infrastructure_sum(), decimal.Decimal('485.95'), 2)
 
     def test_cycling_infrastructure_ratio(self):
-        self.assertAlmostEqual(self.details[0].cycling_infrastructure_ratio(), decimal.Decimal(0.0252080527642529), 4)
-        self.assertAlmostEqual(self.details[1].cycling_infrastructure_ratio(), decimal.Decimal(0), 4)
-        self.assertAlmostEqual(self.details[2].cycling_infrastructure_ratio(), decimal.Decimal(0.982187171290866), 4)
+        self.assertAlmostEqual(self.details[0].cycling_infrastructure_ratio(), decimal.Decimal('0.025'), 3)
+        self.assertAlmostEqual(self.details[1].cycling_infrastructure_ratio(), decimal.Decimal('0.000'), 3)
+        self.assertAlmostEqual(self.details[2].cycling_infrastructure_ratio(), decimal.Decimal('0.982'), 3)
 
     def test_road_type(self):
-        self.assertAlmostEqual(self.details[0].road_type(), decimal.Decimal(0.638769205), 4)
-        self.assertAlmostEqual(self.details[1].road_type(), decimal.Decimal(0.638769205), 4)
-        self.assertAlmostEqual(self.details[2].road_type(), decimal.Decimal(1.7158333333), 4)
+        self.assertAlmostEqual(self.details[0].road_type(), decimal.Decimal('0.6'), 1)
+        self.assertAlmostEqual(self.details[1].road_type(), decimal.Decimal('0.6'), 1)
+        self.assertAlmostEqual(self.details[2].road_type(), decimal.Decimal('1.7'), 1)
 
     def test_velocity_index(self):
-        self.assertAlmostEqual(self.details[0].velocity_index(), decimal.Decimal(0.991597315745249), 4)
-        self.assertAlmostEqual(self.details[1].velocity_index(), decimal.Decimal(1), 4)
-        self.assertAlmostEqual(self.details[2].velocity_index(), decimal.Decimal(0.6666666667), 4)
+        self.assertAlmostEqual(self.details[0].velocity_index(), decimal.Decimal('1.0'), 1)
+        self.assertAlmostEqual(self.details[1].velocity_index(), decimal.Decimal('1.0'), 1)
+        self.assertAlmostEqual(self.details[2].velocity_index(), decimal.Decimal('0.7'), 1)
 
     def test_safety_index(self):
-        self.assertAlmostEqual(self.details[0].safety_index(), decimal.Decimal(5.312769289), 4)
-        self.assertAlmostEqual(self.details[1].safety_index(), decimal.Decimal(5.312769289), 4)
-        self.assertAlmostEqual(self.details[2].safety_index(), decimal.Decimal(7.713125), 4)
+        self.assertAlmostEqual(self.details[0].safety_index(), decimal.Decimal('5.3'), 1)
+        self.assertAlmostEqual(self.details[1].safety_index(), decimal.Decimal('5.3'), 1)
+        self.assertAlmostEqual(self.details[2].safety_index(), decimal.Decimal('7.7'), 1)
 
     def test_velocity_index_average(self):
         self.assertAlmostEqual(
             self.planning_sections[0].velocity_index(),
             (self.details[0].velocity_index() + self.details[1].velocity_index()) / 2,
-            4
+            1
         )
         self.assertAlmostEqual(
             self.planning_sections[1].velocity_index(),
             self.details[2].velocity_index(),
-            4
+            1
         )
 
     def test_safety_index_average(self):
         self.assertAlmostEqual(
             self.planning_sections[0].safety_index(),
             (self.details[0].safety_index() + self.details[1].safety_index()) / 2,
-            4
+            1
         )
         self.assertAlmostEqual(
             self.planning_sections[1].safety_index(),
             self.details[2].safety_index(),
-            4
+            1
         )
 
 

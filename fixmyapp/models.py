@@ -271,7 +271,7 @@ class PlanningSectionDetails(BaseModel):
         return sum([self.rva11, self.rva12, self.rva13])
 
     def cycling_infrastructure_ratio(self):
-        return round(self.cycling_infrastructure_sum() / self.length_without_crossings(), 3)
+        return self.cycling_infrastructure_sum() / self.length_without_crossings()
 
     def bike_path_ratio(self):
         return self._ci_category_ratio(self.bike_path_sum())
@@ -340,7 +340,7 @@ class PlanningSectionDetails(BaseModel):
             ratio = category_sum / self.length_without_crossings()
         else:
             ratio = category_sum / self.cycling_infrastructure_sum()
-        return round(ratio, 3)
+        return ratio
 
     def __str__(self):
         return '{} {}'.format(self.planning_section, self.SIDE_CHOICES[self.side][1])

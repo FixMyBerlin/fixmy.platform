@@ -215,6 +215,7 @@ MAPBOX_USERNAME = os.getenv('MAPBOX_USERNAME', '')
 # http://dajngo-rest-framework.org
 
 REST_FRAMEWORK = {
+    'COERCE_DECIMAL_TO_STRING': False,
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     ],

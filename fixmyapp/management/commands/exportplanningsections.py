@@ -15,12 +15,18 @@ class Command(BaseCommand):
             'file',
             type=argparse.FileType('w'),
             default=sys.stdout,
-            help='A file'
+            help='write to file'
         )
         parser.add_argument(
             '--has-planning',
             action='store_true',
             help='only include planning sections with plannings'
+        )
+        parser.add_argument(
+            '--street-category',
+            choices=['main', 'side'],
+            default='main',
+            help='only include planning sections in the selected category'
         )
         parser.add_argument(
             '--indent',
@@ -35,10 +41,17 @@ class Command(BaseCommand):
             'features': []
         }
 
+        filters = {}
+
         if options['has_planning']:
-            qs = PlanningSection.objects.filter(plannings__isnull=False)
-        else:
-            qs = PlanningSection.objects.all()
+            filters['plannings__isnull'] = False
+
+        if options['street_category'] == 'main':
+            filters['street_category__lte'] = 4
+        elif options['street_category'] == 'side':
+            filters['street_category__gt'] = 4
+
+        qs = PlanningSection.objects.filter(**filters)
 
         for p in qs:
             geometry = p.geometry()

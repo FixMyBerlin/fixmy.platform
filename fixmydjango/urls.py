@@ -19,8 +19,8 @@ from django.urls import include, path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('accounts/', include('accounts.urls')),
     path('api/', include('fixmyapp.urls')),
-    path('api-auth/', include('rest_framework.urls')),
+    path('api/', include('djoser.urls')),
+    path('api/', include('djoser.urls.jwt')),
     path('markdownx/', include('markdownx.urls')),
 ]

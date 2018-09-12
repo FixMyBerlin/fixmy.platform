@@ -12,8 +12,14 @@ from .models import (
 
 
 PLACEHOLDER_PHOTO = {
-    'copyright': ' Photo by Anthony Ginsbrook',
+    'copyright': 'Photo by Anthony Ginsbrook',
     'src': 'photos/Platzhalter_anthony-ginsbrook-225252-unsplash.jpg'
+}
+
+
+ANOTHER_PLACEHOLDER_PHOTO = {
+    'copyright': 'Photo by Emil Bruckner',
+    'src': 'photos/emil-bruckner-532523-unsplash.jpg'
 }
 
 
@@ -138,7 +144,7 @@ class PlanningSectionDetailsSerializer(serializers.ModelSerializer):
     cycling_infrastructure_safety = serializers.DecimalField(None, 1)
     happy_bike_index = serializers.DecimalField(None, 1)
     length = serializers.DecimalField(None, 2)
-    photos = PhotoSerializer(many=True)
+    photos = PhotoSerializer(many=True, default=[Photo(**ANOTHER_PLACEHOLDER_PHOTO)])
     protected_bike_lane_ratio = serializers.DecimalField(None, 3)
     road_type = serializers.DecimalField(None, 1)
     safety_index = serializers.DecimalField(None, 1)

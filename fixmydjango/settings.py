@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
+import datetime
 import django_heroku
 import os
 
@@ -215,13 +216,19 @@ MAPBOX_USERNAME = os.getenv('MAPBOX_USERNAME', '')
 # http://dajngo-rest-framework.org
 
 REST_FRAMEWORK = {
-    'COERCE_DECIMAL_TO_STRING': False,
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-    ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
     ]
+}
+
+
+# REST framnework JWT
+# http://getblimp.github.io/django-rest-framework-jwt/#rest-framework-jwt-auth
+
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=180),
+    'JWT_ALLOW_REFRESH': True,
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(years=2)
 }
 
 

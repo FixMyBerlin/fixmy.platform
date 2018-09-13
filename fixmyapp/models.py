@@ -355,7 +355,7 @@ class Planning(BaseModel):
     CATEGORY_CROSSING_AID = 'crossing aid'
     CATEGORY_MODIFICATION_OF_CROSS_SECTION = 'modification of cross section'
     CATEGORY_NEW_STREET = 'new street'
-    CATEGORY_BEGEGNUNGSZONE = 'Begegnungszone'
+    CATEGORY_SHARED_SPACE = 'shared space'
     CATEGORY_MISCELLANEOUS = 'miscellaneous'
 
     CATEGORY_CHOICES = (
@@ -367,7 +367,7 @@ class Planning(BaseModel):
        (CATEGORY_CROSSING_AID, 'crossing aid'),
        (CATEGORY_MODIFICATION_OF_CROSS_SECTION, 'modification of cross section'),
        (CATEGORY_NEW_STREET, 'new street'),
-       (CATEGORY_BEGEGNUNGSZONE, 'Begegnungszone'),
+       (CATEGORY_SHARED_SPACE, 'shared space'),
        (CATEGORY_MISCELLANEOUS, 'miscellaneous'),
     )
 

@@ -216,6 +216,9 @@ MAPBOX_USERNAME = os.getenv('MAPBOX_USERNAME', '')
 # http://dajngo-rest-framework.org
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
     ]

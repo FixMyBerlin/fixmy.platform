@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import (
+    LikeView,
     PlanningDetail,
     PlanningList,
     PlanningSectionDetail,
@@ -24,6 +25,11 @@ urlpatterns = [
         'plannings/<int:pk>',
         PlanningDetail.as_view(),
         name='planning-detail'
+    ),
+    path(
+        'plannings/<int:pk>/likes',
+        LikeView.as_view(),
+        name='likes'
     ),
     path(
         'planning-sections',

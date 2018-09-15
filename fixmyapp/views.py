@@ -1,11 +1,12 @@
 from django.conf import settings
 from django.core import mail
-from rest_framework import generics, status
+from django.shortcuts import get_object_or_404
+from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.pagination import PageNumberPagination
-from rest_framework import permissions
 from rest_framework.response import Response
-from .models import Planning, PlanningSection, Profile
+from rest_framework.views import APIView
+from .models import Like, Planning, PlanningSection, Profile
 from .serializers import (
     FeedbackSerializer,
     PlanningSerializer,
@@ -42,6 +43,32 @@ class PlanningSectionList(generics.ListAPIView):
 class PlanningSectionDetail(generics.RetrieveAPIView):
     queryset = PlanningSection.objects.all()
     serializer_class = PlanningSectionSerializer
+
+
+class LikeView(APIView):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+    def get(self, request, pk, format=None):
+        """Returns the number of likes for the planning
+        """
+        planning = get_object_or_404(Planning, pk=pk)
+        return Response(planning.likes.count())
+
+    def post(self, request, pk, format=None):
+        """Adds or removes a like by the current authenticated user
+        """
+        planning = get_object_or_404(Planning, pk=pk)
+        if planning.likes.filter(user=request.user).count() == 0:
+            Like.objects.create(
+                content_object=planning,
+                user=request.user
+            )
+            response_status = status.HTTP_201_CREATED
+        else:
+            planning.likes.filter(user=request.user).delete()
+            response_status = status.HTTP_200_OK
+
+        return Response(planning.likes.count(), status=response_status)
 
 
 @api_view(['PUT'])

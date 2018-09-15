@@ -232,7 +232,7 @@ REST_FRAMEWORK = {
 }
 
 
-# REST framnework JWT
+# REST framework JWT
 # http://getblimp.github.io/django-rest-framework-jwt/#rest-framework-jwt-auth
 
 JWT_AUTH = {

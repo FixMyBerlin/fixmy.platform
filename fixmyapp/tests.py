@@ -1,7 +1,9 @@
+from django.contrib.auth import get_user_model
 from django.contrib.gis.geos import LineString, MultiLineString
 from django.core import mail
 from django.test import Client, TestCase
-from .models import Edge, PlanningSection, PlanningSectionDetails
+from django.urls import reverse
+from .models import Edge, Planning, PlanningSection, PlanningSectionDetails
 import decimal
 import json
 
@@ -272,3 +274,40 @@ class FeedbackTest(TestCase):
             data['message'],
             mail.outbox[0].message()._payload,
         )
+
+
+class LikeTest(TestCase):
+
+    def setUp(self):
+        get_user_model().objects.create_user('foo', 'foo@example.org', 'bar')
+        self.client = Client()
+        self.credentials = {'username': 'foo', 'password': 'bar'}
+        self.planning = Planning.objects.create(
+            title='Lorem ipsum',
+            side=Planning.BOTH,
+        )
+        self.url = reverse('likes', kwargs={'pk': self.planning.id})
+
+    def test_get_like(self):
+        response = self.client.post(
+            self.url, **self._get_authorization_header())
+        response.status_code == 200
+        response.json() == 0
+
+    def test_post_like(self):
+        response = self.client.post(
+            self.url, **self._get_authorization_header())
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.json(), 1)
+
+        response = self.client.post(
+            self.url, **self._get_authorization_header())
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), 0)
+
+    def _get_authorization_header(self):
+        response = self.client.post(
+            '/api/jwt/create/',
+            json.dumps(self.credentials),
+            content_type='application/json')
+        return {'HTTP_AUTHORIZATION': 'JWT ' + response.json()['token']}

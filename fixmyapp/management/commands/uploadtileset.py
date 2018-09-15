@@ -3,6 +3,7 @@ from django.conf import settings
 import argparse
 import boto3
 import requests
+import sys
 import time
 
 
@@ -23,12 +24,25 @@ class Command(BaseCommand):
             default='main',
             help='indicate the street category of the features in file'
         )
+        parser.add_argument(
+            '--dry-run',
+            action='store_true',
+            help='only show the intended action without uploading anything'
+        )
 
     def handle(self, **options):
+        if options['dry_run']:
+            self.stdout.write('Uploading tileset {}/{} to Mapbox'.format(
+                settings.MAPBOX_UPLOAD_TILESET[options['street_category']],
+                settings.MAPBOX_UPLOAD_NAME[options['street_category']]
+            ))
+            sys.exit(0)
+
         credentials = self._retrieve_s3_credentials()
         client = self._create_s3_client(credentials)
         client.upload_fileobj(
             options['file'], credentials['bucket'], credentials['key'])
+
         upload = self._create_upload(
             credentials['url'], options['street_category'])
 

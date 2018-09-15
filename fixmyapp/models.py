@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.fields import (
     GenericForeignKey, GenericRelation)
 from django.contrib.contenttypes.models import ContentType
@@ -109,6 +110,13 @@ class Photo(BaseModel):
 
     def __str__(self):
         return self.src.name.split('/')[-1]
+
+
+class Like(BaseModel):
+    content_object = GenericForeignKey('content_type', 'object_id')
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
 
 
 class PlanningSectionDetails(BaseModel):
@@ -450,6 +458,7 @@ class Planning(BaseModel):
     cross_section_photo = models.ImageField(upload_to='photos', blank=True, null=True)
     faq = models.ManyToManyField(Question, blank=True)
     photos = GenericRelation(Photo)
+    likes = GenericRelation(Like)
 
     def geometry(self):
         result = self.planning_sections.aggregate(models.Union('edges__geom'))

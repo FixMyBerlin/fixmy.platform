@@ -203,9 +203,15 @@ MAPBOX_ACCESS_TOKEN = os.getenv('MAPBOX_ACCESS_TOKEN', '')
 
 MAPBOX_UPLOAD_REGION = os.getenv('MAPBOX_UPLOAD_REGION', 'us-east-1')
 
-MAPBOX_UPLOAD_NAME = os.getenv('MAPBOX_UPLOAD_NAME', '')
+MAPBOX_UPLOAD_NAME = {
+    'main': os.getenv('MAPBOX_UPLOAD_NAME_MAIN', ''),
+    'side': os.getenv('MAPBOX_UPLOAD_NAME_SIDE', '')
+}
 
-MAPBOX_UPLOAD_TILESET = os.getenv('MAPBOX_UPLOAD_TILESET', '')
+MAPBOX_UPLOAD_TILESET = {
+    'main': os.getenv('MAPBOX_UPLOAD_TILESET_MAIN', ''),
+    'side': os.getenv('MAPBOX_UPLOAD_TILESET_SIDE', ''),
+}
 
 MAPBOX_UPLOAD_URL = os.getenv('MAPBOX_UPLOAD_URL', 'https://api.mapbox.com/uploads/v1')
 

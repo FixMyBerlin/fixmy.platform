@@ -17,17 +17,24 @@ class Command(BaseCommand):
             dest='progress',
             help='display upload progress any verbosity level.'
         )
+        parser.add_argument(
+            '--street-category',
+            choices=['main', 'side'],
+            default='main',
+            help='indicate the street category of the features in file'
+        )
 
     def handle(self, **options):
         credentials = self._retrieve_s3_credentials()
         client = self._create_s3_client(credentials)
         client.upload_fileobj(
             options['file'], credentials['bucket'], credentials['key'])
-        upload = self._create_upload(credentials['url'])
+        upload = self._create_upload(
+            credentials['url'], options['street_category'])
 
         if options['progress'] or options['verbosity'] > 1:
             self.stdout.write('Uploading tileset {} to Mapbox'.format(
-                settings.MAPBOX_UPLOAD_TILESET))
+                settings.MAPBOX_UPLOAD_TILESET[options['street_category']]))
 
             progress = upload['progress']
 
@@ -54,16 +61,16 @@ class Command(BaseCommand):
             region_name=settings.MAPBOX_UPLOAD_REGION)
         return session.client('s3')
 
-    def _create_upload(self, bucket_url):
+    def _create_upload(self, bucket_url, street_category):
         url = '{}/{}?access_token={}'.format(
             settings.MAPBOX_UPLOAD_URL,
             settings.MAPBOX_USERNAME,
             settings.MAPBOX_ACCESS_TOKEN
         )
         payload = {
-            'tileset': settings.MAPBOX_UPLOAD_TILESET,
-            'url': bucket_url,
-            'name': settings.MAPBOX_UPLOAD_NAME
+            'name': settings.MAPBOX_UPLOAD_NAME[street_category],
+            'tileset': settings.MAPBOX_UPLOAD_TILESET[street_category],
+            'url': bucket_url
         }
         response = requests.post(url, json=payload)
         return response.json()

@@ -23,7 +23,7 @@ class DefaultPagination(PageNumberPagination):
 
 class PlanningList(generics.ListAPIView):
     pagination_class = DefaultPagination
-    queryset = Planning.objects.all().prefetch_related(
+    queryset = Planning.objects.filter(published=1).prefetch_related(
         'planning_sections', 'planning_sections__details')
     serializer_class = PlanningSerializer
 

@@ -70,7 +70,7 @@ class PlanningSection(BaseModel):
         return self.geom_hash != self.compute_geom_hash()
 
     def has_plannings(self):
-        return self.plannings.count() > 0
+        return self.plannings.filter(published=1).count() > 0
 
     def compute_geom_hash(self):
         sha1 = hashlib.sha1()

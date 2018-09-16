@@ -74,7 +74,7 @@ class Command(BaseCommand):
 
             if p.has_plannings():
                 feature['properties'].update(
-                    self.properties_from_plannings(list(p.plannings.all())))
+                    self.properties_from_plannings(list(p.plannings.filter(published=1))))
 
             result['features'].append(feature)
 

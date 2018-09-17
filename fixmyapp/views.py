@@ -52,7 +52,13 @@ class LikeView(APIView):
         """Returns the number of likes for the planning
         """
         planning = get_object_or_404(Planning, pk=pk)
-        return Response(planning.likes.count())
+        likes_by_user = planning.likes.filter('user', request.user).count()
+        likes = planning.likes.count()
+        result = {
+            'user_has_liked': bool(likes_by_user),
+            'likes': likes
+        }
+        return Response(result)
 
     def post(self, request, pk, format=None):
         """Adds or removes a like by the current authenticated user
@@ -63,12 +69,18 @@ class LikeView(APIView):
                 content_object=planning,
                 user=request.user
             )
+            user_has_liked = True
             response_status = status.HTTP_201_CREATED
         else:
             planning.likes.filter(user=request.user).delete()
+            user_has_liked = False
             response_status = status.HTTP_200_OK
 
-        return Response(planning.likes.count(), status=response_status)
+        result = {
+            'user_has_liked': user_has_liked,
+            'likes': planning.likes.count()
+        }
+        return Response(result, status=response_status)
 
 
 @api_view(['PUT'])

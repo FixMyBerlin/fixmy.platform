@@ -292,18 +292,18 @@ class LikeTest(TestCase):
         response = self.client.post(
             self.url, **self._get_authorization_header())
         response.status_code == 200
-        response.json() == 0
+        response.json() == {'user_has_liked': False, 'likes': 0}
 
     def test_post_like(self):
         response = self.client.post(
             self.url, **self._get_authorization_header())
         self.assertEqual(response.status_code, 201)
-        self.assertEqual(response.json(), 1)
+        self.assertEqual(response.json(), {'user_has_liked': True, 'likes': 1})
 
         response = self.client.post(
             self.url, **self._get_authorization_header())
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json(), 0)
+        self.assertEqual(response.json(), {'user_has_liked': False, 'likes': 0})
 
     def _get_authorization_header(self):
         response = self.client.post(

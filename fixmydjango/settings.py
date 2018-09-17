@@ -242,6 +242,14 @@ JWT_AUTH = {
 }
 
 
+# Djoser
+# https://djoser.readthedocs.io/en/stable/index.html
+
+DJOSER = {
+    'PASSWORD_RESET_CONFIRM_URL': os.getenv('PASSWORD_RESET_CONFIRM_URL', '')
+}
+
+
 # Activate Django-Heroku
 # https://devcenter.heroku.com/articles/django-app-configuration
 

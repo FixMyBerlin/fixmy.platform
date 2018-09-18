@@ -289,7 +289,7 @@ class LikeTest(TestCase):
         self.url = reverse('likes', kwargs={'pk': self.planning.id})
 
     def test_get_like(self):
-        response = self.client.post(
+        response = self.client.get(
             self.url, **self._get_authorization_header())
         response.status_code == 200
         response.json() == {'user_has_liked': False, 'likes': 0}

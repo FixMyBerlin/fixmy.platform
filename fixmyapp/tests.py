@@ -294,6 +294,11 @@ class LikeTest(TestCase):
         response.status_code == 200
         response.json() == {'user_has_liked': False, 'likes': 0}
 
+    def test_get_like_as_anonymous(self):
+        response = self.client.get(self.url)
+        response.status_code == 200
+        response.json() == {'user_has_liked': False, 'likes': 0}
+
     def test_post_like(self):
         response = self.client.post(
             self.url, **self._get_authorization_header())

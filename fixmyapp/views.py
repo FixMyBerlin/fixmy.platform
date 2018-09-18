@@ -52,7 +52,7 @@ class LikeView(APIView):
         """Returns the number of likes for the planning
         """
         planning = get_object_or_404(Planning, pk=pk)
-        likes_by_user = planning.likes.filter('user', request.user).count()
+        likes_by_user = planning.likes.filter(user=request.user).count()
         likes = planning.likes.count()
         result = {
             'user_has_liked': bool(likes_by_user),

@@ -13,8 +13,15 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
 from django.contrib.gis import admin
+from django.shortcuts import redirect
 from django.urls import include, path
+
+
+def reset(request, uid, token):
+    url = settings.DJOSER.get('PASSWORD_RESET_CONFIRM_URL')
+    return redirect(url.format(uid=uid, token=token))
 
 
 urlpatterns = [
@@ -23,4 +30,5 @@ urlpatterns = [
     path('api/', include('djoser.urls')),
     path('api/', include('djoser.urls.jwt')),
     path('markdownx/', include('markdownx.urls')),
+    path('reset/<str:uid>/<str:token>', reset, name='reset'),
 ]

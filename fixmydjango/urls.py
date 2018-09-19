@@ -20,7 +20,7 @@ from django.urls import include, path
 
 
 def reset(request, uid, token):
-    url = settings.DJOSER.get('PASSWORD_RESET_CONFIRM_URL')
+    url = settings.DJOSER.get('PASSWORD_RESET_CONFIRM_FRONTEND_URL')
     return redirect(url.format(uid=uid, token=token))
 
 

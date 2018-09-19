@@ -246,7 +246,8 @@ JWT_AUTH = {
 # https://djoser.readthedocs.io/en/stable/index.html
 
 DJOSER = {
-    'PASSWORD_RESET_CONFIRM_URL': os.getenv('PASSWORD_RESET_CONFIRM_URL', '')
+    'PASSWORD_RESET_CONFIRM_URL': os.getenv('PASSWORD_RESET_CONFIRM_URL', ''),
+    'PASSWORD_RESET_CONFIRM_FRONTEND_URL': os.getenv('PASSWORD_RESET_CONFIRM_FRONTEND_URL', '')
 }
 
 

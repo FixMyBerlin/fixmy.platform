@@ -344,10 +344,8 @@ class PlanningSectionDetails(BaseModel):
     def _ci_category_ratio(self, category_sum):
         if self.cycling_infrastructure_ratio() < 0.1:
             ratio = 0.0
-        elif self.cycling_infrastructure_ratio() < self.CI_RATIO_MIN:
-            ratio = category_sum / self.length_without_crossings()
         else:
-            ratio = category_sum / self.cycling_infrastructure_sum()
+            ratio = category_sum / self.length_without_crossings()
         return ratio
 
     def __str__(self):

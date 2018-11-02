@@ -23,6 +23,7 @@ class PlanningAdmin(admin.ModelAdmin):
     inlines = (PhotoInline,)
     list_display = ('project_key', 'title', 'category', 'phase')
     list_filter = ('category', 'phase',)
+    search_fields = ('planning_sections__edges__str_name',)
 
 
 class PlanningSectionDetailsAdmin(admin.ModelAdmin):

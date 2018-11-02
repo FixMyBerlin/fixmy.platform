@@ -110,6 +110,18 @@ class PlanningSerializer(serializers.HyperlinkedModelSerializer):
         read_only=True,
         source='planning_sections'
     )
+    likes = serializers.SerializerMethodField()
+    liked_by_user = serializers.SerializerMethodField()
+
+    def get_likes(self, obj):
+        return obj.likes.count()
+
+    def get_liked_by_user(self, obj):
+        user = self.context['request'].user
+        if user.is_authenticated:
+            return obj.likes.filter(user=user).count() > 0
+        else:
+            return False
 
     class Meta:
         model = Planning
@@ -133,6 +145,8 @@ class PlanningSerializer(serializers.HyperlinkedModelSerializer):
             'geometry',
             'center',
             'photos',
+            'likes',
+            'liked_by_user',
         )
 
 

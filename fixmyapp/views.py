@@ -29,7 +29,7 @@ class PlanningList(generics.ListAPIView):
 
 
 class PlanningDetail(generics.RetrieveAPIView):
-    queryset = Planning.objects.all()
+    queryset = Planning.objects.filter(published=1)
     serializer_class = PlanningSerializer
 
 

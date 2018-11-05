@@ -130,6 +130,7 @@ class PlanningSerializer(serializers.HyperlinkedModelSerializer):
             'title',
             'description',
             'short_description',
+            'category',
             'side',
             'costs',
             'draft_submitted',

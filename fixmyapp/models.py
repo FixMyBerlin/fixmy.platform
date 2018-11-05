@@ -442,7 +442,7 @@ class Planning(BaseModel):
     title = models.CharField(max_length=256)
     side = models.PositiveSmallIntegerField(choices=SIDE_CHOICES)
     description = MarkdownxField()
-    short_description = models.CharField(max_length=200)
+    short_description = models.CharField(blank=True, null=True, max_length=200)
     category = models.CharField(blank=True, null=True, max_length=40, choices=CATEGORY_CHOICES)
     project_key = models.CharField(blank=True, null=True, max_length=100)
     costs = models.PositiveIntegerField(blank=True, null=True)

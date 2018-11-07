@@ -70,7 +70,10 @@ class PlanningSection(BaseModel):
         return self.geom_hash != self.compute_geom_hash()
 
     def has_plannings(self):
-        return self.plannings.filter(published=1).count() > 0
+        return self.planning_set.filter(published=1).count() > 0
+
+    def plannings(self):
+        return self.planning_set.filter(published=1)
 
     def compute_geom_hash(self):
         sha1 = hashlib.sha1()
@@ -436,8 +439,7 @@ class Planning(BaseModel):
         (BOTH, 'both')
     )
 
-    planning_sections = models.ManyToManyField(
-        PlanningSection, related_name='plannings')
+    planning_sections = models.ManyToManyField(PlanningSection)
     published = models.BooleanField(default=True)
     title = models.CharField(max_length=256)
     side = models.PositiveSmallIntegerField(choices=SIDE_CHOICES)

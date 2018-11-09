@@ -36,7 +36,7 @@ class PlanningDetail(generics.RetrieveAPIView):
 class PlanningSectionList(generics.ListAPIView):
     pagination_class = DefaultPagination
     queryset = PlanningSection.objects.all().prefetch_related(
-        'details', 'plannings')
+        'details', 'planning_set')
     serializer_class = PlanningSectionSerializer
 
 

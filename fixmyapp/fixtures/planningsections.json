@@ -1,0 +1,104 @@
+[
+{
+    "model": "fixmyapp.planningsection",
+    "pk": 1911,
+    "fields": {
+        "created_date": "2018-08-04T17:05:07.111Z",
+        "modified_date": "2018-11-06T16:14:57.684Z",
+        "name": "Gitschiner Stra\u00dfe",
+        "suffix": "2",
+        "street_category": 2,
+        "geom_hash": "b87ba7328e781b5c61ae849e0335e486c21255ca",
+        "edges": [
+            "46520039_46520046.01"
+        ]
+    }
+},
+{
+    "model": "fixmyapp.planningsection",
+    "pk": 2725,
+    "fields": {
+        "created_date": "2018-08-04T17:07:31.513Z",
+        "modified_date": "2018-11-06T16:15:41.071Z",
+        "name": "Glogauer Stra\u00dfe",
+        "suffix": "",
+        "street_category": 4,
+        "geom_hash": "db0f513abfad992abd3c425ccb5729d4e3228060",
+        "edges": [
+            "48510001_48520006.02",
+            "48520006_49520013.02"
+        ]
+    }
+},
+{
+    "model": "fixmyapp.planningsection",
+    "pk": 2865,
+    "fields": {
+        "created_date": "2018-08-04T16:59:19.378Z",
+        "modified_date": "2018-11-06T16:13:07.299Z",
+        "name": "Skalitzer Stra\u00dfe",
+        "suffix": "1",
+        "street_category": 2,
+        "geom_hash": "9289033eb79471b0fb9f16b2712e6677e945d70b",
+        "edges": [
+            "48520028_48520007.02",
+            "48520017_49520025.02",
+            "48520014_48520028.02",
+            "48520007_48520029.02",
+            "48520029_48520017.02",
+            "48520019_48520014.01",
+            "47520027_48520038.02",
+            "48520038_48520019.02",
+            "47520052_47520027.01"
+        ]
+    }
+},
+{
+    "model": "fixmyapp.planningsection",
+    "pk": 2866,
+    "fields": {
+        "created_date": "2018-08-04T16:59:20.125Z",
+        "modified_date": "2018-11-06T16:15:40.408Z",
+        "name": "Wassertorplatz",
+        "suffix": "1",
+        "street_category": 2,
+        "geom_hash": "1805ca5dd723a6b2e734ef7757e4add27c64f2db",
+        "edges": [
+            "47520019_47520015.02",
+            "47520018_47520019.01",
+            "46520027_47520018.01",
+            "46520046_46520025.02",
+            "46520025_46520026.02",
+            "46520026_46520027.01",
+            "46520024_46520046.01",
+            "45520012_46520024.01",
+            "47520015_47520051.01"
+        ]
+    }
+},
+{
+    "model": "fixmyapp.planningsection",
+    "pk": 2867,
+    "fields": {
+        "created_date": "2018-08-04T17:03:46.681Z",
+        "modified_date": "2018-11-06T16:15:48.937Z",
+        "name": "Gneisenaustra\u00dfe",
+        "suffix": "",
+        "street_category": 2,
+        "geom_hash": "699a0b76fe44d77eb24d0a702534c89d69ef3db2",
+        "edges": [
+            "N14",
+            "46510012_46510002.02",
+            "45510025_46510011.02",
+            "46510011_46510012.02",
+            "45520014_45510024.02",
+            "45520013_45520014.02",
+            "45510024_45510025.01",
+            "45520015_45520013.01",
+            "44520008_45520015.01",
+            "44510013_44520008.02",
+            "44510010_44510013.02"
+        ]
+    }
+}
+]

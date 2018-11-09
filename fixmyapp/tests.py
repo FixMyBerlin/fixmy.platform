@@ -316,3 +316,38 @@ class LikeTest(TestCase):
             json.dumps(self.credentials),
             content_type='application/json')
         return {'HTTP_AUTHORIZATION': 'JWT ' + response.json()['token']}
+
+
+class ViewsTest(TestCase):
+
+    fixtures = [
+        'edges',
+        'planningsections',
+        'planningsectiondetails',
+        'plannings'
+    ]
+
+    def test_planning_section_list(self):
+        response = self.client.get('/api/planning-sections')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.get('Content-Type'), 'application/json')
+        self.assertEqual(response.json().get('count'), 5)
+
+    def test_planning_section_detail(self):
+        response = self.client.get('/api/planning-sections/2725')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.get('Content-Type'), 'application/json')
+        self.assertIn('plannings', response.json())
+        self.assertIn('details', response.json())
+
+    def test_planning_list(self):
+        response = self.client.get('/api/plannings')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.get('Content-Type'), 'application/json')
+        self.assertEqual(response.json().get('count'), 3)
+
+    def test_planning_detail(self):
+        response = self.client.get('/api/plannings/4')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.get('Content-Type'), 'application/json')
+        self.assertIn('planning_sections', response.json())

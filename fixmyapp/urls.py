@@ -1,4 +1,5 @@
 from django.urls import path
+from django.views.decorators.cache import cache_page
 from .views import (
     LikeView,
     PlanningDetail,
@@ -18,7 +19,7 @@ urlpatterns = [
     ),
     path(
         'plannings',
-        PlanningList.as_view(),
+        cache_page(60 * 60 * 4)(PlanningList.as_view()),
         name='planning-list'
     ),
     path(

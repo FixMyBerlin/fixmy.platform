@@ -291,13 +291,13 @@ class LikeTest(TestCase):
     def test_get_like(self):
         response = self.client.get(
             self.url, **self._get_authorization_header())
-        response.status_code == 200
-        response.json() == {'user_has_liked': False, 'likes': 0}
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), {'user_has_liked': False, 'likes': 0})
 
     def test_get_like_as_anonymous(self):
         response = self.client.get(self.url)
-        response.status_code == 200
-        response.json() == {'user_has_liked': False, 'likes': 0}
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), {'user_has_liked': False, 'likes': 0})
 
     def test_post_like(self):
         response = self.client.post(

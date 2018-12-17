@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.gis.geos import LineString, MultiLineString
 from django.core import mail
-from django.test import Client, TestCase
+from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 from .models import Edge, Planning, PlanningSection, PlanningSectionDetails
 import decimal
@@ -318,6 +318,8 @@ class LikeTest(TestCase):
         return {'HTTP_AUTHORIZATION': 'JWT ' + response.json()['token']}
 
 
+@override_settings(
+    DEFAULT_FILE_STORAGE='django.core.files.storage.FileSystemStorage')
 class ViewsTest(TestCase):
 
     fixtures = [

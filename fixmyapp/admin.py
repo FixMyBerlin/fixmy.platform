@@ -21,9 +21,9 @@ class PhotoInline(GenericTabularInline):
 class PlanningAdmin(admin.ModelAdmin):
     autocomplete_fields = ('faq', 'planning_sections')
     inlines = (PhotoInline,)
-    list_display = ('project_key', 'title', 'category', 'phase')
-    list_filter = ('category', 'phase',)
-    search_fields = ('planning_sections__edges__str_name',)
+    list_display = ('project_key', 'title', 'category', 'phase', 'responsible')
+    list_filter = ('category', 'phase', 'responsible')
+    search_fields = ('planning_sections__edges__str_name', 'project_key')
 
 
 class PlanningSectionDetailsAdmin(admin.ModelAdmin):

@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     'markdownx',
     'rest_framework',
     'rest_framework_gis',
+    'reversion',
 ]
 
 MIDDLEWARE = [

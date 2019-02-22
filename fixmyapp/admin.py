@@ -1,6 +1,7 @@
 from django.contrib.contenttypes.admin import GenericTabularInline
 from django.contrib.gis import admin
 from markdownx.admin import MarkdownxModelAdmin
+from reversion.admin import VersionAdmin
 from .models import (
     Edge,
     Photo,
@@ -18,7 +19,7 @@ class PhotoInline(GenericTabularInline):
     model = Photo
 
 
-class PlanningAdmin(admin.ModelAdmin):
+class PlanningAdmin(VersionAdmin):
     autocomplete_fields = ('faq', 'planning_sections')
     inlines = (PhotoInline,)
     list_display = ('project_key', 'title', 'category', 'phase', 'responsible')

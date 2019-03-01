@@ -14,7 +14,6 @@ class Command(BaseCommand):
         parser.add_argument(
             'file',
             type=argparse.FileType('w'),
-            default=sys.stdout,
             help='write to file'
         )
         parser.add_argument(

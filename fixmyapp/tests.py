@@ -1,11 +1,13 @@
 from django.contrib.auth import get_user_model
 from django.contrib.gis.geos import LineString, MultiLineString
 from django.core import mail
+from django.core.management import call_command
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 from .models import Edge, Planning, PlanningSection, PlanningSectionDetails
 import decimal
 import json
+import tempfile
 
 
 class PlanningSectionTests(TestCase):
@@ -353,3 +355,22 @@ class ViewsTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.get('Content-Type'), 'application/json')
         self.assertIn('planning_sections', response.json())
+
+
+class CommandTestCase(TestCase):
+    fixtures = [
+        'edges',
+        'planningsections',
+        'planningsectiondetails',
+        'plannings'
+    ]
+
+    def test_exportplanningsections(self):
+        with tempfile.NamedTemporaryFile() as f:
+            call_command('exportplanningsections', f.name)
+            export = json.load(f)
+            self.assertEqual(export.get('type'), 'FeatureCollection')
+            self.assertEqual(type(export.get('features')), list)
+            # There are 5 planningsections in the fixtures and for each
+            # planning section another feature is added to the export.
+            self.assertEqual(len(export.get('features')), 10)

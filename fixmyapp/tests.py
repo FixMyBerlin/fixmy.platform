@@ -371,6 +371,6 @@ class CommandTestCase(TestCase):
             export = json.load(f)
             self.assertEqual(export.get('type'), 'FeatureCollection')
             self.assertEqual(type(export.get('features')), list)
-            # There are 5 planningsections in the fixtures and for each
+            # There are 5 planning sections in the fixtures and for each
             # planning section another feature is added to the export.
             self.assertEqual(len(export.get('features')), 10)

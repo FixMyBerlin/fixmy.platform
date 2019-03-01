@@ -51,7 +51,7 @@ class Command(BaseCommand):
         elif options['street_category'] == 'side':
             filters['street_category__gt'] = 4
 
-        qs = PlanningSection.objects.prefetch_related('plannings', 'details')
+        qs = PlanningSection.objects.prefetch_related('planning_set', 'details')
 
         for p in qs.filter(**filters):
             geometry = p.geometry()

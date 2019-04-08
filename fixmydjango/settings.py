@@ -160,6 +160,12 @@ STATIC_URL = os.getenv('STATIC_URL', '/static/')
 STATIC_ROOT = '/code/static'
 
 
+# Request body size
+# https://docs.djangoproject.com/en/2.1/ref/settings/#data-upload-max-memory-size
+
+DATA_UPLOAD_MAX_MEMORY_SIZE = 26214400
+
+
 # CORS headers
 # https://github.com/ottoyiu/django-cors-headers
 

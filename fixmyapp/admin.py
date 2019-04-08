@@ -9,7 +9,8 @@ from .models import (
     PlanningSection,
     PlanningSectionDetails,
     Profile,
-    Question
+    Question,
+    Report
 )
 
 
@@ -73,9 +74,22 @@ class QuestionAdmin(admin.ModelAdmin):
     search_fields = ('text',)
 
 
+class ReportAdmin(admin.ModelAdmin):
+    inlines = (PhotoInline,)
+    list_display = ('id', 'address', 'subject', 'description', 'created_date')
+    ordering = ('-created_date',)
+
+    def subject(self, obj):
+        return obj.details['subject']
+
+    def has_add_permission(self, request):
+        return False
+
+
 admin.site.register(Edge, EdgeAdmin)
 admin.site.register(Planning, PlanningAdmin)
 admin.site.register(PlanningSection, PlanningSectionAdmin)
 admin.site.register(PlanningSectionDetails, PlanningSectionDetailsAdmin)
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Question, QuestionAdmin)
+admin.site.register(Report, ReportAdmin)

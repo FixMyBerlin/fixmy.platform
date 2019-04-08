@@ -6,6 +6,7 @@ from .views import (
     PlanningList,
     PlanningSectionDetail,
     PlanningSectionList,
+    ReportView,
     feedback,
     profile
 )
@@ -46,5 +47,10 @@ urlpatterns = [
         'profiles/<str:profile_id>',
         profile,
         name='profile-detail'
+    ),
+    path(
+        'reports',
+        ReportView.as_view(),
+        name='reports'
     )
 ]

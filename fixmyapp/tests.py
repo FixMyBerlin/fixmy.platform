@@ -278,6 +278,57 @@ class FeedbackTest(TestCase):
         )
 
 
+@override_settings(
+    DEFAULT_FILE_STORAGE='django.core.files.storage.FileSystemStorage')
+class ReportTest(TestCase):
+
+    def setUp(self):
+        get_user_model().objects.create_user('foo', 'foo@example.org', 'bar')
+        self.client = Client()
+        self.credentials = {'username': 'foo', 'password': 'bar'}
+
+    def test_post_report(self):
+        data = {
+            'address': 'Potsdamer Platz 1',
+            'description': 'Lorem ipsum dolor sit',
+            'details': {
+                'subject': 'BIKE_STANDS',
+                'number': 3,
+                'placement': 'SIDEWALK',
+                'fee': 0
+            },
+            'geometry': {
+                'type': 'Point',
+                'coordinates': [
+                    13.34635540636318,
+                    52.52565990333657
+                ]
+            },
+            'photo': 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs='
+        }
+        response = self.client.post(
+            '/api/reports',
+            data=json.dumps(data),
+            content_type='application/json',
+            **self._get_authorization_header())
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.json().get('address'), data['address'])
+        self.assertEqual(response.json().get('details'), data['details'])
+        self.assertEqual(response.json().get('description'), data['description'])
+        self.assertEqual(response.json().get('geometry'), data['geometry'])
+
+    def test_get_reports(self):
+        response = self.client.get('/api/reports')
+        self.assertEqual(response.status_code, 200)
+
+    def _get_authorization_header(self):
+        response = self.client.post(
+            '/api/jwt/create/',
+            json.dumps(self.credentials),
+            content_type='application/json')
+        return {'HTTP_AUTHORIZATION': 'JWT ' + response.json()['token']}
+
+
 class LikeTest(TestCase):
 
     def setUp(self):

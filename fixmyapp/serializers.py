@@ -1,4 +1,5 @@
 from django.db import models
+from drf_extra_fields.fields import HybridImageField
 from rest_framework import serializers
 from rest_framework_gis.fields import GeometryField
 from .models import (
@@ -7,7 +8,8 @@ from .models import (
     PlanningSection,
     PlanningSectionDetails,
     Profile,
-    Question
+    Question,
+    Report
 )
 
 
@@ -48,6 +50,8 @@ class QuestionSerializer(serializers.ModelSerializer):
 
 
 class PhotoSerializer(serializers.ModelSerializer):
+    src = HybridImageField()
+
     class Meta:
         model = Photo
         fields = ('copyright', 'src')
@@ -238,3 +242,31 @@ class FeedbackSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
     subject = serializers.CharField(default='')
     message = serializers.CharField(required=True)
+
+
+class ReportSerializer(serializers.ModelSerializer):
+    geometry = GeometryField(precision=14)
+    photo = PhotoSerializer(many=True, required=False)
+
+    def create(self, validated_data):
+        photos_data = validated_data.pop('photo', [])
+        report = Report.objects.create(**validated_data)
+        for photo_data in photos_data:
+            Photo.objects.create(content_object=report, **photo_data)
+        return report
+
+    def to_internal_value(self, data):
+        if 'photo' in data:
+            data['photo'] = [{
+                'src': data['photo']
+            }]
+        return super().to_internal_value(data)
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['photo'] = next(iter(data['photo']), None)
+        return data
+
+    class Meta:
+        model = Report
+        fields = ('address', 'description', 'details', 'geometry', 'photo')

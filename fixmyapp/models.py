@@ -3,6 +3,7 @@ from django.contrib.contenttypes.fields import (
     GenericForeignKey, GenericRelation)
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.gis.db import models
+from django.contrib.postgres.fields import JSONField
 from markdownx.models import MarkdownxField
 import decimal
 import hashlib
@@ -513,3 +514,13 @@ class Profile(BaseModel):
     security = models.PositiveSmallIntegerField(blank=True, null=True)
     usage = models.PositiveSmallIntegerField(
         blank=True, null=True, choices=USAGE_CHOICES)
+
+
+class Report(BaseModel):
+    address = models.TextField(blank=True, null=True)
+    geometry = models.PointField(srid=4326)
+    description = models.CharField(blank=True, null=True, max_length=140)
+    details = JSONField()
+    photo = GenericRelation(Photo)
+    user = models.ForeignKey(
+        get_user_model(), blank=True, null=True, on_delete=models.SET_NULL)

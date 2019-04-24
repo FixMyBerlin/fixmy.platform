@@ -269,4 +269,11 @@ class ReportSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Report
-        fields = ('address', 'description', 'details', 'geometry', 'photo')
+        fields = (
+            'address',
+            'description',
+            'details',
+            'geometry',
+            'id',
+            'photo'
+        )

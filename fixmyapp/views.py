@@ -51,12 +51,13 @@ class PlanningSectionDetail(generics.RetrieveAPIView):
 
 
 class ReportView(generics.ListCreateAPIView):
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (permissions.AllowAny,)
     queryset = Report.objects.all()
     serializer_class = ReportSerializer
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        if self.request.user.is_authenticated:
+            serializer.save(user=self.request.user)
 
 
 class LikeView(APIView):

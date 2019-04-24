@@ -283,9 +283,7 @@ class FeedbackTest(TestCase):
 class ReportTest(TestCase):
 
     def setUp(self):
-        get_user_model().objects.create_user('foo', 'foo@example.org', 'bar')
         self.client = Client()
-        self.credentials = {'username': 'foo', 'password': 'bar'}
 
     def test_post_report(self):
         data = {
@@ -309,8 +307,7 @@ class ReportTest(TestCase):
         response = self.client.post(
             '/api/reports',
             data=json.dumps(data),
-            content_type='application/json',
-            **self._get_authorization_header())
+            content_type='application/json')
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.json().get('address'), data['address'])
         self.assertEqual(response.json().get('details'), data['details'])
@@ -320,13 +317,6 @@ class ReportTest(TestCase):
     def test_get_reports(self):
         response = self.client.get('/api/reports')
         self.assertEqual(response.status_code, 200)
-
-    def _get_authorization_header(self):
-        response = self.client.post(
-            '/api/jwt/create/',
-            json.dumps(self.credentials),
-            content_type='application/json')
-        return {'HTTP_AUTHORIZATION': 'JWT ' + response.json()['token']}
 
 
 class LikeTest(TestCase):

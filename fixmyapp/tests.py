@@ -320,17 +320,12 @@ class ReportTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
 
-class LikeTest(TestCase):
+class LikeTest(object):
 
     def setUp(self):
         get_user_model().objects.create_user('foo', 'foo@example.org', 'bar')
         self.client = Client()
         self.credentials = {'username': 'foo', 'password': 'bar'}
-        self.planning = Planning.objects.create(
-            title='Lorem ipsum',
-            side=Planning.BOTH,
-        )
-        self.url = reverse('likes', kwargs={'pk': self.planning.id})
 
     def test_get_like(self):
         response = self.client.get(
@@ -360,6 +355,17 @@ class LikeTest(TestCase):
             json.dumps(self.credentials),
             content_type='application/json')
         return {'HTTP_AUTHORIZATION': 'JWT ' + response.json()['token']}
+
+
+class LikePlanningTest(LikeTest, TestCase):
+
+    def setUp(self):
+        self.instance = Planning.objects.create(
+            title='Lorem ipsum',
+            side=Planning.BOTH,
+        )
+        self.url = reverse('likes-plannings', kwargs={'pk': self.instance.id})
+        super(LikePlanningTest, self).setUp()
 
 
 @override_settings(

@@ -63,42 +63,45 @@ class ReportView(generics.ListCreateAPIView):
 
 
 class LikeView(APIView):
+    """Base class for liking resources
+    """
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
-    def get(self, request, pk, format=None):
-        """Returns the number of likes for the planning
+    def get(self, request, pk, model, format=None):
+        """Returns the number of likes for an object
         """
-        planning = get_object_or_404(Planning, pk=pk)
+
+        instance = get_object_or_404(model, pk=pk)
         if request.user.is_authenticated:
-            likes_by_user = planning.likes.filter(user=request.user).count()
+            likes_by_user = instance.likes.filter(user=request.user).count()
         else:
             likes_by_user = 0
-        likes = planning.likes.count()
+        likes = instance.likes.count()
         result = {
             'user_has_liked': bool(likes_by_user),
             'likes': likes
         }
         return Response(result)
 
-    def post(self, request, pk, format=None):
+    def post(self, request, pk, model, format=None):
         """Adds or removes a like by the current authenticated user
         """
-        planning = get_object_or_404(Planning, pk=pk)
-        if planning.likes.filter(user=request.user).count() == 0:
+        instance = get_object_or_404(model, pk=pk)
+        if instance.likes.filter(user=request.user).count() == 0:
             Like.objects.create(
-                content_object=planning,
+                content_object=instance,
                 user=request.user
             )
             user_has_liked = True
             response_status = status.HTTP_201_CREATED
         else:
-            planning.likes.filter(user=request.user).delete()
+            instance.likes.filter(user=request.user).delete()
             user_has_liked = False
             response_status = status.HTTP_200_OK
 
         result = {
             'user_has_liked': user_has_liked,
-            'likes': planning.likes.count()
+            'likes': instance.likes.count()
         }
         return Response(result, status=response_status)
 

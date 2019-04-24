@@ -1,5 +1,6 @@
 from django.urls import path
 from django.views.decorators.cache import cache_page
+from .models import Planning
 from .views import (
     LikeView,
     PlanningDetail,
@@ -31,7 +32,8 @@ urlpatterns = [
     path(
         'plannings/<int:pk>/likes',
         LikeView.as_view(),
-        name='likes'
+        {'model': Planning},
+        name='likes-plannings'
     ),
     path(
         'planning-sections',

@@ -1,4 +1,4 @@
-Django==2.0.11
+Django==2.0.12
 boto3==1.7.42
 django-anymail==3.0
 django-cors-headers==2.2.0

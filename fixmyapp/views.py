@@ -52,7 +52,7 @@ class PlanningSectionDetail(generics.RetrieveAPIView):
 
 class ReportView(generics.ListCreateAPIView):
     permission_classes = (permissions.AllowAny,)
-    queryset = Report.objects.filter(published=1)
+    queryset = Report.objects.filter(published=1).prefetch_related('likes')
     serializer_class = ReportSerializer
 
     def perform_create(self, serializer):

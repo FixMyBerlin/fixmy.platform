@@ -7,7 +7,7 @@ from .views import (
     PlanningList,
     PlanningSectionDetail,
     PlanningSectionList,
-    ReportView,
+    ReportList,
     feedback,
     profile
 )
@@ -52,8 +52,8 @@ urlpatterns = [
     ),
     path(
         'reports',
-        ReportView.as_view(),
-        name='reports'
+        ReportList.as_view(),
+        name='report-list'
     ),
     path(
         'reports/<int:pk>/likes',

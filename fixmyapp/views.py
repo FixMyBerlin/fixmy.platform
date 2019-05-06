@@ -50,7 +50,7 @@ class PlanningSectionDetail(generics.RetrieveAPIView):
     serializer_class = PlanningSectionSerializer
 
 
-class ReportView(generics.ListCreateAPIView):
+class ReportList(generics.ListCreateAPIView):
     permission_classes = (permissions.AllowAny,)
     queryset = Report.objects.filter(published=1).prefetch_related('likes')
     serializer_class = ReportSerializer

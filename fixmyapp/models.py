@@ -523,5 +523,6 @@ class Report(BaseModel):
     details = JSONField()
     likes = GenericRelation(Like)
     photo = GenericRelation(Photo)
+    published = models.BooleanField(default=True)
     user = models.ForeignKey(
         get_user_model(), blank=True, null=True, on_delete=models.SET_NULL)

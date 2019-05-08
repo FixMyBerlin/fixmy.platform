@@ -62,6 +62,11 @@ class ReportList(generics.ListCreateAPIView):
             serializer.save()
 
 
+class ReportDetail(generics.RetrieveAPIView):
+    queryset = Report.objects.filter(published=1)
+    serializer_class = ReportSerializer
+
+
 class LikeView(APIView):
     """Base class for liking resources
     """

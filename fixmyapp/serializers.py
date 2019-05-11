@@ -246,7 +246,19 @@ class FeedbackSerializer(serializers.Serializer):
 
 class ReportSerializer(serializers.ModelSerializer):
     geometry = GeometryField(precision=14)
+    likes = serializers.SerializerMethodField()
+    liked_by_user = serializers.SerializerMethodField()
     photo = PhotoSerializer(many=True, required=False)
+
+    def get_likes(self, obj):
+        return obj.likes.count()
+
+    def get_liked_by_user(self, obj):
+        user = self.context['request'].user
+        if user.is_authenticated:
+            return obj.likes.filter(user=user).count() > 0
+        else:
+            return False
 
     def create(self, validated_data):
         photos_data = validated_data.pop('photo', [])
@@ -275,5 +287,7 @@ class ReportSerializer(serializers.ModelSerializer):
             'details',
             'geometry',
             'id',
+            'likes',
+            'liked_by_user',
             'photo'
         )

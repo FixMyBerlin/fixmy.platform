@@ -1,10 +1,11 @@
 from django.contrib.auth import get_user_model
-from django.contrib.gis.geos import LineString, MultiLineString
+from django.contrib.gis.geos import LineString, MultiLineString, Point
 from django.core import mail
 from django.core.management import call_command
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
-from .models import Edge, Planning, PlanningSection, PlanningSectionDetails
+from .models import (
+    Edge, Planning, PlanningSection, PlanningSectionDetails, Report)
 import decimal
 import json
 import tempfile
@@ -320,17 +321,12 @@ class ReportTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
 
-class LikeTest(TestCase):
+class LikeTest(object):
 
     def setUp(self):
         get_user_model().objects.create_user('foo', 'foo@example.org', 'bar')
         self.client = Client()
         self.credentials = {'username': 'foo', 'password': 'bar'}
-        self.planning = Planning.objects.create(
-            title='Lorem ipsum',
-            side=Planning.BOTH,
-        )
-        self.url = reverse('likes', kwargs={'pk': self.planning.id})
 
     def test_get_like(self):
         response = self.client.get(
@@ -360,6 +356,35 @@ class LikeTest(TestCase):
             json.dumps(self.credentials),
             content_type='application/json')
         return {'HTTP_AUTHORIZATION': 'JWT ' + response.json()['token']}
+
+
+class LikePlanningTest(LikeTest, TestCase):
+
+    def setUp(self):
+        self.instance = Planning.objects.create(
+            title='Lorem ipsum',
+            side=Planning.BOTH,
+        )
+        self.url = reverse('likes-plannings', kwargs={'pk': self.instance.id})
+        super(LikePlanningTest, self).setUp()
+
+
+class LikeReportTest(LikeTest, TestCase):
+
+    def setUp(self):
+        self.instance = Report.objects.create(
+            address='Potsdamer Platz 1',
+            description='Lorem ipsum dolor sit',
+            details={
+                'subject': 'BIKE_STANDS',
+                'number': 3,
+                'placement': 'SIDEWALK',
+                'fee': 0
+            },
+            geometry=Point(13.34635540636318, 52.52565990333657)
+        )
+        self.url = reverse('likes-reports', kwargs={'pk': self.instance.id})
+        super(LikeReportTest, self).setUp()
 
 
 @override_settings(

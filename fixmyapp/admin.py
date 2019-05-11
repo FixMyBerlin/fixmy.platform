@@ -74,7 +74,7 @@ class QuestionAdmin(admin.ModelAdmin):
     search_fields = ('text',)
 
 
-class ReportAdmin(admin.ModelAdmin):
+class ReportAdmin(admin.OSMGeoAdmin):
     inlines = (PhotoInline,)
     list_display = ('id', 'address', 'subject', 'description', 'created_date')
     ordering = ('-created_date',)

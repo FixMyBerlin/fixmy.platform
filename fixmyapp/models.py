@@ -384,7 +384,7 @@ class Planning(BaseModel):
     PHASE_DRAFT = 'draft'
     PHASE_PLANNING = 'planning'
     PHASE_REVIEW = 'review'
-    PHASE_EXAMINATION = 'examination'
+    PHASE_INACTIVE = 'inactive'
     PHASE_EXECUTION = 'execution'
     PHASE_READY = 'ready'
     PHASE_MISCELLANEOUS = 'miscellaneous'
@@ -393,7 +393,7 @@ class Planning(BaseModel):
         (PHASE_DRAFT, 'draft'),
         (PHASE_PLANNING, 'planning'),
         (PHASE_REVIEW, 'review'),
-        (PHASE_EXAMINATION, 'examination'),
+        (PHASE_INACTIVE, 'inactive'),
         (PHASE_EXECUTION, 'execution'),
         (PHASE_READY, 'ready'),
         (PHASE_MISCELLANEOUS, 'miscellaneous'),

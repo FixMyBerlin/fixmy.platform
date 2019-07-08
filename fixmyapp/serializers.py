@@ -8,6 +8,7 @@ from .models import (
     PlanningSection,
     PlanningSectionDetails,
     Profile,
+    Project,
     Question,
     Report
 )
@@ -147,6 +148,50 @@ class PlanningSerializer(serializers.HyperlinkedModelSerializer):
             'faq',
             'planning_sections',
             'planning_section_ids',
+            'geometry',
+            'center',
+            'photos',
+            'likes',
+            'liked_by_user',
+        )
+
+
+class ProjectSerializer(serializers.HyperlinkedModelSerializer):
+    faq = QuestionSerializer(many=True)
+    photos = PhotoSerializer(many=True, default=[Photo(**PLACEHOLDER_PHOTO)])
+    geometry = GeometryField(precision=14)
+    center = GeometryField(precision=14)
+    likes = serializers.SerializerMethodField()
+    liked_by_user = serializers.SerializerMethodField()
+
+    def get_likes(self, obj):
+        return obj.likes.count()
+
+    def get_liked_by_user(self, obj):
+        user = self.context['request'].user
+        if user.is_authenticated:
+            return obj.likes.filter(user=user).count() > 0
+        else:
+            return False
+
+    class Meta:
+        model = Project
+        fields = (
+            'url',
+            'title',
+            'description',
+            'short_description',
+            'category',
+            'side',
+            'costs',
+            'draft_submitted',
+            'construction_started',
+            'construction_completed',
+            'phase',
+            'responsible',
+            'external_url',
+            'cross_section',
+            'faq',
             'geometry',
             'center',
             'photos',

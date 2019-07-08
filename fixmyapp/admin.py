@@ -9,6 +9,7 @@ from .models import (
     PlanningSection,
     PlanningSectionDetails,
     Profile,
+    Project,
     Question,
     Report
 )
@@ -26,6 +27,14 @@ class PlanningAdmin(VersionAdmin):
     list_display = ('project_key', 'title', 'category', 'phase', 'responsible')
     list_filter = ('category', 'phase', 'responsible')
     search_fields = ('planning_sections__edges__str_name', 'project_key')
+
+
+class ProjectAdmin(admin.OSMGeoAdmin, VersionAdmin):
+    autocomplete_fields = ('faq',)
+    inlines = (PhotoInline,)
+    list_display = ('title', 'project_key', 'category', 'phase', 'responsible')
+    list_filter = ('category', 'phase', 'responsible')
+    search_fields = ('project_key',)
 
 
 class PlanningSectionDetailsAdmin(admin.ModelAdmin):
@@ -89,6 +98,7 @@ class ReportAdmin(admin.OSMGeoAdmin):
 
 admin.site.register(Edge, EdgeAdmin)
 admin.site.register(Planning, PlanningAdmin)
+admin.site.register(Project, ProjectAdmin)
 admin.site.register(PlanningSection, PlanningSectionAdmin)
 admin.site.register(PlanningSectionDetails, PlanningSectionDetailsAdmin)
 admin.site.register(Profile, ProfileAdmin)

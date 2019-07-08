@@ -469,6 +469,116 @@ class Planning(BaseModel):
         return self.geometry().point_on_surface
 
 
+class Project(BaseModel):
+    CATEGORY_NEW_INFRASTRUCTURE = 'new cycling infrastructure'
+    CATEGORY_RENOVATION = 'renovation of cycling infrastructure'
+    CATEGORY_BIKE_STREET = 'bike street'
+    CATEGORY_MODIFICATION_OF_JUNCTION = 'modification of junction'
+    CATEGORY_BIKE_PARKING = 'bike parking'
+    CATEGORY_CROSSING_AID = 'crossing aid'
+    CATEGORY_MODIFICATION_OF_CROSS_SECTION = 'modification of cross section'
+    CATEGORY_NEW_STREET = 'new street'
+    CATEGORY_SHARED_SPACE = 'shared space'
+    CATEGORY_MISCELLANEOUS = 'miscellaneous'
+
+    CATEGORY_CHOICES = (
+        (CATEGORY_NEW_INFRASTRUCTURE, 'new cycling infrastructure'),
+        (CATEGORY_RENOVATION, 'renovation of cycling infrastructure'),
+        (CATEGORY_BIKE_STREET, 'bike street'),
+        (CATEGORY_MODIFICATION_OF_JUNCTION, 'modification of junction'),
+        (CATEGORY_BIKE_PARKING, 'bike parking'),
+        (CATEGORY_CROSSING_AID, 'crossing aid'),
+        (CATEGORY_MODIFICATION_OF_CROSS_SECTION, 'modification of cross section'),
+        (CATEGORY_NEW_STREET, 'new street'),
+        (CATEGORY_SHARED_SPACE, 'shared space'),
+        (CATEGORY_MISCELLANEOUS, 'miscellaneous'),
+    )
+
+    PHASE_DRAFT = 'draft'
+    PHASE_PLANNING = 'planning'
+    PHASE_REVIEW = 'review'
+    PHASE_INACTIVE = 'inactive'
+    PHASE_EXECUTION = 'execution'
+    PHASE_READY = 'ready'
+    PHASE_MISCELLANEOUS = 'miscellaneous'
+
+    PHASE_CHOICES = (
+        (PHASE_DRAFT, 'draft'),
+        (PHASE_PLANNING, 'planning'),
+        (PHASE_REVIEW, 'review'),
+        (PHASE_INACTIVE, 'inactive'),
+        (PHASE_EXECUTION, 'execution'),
+        (PHASE_READY, 'ready'),
+        (PHASE_MISCELLANEOUS, 'miscellaneous'),
+    )
+
+    STATUS_UNKNOWN = 'unknown'
+    STATUS_IDEA = 'idea'
+    STATUS_PRELIMINARY_PLANNING = 'preliminary planning'
+    STATUS_BLUEPRINT_PLANNING = 'blueprint planning'
+    STATUS_APPROVAL_PLANNING = 'approval planning'
+    STATUS_EXAMINATION = 'examination'
+    STATUS_EXECUTION_PLANNING = 'execution planning'
+    STATUS_PREPARATION_OF_AWARDING = 'preparation of awarding'
+    STATUS_AWARDING = 'awarding'
+    STATUS_APPLICATION_FOR_CONSTRUCTION_SITE = 'application for construction site'
+    STATUS_EXECUTION_OF_CONSTRUCTION_WORK = 'execution of construction work'
+    STATUS_READY = 'ready'
+    STATUS_REVIEW = 'review'
+    STATUS_CANCELLED = 'cancelled'
+
+    STATUS_CHOICES = (
+        (STATUS_UNKNOWN, 'unknown'),
+        (STATUS_IDEA, 'idea'),
+        (STATUS_PRELIMINARY_PLANNING, 'preliminary planning'),
+        (STATUS_BLUEPRINT_PLANNING, 'blueprint planning'),
+        (STATUS_APPROVAL_PLANNING, 'approval planning'),
+        (STATUS_EXAMINATION, 'examination'),
+        (STATUS_EXECUTION_PLANNING, 'execution planning'),
+        (STATUS_PREPARATION_OF_AWARDING, 'preparation of awarding'),
+        (STATUS_AWARDING, 'awarding'),
+        (STATUS_APPLICATION_FOR_CONSTRUCTION_SITE, 'application for construction site'),
+        (STATUS_EXECUTION_OF_CONSTRUCTION_WORK, 'execution of construction work'),
+        (STATUS_READY, 'ready'),
+        (STATUS_REVIEW, 'review'),
+        (STATUS_CANCELLED, 'cancelled'),
+    )
+
+    RIGHT = 0
+    LEFT = 1
+    BOTH = 2
+    SIDE_CHOICES = (
+        (RIGHT, 'right'),
+        (LEFT, 'left'),
+        (BOTH, 'both')
+    )
+
+    published = models.BooleanField(default=True)
+    title = models.CharField(max_length=256)
+    side = models.PositiveSmallIntegerField(choices=SIDE_CHOICES)
+    responsible = models.CharField(max_length=256)
+    description = MarkdownxField()
+    short_description = models.CharField(blank=True, null=True, max_length=200)
+    geometry = models.GeometryField(blank=True, null=True)
+    category = models.CharField(blank=True, null=True, max_length=40, choices=CATEGORY_CHOICES)
+    project_key = models.CharField(blank=True, null=True, max_length=100)
+    costs = models.PositiveIntegerField(blank=True, null=True)
+    draft_submitted = models.CharField(blank=True, null=True, max_length=100)
+    construction_started = models.CharField(blank=True, null=True, max_length=100)
+    construction_completed = models.CharField(blank=True, null=True, max_length=100)
+    phase = models.CharField(blank=True, null=True, max_length=30, choices=PHASE_CHOICES)
+    status = models.CharField(blank=True, null=True, max_length=40, choices=STATUS_CHOICES)
+    external_url = models.URLField(blank=True, null=True)
+    cross_section = models.ImageField(upload_to='photos', blank=True, null=True)
+    faq = models.ManyToManyField(Question, blank=True)
+    photos = GenericRelation(Photo)
+    likes = GenericRelation(Like)
+
+    def center(self):
+        if self.geometry:
+            return self.geometry.point_on_surface
+
+
 class Profile(BaseModel):
     MALE = 'm'
     FEMALE = 'f'

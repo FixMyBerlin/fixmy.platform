@@ -1,12 +1,14 @@
 from django.urls import path
 from django.views.decorators.cache import cache_page
-from .models import Planning, Report
+from .models import Planning, Project, Report
 from .views import (
     LikeView,
     PlanningDetail,
     PlanningList,
     PlanningSectionDetail,
     PlanningSectionList,
+    ProjectDetail,
+    ProjectList,
     ReportDetail,
     ReportList,
     feedback,
@@ -50,6 +52,22 @@ urlpatterns = [
         'profiles/<str:profile_id>',
         profile,
         name='profile-detail'
+    ),
+    path(
+        'projects',
+        cache_page(60 * 60 * 4)(ProjectList.as_view()),
+        name='project-list'
+    ),
+    path(
+        'projects/<int:pk>',
+        ProjectDetail.as_view(),
+        name='project-detail'
+    ),
+    path(
+        'projects/<int:pk>/likes',
+        LikeView.as_view(),
+        {'model': Project},
+        name='likes-projects'
     ),
     path(
         'reports',

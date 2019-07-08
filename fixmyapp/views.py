@@ -6,12 +6,13 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .models import Like, Planning, PlanningSection, Profile, Report
+from .models import Like, Planning, PlanningSection, Profile, Project, Report
 from .serializers import (
     FeedbackSerializer,
     PlanningSerializer,
     PlanningSectionSerializer,
     ProfileSerializer,
+    ProjectSerializer,
     ReportSerializer
 )
 
@@ -36,6 +37,21 @@ class PlanningList(generics.ListAPIView):
 class PlanningDetail(generics.RetrieveAPIView):
     queryset = Planning.objects.filter(published=1)
     serializer_class = PlanningSerializer
+
+
+class ProjectList(generics.ListAPIView):
+    pagination_class = DefaultPagination
+    queryset = (Project.objects
+        .filter(published=1)
+        .order_by('id')
+        .prefetch_related('likes')
+    )
+    serializer_class = ProjectSerializer
+
+
+class ProjectDetail(generics.RetrieveAPIView):
+    queryset = Project.objects.filter(published=1)
+    serializer_class = ProjectSerializer
 
 
 class PlanningSectionList(generics.ListAPIView):

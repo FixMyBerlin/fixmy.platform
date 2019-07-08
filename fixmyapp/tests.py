@@ -5,7 +5,13 @@ from django.core.management import call_command
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 from .models import (
-    Edge, Planning, PlanningSection, PlanningSectionDetails, Report)
+    Edge,
+    Planning,
+    PlanningSection,
+    PlanningSectionDetails,
+    Project,
+    Report
+)
 import decimal
 import json
 import tempfile
@@ -369,6 +375,17 @@ class LikePlanningTest(LikeTest, TestCase):
         super(LikePlanningTest, self).setUp()
 
 
+class LikeProjectTest(LikeTest, TestCase):
+
+    def setUp(self):
+        self.instance = Project.objects.create(
+            title='Lorem ipsum',
+            side=Project.BOTH,
+        )
+        self.url = reverse('likes-projects', kwargs={'pk': self.instance.id})
+        super(LikeProjectTest, self).setUp()
+
+
 class LikeReportTest(LikeTest, TestCase):
 
     def setUp(self):
@@ -395,7 +412,8 @@ class ViewsTest(TestCase):
         'edges',
         'planningsections',
         'planningsectiondetails',
-        'plannings'
+        'plannings',
+        'projects'
     ]
 
     def test_planning_section_list(self):
@@ -422,6 +440,18 @@ class ViewsTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.get('Content-Type'), 'application/json')
         self.assertIn('planning_sections', response.json())
+
+    def test_project_list(self):
+        response = self.client.get('/api/projects')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.get('Content-Type'), 'application/json')
+        self.assertEqual(response.json().get('count'), 3)
+
+    def test_project_detail(self):
+        response = self.client.get('/api/projects/4')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.get('Content-Type'), 'application/json')
+        self.assertIn('geometry', response.json())
 
 
 class CommandTestCase(TestCase):

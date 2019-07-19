@@ -6,14 +6,24 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .models import Like, Planning, PlanningSection, Profile, Project, Report
+from .models import (
+    Like,
+    Planning,
+    PlanningSection,
+    Profile,
+    Project,
+    Report,
+    Section
+)
+
 from .serializers import (
     FeedbackSerializer,
     PlanningSerializer,
     PlanningSectionSerializer,
     ProfileSerializer,
     ProjectSerializer,
-    ReportSerializer
+    ReportSerializer,
+    SectionSerializer
 )
 
 
@@ -64,6 +74,17 @@ class PlanningSectionList(generics.ListAPIView):
 class PlanningSectionDetail(generics.RetrieveAPIView):
     queryset = PlanningSection.objects.all()
     serializer_class = PlanningSectionSerializer
+
+
+class SectionList(generics.ListAPIView):
+    pagination_class = DefaultPagination
+    queryset = Section.objects.all().order_by('id')
+    serializer_class = SectionSerializer
+
+
+class SectionDetail(generics.RetrieveAPIView):
+    queryset = Section.objects.all()
+    serializer_class = SectionSerializer
 
 
 class ReportList(generics.ListCreateAPIView):

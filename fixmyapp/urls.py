@@ -11,6 +11,8 @@ from .views import (
     ProjectList,
     ReportDetail,
     ReportList,
+    SectionList,
+    SectionDetail,
     feedback,
     profile
 )
@@ -84,5 +86,15 @@ urlpatterns = [
         LikeView.as_view(),
         {'model': Report},
         name='likes-reports',
+    ),
+    path(
+        'sections',
+        SectionList.as_view(),
+        name='section-list'
+    ),
+    path(
+        'sections/<int:pk>',
+        SectionDetail.as_view(),
+        name='section-detail'
     )
 ]

@@ -10,7 +10,8 @@ from .models import (
     Profile,
     Project,
     Question,
-    Report
+    Report,
+    Section
 )
 
 
@@ -99,6 +100,14 @@ class NestedPlanningSectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = PlanningSection
         fields = ('url', 'name', 'suffix', 'borough', 'details')
+
+
+class NestedSectionSerializer(serializers.ModelSerializer):
+    details = NestedPlanningSectionDetailsSerializer(many=True)
+
+    class Meta:
+        model = Section
+        fields = ('url', 'street_name', 'suffix', 'borough', 'details')
 
 
 class PlanningSerializer(serializers.HyperlinkedModelSerializer):
@@ -271,6 +280,23 @@ class PlanningSectionSerializer(serializers.HyperlinkedModelSerializer):
             'geometry',
             'details',
             'plannings'
+        )
+
+
+class SectionSerializer(serializers.HyperlinkedModelSerializer):
+    geometry = GeometryField(precision=14)
+    details = PlanningSectionDetailsSerializer(many=True)
+
+    class Meta:
+        model = Section
+        fields = (
+            'url',
+            'street_name',
+            'suffix',
+            'borough',
+            'street_category',
+            'geometry',
+            'details'
         )
 
 

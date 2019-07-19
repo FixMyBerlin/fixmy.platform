@@ -11,7 +11,8 @@ from .models import (
     Profile,
     Project,
     Question,
-    Report
+    Report,
+    Section
 )
 
 
@@ -66,6 +67,15 @@ class PlanningSectionAdmin(MarkdownxModelAdmin):
         return False
 
 
+class SectionAdmin(admin.OSMGeoAdmin):
+    list_display = ('street_name', 'suffix', 'borough',)
+    ordering = ('id',)
+    search_fields = ('street_name', 'id')
+
+    def has_add_permission(self, request):
+        return False
+
+
 class EdgeAdmin(admin.OSMGeoAdmin):
     search_fields = ('elem_nr', 'str_name')
 
@@ -104,3 +114,4 @@ admin.site.register(PlanningSectionDetails, PlanningSectionDetailsAdmin)
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Report, ReportAdmin)
+admin.site.register(Section, SectionAdmin)

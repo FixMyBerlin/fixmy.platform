@@ -94,6 +94,29 @@ class PlanningSection(BaseModel):
         return '{} ({})'.format(self.name, self.id)
 
 
+class Section(BaseModel):
+    street_name = models.CharField(max_length=100)
+    suffix = models.CharField(blank=True, null=True, max_length=3)
+    borough = models.CharField(blank=True, null=True, max_length=255)
+    street_category = models.PositiveSmallIntegerField(null=True)
+    geometry = models.MultiLineStringField(srid=4326, null=True)
+
+    def velocity_index(self):
+        if len(self.details.all()) > 0:
+            return sum(d.velocity_index() for d in self.details.all()) / len(self.details.all())
+        else:
+            return 0
+
+    def safety_index(self):
+        if len(self.details.all()) > 0:
+            return sum(d.safety_index() for d in self.details.all()) / len(self.details.all())
+        else:
+            return 0
+
+    def __str__(self):
+        return '{} ({})'.format(self.street_name, self.id)
+
+
 class Question(BaseModel):
     text = models.CharField(max_length=256)
     answer = MarkdownxField()

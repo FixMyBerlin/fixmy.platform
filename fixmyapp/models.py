@@ -517,6 +517,20 @@ class Profile(BaseModel):
 
 
 class Report(BaseModel):
+    STATUS_NEW = 'new'
+    STATUS_VERIFICATION = 'verification'
+    STATUS_ACCEPTED = 'accepted'
+    STATUS_REJECTED = 'rejected'
+    STATUS_DONE = 'done'
+
+    STATUS_CHOICES = (
+        (STATUS_NEW, 'new'),
+        (STATUS_VERIFICATION, 'verification'),
+        (STATUS_ACCEPTED, 'accepted'),
+        (STATUS_REJECTED, 'rejected'),
+        (STATUS_DONE, 'done')
+    )
+
     address = models.TextField(blank=True, null=True)
     geometry = models.PointField(srid=4326)
     description = models.CharField(blank=True, null=True, max_length=140)
@@ -524,5 +538,12 @@ class Report(BaseModel):
     likes = GenericRelation(Like)
     photo = GenericRelation(Photo)
     published = models.BooleanField(default=True)
+    status = models.CharField(
+        blank=True,
+        null=True,
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default=STATUS_NEW)
+    status_reason = models.TextField(blank=True, null=True)
     user = models.ForeignKey(
         get_user_model(), blank=True, null=True, on_delete=models.SET_NULL)

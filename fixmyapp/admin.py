@@ -76,7 +76,8 @@ class QuestionAdmin(admin.ModelAdmin):
 
 class ReportAdmin(admin.OSMGeoAdmin):
     inlines = (PhotoInline,)
-    list_display = ('id', 'address', 'subject', 'description', 'created_date')
+    list_display = (
+        'id', 'address', 'subject', 'description', 'status', 'created_date')
     ordering = ('-created_date',)
 
     def subject(self, obj):

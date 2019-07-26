@@ -289,5 +289,7 @@ class ReportSerializer(serializers.ModelSerializer):
             'id',
             'likes',
             'liked_by_user',
-            'photo'
+            'photo',
+            'status',
+            'status_reason'
         )

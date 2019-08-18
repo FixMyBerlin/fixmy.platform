@@ -101,6 +101,9 @@ class Section(BaseModel):
     street_category = models.PositiveSmallIntegerField(null=True)
     geometry = models.MultiLineStringField(srid=4326, null=True)
 
+    def details(self):
+        return PlanningSectionDetails.objects.filter(planning_section_id=self.pk)
+
     def velocity_index(self):
         if len(self.details.all()) > 0:
             return sum(d.velocity_index() for d in self.details.all()) / len(self.details.all())

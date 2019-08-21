@@ -290,6 +290,8 @@ class FeedbackTest(TestCase):
 class ReportTest(TestCase):
 
     def setUp(self):
+        self.user = get_user_model().objects.create_user(
+            'foo', 'foo@example.org', 'bar')
         self.client = Client()
         self.data = {
             'address': 'Potsdamer Platz 1',
@@ -325,6 +327,23 @@ class ReportTest(TestCase):
     def test_get_reports(self):
         response = self.client.get('/api/reports')
         self.assertEqual(response.status_code, 200)
+
+    def test_patch_report(self):
+        response = self.client.post(
+            '/api/reports',
+            data=json.dumps(self.data),
+            content_type='application/json')
+        id = response.json()['id']
+        report = Report.objects.get(pk=id)
+        self.assertIsNone(report.user)
+        response = self.client.patch(
+            '/api/reports/{}'.format(id),
+            data=json.dumps({'user': self.user.pk}),
+            content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+        report = Report.objects.get(pk=id)
+        self.assertIsNotNone(report.user)
+        self.assertEqual(report.user.pk, self.user.pk)
 
 
 class LikeTest(object):

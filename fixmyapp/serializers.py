@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 from drf_extra_fields.fields import HybridImageField
 from rest_framework import serializers
@@ -320,6 +321,11 @@ class ReportSerializer(serializers.HyperlinkedModelSerializer):
     likes = serializers.SerializerMethodField()
     liked_by_user = serializers.SerializerMethodField()
     photo = PhotoSerializer(many=True, required=False)
+    user = serializers.PrimaryKeyRelatedField(
+        many=False,
+        queryset=get_user_model().objects.all(),
+        required=False,
+        write_only=True)
 
     def get_likes(self, obj):
         return obj.likes.count()
@@ -363,5 +369,6 @@ class ReportSerializer(serializers.HyperlinkedModelSerializer):
             'photo',
             'status',
             'status_reason',
-            'url'
+            'url',
+            'user'
         )

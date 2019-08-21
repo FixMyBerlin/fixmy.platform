@@ -315,7 +315,7 @@ class FeedbackSerializer(serializers.Serializer):
     message = serializers.CharField(required=True)
 
 
-class ReportSerializer(serializers.ModelSerializer):
+class ReportSerializer(serializers.HyperlinkedModelSerializer):
     geometry = GeometryField(precision=14)
     likes = serializers.SerializerMethodField()
     liked_by_user = serializers.SerializerMethodField()
@@ -362,5 +362,6 @@ class ReportSerializer(serializers.ModelSerializer):
             'liked_by_user',
             'photo',
             'status',
-            'status_reason'
+            'status_reason',
+            'url'
         )

@@ -299,8 +299,7 @@ class ReportTest(TestCase):
             'details': {
                 'subject': 'BIKE_STANDS',
                 'number': 3,
-                'placement': 'SIDEWALK',
-                'fee': 0
+                'fee_acceptable': True
             },
             'geometry': {
                 'type': 'Point',

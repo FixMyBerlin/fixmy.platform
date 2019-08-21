@@ -291,9 +291,7 @@ class ReportTest(TestCase):
 
     def setUp(self):
         self.client = Client()
-
-    def test_post_report(self):
-        data = {
+        self.data = {
             'address': 'Potsdamer Platz 1',
             'description': 'Lorem ipsum dolor sit',
             'details': {
@@ -310,15 +308,17 @@ class ReportTest(TestCase):
             },
             'photo': 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs='
         }
+
+    def test_post_report(self):
         response = self.client.post(
             '/api/reports',
-            data=json.dumps(data),
+            data=json.dumps(self.data),
             content_type='application/json')
         self.assertEqual(response.status_code, 201)
-        self.assertEqual(response.json().get('address'), data['address'])
-        self.assertEqual(response.json().get('details'), data['details'])
-        self.assertEqual(response.json().get('description'), data['description'])
-        self.assertEqual(response.json().get('geometry'), data['geometry'])
+        self.assertEqual(response.json().get('address'), self.data['address'])
+        self.assertEqual(response.json().get('details'), self.data['details'])
+        self.assertEqual(response.json().get('description'), self.data['description'])
+        self.assertEqual(response.json().get('geometry'), self.data['geometry'])
         self.assertIn('id', response.json())
 
     def test_get_reports(self):

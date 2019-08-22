@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.core import mail
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view, permission_classes
@@ -103,6 +104,17 @@ class ReportDetail(generics.RetrieveUpdateAPIView):
     permission_classes = (permissions.AllowAny,)
     queryset = Report.objects.filter(published=1)
     serializer_class = ReportSerializer
+
+    def perform_update(self, serializer):
+        """Allows associating a user with a report instance once.
+
+        Once a user is associated with a report, no further updates are allowed
+        via the API.
+        """
+        if self.get_object().user:
+            raise PermissionDenied
+        else:
+            super(ReportDetail, self).perform_update(serializer)
 
 
 class LikeView(APIView):

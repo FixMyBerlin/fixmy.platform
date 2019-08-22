@@ -344,6 +344,11 @@ class ReportTest(TestCase):
         report = Report.objects.get(pk=id)
         self.assertIsNotNone(report.user)
         self.assertEqual(report.user.pk, self.user.pk)
+        response = self.client.patch(
+            '/api/reports/{}'.format(id),
+            data=json.dumps({'user': self.user.pk}),
+            content_type='application/json')
+        self.assertEqual(response.status_code, 403)
 
 
 class LikeTest(object):

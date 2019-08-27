@@ -204,6 +204,7 @@ ANYMAIL = {
     'MAILJET_SECRET_KEY': os.getenv('MAILJET_SECRET_KEY', ''),
 }
 
+NEWSLETTER_LIST_ID = os.getenv('NEWSLETTER_LIST_ID')
 
 # Mapbox
 # https://www.mapbox.com/api-documentation/#uploads

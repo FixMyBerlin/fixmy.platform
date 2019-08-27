@@ -205,4 +205,7 @@ def feedback(request):
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])
 def newsletter_signup(request):
-    sign_up_newsletter(request.user)
+    if settings.TOGGLE_NEWSLETTER:
+        sign_up_newsletter(request.user)
+    else:
+        raise Response(status=status.HTTP_501_NOT_IMPLEMENTED)

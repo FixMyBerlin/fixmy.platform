@@ -65,7 +65,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.gis',
     'djoser',
-    'fixmyapp',
+    'fixmyapp.apps.FixmyappConfig',
     'markdownx',
     'rest_framework',
     'rest_framework_gis',

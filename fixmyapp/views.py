@@ -27,6 +27,8 @@ from .serializers import (
     SectionSerializer
 )
 
+from .signals import sign_up_newsletter
+
 
 class DefaultPagination(PageNumberPagination):
     max_page_size = 1000
@@ -198,3 +200,9 @@ def feedback(request):
             recipient_list=[settings.DEFAULT_FROM_EMAIL]
         )
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def newsletter_signup(request):
+    sign_up_newsletter(request.user)

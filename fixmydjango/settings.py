@@ -65,7 +65,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.gis',
     'djoser',
-    'fixmyapp',
+    'fixmyapp.apps.FixmyappConfig',
     'markdownx',
     'rest_framework',
     'rest_framework_gis',
@@ -204,6 +204,7 @@ ANYMAIL = {
     'MAILJET_SECRET_KEY': os.getenv('MAILJET_SECRET_KEY', ''),
 }
 
+NEWSLETTER_LIST_ID = os.getenv('NEWSLETTER_LIST_ID')
 
 # Mapbox
 # https://www.mapbox.com/api-documentation/#uploads
@@ -265,3 +266,8 @@ DJOSER = {
 
 django_heroku.settings(locals())
 DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
+
+
+# Feature-Toggles
+
+TOGGLE_NEWSLETTER = bool(os.getenv('TOGGLE_NEWSLETTER', 0))

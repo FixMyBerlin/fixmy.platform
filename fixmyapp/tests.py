@@ -4,6 +4,8 @@ from django.core import mail
 from django.core.management import call_command
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
+from mailjet_rest.client import Endpoint
+from unittest.mock import patch
 from .models import (
     Edge,
     Planning,
@@ -14,6 +16,7 @@ from .models import (
 )
 import decimal
 import json
+import requests
 import tempfile
 
 
@@ -426,6 +429,38 @@ class LikeReportTest(LikeTest, TestCase):
         )
         self.url = reverse('likes-reports', kwargs={'pk': self.instance.id})
         super(LikeReportTest, self).setUp()
+
+
+@override_settings(TOGGLE_NEWSLETTER=True)
+class NewsletterSignupTest(TestCase):
+
+    def setUp(self):
+        get_user_model().objects.create_user('foo', 'foo@example.org', 'bar')
+        self.client = Client()
+        self.credentials = {'username': 'foo', 'password': 'bar'}
+        self.url = '/api/newsletter-signup'
+
+    def test_authorization_required(self):
+        response = self.client.post(self.url)
+        self.assertEqual(response.status_code, 401)
+
+    @patch('requests.Response')
+    @patch.object(Endpoint, 'create')
+    def test_response_no_content(self, mock_response_class, mock_create):
+        mock_response = mock_response_class.return_value
+        mock_response.status_code = 200
+        mock_response.json.return_value = {}
+        mock_create.return_value = mock_response
+        response = self.client.post(
+            self.url, **self._get_authorization_header())
+        self.assertEqual(response.status_code, 204)
+
+    def _get_authorization_header(self):
+        response = self.client.post(
+            '/api/jwt/create/',
+            json.dumps(self.credentials),
+            content_type='application/json')
+        return {'HTTP_AUTHORIZATION': 'JWT ' + response.json()['token']}
 
 
 @override_settings(

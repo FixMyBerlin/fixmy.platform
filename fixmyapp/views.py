@@ -16,7 +16,6 @@ from .models import (
     Report,
     Section
 )
-
 from .serializers import (
     FeedbackSerializer,
     PlanningSerializer,
@@ -26,8 +25,8 @@ from .serializers import (
     ReportSerializer,
     SectionSerializer
 )
-
 from .signals import sign_up_newsletter
+import requests
 
 
 class DefaultPagination(PageNumberPagination):
@@ -205,7 +204,10 @@ def feedback(request):
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])
 def newsletter_signup(request):
-    if settings.TOGGLE_NEWSLETTER:
+    if not settings.TOGGLE_NEWSLETTER:
+        return Response(status=status.HTTP_501_NOT_IMPLEMENTED)
+    try:
         sign_up_newsletter(request.user)
-    else:
-        raise Response(status=status.HTTP_501_NOT_IMPLEMENTED)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    except requests.exceptions.RequestException:
+        return Response(status=status.HTTP_502_BAD_GATEWAY)

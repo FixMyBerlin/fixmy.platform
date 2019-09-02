@@ -1,12 +1,16 @@
 from django.conf import settings
 from mailjet_rest import Client
 import logging
+import requests
 
 logger = logging.getLogger(__name__)
 
 def sign_up_newsletter_on_activation(sender, **kwargs):
     if kwargs['request'].data.get('newsletter', False):
-        sign_up_newsletter(kwargs['user'])
+        try:
+            sign_up_newsletter(kwargs['user'])
+        except requests.exceptions.RequestException:
+            pass
 
 def sign_up_newsletter(user):
     api_key = settings.ANYMAIL['MAILJET_API_KEY']
@@ -17,7 +21,7 @@ def sign_up_newsletter(user):
         'Action': 'addnoforce',
         'Contacts': [
             {
-                "Email": user.email,
+                'Email': user.email,
             }
         ]
     }
@@ -27,3 +31,4 @@ def sign_up_newsletter(user):
     if response.status_code != 200:
         logger.error('Failed to add {} to list {} (status {})'.format(
             user.email, list_id, response.status_code))
+        response.raise_for_status()

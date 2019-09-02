@@ -14,6 +14,7 @@ from .views import (
     SectionList,
     SectionDetail,
     feedback,
+    newsletter_signup,
     profile
 )
 
@@ -23,6 +24,11 @@ urlpatterns = [
         'feedback',
         feedback,
         name='feedback'
+    ),
+    path(
+        'newsletter-signup',
+        newsletter_signup,
+        name='newsletter-signup'
     ),
     path(
         'plannings',

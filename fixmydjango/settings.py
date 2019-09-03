@@ -262,6 +262,18 @@ DJOSER = {
 }
 
 
+# Use X-Forwarded-Host header
+# https://docs.djangoproject.com/en/2.2/ref/settings/#use-x-forwarded-host
+
+USE_X_FORWARDED_HOST = os.getenv('USE_X_FORWARDED_HOST', False)
+
+
+# Use X-Forwarded-Proto header
+# https://docs.djangoproject.com/en/2.2/ref/settings/#secure-proxy-ssl-header
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https') if USE_X_FORWARDED_HOST else None
+
+
 # Activate Django-Heroku
 # https://devcenter.heroku.com/articles/django-app-configuration
 

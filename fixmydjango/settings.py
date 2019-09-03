@@ -48,6 +48,7 @@ DEBUG = os.getenv('DEBUG', False)
 
 ALLOWED_HOSTS = [
     'localhost',
+    'fixmyberlin.de',
     '35.234.67.137',
 ]
 

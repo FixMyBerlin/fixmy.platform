@@ -326,6 +326,8 @@ class ReportTest(TestCase):
         self.assertEqual(response.json().get('geometry'), self.data['geometry'])
         self.assertIn('id', response.json())
         self.assertIn('url', response.json())
+        self.assertIn('created_date', response.json())
+        self.assertIn('modified_date', response.json())
 
     def test_get_reports(self):
         response = self.client.get('/api/reports')

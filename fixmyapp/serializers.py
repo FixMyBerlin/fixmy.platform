@@ -360,12 +360,14 @@ class ReportSerializer(serializers.HyperlinkedModelSerializer):
         model = Report
         fields = (
             'address',
+            'created_date',
             'description',
             'details',
             'geometry',
             'id',
             'likes',
             'liked_by_user',
+            'modified_date',
             'photo',
             'status',
             'status_reason',

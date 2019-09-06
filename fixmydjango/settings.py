@@ -207,6 +207,7 @@ ANYMAIL = {
 
 NEWSLETTER_LIST_ID = os.getenv('NEWSLETTER_LIST_ID')
 
+
 # Mapbox
 # https://www.mapbox.com/api-documentation/#uploads
 
@@ -257,8 +258,11 @@ JWT_AUTH = {
 # https://djoser.readthedocs.io/en/stable/index.html
 
 DJOSER = {
-    'PASSWORD_RESET_CONFIRM_URL': os.getenv('PASSWORD_RESET_CONFIRM_URL', ''),
-    'PASSWORD_RESET_CONFIRM_FRONTEND_URL': os.getenv('PASSWORD_RESET_CONFIRM_FRONTEND_URL', '')
+    'PASSWORD_RESET_CONFIRM_URL': os.getenv('PASSWORD_RESET_CONFIRM_URL', 'reset/{uid}/{token}'),
+    'PASSWORD_RESET_CONFIRM_FRONTEND_URL': os.getenv('PASSWORD_RESET_CONFIRM_FRONTEND_URL', ''),
+    'ACTIVATION_URL': os.getenv('ACTIVATION_URL', ''),
+    'ACTIVATION_FRONTEND_URL': os.getenv('ACTIVATION_FRONTEND_URL', 'activate/{uid}/{token}'),
+    'SEND_ACTIVATION_MAIL': bool(os.getenv('SEND_ACTIVATION_MAIL', False))
 }
 
 

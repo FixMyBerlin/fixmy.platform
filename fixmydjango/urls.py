@@ -24,6 +24,11 @@ def reset(request, uid, token):
     return redirect(url.format(uid=uid, token=token))
 
 
+def activate(request, uid, token):
+    url = settings.DJOSER.get('ACTIVATION_FRONTEND_URL')
+    return redirect(url.format(uid=uid, token=token))
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('fixmyapp.urls')),
@@ -31,4 +36,5 @@ urlpatterns = [
     path('api/', include('djoser.urls.jwt')),
     path('markdownx/', include('markdownx.urls')),
     path('reset/<str:uid>/<str:token>', reset, name='reset'),
+    path('activate/<str:uid>/<str:token>', reset, name='activate'),
 ]

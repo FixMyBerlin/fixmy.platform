@@ -44,7 +44,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'l$1cu6s#k*+8(5ai05+y3-0w+xw^(+)@t=(2r704g_y+yub@d='
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', False)
+DEBUG = bool(os.getenv('DEBUG', False))
 
 ALLOWED_HOSTS = [
     'localhost',
@@ -180,7 +180,7 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 
-AWS_QUERYSTRING_AUTH = os.getenv('AWS_QUERYSTRING_AUTH', False)
+AWS_QUERYSTRING_AUTH = bool(os.getenv('AWS_QUERYSTRING_AUTH', False))
 
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 
@@ -188,7 +188,7 @@ AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
 
 AWS_S3_REGION_NAME = os.getenv('AWS_S3_REGION_NAME')
 
-AWS_S3_USE_SSL = os.getenv('AWS_S3_USE_SSL', True)
+AWS_S3_USE_SSL = bool(os.getenv('AWS_S3_USE_SSL', True))
 
 AWS_S3_SIGNATURE_VERSION = os.getenv('AWS_S3_SIGNATURE_VERSION', 's3v4')
 
@@ -269,7 +269,7 @@ DJOSER = {
 # Use X-Forwarded-Host header
 # https://docs.djangoproject.com/en/2.2/ref/settings/#use-x-forwarded-host
 
-USE_X_FORWARDED_HOST = os.getenv('USE_X_FORWARDED_HOST', False)
+USE_X_FORWARDED_HOST = bool(os.getenv('USE_X_FORWARDED_HOST', False))
 
 
 # Use X-Forwarded-Proto header
@@ -287,4 +287,4 @@ DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
 
 # Feature-Toggles
 
-TOGGLE_NEWSLETTER = bool(os.getenv('TOGGLE_NEWSLETTER', 0))
+TOGGLE_NEWSLETTER = bool(os.getenv('TOGGLE_NEWSLETTER', False))

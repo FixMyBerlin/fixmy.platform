@@ -36,5 +36,5 @@ urlpatterns = [
     path('api/', include('djoser.urls.jwt')),
     path('markdownx/', include('markdownx.urls')),
     path('reset/<str:uid>/<str:token>', reset, name='reset'),
-    path('activate/<str:uid>/<str:token>', reset, name='activate'),
+    path('activate/<str:uid>/<str:token>', activate, name='activate'),
 ]

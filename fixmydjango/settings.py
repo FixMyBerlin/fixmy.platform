@@ -260,8 +260,8 @@ JWT_AUTH = {
 DJOSER = {
     'PASSWORD_RESET_CONFIRM_URL': os.getenv('PASSWORD_RESET_CONFIRM_URL', 'reset/{uid}/{token}'),
     'PASSWORD_RESET_CONFIRM_FRONTEND_URL': os.getenv('PASSWORD_RESET_CONFIRM_FRONTEND_URL', ''),
-    'ACTIVATION_URL': os.getenv('ACTIVATION_URL', ''),
-    'ACTIVATION_FRONTEND_URL': os.getenv('ACTIVATION_FRONTEND_URL', 'activate/{uid}/{token}'),
+    'ACTIVATION_URL': os.getenv('ACTIVATION_URL', 'activate/{uid}/{token}'),
+    'ACTIVATION_FRONTEND_URL': os.getenv('ACTIVATION_FRONTEND_URL', ''),
     'SEND_ACTIVATION_MAIL': bool(os.getenv('SEND_ACTIVATION_MAIL', False))
 }
 

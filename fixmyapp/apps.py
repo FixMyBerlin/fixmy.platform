@@ -1,7 +1,7 @@
 from django.apps import AppConfig
 from django.conf import settings
-from djoser.signals import user_activated
-from .signals import sign_up_newsletter_on_activation
+from djoser.signals import user_registered
+from .signals import sign_up_newsletter_on_registration
 
 
 class FixmyappConfig(AppConfig):
@@ -9,4 +9,4 @@ class FixmyappConfig(AppConfig):
 
     def ready(self):
         if settings.TOGGLE_NEWSLETTER:
-            user_activated.connect(sign_up_newsletter_on_activation)
+            user_registered.connect(sign_up_newsletter_on_registration)

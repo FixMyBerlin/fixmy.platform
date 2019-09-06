@@ -5,7 +5,7 @@ import requests
 
 logger = logging.getLogger(__name__)
 
-def sign_up_newsletter_on_activation(sender, **kwargs):
+def sign_up_newsletter_on_registration(sender, **kwargs):
     if kwargs['request'].data.get('newsletter', False):
         try:
             sign_up_newsletter(kwargs['user'])

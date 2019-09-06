@@ -262,7 +262,7 @@ DJOSER = {
     'PASSWORD_RESET_CONFIRM_FRONTEND_URL': os.getenv('PASSWORD_RESET_CONFIRM_FRONTEND_URL', ''),
     'ACTIVATION_URL': os.getenv('ACTIVATION_URL', 'activate/{uid}/{token}'),
     'ACTIVATION_FRONTEND_URL': os.getenv('ACTIVATION_FRONTEND_URL', ''),
-    'SEND_ACTIVATION_MAIL': bool(os.getenv('SEND_ACTIVATION_MAIL', False))
+    'SEND_ACTIVATION_EMAIL': bool(os.getenv('SEND_ACTIVATION_EMAIL', False))
 }
 
 

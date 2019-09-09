@@ -32,7 +32,7 @@ urlpatterns = [
     ),
     path(
         'plannings',
-        cache_page(60 * 60 * 4)(PlanningList.as_view()),
+        PlanningList.as_view(),
         name='planning-list'
     ),
     path(

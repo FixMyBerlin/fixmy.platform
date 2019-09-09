@@ -129,12 +129,12 @@ class PlanningSerializer(serializers.HyperlinkedModelSerializer):
     liked_by_user = serializers.SerializerMethodField()
 
     def get_likes(self, obj):
-        return obj.likes.count()
+        return len(obj.likes.all())
 
     def get_liked_by_user(self, obj):
         user = self.context['request'].user
         if user.is_authenticated:
-            return obj.likes.filter(user=user).count() > 0
+            return any(l.user.pk == user.pk for l in obj.likes.all())
         else:
             return False
 
@@ -175,12 +175,12 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
     liked_by_user = serializers.SerializerMethodField()
 
     def get_likes(self, obj):
-        return obj.likes.count()
+        return len(obj.likes.all())
 
     def get_liked_by_user(self, obj):
         user = self.context['request'].user
         if user.is_authenticated:
-            return obj.likes.filter(user=user).count() > 0
+            return any(l.user.pk == user.pk for l in obj.likes.all())
         else:
             return False
 

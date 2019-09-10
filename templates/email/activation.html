@@ -5,10 +5,10 @@
 {% endblock subject %}
 
 {% block text_body %}
-    {% trans "Please go to the following page to activate account:" %}
-    {{ protocol }}://{{ domain }}/{{ url }}
+{% trans "Please go to the following page to activate account:" %}
 
-    {% trans "Thanks for using our site!" %}
+{{ protocol }}://{{ domain }}/{{ url }}
 
-    {% blocktrans %}The {{ site_name }} team{% endblocktrans %}
+{% trans "Thanks for using our site!" %}
+{% blocktrans %}The {{ site_name }} team{% endblocktrans %}
 {% endblock text_body %}

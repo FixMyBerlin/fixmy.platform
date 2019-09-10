@@ -20,31 +20,45 @@ msgstr ""
 
 #: templates/email/activation.html:4
 #, python-format
-msgid "Aktivierung deines Kontos bei %(site_name)s"
+msgid "Account activation on %(site_name)s"
+msgstr ""
+
+#: templates/email/activation.html:8
+#, python-format
+msgid ""
+"You're receiving this email because you need to finish activation process on "
+"%(site_name)s."
 msgstr ""
 
 #: templates/email/activation.html:10
-msgid "Bitte besuche die folgende Seite, um dein Konto zu aktivieren:"
+msgid "Please go to the following page to activate account:"
 msgstr ""
 
 #: templates/email/activation.html:13 templates/email/password_reset.html:14
-msgid "Vielen Dank!"
+msgid "Thanks for using our site!"
 msgstr ""
 
 #: templates/email/activation.html:15 templates/email/password_reset.html:16
 #, python-format
-msgid "Dein %(site_name)s-Team"
+msgid "The %(site_name)s team"
 msgstr ""
 
 #: templates/email/password_reset.html:4
 #, python-format
-msgid "Zurücksetzen deines Passwortes für %(site_name)s"
+msgid "Password reset on %(site_name)s"
+msgstr ""
+
+#: templates/email/password_reset.html:8
+#, python-format
+msgid ""
+"You're receiving this email because you requested a password reset for your "
+"user account at %(site_name)s."
 msgstr ""
 
 #: templates/email/password_reset.html:10
-msgid "Bitte besuche die folgende Seite, um dein Passwort zurück zu setzen:"
+msgid "Please go to the following page and choose a new password:"
 msgstr ""
 
 #: templates/email/password_reset.html:12
-msgid "Falls du deinen Benutzernamen vergessen hast:"
+msgid "Your username, in case you've forgotten:"
 msgstr ""

@@ -10,6 +10,7 @@ RUN apt-get update; apt-get --assume-yes --auto-remove install \
     binutils \
     curl \
     gdal-bin \
+    gettext \
     libproj-dev \
     locales \
     postgresql-client \

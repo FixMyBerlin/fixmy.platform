@@ -28,7 +28,7 @@ def sign_up_newsletter(user):
     response = client.contactslist_ManageManyContacts.create(
         id=list_id, data=data)
 
-    if response.status_code != 200:
+    if response.status_code >= 400:
         logger.error('Failed to add {} to list {} (status {})'.format(
             user.email, list_id, response.status_code))
         response.raise_for_status()

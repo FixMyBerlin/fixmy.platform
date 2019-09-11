@@ -26,7 +26,8 @@ def reset(request, uid, token):
 
 def activate(request, uid, token):
     url = settings.DJOSER.get('ACTIVATION_FRONTEND_URL')
-    return redirect(url.format(uid=uid, token=token))
+    query = request.GET.urlencode()
+    return redirect(url.format(uid=uid, token=token, query=query))
 
 
 urlpatterns = [

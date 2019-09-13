@@ -669,7 +669,7 @@ class Report(BaseModel):
 
     address = models.TextField(blank=True, null=True)
     geometry = models.PointField(srid=4326)
-    description = models.TextField(blank=True, null=True)
+    description = models.CharField(blank=True, null=True, max_length=400)
     details = JSONField()
     likes = GenericRelation(Like)
     photo = GenericRelation(Photo)

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-12 07:45+0000\n"
+"POT-Creation-Date: 2019-09-13 12:18+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,12 +17,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: templates/email/activation.html:4
-#, fuzzy
-#| msgid "Account activation on %(site_name)s"
-msgid "Account activation"
-msgstr "Aktivierung deines Kontos für FixMyBerlin"
 
 #: templates/email/activation.html:8
 msgid "Please go to the following page to activate account:"
@@ -49,6 +43,10 @@ msgstr "Bitte besuche die folgende Seite, um dein Passwort zurück zu setzen:"
 #: templates/email/password_reset.html:12
 msgid "Your username, in case you've forgotten:"
 msgstr "Falls du deinen Benutzernamen vergessen haben solltest:"
+
+#, fuzzy
+#~ msgid "Account activation"
+#~ msgstr "Aktivierung deines Kontos für FixMyBerlin"
 
 #~ msgid "The %(site_name)s team"
 #~ msgstr "Dein FixMyBerlin-Team"

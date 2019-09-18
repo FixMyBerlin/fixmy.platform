@@ -187,11 +187,14 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Project
         fields = (
+            'id',
             'url',
             'title',
             'description',
             'short_description',
             'category',
+            'street_category',
+            'borough',
             'side',
             'costs',
             'draft_submitted',

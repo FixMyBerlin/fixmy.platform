@@ -11,6 +11,7 @@ services:
       AWS_STORAGE_BUCKET_NAME:
       DEBUG: 1
       EMAIL_BACKEND: django.core.mail.backends.console.EmailBackend
+      TOGGLE_NEWSLETTER:
     command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/code

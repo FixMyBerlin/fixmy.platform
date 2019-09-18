@@ -105,14 +105,14 @@ class Section(BaseModel):
         return PlanningSectionDetails.objects.filter(planning_section_id=self.pk)
 
     def velocity_index(self):
-        if len(self.details.all()) > 0:
-            return sum(d.velocity_index() for d in self.details.all()) / len(self.details.all())
+        if len(self.details().all()) > 0:
+            return sum(d.velocity_index() for d in self.details().all()) / len(self.details().all())
         else:
             return 0
 
     def safety_index(self):
-        if len(self.details.all()) > 0:
-            return sum(d.safety_index() for d in self.details.all()) / len(self.details.all())
+        if len(self.details().all()) > 0:
+            return sum(d.safety_index() for d in self.details().all()) / len(self.details().all())
         else:
             return 0
 

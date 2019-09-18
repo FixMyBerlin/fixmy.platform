@@ -193,7 +193,7 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
             'description',
             'short_description',
             'category',
-            'street_category',
+            'street_name',
             'borough',
             'side',
             'costs',

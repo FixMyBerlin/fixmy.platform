@@ -588,6 +588,8 @@ class Project(BaseModel):
     geometry = models.GeometryField(blank=True, null=True)
     category = models.CharField(blank=True, null=True, max_length=40, choices=CATEGORY_CHOICES)
     project_key = models.CharField(blank=True, null=True, max_length=100)
+    street_name = models.CharField(max_length=100)
+    borough = models.CharField(blank=True, null=True, max_length=255)
     costs = models.PositiveIntegerField(blank=True, null=True)
     draft_submitted = models.CharField(blank=True, null=True, max_length=100)
     construction_started = models.CharField(blank=True, null=True, max_length=100)

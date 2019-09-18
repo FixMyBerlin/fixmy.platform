@@ -25,7 +25,7 @@ class PhotoInline(GenericTabularInline):
 class PlanningAdmin(VersionAdmin):
     autocomplete_fields = ('faq', 'planning_sections')
     inlines = (PhotoInline,)
-    list_display = ('project_key', 'title', 'street_name', 'category', 'phase', 'responsible')
+    list_display = ('project_key', 'title', 'category', 'phase', 'responsible')
     list_filter = ('category', 'phase', 'responsible')
     search_fields = ('planning_sections__edges__str_name', 'project_key')
 
@@ -33,7 +33,7 @@ class PlanningAdmin(VersionAdmin):
 class ProjectAdmin(admin.OSMGeoAdmin, VersionAdmin):
     autocomplete_fields = ('faq',)
     inlines = (PhotoInline,)
-    list_display = ('title', 'project_key', 'category', 'phase', 'responsible')
+    list_display = ('project_key', 'title', 'street_name', 'category', 'phase', 'responsible')
     list_filter = ('category', 'phase', 'responsible')
     search_fields = ('project_key',)
 

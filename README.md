@@ -4,7 +4,12 @@
 
 ## Development environment
 
-First things first: create a file `.env` in the project root and enter 
+To setup the backend development environment you need to install the docker
+tool on your local machine and setup accounts with Amazon AWS and Heroku. Then
+you can setup docker from the checked out Git repository and import the
+datasets from either Amazon or Heroku.
+
+First things first: create a file `.env` in the project root and enter
 environment variables that you want to have available during runtime. The `sample.env`
 file contains some keys that you might want to have there. Most importantly this
 should contain access keys used to load data from S3 and toggles used to enable
@@ -16,16 +21,17 @@ A local development environment can then be set up with Docker Compose:
 
 Now, the API methods are available at [http://localhost:8000/api](http://localhost:8000/api).
 
-Use the command `docker-compose exec app bash` to access the console of the 
-docker container running the backend app. Here you can use the following 
+Use the command `docker-compose exec app bash` to access the console of the
+docker container running the backend app. Here you can use the following
 Python commands to manage the Django app.
 
 # Django Manager
 
-Use 
+Use
+
     $ python manage.py test
 
-to get an overview of all commands available. With 
+to get an overview of all commands available. With
 
     $ python manage.py createsuperuser
 
@@ -34,7 +40,7 @@ at [http://localhost:8000/admin/](http://localhost:8000/admin/).
 
 # Importing data from S3
 
-This method of importing will not import plannings and photos, which are 
+This method of importing will not import plannings and photos, which are
 configured using the Django web interface. See the section for importing
 from a direct dump below for that.
 
@@ -43,10 +49,10 @@ as described above. Now you can use the command
 
     $ python manage.py downloaddata Data/
 
-to load all data files from S3. These are stored in the `/tmp` folder of 
-the docker app container. 
+to load all data files from S3. These are stored in the `/tmp` folder of
+the docker app container.
 
-##  Legacy Data Model
+## Legacy Data Model
 
 You can now use `python manage.py` with the subcommands
 
@@ -58,8 +64,8 @@ to import the corresponding data. Use the subcommands in this order.
 
 ## New Data Model
 
-You can now use `python manage.py importsections <filename>` to import the 
-corresponding data. 
+You can now use `python manage.py importsections <filename>` to import the
+corresponding data.
 
 # Import Server Data Dump
 
@@ -67,8 +73,8 @@ This method of importing lets you access the full dataset as used in production.
 For this, you run a command on the production server that exports data from the
 live database and sends them directly to your local machine.
 
-The following models have to be imported in sequence. If they are imported in 
-another order than specified here, the relations between entries cannot be 
+The following models have to be imported in sequence. If they are imported in
+another order than specified here, the relations between entries cannot be
 established correctly.
 
 1. Edge
@@ -78,7 +84,7 @@ established correctly.
 5. Planning
 6. Photo
 
-Run the following commands from your regular shell to first dump all of the 
+Run the following commands from your regular shell to first dump all of the
 model data into individual files.
 
 ```
@@ -90,7 +96,7 @@ heroku run -a fixmyplatform python manage.py dumpdata fixmyapp.Planning > Planni
 heroku run -a fixmyplatform python manage.py dumpdata fixmyapp.Photo > Photo.json
 ```
 
-Now enter the container shell using `docker-compose exec app bash` and run the 
+Now enter the container shell using `$ docker-compose exec app bash` and run the
 following commands.
 
 ```
@@ -101,3 +107,6 @@ python manage.py loaddata PlanningSectionDetails.json
 python manage.py loaddata Planning.json
 python manage.py loaddata Photo.json
 ```
+
+If all of these complete without errors you can access the app at
+[localhost:8081](http://localhost:8081).

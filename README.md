@@ -20,25 +20,43 @@ A local development environment can then be set up with Docker Compose:
     $ docker-compose up -d --build
 
 Now, the API methods are available at [http://localhost:8000/api](http://localhost:8000/api).
+You can use this command whenever you want to start the development server.
+When you change environment variables you need to stop the docker app with
 
-Use the command `docker-compose exec app bash` to access the console of the
-docker container running the backend app. Here you can use the following
-Python commands to manage the Django app.
+    $ docker-compose down
+
+and restart it with the `up` command.
+
+Use the command
+
+    $ docker-compose exec app bash
+
+to access the console of the docker container running the backend app. Here you 
+can use the following Python commands to manage the Django app.
 
 # Django Manager
 
 Use
 
-    $ python manage.py test
+    $ python manage.py
 
 to get an overview of all commands available. With
 
     $ python manage.py createsuperuser
 
 you create a new user for Django's admin console, which can then be accessed
-at [http://localhost:8000/admin/](http://localhost:8000/admin/).
+at [http://localhost:8000/admin/](http://localhost:8000/admin/). You can run
+the test suite with 
 
-# Importing data from S3
+    $ python manage.py test
+
+# Importing data
+
+You can import data either by loading it from the source data files, which need
+to be downloaded from Amazon S3, or by loading a data dump that you export from
+the Heroku server.
+
+## Importing data from S3
 
 This method of importing will not import plannings and photos, which are
 configured using the Django web interface. See the section for importing
@@ -52,7 +70,7 @@ as described above. Now you can use the command
 to load all data files from S3. These are stored in the `/tmp` folder of
 the docker app container.
 
-## Legacy Data Model
+### Legacy Data Model
 
 You can now use `python manage.py` with the subcommands
 
@@ -62,16 +80,16 @@ You can now use `python manage.py` with the subcommands
 
 to import the corresponding data. Use the subcommands in this order.
 
-## New Data Model
+### New Data Model
 
 You can now use `python manage.py importsections <filename>` to import the
 corresponding data.
 
-# Import Server Data Dump
+## Import Server Data Dump
 
 This method of importing lets you access the full dataset as used in production.
-For this, you run a command on the production server that exports data from the
-live database and sends them directly to your local machine.
+For this, you run commands on the production server that export data from the
+live database and then load them directly into your local machine.
 
 The following models have to be imported in sequence. If they are imported in
 another order than specified here, the relations between entries cannot be

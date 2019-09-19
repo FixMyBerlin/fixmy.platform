@@ -91,17 +91,6 @@ This method of importing lets you access the full dataset as used in production.
 For this, you run commands on the production server that export data from the
 live database and then load them directly into your local machine.
 
-The following models have to be imported in sequence. If they are imported in
-another order than specified here, the relations between entries cannot be
-established correctly.
-
-1. Edge
-2. Question
-3. PlanningSection
-4. PlanningSectionDetails
-5. Planning
-6. Photo
-
 Run the following commands from your regular shell to first dump all of the
 model data into individual files.
 
@@ -114,8 +103,10 @@ heroku run -a fixmyplatform python manage.py dumpdata fixmyapp.Planning > Planni
 heroku run -a fixmyplatform python manage.py dumpdata fixmyapp.Photo > Photo.json
 ```
 
-Now enter the container shell using `$ docker-compose exec app bash` and run the
-following commands.
+The following commands have to be run in sequence. If they are run in
+another order than specified here, the relations between entries cannot be
+established correctly. Enter the container shell using 
+`$ docker-compose exec app bash` and run:
 
 ```
 python manage.py loaddata Edge.json

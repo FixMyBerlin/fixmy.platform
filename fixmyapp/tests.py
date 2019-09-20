@@ -16,7 +16,6 @@ from .models import (
 )
 import decimal
 import json
-import requests
 import tempfile
 
 
@@ -474,7 +473,9 @@ class ViewsTest(TestCase):
         'planningsections',
         'planningsectiondetails',
         'plannings',
-        'projects'
+        'projects',
+        'sections',
+        'sectiondetails',
     ]
 
     def test_planning_section_list(self):
@@ -513,6 +514,19 @@ class ViewsTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.get('Content-Type'), 'application/json')
         self.assertIn('geometry', response.json())
+
+    def test_section_list(self):
+        response = self.client.get('/api/sections')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.get('Content-Type'), 'application/json')
+        self.assertEqual(response.json().get('count'), 5)
+
+    def test_section_detail(self):
+        response = self.client.get('/api/sections/2725')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.get('Content-Type'), 'application/json')
+        self.assertIn('geometry', response.json())
+        self.assertIn('details', response.json())
 
 
 class CommandTestCase(TestCase):

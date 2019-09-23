@@ -11,6 +11,14 @@ services:
       AWS_STORAGE_BUCKET_NAME:
       DEBUG: 1
       EMAIL_BACKEND: django.core.mail.backends.console.EmailBackend
+      MAPBOX_UPLOAD_NAME_MAIN:
+      MAPBOX_UPLOAD_NAME_SIDE:
+      MAPBOX_UPLOAD_NAME_SECTIONS:
+      MAPBOX_UPLOAD_NAME_PROJECTS:
+      MAPBOX_UPLOAD_TILESET_MAIN:
+      MAPBOX_UPLOAD_TILESET_SIDE:
+      MAPBOX_UPLOAD_TILESET_SECTIONS:
+      MAPBOX_UPLOAD_TILESET_PROJECTS:
       TOGGLE_NEWSLETTER:
     command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:

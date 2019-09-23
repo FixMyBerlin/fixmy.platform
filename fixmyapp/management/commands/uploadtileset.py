@@ -21,7 +21,6 @@ class Command(BaseCommand):
         parser.add_argument(
             '--street-category',
             choices=['main', 'side'],
-            default='main',
             help='indicate the street category of the features in file'
         )
         parser.add_argument(

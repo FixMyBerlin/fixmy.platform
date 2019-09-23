@@ -825,6 +825,7 @@ class Project(BaseModel):
     draft_submitted = models.CharField(blank=True, null=True, max_length=100)
     construction_started = models.CharField(blank=True, null=True, max_length=100)
     construction_completed = models.CharField(blank=True, null=True, max_length=100)
+    alert_date = models.DateField(blank=True, null=True)
     phase = models.CharField(blank=True, null=True, max_length=30, choices=PHASE_CHOICES)
     status = models.CharField(blank=True, null=True, max_length=40, choices=STATUS_CHOICES)
     external_url = models.URLField(blank=True, null=True)

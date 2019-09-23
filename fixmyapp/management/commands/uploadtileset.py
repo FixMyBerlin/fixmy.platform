@@ -35,7 +35,8 @@ class Command(BaseCommand):
         )
 
     def handle(self, **options):
-        dataset = options.get('street_category', options.get('dataset'))
+        dataset = options['street_category'] if options['street_category'] \
+            else options['dataset']
 
         if options['dry_run']:
             self.stdout.write('Uploading tileset {}/{} to Mapbox'.format(

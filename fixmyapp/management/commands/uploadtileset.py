@@ -24,16 +24,23 @@ class Command(BaseCommand):
             help='indicate the street category of the features in file'
         )
         parser.add_argument(
+            '--dataset',
+            choices=['sections', 'projects'],
+            help='indicate the data model of the features in file'
+        )
+        parser.add_argument(
             '--dry-run',
             action='store_true',
             help='only show the intended action without uploading anything'
         )
 
     def handle(self, **options):
+        dataset = options.get('street_category', options.get('dataset'))
+
         if options['dry_run']:
             self.stdout.write('Uploading tileset {}/{} to Mapbox'.format(
-                settings.MAPBOX_UPLOAD_TILESET[options['street_category']],
-                settings.MAPBOX_UPLOAD_NAME[options['street_category']]
+                settings.MAPBOX_UPLOAD_TILESET[dataset],
+                settings.MAPBOX_UPLOAD_NAME[dataset]
             ))
             sys.exit(0)
 
@@ -43,11 +50,11 @@ class Command(BaseCommand):
             options['file'], credentials['bucket'], credentials['key'])
 
         upload = self._create_upload(
-            credentials['url'], options['street_category'])
+            credentials['url'], dataset)
 
         if options['progress'] or options['verbosity'] > 1:
             self.stdout.write('Uploading tileset {} to Mapbox'.format(
-                settings.MAPBOX_UPLOAD_TILESET[options['street_category']]))
+                settings.MAPBOX_UPLOAD_TILESET[dataset]))
 
             progress = upload['progress']
 
@@ -74,15 +81,15 @@ class Command(BaseCommand):
             region_name=settings.MAPBOX_UPLOAD_REGION)
         return session.client('s3')
 
-    def _create_upload(self, bucket_url, street_category):
+    def _create_upload(self, bucket_url, dataset):
         url = '{}/{}?access_token={}'.format(
             settings.MAPBOX_UPLOAD_URL,
             settings.MAPBOX_USERNAME,
             settings.MAPBOX_ACCESS_TOKEN
         )
         payload = {
-            'name': settings.MAPBOX_UPLOAD_NAME[street_category],
-            'tileset': settings.MAPBOX_UPLOAD_TILESET[street_category],
+            'name': settings.MAPBOX_UPLOAD_NAME[dataset],
+            'tileset': settings.MAPBOX_UPLOAD_TILESET[dataset],
             'url': bucket_url
         }
         response = requests.post(url, json=payload)

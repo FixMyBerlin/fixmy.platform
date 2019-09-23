@@ -41,7 +41,7 @@ class Command(BaseCommand):
                 }
             }
 
-            for detail in s.details().all():
+            for detail in s.details.all():
                 prefix = 'side{}_'.format(detail.side)
                 feature['properties'][prefix + 'orientation'] = detail.orientation
                 feature['properties'][prefix + 'velocity'] = float(round(detail.velocity_index(), 3))

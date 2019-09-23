@@ -671,7 +671,9 @@ class CommandTestCase(TestCase):
         'edges',
         'planningsections',
         'planningsectiondetails',
-        'plannings'
+        'plannings',
+        'sections',
+        'sectiondetails'
     ]
 
     def test_exportplanningsections(self):
@@ -683,3 +685,11 @@ class CommandTestCase(TestCase):
             # There are 5 planning sections in the fixtures and for each
             # planning section another feature is added to the export.
             self.assertEqual(len(export.get('features')), 10)
+
+    def test_exportsections(self):
+        with tempfile.NamedTemporaryFile() as f:
+            call_command('exportsections', f.name)
+            export = json.load(f)
+            self.assertEqual(export.get('type'), 'FeatureCollection')
+            self.assertEqual(type(export.get('features')), list)
+            self.assertEqual(len(export.get('features')), 5)

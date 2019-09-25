@@ -42,10 +42,14 @@ class Command(BaseCommand):
             }
 
             for detail in s.details.all():
+                orientation = detail.orientation
+                velocity = float(round(detail.velocity_index(), 3))
+                safety = float(round(detail.safety_index(), 3))
+                
                 prefix = 'side{}_'.format(detail.side)
-                feature['properties'][prefix + 'orientation'] = detail.orientation
-                feature['properties'][prefix + 'velocity'] = float(round(detail.velocity_index(), 3))
-                feature['properties'][prefix + 'safety'] = float(round(detail.safety_index(), 3))
+                feature['properties'][prefix + 'orientation'] = orientation
+                feature['properties'][prefix + 'velocity'] = velocity
+                feature['properties'][prefix + 'safety'] = safety
 
             result['features'].append(feature)
 

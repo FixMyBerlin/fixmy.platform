@@ -47,9 +47,11 @@ class Command(BaseCommand):
         SectionDetails.objects.all().delete()
         reader = csv.DictReader(options['file'])
         for row in (row for row in reader if row['exist'] == '1'):
+            # Marshall CSV key names and formatting to Model format
             kwargs = {
                 mapping[key]: row[key].replace(',', '.') for key in mapping
             }
+
             try:
                 obj, created = SectionDetails.objects.update_or_create(**kwargs)
                 for path in row['rva_pics'].split():
@@ -60,5 +62,8 @@ class Command(BaseCommand):
                     )
                     photo.save()
             except IntegrityError as e:
-                message = 'Referenced section with MetaID {} does not exist.'.format(row['MetaID'])
-                self.stderr.write(message)
+                self.stderr.write(
+                    'Referenced section with MetaID {} does not exist.'.format(
+                        row['MetaID']
+                    )
+                )

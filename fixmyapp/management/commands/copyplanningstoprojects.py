@@ -33,6 +33,9 @@ class Command(BaseCommand):
             project.save()
             project.faq.set(planning.faq.all())
 
+            # Generic relations - like, photo - need to be iterated over 
+            # to copy them to a new object
+            
             for photo in planning.photos.all():
                 project.photos.add(
                     Photo(

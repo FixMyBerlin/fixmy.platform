@@ -18,7 +18,7 @@ class Command(BaseCommand):
                 category=planning.category,
                 project_key=planning.project_key,
                 street_name=planning.planning_sections.first().name,
-                borough=planning.planning_sections.first().borough,
+                borough=planning.planning_sections.first().borough(),
                 costs=planning.costs,
                 draft_submitted=planning.draft_submitted,
                 construction_started=planning.construction_started,

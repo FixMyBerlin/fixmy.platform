@@ -12,7 +12,8 @@ from .models import (
     Project,
     Question,
     Report,
-    Section
+    Section,
+    SectionDetails
 )
 
 
@@ -43,6 +44,16 @@ class PlanningSectionDetailsAdmin(admin.ModelAdmin):
     list_display = ('planning_section', 'side', 'orientation', 'length')
     ordering = ('planning_section',)
     search_fields = ('planning_section__name', 'planning_section__id')
+
+    def has_add_permission(self, request):
+        return False
+
+
+class SectionDetailsAdmin(admin.ModelAdmin):
+    inlines = (PhotoInline,)
+    list_display = ('section', 'side', 'orientation', 'length')
+    ordering = ('section',)
+    search_fields = ('section__name', 'section__id')
 
     def has_add_permission(self, request):
         return False
@@ -115,3 +126,4 @@ admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Report, ReportAdmin)
 admin.site.register(Section, SectionAdmin)
+admin.site.register(SectionDetails, SectionDetailsAdmin)

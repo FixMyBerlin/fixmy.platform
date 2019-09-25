@@ -221,12 +221,16 @@ MAPBOX_UPLOAD_REGION = os.getenv('MAPBOX_UPLOAD_REGION', 'us-east-1')
 
 MAPBOX_UPLOAD_NAME = {
     'main': os.getenv('MAPBOX_UPLOAD_NAME_MAIN', ''),
-    'side': os.getenv('MAPBOX_UPLOAD_NAME_SIDE', '')
+    'side': os.getenv('MAPBOX_UPLOAD_NAME_SIDE', ''),
+    'sections': os.getenv('MAPBOX_UPLOAD_NAME_SECTIONS', ''),
+    'projects': os.getenv('MAPBOX_UPLOAD_NAME_PROJECTS', ''),
 }
 
 MAPBOX_UPLOAD_TILESET = {
     'main': os.getenv('MAPBOX_UPLOAD_TILESET_MAIN', ''),
     'side': os.getenv('MAPBOX_UPLOAD_TILESET_SIDE', ''),
+    'sections': os.getenv('MAPBOX_UPLOAD_TILESET_SECTIONS', ''),
+    'projects': os.getenv('MAPBOX_UPLOAD_TILESET_PROJECTS', ''),
 }
 
 MAPBOX_UPLOAD_URL = os.getenv('MAPBOX_UPLOAD_URL', 'https://api.mapbox.com/uploads/v1')

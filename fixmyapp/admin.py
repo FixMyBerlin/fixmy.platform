@@ -72,7 +72,7 @@ class ProjectAdmin(admin.OSMGeoAdmin, VersionAdmin):
         'responsible',
         'alert_date')
     list_filter = (AlertDateFilter, 'category', 'phase', 'responsible')
-    search_fields = ('project_key',)
+    search_fields = ('project_key', 'street_name')
 
 
 class PlanningSectionDetailsAdmin(admin.ModelAdmin):

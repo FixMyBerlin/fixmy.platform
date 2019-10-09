@@ -50,21 +50,21 @@ class LayerMapping(django.contrib.gis.utils.LayerMapping):
                     elif not silent:
                         stream.write('Ignoring feature id: {}\n'.format(feat.fid, msg))
                 else:
-                    # Constructing the model using the keyword args
-                    # If we want unique models on a particular field, handle the
-                    # geometry appropriately.
-                    # Getting the keyword arguments and retrieving
-                    # the unique model.
-                    u_kwargs = self.unique_kwargs(kwargs)
-                    m = self.model.objects.using(self.using).get(**u_kwargs)
-                    is_update = True
-
-                    # Replace the geometry with the geometry from the
-                    # shape file
-                    new = OGRGeometry(kwargs[self.geom_field])
-                    setattr(m, self.geom_field, new.wkt)
-
                     try:
+                        # Constructing the model using the keyword args
+                        # If we want unique models on a particular field, handle the
+                        # geometry appropriately.
+                        # Getting the keyword arguments and retrieving
+                        # the unique model.
+                        u_kwargs = self.unique_kwargs(kwargs)
+                        m = self.model.objects.using(self.using).get(**u_kwargs)
+                        is_update = True
+
+                        # Replace the geometry with the geometry from the
+                        # shape file
+                        new = OGRGeometry(kwargs[self.geom_field])
+                        setattr(m, self.geom_field, new.wkt)
+
                         # Attempting to save.
                         m.save(using=self.using)
                         num_saved += 1

@@ -164,5 +164,5 @@ class Command(BaseCommand):
             progress=options['progress'] or options['verbosity'] > 1,
             silent=options['verbosity'] == 0,
             stream=self.stdout,
-            strict=True,
+            strict=False,
         )

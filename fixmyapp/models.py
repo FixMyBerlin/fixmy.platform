@@ -841,7 +841,7 @@ class Project(BaseModel):
         max_length=40,
         choices=CATEGORY_CHOICES)
     project_key = models.CharField(
-        _('project key'), blank=True, null=True, max_length=100)
+        _('project key'), blank=True, null=True, max_length=100, unique=True)
     street_name = models.CharField(_('street name'), max_length=100)
     borough = models.CharField(
         _('borough'), blank=True, null=True, max_length=255)

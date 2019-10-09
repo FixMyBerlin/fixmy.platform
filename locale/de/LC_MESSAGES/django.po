@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-13 12:18+0000\n"
+"POT-Creation-Date: 2019-10-23 12:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,386 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: fixmyapp/admin.py:38 fixmyapp/models.py:858
+msgid "alert date"
+msgstr "Benachrichtigungsdatum"
+
+#: fixmyapp/admin.py:50
+msgid "exceeded"
+msgstr "erreicht"
+
+#: fixmyapp/models.py:99 fixmyapp/models.py:845
+msgid "street name"
+msgstr "Straße"
+
+#: fixmyapp/models.py:100
+msgid "suffix"
+msgstr "Zusatz"
+
+#: fixmyapp/models.py:102 fixmyapp/models.py:847
+msgid "borough"
+msgstr "Bezirk"
+
+#: fixmyapp/models.py:105
+msgid "street category"
+msgstr "Straßenkategorie"
+
+#: fixmyapp/models.py:107 fixmyapp/models.py:835 fixmyapp/models.py:973
+msgid "geometry"
+msgstr "Geometrie"
+
+#: fixmyapp/models.py:110
+msgid "section"
+msgstr "Abschnitt"
+
+#: fixmyapp/models.py:111
+msgid "sections"
+msgstr "Abschnitte"
+
+#: fixmyapp/models.py:134
+msgid "question"
+msgstr "Frage"
+
+#: fixmyapp/models.py:135
+msgid "questions"
+msgstr "Fragen"
+
+#: fixmyapp/models.py:150
+msgid "photo"
+msgstr "Foto"
+
+#: fixmyapp/models.py:151
+msgid "photos"
+msgstr "Fotos"
+
+#: fixmyapp/models.py:444 fixmyapp/models.py:445
+msgid "Section details"
+msgstr "Abschnittsdetails"
+
+#: fixmyapp/models.py:756
+msgid "new cycling infrastructure"
+msgstr "Errichtung Radverkehrsanlage"
+
+#: fixmyapp/models.py:757
+msgid "renovation of cycling infrastructure"
+msgstr "Sanierung / Umbau Radweg"
+
+#: fixmyapp/models.py:758
+msgid "bike street"
+msgstr "Anordnung Fahrradstraße"
+
+#: fixmyapp/models.py:759
+msgid "modification of junction"
+msgstr "Umbau Knotenpunkt"
+
+#: fixmyapp/models.py:760
+msgid "bike parking"
+msgstr "Maßnahme Fahrradparken"
+
+#: fixmyapp/models.py:761
+msgid "crossing aid"
+msgstr "Querungshilfe"
+
+#: fixmyapp/models.py:762
+msgid "modification of cross section"
+msgstr "Sanierung / Umbau Straßenquerschnitt"
+
+#: fixmyapp/models.py:763
+msgid "new street"
+msgstr "Straßenneubau"
+
+#: fixmyapp/models.py:764
+msgid "shared space"
+msgstr "Errichtung Begegnungszone"
+
+#: fixmyapp/models.py:765 fixmyapp/models.py:783
+msgid "miscellaneous"
+msgstr "Sonstiges"
+
+#: fixmyapp/models.py:777
+msgid "draft"
+msgstr "Konzept"
+
+#: fixmyapp/models.py:778
+msgid "planning"
+msgstr "Planung"
+
+#: fixmyapp/models.py:779 fixmyapp/models.py:814
+msgid "review"
+msgstr "Review"
+
+#: fixmyapp/models.py:780
+msgid "inactive"
+msgstr "ruhend"
+
+#: fixmyapp/models.py:781
+msgid "execution"
+msgstr "Ausführung"
+
+#: fixmyapp/models.py:782 fixmyapp/models.py:813
+msgid "ready"
+msgstr "fertig"
+
+#: fixmyapp/models.py:802
+msgid "unknown"
+msgstr "unbekannt"
+
+#: fixmyapp/models.py:803
+msgid "idea"
+msgstr "Idee / Vorschlag"
+
+#: fixmyapp/models.py:804
+msgid "preliminary planning"
+msgstr "Vorplanung / Konzept"
+
+#: fixmyapp/models.py:805
+msgid "blueprint planning"
+msgstr "Entwurfsplanung / Straßenbehördliche Anordnung"
+
+#: fixmyapp/models.py:806
+msgid "approval planning"
+msgstr "Genehmigungsplanung"
+
+#: fixmyapp/models.py:807
+msgid "examination"
+msgstr "Prüfung / Finanzierung"
+
+#: fixmyapp/models.py:808
+msgid "execution planning"
+msgstr "Ausführungsplanung"
+
+#: fixmyapp/models.py:809
+msgid "preparation of awarding"
+msgstr "Ausschreibung"
+
+#: fixmyapp/models.py:810
+msgid "awarding"
+msgstr "Vergabe"
+
+#: fixmyapp/models.py:811
+msgid "application for construction site"
+msgstr "Beantragung Baustelle / Anordnung Baustelle"
+
+#: fixmyapp/models.py:812
+msgid "execution of construction work"
+msgstr "Bauausführung"
+
+#: fixmyapp/models.py:815
+msgid "cancelled"
+msgstr "abgebrochen"
+
+#: fixmyapp/models.py:827 fixmyapp/models.py:980
+msgid "published"
+msgstr "veröffentlicht"
+
+#: fixmyapp/models.py:828
+msgid "title"
+msgstr "Titel"
+
+#: fixmyapp/models.py:829
+msgid "side"
+msgstr "Seite"
+
+#: fixmyapp/models.py:830
+msgid "responsible"
+msgstr "Verantwortlich"
+
+#: fixmyapp/models.py:831 fixmyapp/models.py:975
+msgid "description"
+msgstr "Beschreibung"
+
+#: fixmyapp/models.py:833
+msgid "short description"
+msgstr "Kurzbeschreibung"
+
+#: fixmyapp/models.py:836
+msgid "length"
+msgstr "Länge"
+
+#: fixmyapp/models.py:838
+msgid "category"
+msgstr "Kategorie"
+
+#: fixmyapp/models.py:844
+msgid "project key"
+msgstr "Projektschlüssel"
+
+#: fixmyapp/models.py:848
+msgid "costs"
+msgstr "Kosten"
+
+#: fixmyapp/models.py:850
+msgid "draft submitted"
+msgstr "Entwurf eingereicht"
+
+#: fixmyapp/models.py:853
+msgid "construction started"
+msgstr "Bau begonnen"
+
+#: fixmyapp/models.py:856
+msgid "construction completed"
+msgstr "Bau abgeschlossen"
+
+#: fixmyapp/models.py:860
+msgid "phase"
+msgstr "Phase"
+
+#: fixmyapp/models.py:867 fixmyapp/models.py:982
+msgid "status"
+msgstr "Status"
+
+#: fixmyapp/models.py:873
+msgid "external URL"
+msgstr "externe URL"
+
+#: fixmyapp/models.py:875
+msgid "cross section"
+msgstr "Querschnitt"
+
+#: fixmyapp/models.py:877
+msgid "faq"
+msgstr "Häufige Fragen"
+
+#: fixmyapp/models.py:882
+msgid "project"
+msgstr "Projekt"
+
+#: fixmyapp/models.py:883
+msgid "projects"
+msgstr "Projekte"
+
+#: fixmyapp/models.py:898
+msgid "male"
+msgstr "männlich"
+
+#: fixmyapp/models.py:899
+msgid "female"
+msgstr "weiblich"
+
+#: fixmyapp/models.py:900
+msgid "other"
+msgstr "anders"
+
+#: fixmyapp/models.py:909
+msgid "racing cycle"
+msgstr "Rennrad"
+
+#: fixmyapp/models.py:910
+msgid "city bike"
+msgstr "City-Bike"
+
+#: fixmyapp/models.py:911
+msgid "mountain bike"
+msgstr "Mountain-Bike"
+
+#: fixmyapp/models.py:912
+msgid "e-bike"
+msgstr "E-Bike"
+
+#: fixmyapp/models.py:913
+msgid "cargo bike"
+msgstr "Lastenrad"
+
+#: fixmyapp/models.py:914
+msgid "e-cargo-bike"
+msgstr "E-Lastenrad"
+
+#: fixmyapp/models.py:921
+msgid "never"
+msgstr "nie"
+
+#: fixmyapp/models.py:922
+msgid "once per day"
+msgstr "ein mal pro Tag"
+
+#: fixmyapp/models.py:923
+msgid "once per week"
+msgstr "einmal pro Woche"
+
+#: fixmyapp/models.py:924
+msgid "once per month"
+msgstr "einmal pro Monat"
+
+#: fixmyapp/models.py:926
+msgid "age"
+msgstr "Alter"
+
+#: fixmyapp/models.py:928
+msgid "category of bike"
+msgstr "Fahrradtyp"
+
+#: fixmyapp/models.py:935
+msgid "has trailer"
+msgstr "Anhänger"
+
+#: fixmyapp/models.py:939
+msgid "postal code"
+msgstr "PLZ"
+
+#: fixmyapp/models.py:942
+msgid "sex"
+msgstr "Geschlecht"
+
+#: fixmyapp/models.py:944
+msgid "speed"
+msgstr "Geschwindigkeit"
+
+#: fixmyapp/models.py:946
+msgid "security"
+msgstr "Sicherheit"
+
+#: fixmyapp/models.py:949
+msgid "usage"
+msgstr "Nutzung"
+
+#: fixmyapp/models.py:953
+msgid "profile"
+msgstr "Profil"
+
+#: fixmyapp/models.py:954
+msgid "profiles"
+msgstr "Profile"
+
+#: fixmyapp/models.py:965
+msgid "new"
+msgstr ""
+
+#: fixmyapp/models.py:966
+msgid "verification"
+msgstr ""
+
+#: fixmyapp/models.py:967
+msgid "accepted"
+msgstr ""
+
+#: fixmyapp/models.py:968
+msgid "rejected"
+msgstr ""
+
+#: fixmyapp/models.py:969
+msgid "done"
+msgstr ""
+
+#: fixmyapp/models.py:972
+msgid "address"
+msgstr "Adresse"
+
+#: fixmyapp/models.py:977
+msgid "details"
+msgstr "Details"
+
+#: fixmyapp/models.py:989
+msgid "reason for status"
+msgstr "Begründung"
+
+#: fixmyapp/models.py:995
+msgid "report"
+msgstr "Meldung"
+
+#: fixmyapp/models.py:996
+msgid "reports"
+msgstr "Meldungen"
 
 #: templates/email/activation.html:8
 msgid "Please go to the following page to activate account:"
@@ -31,8 +411,6 @@ msgid "Your team"
 msgstr "Dein FixMyBerlin-Team"
 
 #: templates/email/password_reset.html:4
-#, fuzzy
-#| msgid "Password reset on %(site_name)s"
 msgid "Password reset"
 msgstr "Zurücksetzen deines Passwortes für FixMyBerlin"
 
@@ -43,10 +421,3 @@ msgstr "Bitte besuche die folgende Seite, um dein Passwort zurück zu setzen:"
 #: templates/email/password_reset.html:12
 msgid "Your username, in case you've forgotten:"
 msgstr "Falls du deinen Benutzernamen vergessen haben solltest:"
-
-#, fuzzy
-#~ msgid "Account activation"
-#~ msgstr "Aktivierung deines Kontos für FixMyBerlin"
-
-#~ msgid "The %(site_name)s team"
-#~ msgstr "Dein FixMyBerlin-Team"

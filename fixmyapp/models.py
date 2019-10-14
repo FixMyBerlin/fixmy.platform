@@ -824,6 +824,8 @@ class Project(BaseModel):
         (BOTH, 'both')
     )
 
+    project_key = models.CharField(
+        _('project key'), max_length=100, unique=True)
     published = models.BooleanField(_('published'), default=True)
     title = models.CharField(_('title'), max_length=256)
     side = models.PositiveSmallIntegerField(_('side'), choices=SIDE_CHOICES)
@@ -840,8 +842,6 @@ class Project(BaseModel):
         null=True,
         max_length=40,
         choices=CATEGORY_CHOICES)
-    project_key = models.CharField(
-        _('project key'), blank=True, null=True, max_length=100, unique=True)
     street_name = models.CharField(_('street name'), max_length=100)
     borough = models.CharField(
         _('borough'), blank=True, null=True, max_length=255)

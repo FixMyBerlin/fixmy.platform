@@ -207,6 +207,7 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
             'faq',
             'geometry',
             'center',
+            'length',
             'photos',
             'likes',
             'liked_by_user',

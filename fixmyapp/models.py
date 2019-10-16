@@ -836,6 +836,13 @@ class Project(BaseModel):
         if self.geometry:
             return self.geometry.point_on_surface
 
+    def length(self):
+        if self.geometry:
+            return self.geometry.length
+
+    def __str__(self):
+        return self.project_key
+
 
 class Profile(BaseModel):
     MALE = 'm'

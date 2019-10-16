@@ -63,7 +63,7 @@ urlpatterns = [
     ),
     path(
         'projects',
-        cache_page(60 * 60 * 4)(ProjectList.as_view()),
+        ProjectList.as_view(),
         name='project-list'
     ),
     path(

@@ -171,6 +171,7 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
     photos = PhotoSerializer(many=True, default=[Photo(**PLACEHOLDER_PHOTO)])
     geometry = GeometryField(precision=14)
     center = GeometryField(precision=14)
+    length = serializers.DecimalField(None, 0)
     likes = serializers.SerializerMethodField()
     liked_by_user = serializers.SerializerMethodField()
 

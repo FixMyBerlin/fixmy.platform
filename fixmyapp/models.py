@@ -838,7 +838,7 @@ class Project(BaseModel):
 
     def length(self):
         if self.geometry:
-            return self.geometry.length
+            return self.geometry.transform(3035, clone=True).length
 
     def __str__(self):
         return self.project_key

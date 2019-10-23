@@ -816,6 +816,7 @@ class Project(BaseModel):
     description = MarkdownxField()
     short_description = models.CharField(blank=True, null=True, max_length=200)
     geometry = models.GeometryField(blank=True, null=True)
+    length = models.IntegerField(blank=True, null=True)
     category = models.CharField(blank=True, null=True, max_length=40, choices=CATEGORY_CHOICES)
     project_key = models.CharField(blank=True, null=True, max_length=100)
     street_name = models.CharField(max_length=100)
@@ -835,10 +836,6 @@ class Project(BaseModel):
     def center(self):
         if self.geometry:
             return self.geometry.point_on_surface
-
-    def length(self):
-        if self.geometry:
-            return self.geometry.transform(3035, clone=True).length
 
     def __str__(self):
         return self.project_key

@@ -142,9 +142,9 @@ class Question(BaseModel):
 class Photo(BaseModel):
     content_object = GenericForeignKey('content_type', 'object_id')
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    copyright = models.CharField(blank=True, null=True, max_length=256)
+    copyright = models.CharField(_('copyright'), blank=True, null=True, max_length=256)
     object_id = models.PositiveIntegerField()
-    src = models.ImageField(upload_to='photos', verbose_name='File')
+    src = models.ImageField(upload_to='photos', verbose_name=_('file'))
 
     class Meta:
         verbose_name = _('photo')
@@ -398,33 +398,33 @@ class SectionDetails(BaseModel):
     RIGHT = 0
     LEFT = 1
     SIDE_CHOICES = (
-        (RIGHT, 'right'),
-        (LEFT, 'left'),
+        (RIGHT, _('right')),
+        (LEFT, _('left')),
     )
     NORTH = 'N'
     EAST = 'E'
     SOUTH = 'S'
     WEST = 'W'
     ORIENTATION_CHOICES = (
-        (NORTH, 'north'),
-        (EAST, 'east'),
-        (SOUTH, 'south'),
-        (WEST, 'west'),
+        (NORTH, _('north')),
+        (EAST, _('east')),
+        (SOUTH, _('south')),
+        (WEST, _('west')),
     )
     AVG_WIDTH_CROSSINGS = 6
     CI_RATIO_MIN = 0.65
 
     section = models.ForeignKey(
         Section, related_name='details', on_delete=models.CASCADE)
-    side = models.PositiveSmallIntegerField(choices=SIDE_CHOICES)
-    speed_limit = models.PositiveSmallIntegerField()
-    daily_traffic = models.DecimalField(max_digits=8, decimal_places=2)
-    daily_traffic_heavy = models.DecimalField(max_digits=8, decimal_places=2)
-    daily_traffic_cargo = models.DecimalField(max_digits=8, decimal_places=2)
-    daily_traffic_bus = models.DecimalField(max_digits=8, decimal_places=2)
-    length = models.DecimalField(max_digits=8, decimal_places=2)
-    crossings = models.PositiveSmallIntegerField()
-    orientation = models.CharField(max_length=1, choices=ORIENTATION_CHOICES)
+    side = models.PositiveSmallIntegerField(_('side'), choices=SIDE_CHOICES)
+    speed_limit = models.PositiveSmallIntegerField(_('speed limit'))
+    daily_traffic = models.DecimalField(_('daily traffic'), max_digits=8, decimal_places=2)
+    daily_traffic_heavy = models.DecimalField(_('daily traffic heavy'), max_digits=8, decimal_places=2)
+    daily_traffic_cargo = models.DecimalField(_('daily traffic cargo'), max_digits=8, decimal_places=2)
+    daily_traffic_bus = models.DecimalField(_('daily traffic bus'), max_digits=8, decimal_places=2)
+    length = models.DecimalField(_('length'), max_digits=8, decimal_places=2)
+    crossings = models.PositiveSmallIntegerField(_('crossings'))
+    orientation = models.CharField(_('orientation'), max_length=1, choices=ORIENTATION_CHOICES)
     rva1 = models.DecimalField(max_digits=16, decimal_places=12)
     rva2 = models.DecimalField(max_digits=16, decimal_places=12)
     rva3 = models.DecimalField(max_digits=16, decimal_places=12)
@@ -819,9 +819,9 @@ class Project(BaseModel):
     LEFT = 1
     BOTH = 2
     SIDE_CHOICES = (
-        (RIGHT, 'right'),
-        (LEFT, 'left'),
-        (BOTH, 'both')
+        (RIGHT, _('right')),
+        (LEFT, _('left')),
+        (BOTH, _('both'))
     )
 
     project_key = models.CharField(

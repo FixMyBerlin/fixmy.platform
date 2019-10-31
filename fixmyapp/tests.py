@@ -287,7 +287,7 @@ class LikeTest(object):
             '/api/jwt/create/',
             json.dumps(self.credentials),
             content_type='application/json')
-        return {'HTTP_AUTHORIZATION': 'JWT ' + response.json()['token']}
+        return {'HTTP_AUTHORIZATION': 'JWT ' + response.json()['access']}
 
 
 class LikeProjectTest(LikeTest, TestCase):
@@ -348,7 +348,7 @@ class NewsletterSignupTest(TestCase):
             '/api/jwt/create/',
             json.dumps(self.credentials),
             content_type='application/json')
-        return {'HTTP_AUTHORIZATION': 'JWT ' + response.json()['token']}
+        return {'HTTP_AUTHORIZATION': 'JWT ' + response.json()['access']}
 
 
 @override_settings(

@@ -247,7 +247,7 @@ MAPBOX_USERNAME = os.getenv('MAPBOX_USERNAME', '')
 REST_FRAMEWORK = {
     'COERCE_DECIMAL_TO_STRING': False,
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
@@ -258,13 +258,13 @@ REST_FRAMEWORK = {
 }
 
 
-# REST framework JWT
-# http://getblimp.github.io/django-rest-framework-jwt/#rest-framework-jwt-auth
+# Simple JWT
+# https://github.com/davesque/django-rest-framework-simplejwt
 
-JWT_AUTH = {
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=180),
-    'JWT_ALLOW_REFRESH': True,
-    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=720)
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(days=180),
+    'AUTH_HEADER_TYPES': ('JWT',),
+    'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=720),
 }
 
 

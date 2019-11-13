@@ -27,9 +27,9 @@ class SurveyView(APIView):
 
         if serializer.is_valid():
             survey = serializer.save()
-            user_group = survey.profile.get('userGroup')
-            perspective = self.perspective_map[user_group][0]
-            size = self.perspective_map[user_group][1]
+            perspective_ = survey.profile.get('perspective')
+            perspective = self.perspective_map[perspective_][0]
+            size = self.perspective_map[perspective_][1]
             scenes = Scene.random_group(perspective, project, size)
             total_ratings = Rating.objects.count()
 

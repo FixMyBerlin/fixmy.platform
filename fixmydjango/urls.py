@@ -35,6 +35,7 @@ urlpatterns = [
     path('api/', include('fixmyapp.urls')),
     path('api/', include('djoser.urls')),
     path('api/', include('djoser.urls.jwt')),
+    path('api/survey/', include('survey.urls')),
     path('markdownx/', include('markdownx.urls')),
     path('reset/<str:uid>/<str:token>', reset, name='reset'),
     path('activate/<str:uid>/<str:token>', activate, name='activate'),

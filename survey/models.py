@@ -44,6 +44,16 @@ class Scene(BaseModel):
             self.project, self.experiment, self.perspective, self.number)
 
     @classmethod
+    def find_by_scene_id(cls, scene_id):
+        parts = scene_id.split('_')
+        return cls.objects.get(
+            project=parts[0],
+            experiment=parts[1],
+            perspective=parts[2],
+            number=parts[3]
+        )
+
+    @classmethod
     def random_group(cls, perspective, project, size):
         scenes = cls.objects.filter(perspective=perspective, project=project)
         d = sum(s.weight for s in scenes)

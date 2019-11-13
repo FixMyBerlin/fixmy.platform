@@ -25,7 +25,7 @@ class SurveyView(APIView):
             'project': project
         })
 
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             survey = serializer.save()
             perspective_ = survey.profile.get('perspective')
             perspective = self.perspective_map[perspective_][0]
@@ -43,8 +43,6 @@ class SurveyView(APIView):
                 },
                 status=status.HTTP_201_CREATED
             )
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     @transaction.atomic
     def post(self, request, project, session):

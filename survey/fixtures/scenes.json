@@ -1,0 +1,2102 @@
+[
+{
+    "model": "survey.scene",
+    "pk": 1,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.832Z",
+        "modified_date": "2019-11-13T09:54:42.832Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 1,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_1.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 2,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.834Z",
+        "modified_date": "2019-11-13T09:54:42.834Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 2,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_2.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 3,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.835Z",
+        "modified_date": "2019-11-13T09:54:42.835Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 3,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_3.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 4,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.837Z",
+        "modified_date": "2019-11-13T09:54:42.837Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 4,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_4.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 5,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.838Z",
+        "modified_date": "2019-11-13T09:54:42.838Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 5,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_5.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 6,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.839Z",
+        "modified_date": "2019-11-13T09:54:42.839Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 6,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_6.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 7,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.840Z",
+        "modified_date": "2019-11-13T09:54:42.840Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 7,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_7.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 8,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.841Z",
+        "modified_date": "2019-11-13T09:54:42.841Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 8,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_8.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 9,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.842Z",
+        "modified_date": "2019-11-13T09:54:42.842Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 9,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_9.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 10,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.844Z",
+        "modified_date": "2019-11-13T09:54:42.844Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 10,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_10.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 11,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.845Z",
+        "modified_date": "2019-11-13T09:54:42.845Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 11,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_11.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 12,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.846Z",
+        "modified_date": "2019-11-13T09:54:42.846Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 12,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_12.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 13,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.847Z",
+        "modified_date": "2019-11-13T09:54:42.847Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 13,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_13.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 14,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.848Z",
+        "modified_date": "2019-11-13T09:54:42.848Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 14,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_14.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 15,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.849Z",
+        "modified_date": "2019-11-13T09:54:42.849Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 15,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_15.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 16,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.850Z",
+        "modified_date": "2019-11-13T09:54:42.850Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 16,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_16.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 17,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.851Z",
+        "modified_date": "2019-11-13T09:54:42.851Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 17,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_17.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 18,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.852Z",
+        "modified_date": "2019-11-13T09:54:42.853Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 18,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_18.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 19,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.854Z",
+        "modified_date": "2019-11-13T09:54:42.854Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 19,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_19.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 20,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.855Z",
+        "modified_date": "2019-11-13T09:54:42.855Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 20,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_20.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 21,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.856Z",
+        "modified_date": "2019-11-13T09:54:42.856Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 21,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_21.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 22,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.857Z",
+        "modified_date": "2019-11-13T09:54:42.857Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 22,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_22.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 23,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.858Z",
+        "modified_date": "2019-11-13T09:54:42.858Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 23,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_23.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 24,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.860Z",
+        "modified_date": "2019-11-13T09:54:42.860Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 24,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_24.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 25,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.861Z",
+        "modified_date": "2019-11-13T09:54:42.861Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 25,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_25.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 26,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.862Z",
+        "modified_date": "2019-11-13T09:54:42.862Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 26,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_26.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 27,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.863Z",
+        "modified_date": "2019-11-13T09:54:42.863Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 27,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_27.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 28,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.864Z",
+        "modified_date": "2019-11-13T09:54:42.865Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 28,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_28.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 29,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.866Z",
+        "modified_date": "2019-11-13T09:54:42.866Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 29,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_29.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 30,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.867Z",
+        "modified_date": "2019-11-13T09:54:42.867Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 30,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_30.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 31,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.868Z",
+        "modified_date": "2019-11-13T09:54:42.868Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 31,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_31.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 32,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.870Z",
+        "modified_date": "2019-11-13T09:54:42.870Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 32,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_32.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 33,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.871Z",
+        "modified_date": "2019-11-13T09:54:42.871Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 33,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_33.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 34,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.872Z",
+        "modified_date": "2019-11-13T09:54:42.872Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 34,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_34.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 35,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.873Z",
+        "modified_date": "2019-11-13T09:54:42.873Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 35,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_35.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 36,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.875Z",
+        "modified_date": "2019-11-13T09:54:42.875Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 36,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_36.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 37,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.876Z",
+        "modified_date": "2019-11-13T09:54:42.876Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 37,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_37.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 38,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.877Z",
+        "modified_date": "2019-11-13T09:54:42.877Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 38,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_38.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 39,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.878Z",
+        "modified_date": "2019-11-13T09:54:42.878Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 39,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_39.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 40,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.879Z",
+        "modified_date": "2019-11-13T09:54:42.879Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 40,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_40.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 41,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.881Z",
+        "modified_date": "2019-11-13T09:54:42.881Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 41,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_41.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 42,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.882Z",
+        "modified_date": "2019-11-13T09:54:42.882Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 42,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_42.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 43,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.883Z",
+        "modified_date": "2019-11-13T09:54:42.883Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 43,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_43.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 44,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.884Z",
+        "modified_date": "2019-11-13T09:54:42.884Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 44,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_44.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 45,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.885Z",
+        "modified_date": "2019-11-13T09:54:42.885Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 45,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_45.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 46,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.889Z",
+        "modified_date": "2019-11-13T09:54:42.889Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 46,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_46.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 47,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.896Z",
+        "modified_date": "2019-11-13T09:54:42.896Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 47,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_47.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 48,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.897Z",
+        "modified_date": "2019-11-13T09:54:42.897Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 48,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_48.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 49,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.899Z",
+        "modified_date": "2019-11-13T09:54:42.899Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 49,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_49.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 50,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.900Z",
+        "modified_date": "2019-11-13T09:54:42.900Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 50,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_50.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 51,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.901Z",
+        "modified_date": "2019-11-13T09:54:42.901Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 51,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_51.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 52,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.903Z",
+        "modified_date": "2019-11-13T09:54:42.903Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 52,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_52.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 53,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.904Z",
+        "modified_date": "2019-11-13T09:54:42.905Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 53,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_53.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 54,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.906Z",
+        "modified_date": "2019-11-13T09:54:42.906Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 54,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_54.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 55,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.907Z",
+        "modified_date": "2019-11-13T09:54:42.907Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 55,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_55.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 56,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.908Z",
+        "modified_date": "2019-11-13T09:54:42.908Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 56,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_56.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 57,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.910Z",
+        "modified_date": "2019-11-13T09:54:42.910Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 57,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_57.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 58,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.911Z",
+        "modified_date": "2019-11-13T09:54:42.911Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 58,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_58.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 59,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.912Z",
+        "modified_date": "2019-11-13T09:54:42.912Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 59,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_59.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 60,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.913Z",
+        "modified_date": "2019-11-13T09:54:42.913Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 60,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_60.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 61,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.914Z",
+        "modified_date": "2019-11-13T09:54:42.914Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 61,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_61.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 62,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.915Z",
+        "modified_date": "2019-11-13T09:54:42.915Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 62,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_62.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 63,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.916Z",
+        "modified_date": "2019-11-13T09:54:42.916Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 63,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_63.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 64,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.918Z",
+        "modified_date": "2019-11-13T09:54:42.918Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 64,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_64.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 65,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.919Z",
+        "modified_date": "2019-11-13T09:54:42.919Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 65,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_65.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 66,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.920Z",
+        "modified_date": "2019-11-13T09:54:42.920Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 66,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_66.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 67,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.921Z",
+        "modified_date": "2019-11-13T09:54:42.921Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 67,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_67.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 68,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.922Z",
+        "modified_date": "2019-11-13T09:54:42.922Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 68,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_68.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 69,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.923Z",
+        "modified_date": "2019-11-13T09:54:42.923Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 69,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_69.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 70,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.925Z",
+        "modified_date": "2019-11-13T09:54:42.925Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 70,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_70.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 71,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.926Z",
+        "modified_date": "2019-11-13T09:54:42.926Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 71,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_71.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 72,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.927Z",
+        "modified_date": "2019-11-13T09:54:42.927Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 72,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_72.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 73,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.928Z",
+        "modified_date": "2019-11-13T09:54:42.928Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 73,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_73.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 74,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.929Z",
+        "modified_date": "2019-11-13T09:54:42.929Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 74,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_74.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 75,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.930Z",
+        "modified_date": "2019-11-13T09:54:42.930Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "C",
+        "number": 75,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_C_75.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 76,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.932Z",
+        "modified_date": "2019-11-13T09:54:42.932Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 1,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_1.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 77,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.933Z",
+        "modified_date": "2019-11-13T09:54:42.933Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 2,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_2.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 78,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.934Z",
+        "modified_date": "2019-11-13T09:54:42.934Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 3,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_3.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 79,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.935Z",
+        "modified_date": "2019-11-13T09:54:42.935Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 4,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_4.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 80,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.936Z",
+        "modified_date": "2019-11-13T09:54:42.936Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 5,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_5.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 81,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.937Z",
+        "modified_date": "2019-11-13T09:54:42.937Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 6,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_6.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 82,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.939Z",
+        "modified_date": "2019-11-13T09:54:42.939Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 7,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_7.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 83,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.940Z",
+        "modified_date": "2019-11-13T09:54:42.940Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 8,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_8.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 84,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.941Z",
+        "modified_date": "2019-11-13T09:54:42.941Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 9,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_9.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 85,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.942Z",
+        "modified_date": "2019-11-13T09:54:42.942Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 10,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_10.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 86,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.944Z",
+        "modified_date": "2019-11-13T09:54:42.944Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 11,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_11.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 87,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.946Z",
+        "modified_date": "2019-11-13T09:54:42.946Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 12,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_12.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 88,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.947Z",
+        "modified_date": "2019-11-13T09:54:42.947Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 13,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_13.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 89,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.948Z",
+        "modified_date": "2019-11-13T09:54:42.948Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 14,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_14.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 90,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.949Z",
+        "modified_date": "2019-11-13T09:54:42.949Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 15,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_15.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 91,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.950Z",
+        "modified_date": "2019-11-13T09:54:42.950Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 16,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_16.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 92,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.952Z",
+        "modified_date": "2019-11-13T09:54:42.952Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 17,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_17.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 93,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.953Z",
+        "modified_date": "2019-11-13T09:54:42.953Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 18,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_18.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 94,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.954Z",
+        "modified_date": "2019-11-13T09:54:42.954Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 19,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_19.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 95,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.955Z",
+        "modified_date": "2019-11-13T09:54:42.955Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 20,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_20.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 96,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.956Z",
+        "modified_date": "2019-11-13T09:54:42.956Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 21,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_21.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 97,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.958Z",
+        "modified_date": "2019-11-13T09:54:42.958Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 22,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_22.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 98,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.959Z",
+        "modified_date": "2019-11-13T09:54:42.959Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 23,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_23.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 99,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.960Z",
+        "modified_date": "2019-11-13T09:54:42.960Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 24,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_24.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 100,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.961Z",
+        "modified_date": "2019-11-13T09:54:42.961Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 25,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_25.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 101,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.962Z",
+        "modified_date": "2019-11-13T09:54:42.962Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 26,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_26.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 102,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.964Z",
+        "modified_date": "2019-11-13T09:54:42.964Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 27,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_27.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 103,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.965Z",
+        "modified_date": "2019-11-13T09:54:42.965Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 28,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_28.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 104,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.966Z",
+        "modified_date": "2019-11-13T09:54:42.966Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 29,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_29.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 105,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.967Z",
+        "modified_date": "2019-11-13T09:54:42.967Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 30,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_30.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 106,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.969Z",
+        "modified_date": "2019-11-13T09:54:42.969Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 31,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_31.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 107,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.970Z",
+        "modified_date": "2019-11-13T09:54:42.970Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 32,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_32.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 108,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.972Z",
+        "modified_date": "2019-11-13T09:54:42.972Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 33,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_33.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 109,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.973Z",
+        "modified_date": "2019-11-13T09:54:42.973Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 34,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_34.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 110,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.974Z",
+        "modified_date": "2019-11-13T09:54:42.974Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 35,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_35.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 111,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.975Z",
+        "modified_date": "2019-11-13T09:54:42.975Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 36,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_36.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 112,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.976Z",
+        "modified_date": "2019-11-13T09:54:42.976Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 37,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_37.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 113,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.977Z",
+        "modified_date": "2019-11-13T09:54:42.977Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 38,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_38.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 114,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.979Z",
+        "modified_date": "2019-11-13T09:54:42.979Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 39,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_39.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 115,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.980Z",
+        "modified_date": "2019-11-13T09:54:42.980Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 40,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_40.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 116,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.981Z",
+        "modified_date": "2019-11-13T09:54:42.981Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 41,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_41.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 117,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.982Z",
+        "modified_date": "2019-11-13T09:54:42.982Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 42,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_42.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 118,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.983Z",
+        "modified_date": "2019-11-13T09:54:42.983Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 43,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_43.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 119,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.984Z",
+        "modified_date": "2019-11-13T09:54:42.984Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 44,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_44.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 120,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.985Z",
+        "modified_date": "2019-11-13T09:54:42.985Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 45,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_45.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 121,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.986Z",
+        "modified_date": "2019-11-13T09:54:42.986Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 46,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_46.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 122,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.988Z",
+        "modified_date": "2019-11-13T09:54:42.988Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 47,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_47.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 123,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.990Z",
+        "modified_date": "2019-11-13T09:54:42.990Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 48,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_48.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 124,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.991Z",
+        "modified_date": "2019-11-13T09:54:42.991Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 49,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_49.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 125,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.993Z",
+        "modified_date": "2019-11-13T09:54:42.993Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 50,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_50.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 126,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.994Z",
+        "modified_date": "2019-11-13T09:54:42.994Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 51,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_51.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 127,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.996Z",
+        "modified_date": "2019-11-13T09:54:42.996Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 52,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_52.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 128,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.997Z",
+        "modified_date": "2019-11-13T09:54:42.997Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 53,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_53.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 129,
+    "fields": {
+        "created_date": "2019-11-13T09:54:42.999Z",
+        "modified_date": "2019-11-13T09:54:42.999Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 54,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_54.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 130,
+    "fields": {
+        "created_date": "2019-11-13T09:54:43.001Z",
+        "modified_date": "2019-11-13T09:54:43.001Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 55,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_55.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 131,
+    "fields": {
+        "created_date": "2019-11-13T09:54:43.002Z",
+        "modified_date": "2019-11-13T09:54:43.002Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 56,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_56.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 132,
+    "fields": {
+        "created_date": "2019-11-13T09:54:43.004Z",
+        "modified_date": "2019-11-13T09:54:43.004Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 57,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_57.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 133,
+    "fields": {
+        "created_date": "2019-11-13T09:54:43.006Z",
+        "modified_date": "2019-11-13T09:54:43.006Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 58,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_58.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 134,
+    "fields": {
+        "created_date": "2019-11-13T09:54:43.007Z",
+        "modified_date": "2019-11-13T09:54:43.007Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 59,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_59.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 135,
+    "fields": {
+        "created_date": "2019-11-13T09:54:43.009Z",
+        "modified_date": "2019-11-13T09:54:43.009Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 60,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_60.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 136,
+    "fields": {
+        "created_date": "2019-11-13T09:54:43.011Z",
+        "modified_date": "2019-11-13T09:54:43.011Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 61,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_61.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 137,
+    "fields": {
+        "created_date": "2019-11-13T09:54:43.012Z",
+        "modified_date": "2019-11-13T09:54:43.012Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 62,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_62.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 138,
+    "fields": {
+        "created_date": "2019-11-13T09:54:43.014Z",
+        "modified_date": "2019-11-13T09:54:43.014Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 63,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_63.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 139,
+    "fields": {
+        "created_date": "2019-11-13T09:54:43.016Z",
+        "modified_date": "2019-11-13T09:54:43.016Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 64,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_64.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 140,
+    "fields": {
+        "created_date": "2019-11-13T09:54:43.017Z",
+        "modified_date": "2019-11-13T09:54:43.017Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 65,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_65.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 141,
+    "fields": {
+        "created_date": "2019-11-13T09:54:43.019Z",
+        "modified_date": "2019-11-13T09:54:43.019Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 66,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_66.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 142,
+    "fields": {
+        "created_date": "2019-11-13T09:54:43.020Z",
+        "modified_date": "2019-11-13T09:54:43.020Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 67,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_67.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 143,
+    "fields": {
+        "created_date": "2019-11-13T09:54:43.022Z",
+        "modified_date": "2019-11-13T09:54:43.022Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 68,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_68.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 144,
+    "fields": {
+        "created_date": "2019-11-13T09:54:43.024Z",
+        "modified_date": "2019-11-13T09:54:43.024Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 69,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_69.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 145,
+    "fields": {
+        "created_date": "2019-11-13T09:54:43.025Z",
+        "modified_date": "2019-11-13T09:54:43.025Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 70,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_70.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 146,
+    "fields": {
+        "created_date": "2019-11-13T09:54:43.027Z",
+        "modified_date": "2019-11-13T09:54:43.027Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 71,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_71.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 147,
+    "fields": {
+        "created_date": "2019-11-13T09:54:43.028Z",
+        "modified_date": "2019-11-13T09:54:43.028Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 72,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_72.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 148,
+    "fields": {
+        "created_date": "2019-11-13T09:54:43.030Z",
+        "modified_date": "2019-11-13T09:54:43.030Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 73,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_73.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 149,
+    "fields": {
+        "created_date": "2019-11-13T09:54:43.033Z",
+        "modified_date": "2019-11-13T09:54:43.033Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 74,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_74.jpg"
+    }
+},
+{
+    "model": "survey.scene",
+    "pk": 150,
+    "fields": {
+        "created_date": "2019-11-13T09:54:43.035Z",
+        "modified_date": "2019-11-13T09:54:43.035Z",
+        "project": 1,
+        "experiment": "SI",
+        "perspective": "A",
+        "number": 75,
+        "weight": 1,
+        "image": "KatasterKI/scenes/01_SI_A_75.jpg"
+    }
+}
+]

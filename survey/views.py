@@ -1,5 +1,7 @@
 from django.db import transaction
+from django.shortcuts import get_object_or_404
 from rest_framework import permissions, status
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Scene, Rating
@@ -47,3 +49,14 @@ class SurveyView(APIView):
     @transaction.atomic
     def post(self, request, project, session):
         pass
+
+
+@api_view(['PUT'])
+@permission_classes((permissions.AllowAny,))
+def add_rating(request, project, session, scene_id):
+    scene = Scene.find_by_scene_id(scene_id)
+    rating = get_object_or_404(Rating, survey=session, scene=scene)
+    rating.duration = request.data.get('duration')
+    rating.rating = request.data.get('rating')
+    rating.save()
+    return Response(status=status.HTTP_204_NO_CONTENT)

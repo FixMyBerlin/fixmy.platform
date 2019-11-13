@@ -2,6 +2,7 @@ from django.contrib.postgres.fields import JSONField
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from fixmyapp.models import BaseModel
+import numpy
 
 
 class Scene(BaseModel):
@@ -41,6 +42,13 @@ class Scene(BaseModel):
     def __str__(self):
         return '{:02}_{}_{}_{}'.format(
             self.project, self.experiment, self.perspective, self.number)
+
+    @classmethod
+    def random_group(cls, perspective, project, size):
+        scenes = cls.objects.filter(perspective=perspective, project=project)
+        d = sum(s.weight for s in scenes)
+        p = [s.weight/d for s in scenes]
+        return numpy.random.choice(scenes, size, replace=False, p=p)
 
 
 class Survey(BaseModel):

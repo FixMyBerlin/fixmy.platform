@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-28 08:44+0000\n"
+"POT-Creation-Date: 2019-11-13 10:02+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -322,7 +322,7 @@ msgstr "Querschnitt"
 msgid "faq"
 msgstr "Häufige Fragen"
 
-#: fixmyapp/models.py:886
+#: fixmyapp/models.py:886 survey/models.py:25
 msgid "project"
 msgstr "Projekt"
 
@@ -461,6 +461,58 @@ msgstr "Meldung"
 #: fixmyapp/models.py:1000
 msgid "reports"
 msgstr "Meldungen"
+
+#: survey/models.py:11
+msgid "cycle path"
+msgstr "Radweg"
+
+#: survey/models.py:12
+msgid "main street"
+msgstr "Hauptstraße"
+
+#: survey/models.py:13
+msgid "side street"
+msgstr "Nebenstraße"
+
+#: survey/models.py:20
+msgid "car"
+msgstr "Auto"
+
+#: survey/models.py:21
+msgid "bicycle"
+msgstr "Fahrrad"
+
+#: survey/models.py:22
+msgid "pedestrian"
+msgstr "Fußgänger"
+
+#: survey/models.py:27
+msgid "experiment"
+msgstr "Experiment"
+
+#: survey/models.py:30
+msgid "perspective"
+msgstr "Perspektive"
+
+#: survey/models.py:32
+msgid "number"
+msgstr "Nummer"
+
+#: survey/models.py:33
+msgid "weight"
+msgstr "Gewicht"
+
+#: survey/models.py:34
+msgid "image"
+msgstr "Bild"
+
+#: survey/models.py:37
+msgid "scene"
+msgstr "Szene"
+
+#: survey/models.py:38
+msgid "scenes"
+msgstr "Szenen"
 
 #: templates/email/activation.html:8
 msgid "Please go to the following page to activate account:"

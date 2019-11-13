@@ -31,7 +31,7 @@ class SurveyView(APIView):
             perspective = self.perspective_map[perspective_][0]
             size = self.perspective_map[perspective_][1]
             scenes = Scene.random_group(perspective, project, size)
-            total_ratings = Rating.objects.count()
+            total_ratings = Rating.objects.filter(rating__isnull=False).count()
 
             for s in scenes:
                 Rating.objects.create(scene=s, survey=survey)

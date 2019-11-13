@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Rating, Scene, Survey
-from .serializers import SurveySerializer
+from .serializers import RatingSerializer, SurveySerializer
 
 
 class SurveyView(APIView):
@@ -71,7 +71,8 @@ class SurveyView(APIView):
 def add_rating(request, project, session, scene_id):
     scene = Scene.find_by_scene_id(scene_id)
     rating = get_object_or_404(Rating, survey=session, scene=scene)
-    rating.duration = request.data.get('duration')
-    rating.rating = request.data.get('rating')
-    rating.save()
-    return Response(status=status.HTTP_204_NO_CONTENT)
+    serializer = RatingSerializer(rating, data=request.data)
+
+    if serializer.is_valid(raise_exception=True):
+        serializer.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)

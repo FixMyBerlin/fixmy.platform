@@ -59,3 +59,16 @@ class Survey(BaseModel):
     class Meta:
         verbose_name = _('survey')
         verbose_name_plural = _('surveys')
+
+
+class Rating(BaseModel):
+    duration = models.PositiveIntegerField(_('duration'), null=True)
+    rating = models.PositiveSmallIntegerField(_('rating'), null=True)
+    scene = models.ForeignKey(
+        Scene, on_delete=models.SET_NULL, null=True)
+    survey = models.ForeignKey(
+        Survey, related_name='ratings', on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = _('rating')
+        verbose_name_plural = _('ratings')

@@ -1,3 +1,4 @@
+from django.contrib.postgres.fields import JSONField
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from fixmyapp.models import BaseModel
@@ -40,3 +41,13 @@ class Scene(BaseModel):
     def __str__(self):
         return '{:02}_{}_{}_{}'.format(
             self.project, self.experiment, self.perspective, self.number)
+
+
+class Survey(BaseModel):
+    id = models.UUIDField(_('Session ID'), primary_key=True)
+    profile = JSONField(_('profile'))
+    project = models.PositiveSmallIntegerField(_('project'))
+
+    class Meta:
+        verbose_name = _('survey')
+        verbose_name_plural = _('surveys')

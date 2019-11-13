@@ -22,16 +22,16 @@ class Scene(BaseModel):
         (PERSPECTIVE_P, _('pedestrian')),
     )
 
+    project = models.PositiveSmallIntegerField(_('project'))
     experiment = models.CharField(
         _('experiment'), choices=EXPERIMENT_CHOICES, max_length=2
     )
-    image = models.ImageField(_('image'), upload_to='KatasterKI/scenes')
-    number = models.PositiveIntegerField(_('number'))
     perspective = models.CharField(
         _('perspective'), choices=PERSPECTIVE_CHOICES, max_length=1
     )
-    project = models.PositiveSmallIntegerField(_('project'))
+    number = models.PositiveIntegerField(_('number'))
     weight = models.PositiveSmallIntegerField(_('weight'))
+    image = models.ImageField(_('image'), upload_to='KatasterKI/scenes')
 
     class Meta:
         verbose_name = _('scene')

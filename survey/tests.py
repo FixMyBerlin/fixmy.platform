@@ -34,7 +34,7 @@ class ViewsTest(TestCase):
                 'public': 3
             },
             'userGroup': 'car',
-            'perspective': 'car',
+            'perspective': 'C',
             'vehiclesOwned': ['car'],
             'whyBiking': ['social'],
             'zipcode': '22000'

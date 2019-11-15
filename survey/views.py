@@ -11,11 +11,6 @@ from .serializers import RatingSerializer, SurveySerializer
 class SurveyView(APIView):
 
     permission_classes = (permissions.AllowAny,)
-    perspective_map = {
-        'bicycle': ('C', 10),
-        'car': ('A', 5),
-        'pedestrian': ('P', 5),
-    }
 
     @transaction.atomic
     def put(self, request, project, session):
@@ -27,9 +22,8 @@ class SurveyView(APIView):
 
         if serializer.is_valid(raise_exception=True):
             survey = serializer.save()
-            perspective_ = survey.profile.get('perspective')
-            perspective = self.perspective_map[perspective_][0]
-            size = self.perspective_map[perspective_][1]
+            perspective = survey.profile.get('perspective')
+            size = 10 if perspective == Scene.PERSPECTIVE_C else 5
             scenes = Scene.random_group(perspective, project, size)
             total_ratings = Rating.objects.filter(rating__isnull=False).count()
 
@@ -46,9 +40,8 @@ class SurveyView(APIView):
 
     @transaction.atomic
     def post(self, request, project, session):
-        perspective_ = request.data.get('perspective')
-        perspective = self.perspective_map[perspective_][0]
-        size = self.perspective_map[perspective_][1]
+        perspective = request.data.get('perspective')
+        size = 10 if perspective == Scene.PERSPECTIVE_C else 5
 
         scenes = Scene.random_group(perspective, project, size)
         total_ratings = Rating.objects.filter(rating__isnull=False).count()

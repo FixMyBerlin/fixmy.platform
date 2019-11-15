@@ -34,7 +34,7 @@ class ViewsTest(TestCase):
                 'public': 3
             },
             'userGroup': 'car',
-            'perspective': 'C',
+            'perspective': 'A',
             'vehiclesOwned': ['car'],
             'whyBiking': ['social'],
             'zipcode': '22000'
@@ -86,7 +86,7 @@ class ViewsTest(TestCase):
         )
         response = self.client.post(
             '/api/survey/1/{}'.format(self.session),
-            data=json.dumps({'perspective': 'bicycle'}),
+            data=json.dumps({'perspective': 'C'}),
             content_type='application/json'
         )
         self.assertEqual(response.status_code, 200)

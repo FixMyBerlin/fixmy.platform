@@ -92,3 +92,28 @@ class ViewsTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json().get('ratings_total'), 152)
         self.assertEqual(len(response.json().get('scenes', [])), 10)
+
+    def test_fetch_results(self):
+        response = self.client.get('/api/survey/1/results')
+        self.assertEqual(response.status_code, 200)
+        self.assertIsInstance(response.json(), list)
+        self.assertGreater(len(response.json()), 0)
+        self.assertIsInstance(response.json()[0], dict)
+        self.assertIn('session_id', response.json()[0])
+        self.assertIn('created', response.json()[0])
+        self.assertIn('profile', response.json()[0])
+        self.assertIn('last_scene_id', response.json()[0])
+        self.assertRegex(
+            response.json()[0]['last_scene_id'],
+            '^\d{2}_[A-Z]{2}_[A-Z]_\d{1,}$'
+        )
+        self.assertIn('ratings', response.json()[0])
+        self.assertIsInstance(response.json()[0]['ratings'], list)
+        self.assertGreater(len(response.json()[0]['ratings']), 0)
+        self.assertRegex(
+            response.json()[0]['ratings'][0]['scene_id'],
+            '^\d{2}_[A-Z]{2}_[A-Z]_\d{1,}$'
+        )
+        self.assertTrue(
+            all(r['rating'] for r in response.json()[0].get('ratings', []))
+        )

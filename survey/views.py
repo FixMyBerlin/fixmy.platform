@@ -1,4 +1,5 @@
 from django.db import transaction
+from django.db.models import Prefetch
 from django.shortcuts import get_object_or_404
 from rest_framework import permissions, status
 from rest_framework.decorators import api_view, permission_classes
@@ -69,3 +70,22 @@ def add_rating(request, project, session, scene_id):
     if serializer.is_valid(raise_exception=True):
         serializer.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET'])
+@permission_classes((permissions.AllowAny,))
+def results(request, project):
+    prefetch_ratings = Prefetch(
+        'ratings',
+        queryset=Rating.objects
+            .filter(rating__isnull=False)
+            .order_by('modified_date')
+    )
+    queryset = (
+        Survey.objects
+            .filter(project=project)
+            .prefetch_related(prefetch_ratings)
+    )
+    data = SurveySerializer(queryset, many=True).data
+
+    return Response(data, status=status.HTTP_200_OK)

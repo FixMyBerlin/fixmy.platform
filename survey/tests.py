@@ -6,7 +6,7 @@ import uuid
 
 class ViewsTest(TestCase):
 
-    fixtures = ['scenes']
+    fixtures = ['ratings', 'scenes', 'surveys']
 
     def setUp(self):
         self.client = Client()
@@ -48,7 +48,7 @@ class ViewsTest(TestCase):
             content_type='application/json'
         )
         self.assertEqual(response.status_code, 201)
-        self.assertEqual(response.json().get('ratings_total'), 0)
+        self.assertEqual(response.json().get('ratings_total'), 152)
         self.assertEqual(len(response.json().get('scenes', [])), 5)
 
         ratings = Rating.objects.filter(survey=self.session).all()
@@ -90,5 +90,5 @@ class ViewsTest(TestCase):
             content_type='application/json'
         )
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json().get('ratings_total'), 0)
+        self.assertEqual(response.json().get('ratings_total'), 152)
         self.assertEqual(len(response.json().get('scenes', [])), 10)

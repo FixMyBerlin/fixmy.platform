@@ -1,5 +1,4 @@
 from django.core.management.base import BaseCommand
-from django.db.utils import IntegrityError
 from itertools import islice
 from survey.models import Scene
 import argparse
@@ -25,21 +24,18 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        Scene.objects.all().delete()
         fieldnames = ['SceneID', 'Weight']
         reader = csv.DictReader(options['file'], fieldnames)
 
         for row in islice(reader, 1, None):
-            try:
-                parts = row['SceneID'].split('_')
-                Scene.objects.create(
-                    experiment=parts[1],
-                    image='{}/{}.jpg'.format(
-                        options['image_dir'], row['SceneID']),
-                    number=parts[3],
-                    perspective=parts[2],
-                    project=parts[0],
-                    weight=row['Weight']
-                )
-            except IntegrityError:
-                pass
+            parts = row['SceneID'].split('_')
+            scene, _ = Scene.objects.get_or_create(
+                project=parts[0],
+                experiment=parts[1],
+                perspective=parts[2],
+                number=parts[3],
+            )
+            scene.weight = row['Weight']
+            scene.image='{}/{}.jpg'.format(
+                options['image_dir'], row['SceneID'])
+            scene.save()

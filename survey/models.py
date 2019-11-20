@@ -36,6 +36,7 @@ class Scene(BaseModel):
     image = models.ImageField(_('image'), upload_to='KatasterKI/scenes')
 
     class Meta:
+        unique_together = ('project', 'experiment', 'perspective', 'number')
         verbose_name = _('scene')
         verbose_name_plural = _('scenes')
 

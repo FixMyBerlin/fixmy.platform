@@ -10,7 +10,8 @@ class RatingSerializer(serializers.ModelSerializer):
 
 
 class SurveySerializer(serializers.ModelSerializer):
+    session_id = serializers.UUIDField(source='id')
 
     class Meta:
         model = Survey
-        fields = ('id', 'profile', 'project')
+        fields = ('session_id', 'profile', 'project')

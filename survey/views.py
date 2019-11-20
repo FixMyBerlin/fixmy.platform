@@ -15,7 +15,7 @@ class SurveyView(APIView):
     @transaction.atomic
     def put(self, request, project, session):
         serializer = SurveySerializer(data={
-            'id': session,
+            'session_id': session,
             'profile': request.data,
             'project': project
         })

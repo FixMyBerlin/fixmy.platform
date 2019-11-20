@@ -240,7 +240,7 @@ MAPBOX_USERNAME = os.getenv('MAPBOX_USERNAME', '')
 
 
 # REST Framework
-# http://dajngo-rest-framework.org
+# http://django-rest-framework.org
 
 REST_FRAMEWORK = {
     'COERCE_DECIMAL_TO_STRING': False,

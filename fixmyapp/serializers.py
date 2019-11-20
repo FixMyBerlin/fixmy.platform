@@ -5,14 +5,12 @@ from rest_framework import serializers
 from rest_framework_gis.fields import GeometryField
 from .models import (
     Photo,
-    Planning,
-    PlanningSection,
-    PlanningSectionDetails,
     Profile,
     Project,
     Question,
     Report,
-    Section
+    Section,
+    SectionDetails
 )
 
 
@@ -61,7 +59,7 @@ class PhotoSerializer(serializers.ModelSerializer):
         list_serializer_class = ListWithDefaultSerializer
 
 
-class NestedPlanningSectionDetailsSerializer(serializers.ModelSerializer):
+class NestedSectionDetailsSerializer(serializers.ModelSerializer):
     advisory_bike_lane_ratio = serializers.DecimalField(None, 3)
     bike_lane_ratio = serializers.DecimalField(None, 3)
     bike_path_ratio = serializers.DecimalField(None, 3)
@@ -76,7 +74,7 @@ class NestedPlanningSectionDetailsSerializer(serializers.ModelSerializer):
     velocity_index = serializers.DecimalField(None, 1)
 
     class Meta:
-        model = PlanningSectionDetails
+        model = SectionDetails
         fields = (
             'advisory_bike_lane_ratio',
             'bike_lane_ratio',
@@ -95,75 +93,12 @@ class NestedPlanningSectionDetailsSerializer(serializers.ModelSerializer):
         )
 
 
-class NestedPlanningSectionSerializer(serializers.ModelSerializer):
-    details = NestedPlanningSectionDetailsSerializer(many=True)
-
-    class Meta:
-        model = PlanningSection
-        fields = ('url', 'name', 'suffix', 'borough', 'details')
-
-
 class NestedSectionSerializer(serializers.ModelSerializer):
-    details = NestedPlanningSectionDetailsSerializer(many=True)
+    details = NestedSectionDetailsSerializer(many=True)
 
     class Meta:
         model = Section
         fields = ('url', 'street_name', 'suffix', 'borough', 'details')
-
-
-class PlanningSerializer(serializers.HyperlinkedModelSerializer):
-    faq = QuestionSerializer(many=True)
-    photos = PhotoSerializer(many=True, default=[Photo(**PLACEHOLDER_PHOTO)])
-    geometry = GeometryField(precision=14)
-    center = GeometryField(precision=14)
-    planning_sections = NestedPlanningSectionSerializer(
-        many=True,
-        read_only=True,
-    )
-    planning_section_ids = serializers.PrimaryKeyRelatedField(
-        many=True,
-        read_only=True,
-        source='planning_sections'
-    )
-    likes = serializers.SerializerMethodField()
-    liked_by_user = serializers.SerializerMethodField()
-
-    def get_likes(self, obj):
-        return len(obj.likes.all())
-
-    def get_liked_by_user(self, obj):
-        user = self.context['request'].user
-        if user.is_authenticated:
-            return any(l.user.pk == user.pk for l in obj.likes.all())
-        else:
-            return False
-
-    class Meta:
-        model = Planning
-        fields = (
-            'url',
-            'title',
-            'description',
-            'short_description',
-            'category',
-            'side',
-            'costs',
-            'draft_submitted',
-            'construction_started',
-            'construction_completed',
-            'phase',
-            'responsible',
-            'external_url',
-            'cross_section_photo',
-            'faq',
-            'planning_sections',
-            'planning_section_ids',
-            'geometry',
-            'center',
-            'photos',
-            'likes',
-            'liked_by_user',
-        )
 
 
 class ProjectSerializer(serializers.HyperlinkedModelSerializer):
@@ -216,7 +151,7 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
         )
 
 
-class PlanningSectionDetailsSerializer(serializers.ModelSerializer):
+class SectionDetailsSerializer(serializers.ModelSerializer):
     advisory_bike_lane_ratio = serializers.DecimalField(None, 3)
     bike_lane_ratio = serializers.DecimalField(None, 3)
     bike_path_ratio = serializers.DecimalField(None, 3)
@@ -232,7 +167,7 @@ class PlanningSectionDetailsSerializer(serializers.ModelSerializer):
     velocity_index = serializers.DecimalField(None, 1)
 
     class Meta:
-        model = PlanningSectionDetails
+        model = SectionDetails
         fields = (
             'advisory_bike_lane_ratio',
             'bike_lane_ratio',
@@ -271,28 +206,9 @@ class PlanningSectionDetailsSerializer(serializers.ModelSerializer):
         )
 
 
-class PlanningSectionSerializer(serializers.HyperlinkedModelSerializer):
-    geometry = GeometryField(precision=14)
-    details = PlanningSectionDetailsSerializer(many=True)
-    plannings = PlanningSerializer(many=True)
-
-    class Meta:
-        model = PlanningSection
-        fields = (
-            'url',
-            'name',
-            'suffix',
-            'borough',
-            'street_category',
-            'geometry',
-            'details',
-            'plannings'
-        )
-
-
 class SectionSerializer(serializers.HyperlinkedModelSerializer):
     geometry = GeometryField(precision=14)
-    details = PlanningSectionDetailsSerializer(many=True)
+    details = SectionDetailsSerializer(many=True)
 
     class Meta:
         model = Section

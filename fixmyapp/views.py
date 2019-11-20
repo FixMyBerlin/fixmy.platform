@@ -9,8 +9,6 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import (
     Like,
-    Planning,
-    PlanningSection,
     Profile,
     Project,
     Report,
@@ -18,8 +16,6 @@ from .models import (
 )
 from .serializers import (
     FeedbackSerializer,
-    PlanningSerializer,
-    PlanningSectionSerializer,
     ProfileSerializer,
     ProjectSerializer,
     ReportSerializer,
@@ -35,22 +31,6 @@ class DefaultPagination(PageNumberPagination):
     page_size_query_param = 'page_size'
 
 
-class PlanningList(generics.ListAPIView):
-    pagination_class = DefaultPagination
-    queryset = (Planning.objects
-        .filter(published=1)
-        .order_by('id')
-        .prefetch_related(
-            'planning_sections', 'planning_sections__details', 'likes')
-    )
-    serializer_class = PlanningSerializer
-
-
-class PlanningDetail(generics.RetrieveAPIView):
-    queryset = Planning.objects.filter(published=1)
-    serializer_class = PlanningSerializer
-
-
 class ProjectList(generics.ListAPIView):
     pagination_class = DefaultPagination
     queryset = (Project.objects
@@ -64,18 +44,6 @@ class ProjectList(generics.ListAPIView):
 class ProjectDetail(generics.RetrieveAPIView):
     queryset = Project.objects.filter(published=1)
     serializer_class = ProjectSerializer
-
-
-class PlanningSectionList(generics.ListAPIView):
-    pagination_class = DefaultPagination
-    queryset = PlanningSection.objects.all().prefetch_related(
-        'details', 'planning_set').order_by('id')
-    serializer_class = PlanningSectionSerializer
-
-
-class PlanningSectionDetail(generics.RetrieveAPIView):
-    queryset = PlanningSection.objects.all()
-    serializer_class = PlanningSectionSerializer
 
 
 class SectionList(generics.ListAPIView):

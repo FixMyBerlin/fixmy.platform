@@ -190,6 +190,7 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
         fields = (
             'id',
             'url',
+            'project_key',
             'title',
             'description',
             'short_description',

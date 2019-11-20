@@ -19,11 +19,6 @@ class Command(BaseCommand):
             help='display upload progress any verbosity level.'
         )
         parser.add_argument(
-            '--street-category',
-            choices=['main', 'side'],
-            help='indicate the street category of the features in file'
-        )
-        parser.add_argument(
             '--dataset',
             choices=['sections', 'projects'],
             help='indicate the data model of the features in file'
@@ -35,13 +30,10 @@ class Command(BaseCommand):
         )
 
     def handle(self, **options):
-        dataset = options['street_category'] if options['street_category'] \
-            else options['dataset']
-
         if options['dry_run']:
             self.stdout.write('Uploading tileset {}/{} to Mapbox'.format(
-                settings.MAPBOX_UPLOAD_TILESET[dataset],
-                settings.MAPBOX_UPLOAD_NAME[dataset]
+                settings.MAPBOX_UPLOAD_TILESET[options['dataset']],
+                settings.MAPBOX_UPLOAD_NAME[options['dataset']]
             ))
             sys.exit(0)
 
@@ -50,12 +42,11 @@ class Command(BaseCommand):
         client.upload_fileobj(
             options['file'], credentials['bucket'], credentials['key'])
 
-        upload = self._create_upload(
-            credentials['url'], dataset)
+        upload = self._create_upload(credentials['url'], options['dataset'])
 
         if options['progress'] or options['verbosity'] > 1:
             self.stdout.write('Uploading tileset {} to Mapbox'.format(
-                settings.MAPBOX_UPLOAD_TILESET[dataset]))
+                settings.MAPBOX_UPLOAD_TILESET[options['dataset']]))
 
             progress = upload['progress']
 

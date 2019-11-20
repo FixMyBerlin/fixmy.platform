@@ -1,12 +1,8 @@
 from django.urls import path
 from django.views.decorators.cache import cache_page
-from .models import Planning, Project, Report
+from .models import Project, Report
 from .views import (
     LikeView,
-    PlanningDetail,
-    PlanningList,
-    PlanningSectionDetail,
-    PlanningSectionList,
     ProjectDetail,
     ProjectList,
     ReportDetail,
@@ -29,32 +25,6 @@ urlpatterns = [
         'newsletter-signup',
         newsletter_signup,
         name='newsletter-signup'
-    ),
-    path(
-        'plannings',
-        PlanningList.as_view(),
-        name='planning-list'
-    ),
-    path(
-        'plannings/<int:pk>',
-        PlanningDetail.as_view(),
-        name='planning-detail'
-    ),
-    path(
-        'plannings/<int:pk>/likes',
-        LikeView.as_view(),
-        {'model': Planning},
-        name='likes-plannings'
-    ),
-    path(
-        'planning-sections',
-        PlanningSectionList.as_view(),
-        name='planningsection-list'
-    ),
-    path(
-        'planning-sections/<int:pk>',
-        PlanningSectionDetail.as_view(),
-        name='planningsection-detail'
     ),
     path(
         'profiles/<str:profile_id>',

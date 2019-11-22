@@ -13,11 +13,23 @@ class RatingSerializer(serializers.ModelSerializer):
 class SurveySerializer(serializers.ModelSerializer):
     session_id = serializers.UUIDField(source='id')
     created = serializers.DateTimeField(source='created_date', read_only=True)
-    last_scene_id = serializers.SerializerMethodField()
-    ratings = RatingSerializer(many=True, read_only=True)
+    stopped_at_scene_id = serializers.SerializerMethodField()
+    ratings = serializers.SerializerMethodField()
 
-    def get_last_scene_id(self, obj):
-        return str(obj.ratings.last().scene) if obj.ratings.last() else None
+    def get_stopped_at_scene_id(self, obj):
+        is_partial = (
+            any(r.rating for r in obj.ratings.all()) and
+            any(r.rating is None for r in obj.ratings.all())
+        )
+        if is_partial:
+            missing_scenes = [
+                r.scene for r in obj.ratings.all() if r.rating is None
+            ]
+            return str(missing_scenes[0])
+
+    def get_ratings(self, obj):
+        ratings = [r for r in obj.ratings.all() if r.rating]
+        return RatingSerializer(ratings, many=True, read_only=True).data
 
     class Meta:
         model = Survey
@@ -26,6 +38,6 @@ class SurveySerializer(serializers.ModelSerializer):
             'project',
             'profile',
             'created',
-            'last_scene_id',
+            'stopped_at_scene_id',
             'ratings'
         )

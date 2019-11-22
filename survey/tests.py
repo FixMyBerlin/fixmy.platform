@@ -102,9 +102,9 @@ class ViewsTest(TestCase):
         self.assertIn('session_id', response.json()[0])
         self.assertIn('created', response.json()[0])
         self.assertIn('profile', response.json()[0])
-        self.assertIn('last_scene_id', response.json()[0])
+        self.assertIn('stopped_at_scene_id', response.json()[0])
         self.assertRegex(
-            response.json()[0]['last_scene_id'],
+            response.json()[0]['stopped_at_scene_id'],
             '^\d{2}_[A-Z]{2}_[A-Z]_\d{1,}$'
         )
         self.assertIn('ratings', response.json()[0])

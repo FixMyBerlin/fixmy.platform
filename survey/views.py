@@ -77,9 +77,7 @@ def add_rating(request, project, session, scene_id):
 def results(request, project):
     prefetch_ratings = Prefetch(
         'ratings',
-        queryset=Rating.objects
-            .filter(rating__isnull=False)
-            .order_by('modified_date')
+        queryset=Rating.objects.order_by('id')
     )
     queryset = (
         Survey.objects

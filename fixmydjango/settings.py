@@ -172,6 +172,12 @@ STATIC_ROOT = '/code/static'
 DATA_UPLOAD_MAX_MEMORY_SIZE = 26214400
 
 
+# Maximum number of parameters per request
+# https://docs.djangoproject.com/en/2.1/ref/settings/#data-upload-max-number-fields
+DATA_UPLOAD_MAX_NUMBER_FIELDS = os.getenv(
+        'DATA_UPLOAD_MAX_NUMBER_FIELDS', 1000)
+
+
 # CORS headers
 # https://github.com/ottoyiu/django-cors-headers
 

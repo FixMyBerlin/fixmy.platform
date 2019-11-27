@@ -18,7 +18,7 @@ class SurveySerializer(serializers.ModelSerializer):
 
     def get_stopped_at_scene_id(self, obj):
         is_partial = (
-            any(r.rating for r in obj.ratings.all()) and
+            any(r.rating is not None for r in obj.ratings.all()) and
             any(r.rating is None for r in obj.ratings.all())
         )
         if is_partial:
@@ -28,7 +28,7 @@ class SurveySerializer(serializers.ModelSerializer):
             return str(missing_scenes[0])
 
     def get_ratings(self, obj):
-        ratings = [r for r in obj.ratings.all() if r.rating]
+        ratings = [r for r in obj.ratings.all() if r.rating is not None]
         return RatingSerializer(ratings, many=True, read_only=True).data
 
     class Meta:

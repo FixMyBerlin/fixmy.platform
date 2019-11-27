@@ -62,14 +62,14 @@ class Scene(BaseModel):
         return numpy.random.choice(scenes, size, replace=False, p=p)
 
 
-class Survey(BaseModel):
-    id = models.UUIDField(_('Session ID'), primary_key=True)
+class Session(BaseModel):
+    id = models.UUIDField(_('id'), primary_key=True)
     profile = JSONField(_('profile'))
     project = models.PositiveSmallIntegerField(_('project'))
 
     class Meta:
-        verbose_name = _('survey')
-        verbose_name_plural = _('surveys')
+        verbose_name = _('session')
+        verbose_name_plural = _('sessions')
 
 
 class Rating(BaseModel):
@@ -77,8 +77,8 @@ class Rating(BaseModel):
     rating = models.PositiveSmallIntegerField(_('rating'), null=True)
     scene = models.ForeignKey(
         Scene, on_delete=models.SET_NULL, null=True)
-    survey = models.ForeignKey(
-        Survey, related_name='ratings', on_delete=models.CASCADE)
+    session = models.ForeignKey(
+        Session, related_name='ratings', on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = _('rating')

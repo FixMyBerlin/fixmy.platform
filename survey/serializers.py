@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Rating, Survey
+from .models import Rating, Session
 
 
 class RatingSerializer(serializers.ModelSerializer):
@@ -10,7 +10,7 @@ class RatingSerializer(serializers.ModelSerializer):
         fields = ('scene_id', 'duration', 'rating')
 
 
-class SurveySerializer(serializers.ModelSerializer):
+class SessionSerializer(serializers.ModelSerializer):
     session_id = serializers.UUIDField(source='id')
     created = serializers.DateTimeField(source='created_date', read_only=True)
     stopped_at_scene_id = serializers.SerializerMethodField()
@@ -32,7 +32,7 @@ class SurveySerializer(serializers.ModelSerializer):
         return RatingSerializer(ratings, many=True, read_only=True).data
 
     class Meta:
-        model = Survey
+        model = Session
         fields = (
             'session_id',
             'project',

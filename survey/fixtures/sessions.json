@@ -1,6 +1,6 @@
 [
 {
-    "model": "survey.survey",
+    "model": "survey.session",
     "pk": "1d7596d8-415d-42c6-9556-2fe703557666",
     "fields": {
         "created_date": "2019-11-27T11:49:04.154Z",

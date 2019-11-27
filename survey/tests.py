@@ -6,7 +6,7 @@ import uuid
 
 class ViewsTest(TestCase):
 
-    fixtures = ['ratings', 'scenes', 'surveys']
+    fixtures = ['ratings', 'scenes', 'sessions']
 
     def setUp(self):
         self.client = Client()
@@ -51,7 +51,7 @@ class ViewsTest(TestCase):
         self.assertEqual(response.json().get('ratings_total'), 25)
         self.assertEqual(len(response.json().get('scenes', [])), 5)
 
-        ratings = Rating.objects.filter(survey=self.session).all()
+        ratings = Rating.objects.filter(session=self.session).all()
         self.assertEqual(len(ratings), 5)
 
     def test_add_rating(self):
@@ -74,7 +74,7 @@ class ViewsTest(TestCase):
         self.assertEqual(response.status_code, 204)
 
         scene = Scene.find_by_scene_id(scenes[0])
-        rating = Rating.objects.get(survey=self.session, scene=scene)
+        rating = Rating.objects.get(session=self.session, scene=scene)
         self.assertEqual(rating.rating, data['rating'])
         self.assertEqual(rating.duration, data['duration'])
 

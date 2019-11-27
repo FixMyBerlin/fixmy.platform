@@ -302,7 +302,7 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https') if USE_X_FORWARDED
 # Activate Django-Heroku
 # https://devcenter.heroku.com/articles/django-app-configuration
 
-django_heroku.settings(locals())
+django_heroku.settings(locals(), logging=False)
 DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
 
 

@@ -48,7 +48,7 @@ class ViewsTest(TestCase):
             content_type='application/json'
         )
         self.assertEqual(response.status_code, 201)
-        self.assertEqual(response.json().get('ratings_total'), 152)
+        self.assertEqual(response.json().get('ratings_total'), 25)
         self.assertEqual(len(response.json().get('scenes', [])), 5)
 
         ratings = Rating.objects.filter(survey=self.session).all()
@@ -90,7 +90,7 @@ class ViewsTest(TestCase):
             content_type='application/json'
         )
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json().get('ratings_total'), 152)
+        self.assertEqual(response.json().get('ratings_total'), 25)
         self.assertEqual(len(response.json().get('scenes', [])), 10)
 
     def test_fetch_results(self):
@@ -103,17 +103,12 @@ class ViewsTest(TestCase):
         self.assertIn('created', response.json()[0])
         self.assertIn('profile', response.json()[0])
         self.assertIn('stopped_at_scene_id', response.json()[0])
-        self.assertRegex(
-            response.json()[0]['stopped_at_scene_id'],
-            '^\d{2}_[A-Z]{2}_[A-Z]_\d{1,}$'
-        )
+        self.assertEquals(
+            response.json()[0]['stopped_at_scene_id'], '01_MS_C_998')
         self.assertIn('ratings', response.json()[0])
         self.assertIsInstance(response.json()[0]['ratings'], list)
-        self.assertGreater(len(response.json()[0]['ratings']), 0)
-        self.assertRegex(
-            response.json()[0]['ratings'][0]['scene_id'],
-            '^\d{2}_[A-Z]{2}_[A-Z]_\d{1,}$'
-        )
+        self.assertEquals(len(response.json()[0]['ratings']), 25)
         self.assertTrue(
-            all(r['rating'] for r in response.json()[0].get('ratings', []))
+            all(r['rating'] is not None
+                for r in response.json()[0].get('ratings', []))
         )

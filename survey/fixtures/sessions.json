@@ -1,0 +1,54 @@
+[
+{
+    "model": "survey.session",
+    "pk": "1d7596d8-415d-42c6-9556-2fe703557666",
+    "fields": {
+        "created_date": "2019-11-27T11:49:04.154Z",
+        "modified_date": "2019-11-27T11:49:04.154Z",
+        "profile": {
+            "gender": "m",
+            "zipcode": "22000",
+            "ageGroup": 2,
+            "district": "Mitte",
+            "sessionID": "1d7596d8-415d-42c6-9556-2fe703557666",
+            "userGroup": "bicycle",
+            "whyBiking": [
+                "fun"
+            ],
+            "bicycleUse": 2,
+            "bikeReasons": [],
+            "hasChildren": false,
+            "perspective": "C",
+            "berlinTraffic": {
+                "a": true,
+                "b": true,
+                "c": false,
+                "d": false,
+                "e": false,
+                "f": false,
+                "g": false,
+                "h": false
+            },
+            "isTosAccepted": true,
+            "vehiclesOwned": [
+                "car"
+            ],
+            "bikeReasonsVar": "",
+            "transportRatings": {
+                "car": 1,
+                "public": 3,
+                "bicycle": 5,
+                "motorbike": 3,
+                "pedestrian": 0
+            },
+            "motivationalFactors": {
+                "safe": 4,
+                "faster": 4,
+                "bikeFun": 4,
+                "weather": 4
+            }
+        },
+        "project": 1
+    }
+}
+]

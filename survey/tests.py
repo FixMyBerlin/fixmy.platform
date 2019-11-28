@@ -6,7 +6,7 @@ import uuid
 
 class ViewsTest(TestCase):
 
-    fixtures = ['scenes']
+    fixtures = ['ratings', 'scenes', 'sessions']
 
     def setUp(self):
         self.client = Client()
@@ -48,10 +48,10 @@ class ViewsTest(TestCase):
             content_type='application/json'
         )
         self.assertEqual(response.status_code, 201)
-        self.assertEqual(response.json().get('ratings_total'), 0)
+        self.assertEqual(response.json().get('ratings_total'), 25)
         self.assertEqual(len(response.json().get('scenes', [])), 5)
 
-        ratings = Rating.objects.filter(survey=self.session).all()
+        ratings = Rating.objects.filter(session=self.session).all()
         self.assertEqual(len(ratings), 5)
 
     def test_add_rating(self):
@@ -74,7 +74,7 @@ class ViewsTest(TestCase):
         self.assertEqual(response.status_code, 204)
 
         scene = Scene.find_by_scene_id(scenes[0])
-        rating = Rating.objects.get(survey=self.session, scene=scene)
+        rating = Rating.objects.get(session=self.session, scene=scene)
         self.assertEqual(rating.rating, data['rating'])
         self.assertEqual(rating.duration, data['duration'])
 
@@ -90,5 +90,25 @@ class ViewsTest(TestCase):
             content_type='application/json'
         )
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json().get('ratings_total'), 0)
+        self.assertEqual(response.json().get('ratings_total'), 25)
         self.assertEqual(len(response.json().get('scenes', [])), 10)
+
+    def test_fetch_results(self):
+        response = self.client.get('/api/survey/1/results')
+        self.assertEqual(response.status_code, 200)
+        self.assertIsInstance(response.json(), list)
+        self.assertGreater(len(response.json()), 0)
+        self.assertIsInstance(response.json()[0], dict)
+        self.assertIn('session_id', response.json()[0])
+        self.assertIn('created', response.json()[0])
+        self.assertIn('profile', response.json()[0])
+        self.assertIn('stopped_at_scene_id', response.json()[0])
+        self.assertEquals(
+            response.json()[0]['stopped_at_scene_id'], '01_MS_C_998')
+        self.assertIn('ratings', response.json()[0])
+        self.assertIsInstance(response.json()[0]['ratings'], list)
+        self.assertEquals(len(response.json()[0]['ratings']), 25)
+        self.assertTrue(
+            all(r['rating'] is not None
+                for r in response.json()[0].get('ratings', []))
+        )

@@ -1,0 +1,362 @@
+[
+{
+    "model": "survey.rating",
+    "pk": 51,
+    "fields": {
+        "created_date": "2019-11-27T11:49:04.222Z",
+        "modified_date": "2019-11-27T11:49:40.163Z",
+        "duration": 10565,
+        "rating": 2,
+        "scene": 3527,
+        "session": "1d7596d8-415d-42c6-9556-2fe703557666"
+    }
+},
+{
+    "model": "survey.rating",
+    "pk": 52,
+    "fields": {
+        "created_date": "2019-11-27T11:49:04.224Z",
+        "modified_date": "2019-11-27T11:49:57.864Z",
+        "duration": 17067,
+        "rating": 1,
+        "scene": 2483,
+        "session": "1d7596d8-415d-42c6-9556-2fe703557666"
+    }
+},
+{
+    "model": "survey.rating",
+    "pk": 53,
+    "fields": {
+        "created_date": "2019-11-27T11:49:04.224Z",
+        "modified_date": "2019-11-27T11:50:03.022Z",
+        "duration": 4516,
+        "rating": 2,
+        "scene": 4104,
+        "session": "1d7596d8-415d-42c6-9556-2fe703557666"
+    }
+},
+{
+    "model": "survey.rating",
+    "pk": 54,
+    "fields": {
+        "created_date": "2019-11-27T11:49:04.225Z",
+        "modified_date": "2019-11-27T11:50:08.087Z",
+        "duration": 4490,
+        "rating": 2,
+        "scene": 2820,
+        "session": "1d7596d8-415d-42c6-9556-2fe703557666"
+    }
+},
+{
+    "model": "survey.rating",
+    "pk": 55,
+    "fields": {
+        "created_date": "2019-11-27T11:49:04.226Z",
+        "modified_date": "2019-11-27T11:50:08.958Z",
+        "duration": 289,
+        "rating": 2,
+        "scene": 1883,
+        "session": "1d7596d8-415d-42c6-9556-2fe703557666"
+    }
+},
+{
+    "model": "survey.rating",
+    "pk": 56,
+    "fields": {
+        "created_date": "2019-11-27T11:49:04.227Z",
+        "modified_date": "2019-11-27T11:50:14.172Z",
+        "duration": 4644,
+        "rating": 2,
+        "scene": 2923,
+        "session": "1d7596d8-415d-42c6-9556-2fe703557666"
+    }
+},
+{
+    "model": "survey.rating",
+    "pk": 57,
+    "fields": {
+        "created_date": "2019-11-27T11:49:04.229Z",
+        "modified_date": "2019-11-27T11:50:16.179Z",
+        "duration": 1450,
+        "rating": 2,
+        "scene": 3386,
+        "session": "1d7596d8-415d-42c6-9556-2fe703557666"
+    }
+},
+{
+    "model": "survey.rating",
+    "pk": 58,
+    "fields": {
+        "created_date": "2019-11-27T11:49:04.229Z",
+        "modified_date": "2019-11-27T11:50:17.762Z",
+        "duration": 1063,
+        "rating": 2,
+        "scene": 4006,
+        "session": "1d7596d8-415d-42c6-9556-2fe703557666"
+    }
+},
+{
+    "model": "survey.rating",
+    "pk": 59,
+    "fields": {
+        "created_date": "2019-11-27T11:49:04.231Z",
+        "modified_date": "2019-11-27T11:50:19.209Z",
+        "duration": 983,
+        "rating": 2,
+        "scene": 3471,
+        "session": "1d7596d8-415d-42c6-9556-2fe703557666"
+    }
+},
+{
+    "model": "survey.rating",
+    "pk": 60,
+    "fields": {
+        "created_date": "2019-11-27T11:49:04.232Z",
+        "modified_date": "2019-11-27T11:50:27.733Z",
+        "duration": 7959,
+        "rating": 2,
+        "scene": 2171,
+        "session": "1d7596d8-415d-42c6-9556-2fe703557666"
+    }
+},
+{
+    "model": "survey.rating",
+    "pk": 61,
+    "fields": {
+        "created_date": "2019-11-27T11:50:33.300Z",
+        "modified_date": "2019-11-27T11:51:12.936Z",
+        "duration": 6351,
+        "rating": 1,
+        "scene": 1411,
+        "session": "1d7596d8-415d-42c6-9556-2fe703557666"
+    }
+},
+{
+    "model": "survey.rating",
+    "pk": 62,
+    "fields": {
+        "created_date": "2019-11-27T11:50:33.301Z",
+        "modified_date": "2019-11-27T11:51:20.823Z",
+        "duration": 7268,
+        "rating": 2,
+        "scene": 4056,
+        "session": "1d7596d8-415d-42c6-9556-2fe703557666"
+    }
+},
+{
+    "model": "survey.rating",
+    "pk": 63,
+    "fields": {
+        "created_date": "2019-11-27T11:50:33.302Z",
+        "modified_date": "2019-11-27T11:51:26.129Z",
+        "duration": 4674,
+        "rating": 2,
+        "scene": 2280,
+        "session": "1d7596d8-415d-42c6-9556-2fe703557666"
+    }
+},
+{
+    "model": "survey.rating",
+    "pk": 64,
+    "fields": {
+        "created_date": "2019-11-27T11:50:33.303Z",
+        "modified_date": "2019-11-27T11:51:31.873Z",
+        "duration": 5154,
+        "rating": 2,
+        "scene": 1996,
+        "session": "1d7596d8-415d-42c6-9556-2fe703557666"
+    }
+},
+{
+    "model": "survey.rating",
+    "pk": 65,
+    "fields": {
+        "created_date": "2019-11-27T11:50:33.303Z",
+        "modified_date": "2019-11-27T11:51:34.139Z",
+        "duration": 1715,
+        "rating": 3,
+        "scene": 3996,
+        "session": "1d7596d8-415d-42c6-9556-2fe703557666"
+    }
+},
+{
+    "model": "survey.rating",
+    "pk": 66,
+    "fields": {
+        "created_date": "2019-11-27T11:51:47.992Z",
+        "modified_date": "2019-11-27T11:52:07.309Z",
+        "duration": 2818,
+        "rating": 2,
+        "scene": 3091,
+        "session": "1d7596d8-415d-42c6-9556-2fe703557666"
+    }
+},
+{
+    "model": "survey.rating",
+    "pk": 67,
+    "fields": {
+        "created_date": "2019-11-27T11:51:47.993Z",
+        "modified_date": "2019-11-27T11:52:12.808Z",
+        "duration": 4946,
+        "rating": 2,
+        "scene": 3830,
+        "session": "1d7596d8-415d-42c6-9556-2fe703557666"
+    }
+},
+{
+    "model": "survey.rating",
+    "pk": 68,
+    "fields": {
+        "created_date": "2019-11-27T11:51:47.994Z",
+        "modified_date": "2019-11-27T11:52:15.825Z",
+        "duration": 2384,
+        "rating": 1,
+        "scene": 3794,
+        "session": "1d7596d8-415d-42c6-9556-2fe703557666"
+    }
+},
+{
+    "model": "survey.rating",
+    "pk": 69,
+    "fields": {
+        "created_date": "2019-11-27T11:51:47.995Z",
+        "modified_date": "2019-11-27T11:52:17.474Z",
+        "duration": 1135,
+        "rating": 1,
+        "scene": 3826,
+        "session": "1d7596d8-415d-42c6-9556-2fe703557666"
+    }
+},
+{
+    "model": "survey.rating",
+    "pk": 70,
+    "fields": {
+        "created_date": "2019-11-27T11:51:47.996Z",
+        "modified_date": "2019-11-27T11:52:19.840Z",
+        "duration": 1982,
+        "rating": 2,
+        "scene": 3746,
+        "session": "1d7596d8-415d-42c6-9556-2fe703557666"
+    }
+},
+{
+    "model": "survey.rating",
+    "pk": 71,
+    "fields": {
+        "created_date": "2019-11-27T11:52:37.091Z",
+        "modified_date": "2019-11-27T11:52:59.344Z",
+        "duration": 1908,
+        "rating": 3,
+        "scene": 2441,
+        "session": "1d7596d8-415d-42c6-9556-2fe703557666"
+    }
+},
+{
+    "model": "survey.rating",
+    "pk": 72,
+    "fields": {
+        "created_date": "2019-11-27T11:52:37.092Z",
+        "modified_date": "2019-11-27T11:53:26.528Z",
+        "duration": 11760,
+        "rating": 2,
+        "scene": 2381,
+        "session": "1d7596d8-415d-42c6-9556-2fe703557666"
+    }
+},
+{
+    "model": "survey.rating",
+    "pk": 73,
+    "fields": {
+        "created_date": "2019-11-27T11:52:37.093Z",
+        "modified_date": "2019-11-27T11:53:37.830Z",
+        "duration": 10868,
+        "rating": 0,
+        "scene": 4088,
+        "session": "1d7596d8-415d-42c6-9556-2fe703557666"
+    }
+},
+{
+    "model": "survey.rating",
+    "pk": 74,
+    "fields": {
+        "created_date": "2019-11-27T11:52:37.093Z",
+        "modified_date": "2019-11-27T11:53:45.987Z",
+        "duration": 7548,
+        "rating": 0,
+        "scene": 4017,
+        "session": "1d7596d8-415d-42c6-9556-2fe703557666"
+    }
+},
+{
+    "model": "survey.rating",
+    "pk": 75,
+    "fields": {
+        "created_date": "2019-11-27T11:52:37.094Z",
+        "modified_date": "2019-11-27T11:53:48.552Z",
+        "duration": 2041,
+        "rating": 2,
+        "scene": 3627,
+        "session": "1d7596d8-415d-42c6-9556-2fe703557666"
+    }
+},
+{
+    "model": "survey.rating",
+    "pk": 76,
+    "fields": {
+        "created_date": "2019-11-27T11:52:37.095Z",
+        "modified_date": "2019-11-27T11:52:37.095Z",
+        "duration": null,
+        "rating": null,
+        "scene": 2399,
+        "session": "1d7596d8-415d-42c6-9556-2fe703557666"
+    }
+},
+{
+    "model": "survey.rating",
+    "pk": 77,
+    "fields": {
+        "created_date": "2019-11-27T11:52:37.096Z",
+        "modified_date": "2019-11-27T11:52:37.096Z",
+        "duration": null,
+        "rating": null,
+        "scene": 1515,
+        "session": "1d7596d8-415d-42c6-9556-2fe703557666"
+    }
+},
+{
+    "model": "survey.rating",
+    "pk": 78,
+    "fields": {
+        "created_date": "2019-11-27T11:52:37.096Z",
+        "modified_date": "2019-11-27T11:52:37.096Z",
+        "duration": null,
+        "rating": null,
+        "scene": 2383,
+        "session": "1d7596d8-415d-42c6-9556-2fe703557666"
+    }
+},
+{
+    "model": "survey.rating",
+    "pk": 79,
+    "fields": {
+        "created_date": "2019-11-27T11:52:37.097Z",
+        "modified_date": "2019-11-27T11:52:37.097Z",
+        "duration": null,
+        "rating": null,
+        "scene": 4064,
+        "session": "1d7596d8-415d-42c6-9556-2fe703557666"
+    }
+},
+{
+    "model": "survey.rating",
+    "pk": 80,
+    "fields": {
+        "created_date": "2019-11-27T11:52:37.098Z",
+        "modified_date": "2019-11-27T11:52:37.098Z",
+        "duration": null,
+        "rating": null,
+        "scene": 4085,
+        "session": "1d7596d8-415d-42c6-9556-2fe703557666"
+    }
+}
+]

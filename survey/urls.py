@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import SurveyView, add_rating
+from .views import SurveyView, add_rating, results
 
 urlpatterns = [
     path(
@@ -11,5 +11,10 @@ urlpatterns = [
         '<int:project>/<uuid:session>/ratings/<str:scene_id>',
         add_rating,
         name='add-rating'
+    ),
+    path(
+        '<int:project>/results',
+        results,
+        name='results'
     ),
 ]

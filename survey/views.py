@@ -64,7 +64,14 @@ class SurveyView(APIView):
 @permission_classes((permissions.AllowAny,))
 def add_rating(request, project, session, scene_id):
     scene = Scene.find_by_scene_id(scene_id)
-    rating = get_object_or_404(Rating, session=session, scene=scene)
+    rating = (
+        Rating.objects
+            .filter(session=session, scene=scene)
+            .order_by('id').last()
+    )
+    if rating is None:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
     serializer = RatingSerializer(rating, data=request.data)
 
     if serializer.is_valid(raise_exception=True):

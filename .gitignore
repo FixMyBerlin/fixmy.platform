@@ -1,6 +1,7 @@
 # Custom
 fixmyapp/data
 static/
+photos/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

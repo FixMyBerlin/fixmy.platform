@@ -436,6 +436,11 @@ class Project(BaseModel):
         default=_('unknown'),
         max_length=100
     )
+    construction_completed_date = models.DateField(
+        _('construction completed date'),
+        blank=True,
+        null=True,
+    )
     alert_date = models.DateField(_('alert date'), blank=True, null=True)
     phase = models.CharField(
         _('phase'),

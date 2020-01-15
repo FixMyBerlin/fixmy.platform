@@ -3,9 +3,10 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: PACKAGE_VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-01-15 15:49+0000\n"
 "PO-Revision-Date: 2020-01-15 16:56+0100\n"
@@ -14,9 +15,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"X-Generator: Poedit 2.2.4\n"
 
 #: fixmyapp/admin.py:25 fixmyapp/models.py:444
 msgid "alert date"
@@ -517,38 +515,6 @@ msgstr "Szene"
 #: survey/models.py:41
 msgid "scenes"
 msgstr "Szenen"
-
-#: survey/models.py:66
-#, fuzzy
-#| msgid "side"
-msgid "id"
-msgstr "Seite"
-
-#: survey/models.py:71
-msgid "session"
-msgstr ""
-
-#: survey/models.py:72
-#, fuzzy
-#| msgid "sections"
-msgid "sessions"
-msgstr "Abschnitte"
-
-#: survey/models.py:76
-#, fuzzy
-#| msgid "orientation"
-msgid "duration"
-msgstr "Orientierung"
-
-#: survey/models.py:77 survey/models.py:84
-msgid "rating"
-msgstr ""
-
-#: survey/models.py:85
-#, fuzzy
-#| msgid "crossings"
-msgid "ratings"
-msgstr "Querungen"
 
 #: templates/email/activation.html:8
 msgid "Please go to the following page to activate account:"

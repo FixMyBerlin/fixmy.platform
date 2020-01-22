@@ -8,7 +8,7 @@ def fill_project_sort_field(apps, schema_editor):
     Project = apps.get_model('fixmyapp', 'Project')
     for project in Project.objects.all():
         if project.construction_completed is not None:
-            year = None
+            year = 0
             try:
                 year = int(project.construction_completed)
             except ValueError:

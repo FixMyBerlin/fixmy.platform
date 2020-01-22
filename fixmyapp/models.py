@@ -402,6 +402,8 @@ class Project(BaseModel):
         (BOTH, _('both'))
     )
 
+    TRANSFORM_EPSG_3035 = 3035
+
     project_key = models.CharField(
         _('project key'), max_length=100, unique=True)
     published = models.BooleanField(_('published'), default=True)
@@ -470,7 +472,7 @@ class Project(BaseModel):
 
     def length(self):
         if settings.TOGGLE_USE_GEOMETRY_LENGTH and self.geometry:
-            return self.geometry.transform(3035, clone=True).length
+            return self.geometry.transform(self.TRANSFORM_EPSG_3035, clone=True).length
         elif not settings.TOGGLE_USE_GEOMETRY_LENGTH:
             return self._length
 

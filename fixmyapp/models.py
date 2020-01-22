@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.fields import (
     GenericForeignKey, GenericRelation)
@@ -401,6 +402,8 @@ class Project(BaseModel):
         (BOTH, _('both'))
     )
 
+    TRANSFORM_EPSG_3035 = 3035
+
     project_key = models.CharField(
         _('project key'), max_length=100, unique=True)
     published = models.BooleanField(_('published'), default=True)
@@ -412,7 +415,7 @@ class Project(BaseModel):
         _('short description'), blank=True, null=True, max_length=200
     )
     geometry = models.GeometryField(_('geometry'), blank=True, null=True)
-    length = models.IntegerField(_('length'), blank=True, null=True)
+    _length = models.IntegerField(_('length'), db_column='length', blank=True, null=True)
     category = models.CharField(
         _('category'),
         blank=True,
@@ -471,6 +474,12 @@ class Project(BaseModel):
     def center(self):
         if self.geometry:
             return self.geometry.point_on_surface
+
+    def length(self):
+        if settings.TOGGLE_USE_GEOMETRY_LENGTH and self.geometry:
+            return self.geometry.transform(self.TRANSFORM_EPSG_3035, clone=True).length
+        elif not settings.TOGGLE_USE_GEOMETRY_LENGTH:
+            return self._length
 
     def __str__(self):
         return self.project_key

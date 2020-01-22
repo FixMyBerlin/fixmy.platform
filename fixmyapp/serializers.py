@@ -137,6 +137,7 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
             'draft_submitted',
             'construction_started',
             'construction_completed',
+            'construction_completed_date',
             'phase',
             'responsible',
             'external_url',

@@ -262,23 +262,30 @@ class LikeTest(object):
 
     def test_get_like(self):
         response = self.client.get(
-            self.url, **self._get_authorization_header())
+            self.likes_url, **self._get_authorization_header())
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), {'user_has_liked': False, 'likes': 0})
 
     def test_get_like_as_anonymous(self):
-        response = self.client.get(self.url)
+        response = self.client.get(self.likes_url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), {'user_has_liked': False, 'likes': 0})
 
     def test_post_like(self):
         response = self.client.post(
-            self.url, **self._get_authorization_header())
+            self.likes_url, **self._get_authorization_header())
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.json(), {'user_has_liked': True, 'likes': 1})
 
+        response = self.client.get(
+            self.liked_by_user_url, **self._get_authorization_header())
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json().get('count'), 1)
+        self.assertIn('results', response.json())
+        self.assertTrue(response.json().get('results')[0].get('url').endswith(self.instance_url))
+
         response = self.client.post(
-            self.url, **self._get_authorization_header())
+            self.likes_url, **self._get_authorization_header())
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), {'user_has_liked': False, 'likes': 0})
 
@@ -297,7 +304,9 @@ class LikeProjectTest(LikeTest, TestCase):
             title='Lorem ipsum',
             side=Project.BOTH,
         )
-        self.url = reverse('likes-projects', kwargs={'pk': self.instance.id})
+        self.instance_url = reverse('project-detail', kwargs={'pk': self.instance.id})
+        self.likes_url = reverse('likes-projects', kwargs={'pk': self.instance.id})
+        self.liked_by_user_url = reverse('projects-liked-by-user')
         super(LikeProjectTest, self).setUp()
 
 
@@ -315,7 +324,9 @@ class LikeReportTest(LikeTest, TestCase):
             },
             geometry=Point(13.34635540636318, 52.52565990333657)
         )
-        self.url = reverse('likes-reports', kwargs={'pk': self.instance.id})
+        self.instance_url = reverse('report-detail', kwargs={'pk': self.instance.id})
+        self.likes_url = reverse('likes-reports', kwargs={'pk': self.instance.id})
+        self.liked_by_user_url = reverse('reports-liked-by-user')
         super(LikeReportTest, self).setUp()
 
 

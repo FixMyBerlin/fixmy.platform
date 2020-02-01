@@ -3,6 +3,8 @@ from django.views.decorators.cache import cache_page
 from .models import Project, Report
 from .views import (
     LikeView,
+    LikedByUserProjectList,
+    LikedByUserReportList,
     ProjectDetail,
     ProjectList,
     ReportDetail,
@@ -72,5 +74,15 @@ urlpatterns = [
         'sections/<int:pk>',
         SectionDetail.as_view(),
         name='section-detail'
+    ),
+    path(
+        'users/me/liked/projects',
+        LikedByUserProjectList.as_view(),
+        name='projects-liked-by-user'
+    ),
+    path(
+        'users/me/liked/reports',
+        LikedByUserReportList.as_view(),
+        name='reports-liked-by-user'
     )
 ]

@@ -297,6 +297,8 @@ class LikeTest(object):
         return {'HTTP_AUTHORIZATION': 'JWT ' + response.json()['access']}
 
 
+@override_settings(
+    DEFAULT_FILE_STORAGE='django.core.files.storage.FileSystemStorage')
 class LikeProjectTest(LikeTest, TestCase):
 
     def setUp(self):
@@ -310,6 +312,8 @@ class LikeProjectTest(LikeTest, TestCase):
         super(LikeProjectTest, self).setUp()
 
 
+@override_settings(
+    DEFAULT_FILE_STORAGE='django.core.files.storage.FileSystemStorage')
 class LikeReportTest(LikeTest, TestCase):
 
     def setUp(self):

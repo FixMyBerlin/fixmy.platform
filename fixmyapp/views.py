@@ -37,7 +37,9 @@ class LikedByUserProjectList(generics.ListAPIView):
     serializer_class = ProjectSerializer
 
     def get_queryset(self):
-        return Project.objects.filter(likes__in=Like.objects.filter(user=self.request.user))
+        return Project.objects.filter(
+            likes__in=Like.objects.filter(user=self.request.user)
+        ).order_by('id')
 
 
 class LikedByUserReportList(generics.ListAPIView):
@@ -46,7 +48,9 @@ class LikedByUserReportList(generics.ListAPIView):
     serializer_class = ReportSerializer
 
     def get_queryset(self):
-        return Report.objects.filter(likes__in=Like.objects.filter(user=self.request.user))
+        return Report.objects.filter(
+            likes__in=Like.objects.filter(user=self.request.user)
+        ).order_by('id')
 
 
 class ProjectList(generics.ListAPIView):

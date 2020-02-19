@@ -4,37 +4,23 @@
 
 ## Development environment
 
-To setup the backend development environment you need to install the docker
-tool on your local machine and setup accounts with Amazon AWS and Heroku. Then
-you can setup docker from the checked out Git repository and import the
-datasets from either Amazon or Heroku.
+In order to use the provided development environment install [Docker Desktop](https://www.docker.com/products/docker-desktop) for Mac or Windows. On Linux, make sure you have the latest version of [Compose](https://docs.docker.com/compose/install/).
 
-First things first: create a file `.env` in the project root and enter
-environment variables that you want to have available during runtime. The `sample.env`
-file contains some keys that you might want to have there. Most importantly this
-should contain access keys used to load data from S3 and toggles used to enable
-or disable certain features in the app.
+This project has a docker-compose.yml file, which will start the Django application on your local machine.
 
-A local development environment can then be set up with Docker Compose:
+Clone the repository and start the development environment in the created directory:
 
-    $ docker-compose up -d --build
+    $ docker-compose up -d
 
-Now, the API methods are available at [http://localhost:8000/api](http://localhost:8000/api).
-You can use this command whenever you want to start the development server.
-When you change environment variables you need to stop the docker app with
-
-    $ docker-compose down
-
-and restart it with the `up` command.
+Now, the API is available at [http://localhost:8000/api](http://localhost:8000/api).
 
 Use the command
 
     $ docker-compose exec app bash
 
-to access the console of the docker container running the backend app. Here you 
-can use the following Python commands to manage the Django app.
+to access the console of the Docker container running the backend app. Here you can use the following Django commands to manage the app.
 
-# Django Manager
+## Django commands
 
 Use
 
@@ -44,78 +30,58 @@ to get an overview of all commands available. With
 
     $ python manage.py createsuperuser
 
-you create a new user for Django's admin console, which can then be accessed
-at [http://localhost:8000/admin/](http://localhost:8000/admin/). You can run
+you create a new user for Django's admin console, which can then be accessed at [http://localhost:8000/admin/](http://localhost:8000/admin/). You can run
 the test suite with 
 
     $ python manage.py test
 
-# Importing data
+## Custom commands
 
-You can import data either by loading it from the source data files, which need
-to be downloaded from Amazon S3, or by loading a data dump that you export from
-the Heroku server.
+### anonymizedata
 
-## Importing data from S3
+Removes personal information from the database. By default it preserves data of staff.
 
-This method of importing will not import plannings and photos, which are
-configured using the Django web interface. See the section for importing
-from a direct dump below for that.
+    $ python manage.py anonymizedata
 
-Get some access keys for Amazon Web Services / S3 and save them in your `.env` file
-as described above. Now you can use the command
+### downloadfiles
+
+Downloads content of S3 bucket to /tmp, filtered by path prefix. This command requires the environment variables `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_S3_REGION_NAME` and `AWS_STORAGE_BUCKET_NAME` to be set correctly.
 
     $ python manage.py downloaddata Data/
 
-to load all data files from S3. These are stored in the `/tmp` folder of
-the docker app container.
+### exportprojects
 
-### Legacy Data Model
+Exports projects as GeoJSON intended for Mapbox.
 
-You can now use `python manage.py` with the subcommands
+    $ python manage.py exportprojects > /tmp/projects.json
 
-- importedges <filename.shp>
-- importplanningsections <filename.shp>
-- importplanningsectiondetails <filename.csv>
+### exportsections
 
-to import the corresponding data. Use the subcommands in this order.
+Exports sections as GeoJSON intended for Mapbox.
 
-### New Data Model
+    $ python manage.py exportsections > /tmp/sections.json
 
-You can now use `python manage.py importsections <filename>` to import the
-corresponding data.
+### importsectiondetails
 
-## Import Server Data Dump
+Imports section details including pictures and traffic information from CSV file. The file is usually downloaded from S3 with `downloadfiles`.
 
-This method of importing lets you access the full dataset as used in production.
-For this, you run commands on the production server that export data from the
-live database and then load them directly into your local machine.
+    $ python manage.py importsectiondetails /tmp/section_details.csv
 
-Run the following commands from your regular shell to first dump all of the
-model data into individual files.
+### importsections
 
-```
-heroku run -a fixmyplatform python manage.py dumpdata fixmyapp.Edge > Edge.json
-heroku run -a fixmyplatform python manage.py dumpdata fixmyapp.Question > Question.json
-heroku run -a fixmyplatform python manage.py dumpdata fixmyapp.PlanningSection > PlanningSection.json
-heroku run -a fixmyplatform python manage.py dumpdata fixmyapp.PlanningSectionDetails > PlanningSectionDetails.json
-heroku run -a fixmyplatform python manage.py dumpdata fixmyapp.Planning > Planning.json
-heroku run -a fixmyplatform python manage.py dumpdata fixmyapp.Photo > Photo.json
-```
+Imports sections from shape file. The file is usually downloaded from S3 with `downloadfiles`.
 
-The following commands have to be run in sequence. If they are run in
-another order than specified here, the relations between entries cannot be
-established correctly. Enter the container shell using 
-`$ docker-compose exec app bash` and run:
+    $ python manage.py importsections /tmp/sections.shp
 
-```
-python manage.py loaddata Edge.json
-python manage.py loaddata Question.json
-python manage.py loaddata PlanningSection.json
-python manage.py loaddata PlanningSectionDetails.json
-python manage.py loaddata Planning.json
-python manage.py loaddata Photo.json
-```
+### updateprojectgeometries
 
-If all of these complete without errors you can access the app at
-[localhost:8081](http://localhost:8081).
+Updates project geometries from a shape file. The file is usually downloaded from S3 with `downloadfiles`.
+
+    $ python manage.py updateprojectgeometries /tmp/projects.shp linestring
+
+### uploadtileset
+
+Uploads GeoJSON export of projects or sections (see `exportprojects` and `exportsetcions`) to Mapbox. This command requires the environment variables `MAPBOX_UPLOAD_NAME_SECTIONS`, `MAPBOX_UPLOAD_TILESET_SECTIONS`, `MAPBOX_UPLOAD_NAME_PROJECTS` and `MAPBOX_UPLOAD_TILESET_PROJECTS` to be set correctly.
+
+    $ python manage.py uploadtileset --dataset projects /tmp/projects.json
+

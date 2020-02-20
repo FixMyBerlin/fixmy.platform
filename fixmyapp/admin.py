@@ -92,7 +92,8 @@ class QuestionAdmin(admin.ModelAdmin):
 
 
 def mark_in_progress(modeladmin, request, queryset):
-    queryset.update(status='verification')
+    """Update report status to "in verification" for many items at once."""
+    queryset.update(status=Report.STATUS_VERIFICATION)
 
 
 mark_in_progress.short_description = _('set status to "verification"')

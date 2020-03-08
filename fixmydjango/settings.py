@@ -305,4 +305,3 @@ DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
 # Feature-Toggles
 
 TOGGLE_NEWSLETTER = bool(os.getenv('TOGGLE_NEWSLETTER', False))
-TOGGLE_USE_GEOMETRY_LENGTH = bool(os.getenv('TOGGLE_USE_GEOMETRY_LENGTH', False))

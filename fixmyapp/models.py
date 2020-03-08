@@ -573,7 +573,6 @@ class Report(BaseModel):
     description = models.CharField(
         _('description'), blank=True, null=True, max_length=400
     )
-    details = JSONField(_('details'))
     likes = GenericRelation(Like)
     photo = GenericRelation(Photo)
     published = models.BooleanField(_('published'), default=True)

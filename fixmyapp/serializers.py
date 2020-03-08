@@ -4,6 +4,7 @@ from drf_extra_fields.fields import HybridImageField
 from rest_framework import serializers
 from rest_framework_gis.fields import GeometryField
 from .models import (
+    BikeStands,
     Photo,
     Profile,
     Project,
@@ -239,7 +240,26 @@ class FeedbackSerializer(serializers.Serializer):
     message = serializers.CharField(required=True)
 
 
+class ReportDetailsField(serializers.Field):
+
+    def get_attribute(self, instance):
+        return instance
+
+    def to_representation(self, value):
+        repr = {'subject': value.subject}
+        if value.subject == Report.SUBJECT_BIKE_STANDS:
+            repr.update({
+                'number': value.bikestands.number,
+                'fee_acceptable': value.bikestands.fee_acceptable
+            })
+        return repr
+
+    def to_internal_value(self, data):
+        return data
+
+
 class ReportSerializer(serializers.HyperlinkedModelSerializer):
+    details = ReportDetailsField()
     geometry = GeometryField(precision=14)
     likes = serializers.SerializerMethodField()
     liked_by_user = serializers.SerializerMethodField()
@@ -262,8 +282,13 @@ class ReportSerializer(serializers.HyperlinkedModelSerializer):
 
     def create(self, validated_data):
         photos_data = validated_data.pop('photo', [])
-        report = Report.objects.create(
-            subject=validated_data['details']['subject'], **validated_data)
+        details = validated_data.pop('details', {})
+        if details['subject'] == Report.SUBJECT_BIKE_STANDS:
+            validated_data.update(details)
+            report = BikeStands.objects.create(**validated_data).report_ptr
+        else:
+            report = Report.objects.create(
+                subject=validated_data['details']['subject'], **validated_data)
         for photo_data in photos_data:
             Photo.objects.create(content_object=report, **photo_data)
         return report

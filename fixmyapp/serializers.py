@@ -262,7 +262,8 @@ class ReportSerializer(serializers.HyperlinkedModelSerializer):
 
     def create(self, validated_data):
         photos_data = validated_data.pop('photo', [])
-        report = Report.objects.create(**validated_data)
+        report = Report.objects.create(
+            subject=validated_data['details']['subject'], **validated_data)
         for photo_data in photos_data:
             Photo.objects.create(content_object=report, **photo_data)
         return report

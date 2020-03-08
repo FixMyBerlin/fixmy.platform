@@ -561,8 +561,15 @@ class Report(BaseModel):
         (STATUS_DONE, _('done'))
     )
 
+    SUBJECT_BIKE_STANDS = 'BIKE_STANDS'
+    SUBJECT_CHOICES = (
+        (SUBJECT_BIKE_STANDS, _('bike stands')),
+    )
+
     address = models.TextField(_('address'), blank=True, null=True)
     geometry = models.PointField(_('geometry'), srid=4326)
+    subject = models.CharField(
+        _('subject'), max_length=100, choices=SUBJECT_CHOICES)
     description = models.CharField(
         _('description'), blank=True, null=True, max_length=400
     )

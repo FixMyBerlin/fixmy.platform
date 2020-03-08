@@ -593,3 +593,12 @@ class Report(BaseModel):
     class Meta:
         verbose_name = _('report')
         verbose_name_plural = _('reports')
+
+
+class BikeStands(Report):
+    number = models.PositiveSmallIntegerField()
+    fee_acceptable = models.NullBooleanField()
+
+    class Meta:
+        verbose_name = _('bike stands')
+        verbose_name_plural = _('bike stands')

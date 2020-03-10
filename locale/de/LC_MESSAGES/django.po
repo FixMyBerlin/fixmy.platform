@@ -3,464 +3,470 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE_VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-15 15:49+0000\n"
-"PO-Revision-Date: 2020-01-15 16:56+0100\n"
+"POT-Creation-Date: 2020-02-20 16:07+0000\n"
+"PO-Revision-Date: 2020-02-20 17:14+0100\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"X-Generator: Poedit 2.3\n"
 
-#: fixmyapp/admin.py:25 fixmyapp/models.py:444
+#: fixmyapp/admin.py:17 fixmyapp/models.py:447
 msgid "alert date"
 msgstr "Benachrichtigungsdatum"
 
-#: fixmyapp/admin.py:37
+#: fixmyapp/admin.py:28
 msgid "exceeded"
 msgstr "erreicht"
 
-#: fixmyapp/models.py:22 fixmyapp/models.py:422
+#: fixmyapp/admin.py:89
+msgid "set status to \"verification\""
+msgstr "Status auf „in Prüfung“ setzen"
+
+#: fixmyapp/models.py:23 fixmyapp/models.py:425
 msgid "street name"
 msgstr "Straße"
 
-#: fixmyapp/models.py:23
+#: fixmyapp/models.py:24
 msgid "suffix"
 msgstr "Zusatz"
 
-#: fixmyapp/models.py:25 fixmyapp/models.py:424
+#: fixmyapp/models.py:26 fixmyapp/models.py:427
 msgid "borough"
 msgstr "Bezirk"
 
-#: fixmyapp/models.py:28
+#: fixmyapp/models.py:29
 msgid "street category"
 msgstr "Straßenkategorie"
 
-#: fixmyapp/models.py:30 fixmyapp/models.py:414 fixmyapp/models.py:559
+#: fixmyapp/models.py:31 fixmyapp/models.py:417 fixmyapp/models.py:568
 msgid "geometry"
 msgstr "Geometrie"
 
-#: fixmyapp/models.py:33
+#: fixmyapp/models.py:34
 msgid "section"
 msgstr "Abschnitt"
 
-#: fixmyapp/models.py:34
+#: fixmyapp/models.py:35
 msgid "sections"
 msgstr "Abschnitte"
 
-#: fixmyapp/models.py:57
+#: fixmyapp/models.py:58
 msgid "question"
 msgstr "Frage"
 
-#: fixmyapp/models.py:58
+#: fixmyapp/models.py:59
 msgid "questions"
 msgstr "Fragen"
 
-#: fixmyapp/models.py:68
+#: fixmyapp/models.py:69
 msgid "copyright"
 msgstr "Copyright"
 
-#: fixmyapp/models.py:70
+#: fixmyapp/models.py:71
 msgid "file"
 msgstr "Datei"
 
-#: fixmyapp/models.py:73
+#: fixmyapp/models.py:74
 msgid "photo"
 msgstr "Foto"
 
-#: fixmyapp/models.py:74
+#: fixmyapp/models.py:75
 msgid "photos"
 msgstr "Fotos"
 
-#: fixmyapp/models.py:91 fixmyapp/models.py:399
+#: fixmyapp/models.py:92 fixmyapp/models.py:400
 msgid "right"
 msgstr "rechts"
 
-#: fixmyapp/models.py:92 fixmyapp/models.py:400
+#: fixmyapp/models.py:93 fixmyapp/models.py:401
 msgid "left"
 msgstr "links"
 
-#: fixmyapp/models.py:99
+#: fixmyapp/models.py:100
 msgid "north"
 msgstr "Nord"
 
-#: fixmyapp/models.py:100
+#: fixmyapp/models.py:101
 msgid "east"
 msgstr "Ost"
 
-#: fixmyapp/models.py:101
+#: fixmyapp/models.py:102
 msgid "south"
 msgstr "Süd"
 
-#: fixmyapp/models.py:102
+#: fixmyapp/models.py:103
 msgid "west"
 msgstr "West"
 
-#: fixmyapp/models.py:109 fixmyapp/models.py:408
+#: fixmyapp/models.py:110 fixmyapp/models.py:411
 msgid "side"
 msgstr "Seite"
 
-#: fixmyapp/models.py:110
+#: fixmyapp/models.py:111
 msgid "speed limit"
 msgstr "Geschwindigkeitsbegrenzung"
 
-#: fixmyapp/models.py:111
+#: fixmyapp/models.py:112
 msgid "daily traffic"
 msgstr "DTV"
 
-#: fixmyapp/models.py:112
+#: fixmyapp/models.py:113
 msgid "daily traffic heavy"
 msgstr "DTV (schwer)"
 
-#: fixmyapp/models.py:113
+#: fixmyapp/models.py:114
 msgid "daily traffic cargo"
 msgstr "DTV (Liefer)"
 
-#: fixmyapp/models.py:114
+#: fixmyapp/models.py:115
 msgid "daily traffic bus"
 msgstr "DTV (Bus)"
 
-#: fixmyapp/models.py:115 fixmyapp/models.py:415
+#: fixmyapp/models.py:116 fixmyapp/models.py:418
 msgid "length"
 msgstr "Länge"
 
-#: fixmyapp/models.py:116
+#: fixmyapp/models.py:117
 msgid "crossings"
 msgstr "Querungen"
 
-#: fixmyapp/models.py:117
+#: fixmyapp/models.py:118
 msgid "orientation"
 msgstr "Orientierung"
 
-#: fixmyapp/models.py:134 fixmyapp/models.py:135
+#: fixmyapp/models.py:135 fixmyapp/models.py:136
 msgid "Section details"
 msgstr "Abschnittsdetails"
 
-#: fixmyapp/models.py:333
+#: fixmyapp/models.py:334
 msgid "new cycling infrastructure"
 msgstr "Errichtung Radverkehrsanlage"
 
-#: fixmyapp/models.py:334
+#: fixmyapp/models.py:335
 msgid "renovation of cycling infrastructure"
 msgstr "Sanierung / Umbau Radweg"
 
-#: fixmyapp/models.py:335
+#: fixmyapp/models.py:336
 msgid "bike street"
 msgstr "Anordnung Fahrradstraße"
 
-#: fixmyapp/models.py:336
+#: fixmyapp/models.py:337
 msgid "modification of junction"
 msgstr "Umbau Knotenpunkt"
 
-#: fixmyapp/models.py:337
+#: fixmyapp/models.py:338
 msgid "bike parking"
 msgstr "Maßnahme Fahrradparken"
 
-#: fixmyapp/models.py:338
+#: fixmyapp/models.py:339
 msgid "crossing aid"
 msgstr "Querungshilfe"
 
-#: fixmyapp/models.py:339
+#: fixmyapp/models.py:340
 msgid "modification of cross section"
 msgstr "Sanierung / Umbau Straßenquerschnitt"
 
-#: fixmyapp/models.py:340
+#: fixmyapp/models.py:341
 msgid "new street"
 msgstr "Straßenneubau"
 
-#: fixmyapp/models.py:341
+#: fixmyapp/models.py:342
 msgid "shared space"
 msgstr "Errichtung Begegnungszone"
 
-#: fixmyapp/models.py:342 fixmyapp/models.py:360
+#: fixmyapp/models.py:343 fixmyapp/models.py:361
 msgid "miscellaneous"
 msgstr "Sonstiges"
 
-#: fixmyapp/models.py:354
+#: fixmyapp/models.py:355
 msgid "draft"
 msgstr "Konzept"
 
-#: fixmyapp/models.py:355
+#: fixmyapp/models.py:356
 msgid "planning"
 msgstr "Planung"
 
-#: fixmyapp/models.py:356 fixmyapp/models.py:391
+#: fixmyapp/models.py:357 fixmyapp/models.py:392
 msgid "review"
 msgstr "Review"
 
-#: fixmyapp/models.py:357
+#: fixmyapp/models.py:358
 msgid "inactive"
 msgstr "ruhend"
 
-#: fixmyapp/models.py:358
+#: fixmyapp/models.py:359
 msgid "execution"
 msgstr "Ausführung"
 
-#: fixmyapp/models.py:359 fixmyapp/models.py:390
+#: fixmyapp/models.py:360 fixmyapp/models.py:391
 msgid "ready"
 msgstr "fertig"
 
-#: fixmyapp/models.py:379 fixmyapp/models.py:436
+#: fixmyapp/models.py:380 fixmyapp/models.py:439
 msgid "unknown"
 msgstr "unbekannt"
 
-#: fixmyapp/models.py:380
+#: fixmyapp/models.py:381
 msgid "idea"
 msgstr "Idee / Vorschlag"
 
-#: fixmyapp/models.py:381
+#: fixmyapp/models.py:382
 msgid "preliminary planning"
 msgstr "Vorplanung / Konzept"
 
-#: fixmyapp/models.py:382
+#: fixmyapp/models.py:383
 msgid "blueprint planning"
 msgstr "Entwurfsplanung / Straßenbehördliche Anordnung"
 
-#: fixmyapp/models.py:383
+#: fixmyapp/models.py:384
 msgid "approval planning"
 msgstr "Genehmigungsplanung"
 
-#: fixmyapp/models.py:384
+#: fixmyapp/models.py:385
 msgid "examination"
 msgstr "Prüfung / Finanzierung"
 
-#: fixmyapp/models.py:385
+#: fixmyapp/models.py:386
 msgid "execution planning"
 msgstr "Ausführungsplanung"
 
-#: fixmyapp/models.py:386
+#: fixmyapp/models.py:387
 msgid "preparation of awarding"
 msgstr "Ausschreibung"
 
-#: fixmyapp/models.py:387
+#: fixmyapp/models.py:388
 msgid "awarding"
 msgstr "Vergabe"
 
-#: fixmyapp/models.py:388
+#: fixmyapp/models.py:389
 msgid "application for construction site"
 msgstr "Beantragung Baustelle / Anordnung Baustelle"
 
-#: fixmyapp/models.py:389
+#: fixmyapp/models.py:390
 msgid "execution of construction work"
 msgstr "Bauausführung"
 
-#: fixmyapp/models.py:392
+#: fixmyapp/models.py:393
 msgid "cancelled"
 msgstr "abgebrochen"
 
-#: fixmyapp/models.py:401
+#: fixmyapp/models.py:402
 msgid "both"
 msgstr "beide"
 
-#: fixmyapp/models.py:405
+#: fixmyapp/models.py:408
 msgid "project key"
 msgstr "Projektschlüssel"
 
-#: fixmyapp/models.py:406 fixmyapp/models.py:566
+#: fixmyapp/models.py:409 fixmyapp/models.py:575
 msgid "published"
 msgstr "veröffentlicht"
 
-#: fixmyapp/models.py:407
+#: fixmyapp/models.py:410
 msgid "title"
 msgstr "Titel"
 
-#: fixmyapp/models.py:409
+#: fixmyapp/models.py:412
 msgid "responsible"
 msgstr "Verantwortlich"
 
-#: fixmyapp/models.py:410 fixmyapp/models.py:561
+#: fixmyapp/models.py:413 fixmyapp/models.py:570
 msgid "description"
 msgstr "Beschreibung"
 
-#: fixmyapp/models.py:412
+#: fixmyapp/models.py:415
 msgid "short description"
 msgstr "Kurzbeschreibung"
 
-#: fixmyapp/models.py:417
+#: fixmyapp/models.py:420
 msgid "category"
 msgstr "Kategorie"
 
-#: fixmyapp/models.py:425
+#: fixmyapp/models.py:428
 msgid "costs"
 msgstr "Kosten"
 
-#: fixmyapp/models.py:427
+#: fixmyapp/models.py:430
 msgid "draft submitted"
 msgstr "Entwurf eingereicht"
 
-#: fixmyapp/models.py:430
+#: fixmyapp/models.py:433
 msgid "construction started"
 msgstr "Bau begonnen"
 
-#: fixmyapp/models.py:433
+#: fixmyapp/models.py:436
 msgid "construction completed"
 msgstr "Bau abgeschlossen"
 
-#: fixmyapp/models.py:440
+#: fixmyapp/models.py:443
 msgid "construction completed date"
 msgstr "Bau abgeschlossen (Sortierfeld)"
 
-#: fixmyapp/models.py:446
+#: fixmyapp/models.py:449
 msgid "phase"
 msgstr "Phase"
 
-#: fixmyapp/models.py:453 fixmyapp/models.py:568
+#: fixmyapp/models.py:456 fixmyapp/models.py:577
 msgid "status"
 msgstr "Status"
 
-#: fixmyapp/models.py:459
+#: fixmyapp/models.py:462
 msgid "external URL"
 msgstr "externe URL"
 
-#: fixmyapp/models.py:461
+#: fixmyapp/models.py:464
 msgid "cross section"
 msgstr "Querschnitt"
 
-#: fixmyapp/models.py:463
+#: fixmyapp/models.py:466
 msgid "faq"
 msgstr "Häufige Fragen"
 
-#: fixmyapp/models.py:468 survey/models.py:27 survey/models.py:68
+#: fixmyapp/models.py:471 survey/models.py:27 survey/models.py:68
 msgid "project"
 msgstr "Projekt"
 
-#: fixmyapp/models.py:469
+#: fixmyapp/models.py:472
 msgid "projects"
 msgstr "Projekte"
 
-#: fixmyapp/models.py:484
+#: fixmyapp/models.py:493
 msgid "male"
 msgstr "männlich"
 
-#: fixmyapp/models.py:485
+#: fixmyapp/models.py:494
 msgid "female"
 msgstr "weiblich"
 
-#: fixmyapp/models.py:486
+#: fixmyapp/models.py:495
 msgid "other"
 msgstr "anders"
 
-#: fixmyapp/models.py:495
+#: fixmyapp/models.py:504
 msgid "racing cycle"
 msgstr "Rennrad"
 
-#: fixmyapp/models.py:496
+#: fixmyapp/models.py:505
 msgid "city bike"
 msgstr "City-Bike"
 
-#: fixmyapp/models.py:497
+#: fixmyapp/models.py:506
 msgid "mountain bike"
 msgstr "Mountain-Bike"
 
-#: fixmyapp/models.py:498
+#: fixmyapp/models.py:507
 msgid "e-bike"
 msgstr "E-Bike"
 
-#: fixmyapp/models.py:499
+#: fixmyapp/models.py:508
 msgid "cargo bike"
 msgstr "Lastenrad"
 
-#: fixmyapp/models.py:500
+#: fixmyapp/models.py:509
 msgid "e-cargo-bike"
 msgstr "E-Lastenrad"
 
-#: fixmyapp/models.py:507
+#: fixmyapp/models.py:516
 msgid "never"
 msgstr "nie"
 
-#: fixmyapp/models.py:508
+#: fixmyapp/models.py:517
 msgid "once per day"
 msgstr "ein mal pro Tag"
 
-#: fixmyapp/models.py:509
+#: fixmyapp/models.py:518
 msgid "once per week"
 msgstr "einmal pro Woche"
 
-#: fixmyapp/models.py:510
+#: fixmyapp/models.py:519
 msgid "once per month"
 msgstr "einmal pro Monat"
 
-#: fixmyapp/models.py:512
+#: fixmyapp/models.py:521
 msgid "age"
 msgstr "Alter"
 
-#: fixmyapp/models.py:514
+#: fixmyapp/models.py:523
 msgid "category of bike"
 msgstr "Fahrradtyp"
 
-#: fixmyapp/models.py:521
+#: fixmyapp/models.py:530
 msgid "has trailer"
 msgstr "Anhänger"
 
-#: fixmyapp/models.py:525
+#: fixmyapp/models.py:534
 msgid "postal code"
 msgstr "PLZ"
 
-#: fixmyapp/models.py:528
+#: fixmyapp/models.py:537
 msgid "sex"
 msgstr "Geschlecht"
 
-#: fixmyapp/models.py:530
+#: fixmyapp/models.py:539
 msgid "speed"
 msgstr "Geschwindigkeit"
 
-#: fixmyapp/models.py:532
+#: fixmyapp/models.py:541
 msgid "security"
 msgstr "Sicherheit"
 
-#: fixmyapp/models.py:535
+#: fixmyapp/models.py:544
 msgid "usage"
 msgstr "Nutzung"
 
-#: fixmyapp/models.py:539 survey/models.py:67
+#: fixmyapp/models.py:548 survey/models.py:67
 msgid "profile"
 msgstr "Profil"
 
-#: fixmyapp/models.py:540
+#: fixmyapp/models.py:549
 msgid "profiles"
 msgstr "Profile"
 
-#: fixmyapp/models.py:551
+#: fixmyapp/models.py:560
 msgid "new"
-msgstr ""
+msgstr "Neu"
 
-#: fixmyapp/models.py:552
+#: fixmyapp/models.py:561
 msgid "verification"
-msgstr ""
+msgstr "In Prüfung"
 
-#: fixmyapp/models.py:553
+#: fixmyapp/models.py:562
 msgid "accepted"
-msgstr ""
+msgstr "Angenommen"
 
-#: fixmyapp/models.py:554
+#: fixmyapp/models.py:563
 msgid "rejected"
-msgstr ""
+msgstr "Abgelehnt"
 
-#: fixmyapp/models.py:555
+#: fixmyapp/models.py:564
 msgid "done"
-msgstr ""
+msgstr "Abgeschlossen"
 
-#: fixmyapp/models.py:558
+#: fixmyapp/models.py:567
 msgid "address"
 msgstr "Adresse"
 
-#: fixmyapp/models.py:563
+#: fixmyapp/models.py:572
 msgid "details"
 msgstr "Details"
 
-#: fixmyapp/models.py:575
+#: fixmyapp/models.py:584
 msgid "reason for status"
 msgstr "Begründung"
 
-#: fixmyapp/models.py:581
+#: fixmyapp/models.py:590
 msgid "report"
 msgstr "Meldung"
 
-#: fixmyapp/models.py:582
+#: fixmyapp/models.py:591
 msgid "reports"
 msgstr "Meldungen"
 
@@ -515,6 +521,38 @@ msgstr "Szene"
 #: survey/models.py:41
 msgid "scenes"
 msgstr "Szenen"
+
+#: survey/models.py:66
+#, fuzzy
+#| msgid "side"
+msgid "id"
+msgstr "Seite"
+
+#: survey/models.py:71
+msgid "session"
+msgstr ""
+
+#: survey/models.py:72
+#, fuzzy
+#| msgid "sections"
+msgid "sessions"
+msgstr "Abschnitte"
+
+#: survey/models.py:76
+#, fuzzy
+#| msgid "orientation"
+msgid "duration"
+msgstr "Orientierung"
+
+#: survey/models.py:77 survey/models.py:84
+msgid "rating"
+msgstr ""
+
+#: survey/models.py:85
+#, fuzzy
+#| msgid "crossings"
+msgid "ratings"
+msgstr "Querungen"
 
 #: templates/email/activation.html:8
 msgid "Please go to the following page to activate account:"

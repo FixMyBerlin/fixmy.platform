@@ -91,11 +91,19 @@ class QuestionAdmin(admin.ModelAdmin):
     search_fields = ('text',)
 
 
+def mark_in_progress(modeladmin, request, queryset):
+    """Update report status to "in verification" for many items at once."""
+    queryset.update(status=Report.STATUS_VERIFICATION)
+
+
+mark_in_progress.short_description = _('set status to "verification"')
+
+
 class ReportAdmin(admin.OSMGeoAdmin):
     inlines = (PhotoInline,)
-    list_display = (
-        'id', 'address', 'subject', 'description', 'status', 'created_date')
+    list_display = ('id', 'address', 'subject', 'description', 'status', 'created_date')
     ordering = ('-created_date',)
+    actions = [mark_in_progress]
 
     def subject(self, obj):
         return obj.details['subject']

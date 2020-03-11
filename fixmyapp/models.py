@@ -571,7 +571,7 @@ class Report(BaseModel):
     subject = models.CharField(
         _('subject'), max_length=100, choices=SUBJECT_CHOICES)
     description = models.CharField(
-        _('description'), blank=True, null=True, max_length=400
+        _('description'), blank=True, null=True, max_length=1000
     )
     likes = GenericRelation(Like)
     photo = GenericRelation(Photo)

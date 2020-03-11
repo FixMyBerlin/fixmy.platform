@@ -81,7 +81,7 @@ class SectionDetail(generics.RetrieveAPIView):
 
 class ReportList(generics.ListCreateAPIView):
     permission_classes = (permissions.AllowAny,)
-    queryset = Report.objects.filter(published=1).prefetch_related('likes')
+    queryset = Report.objects.filter(published=1).prefetch_related('likes', 'bikestands')
     serializer_class = ReportSerializer
 
     def perform_create(self, serializer):

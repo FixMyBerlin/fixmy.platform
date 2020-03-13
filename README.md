@@ -61,6 +61,20 @@ Exports sections as GeoJSON intended for Mapbox.
 
     $ python manage.py exportsections > /tmp/sections.json
 
+### importreports
+
+Imports reports about bike stands.
+
+    $ python manage.py importreports /tmp/reports.json
+
+This command requires a shape file in a format that allows GeoDjango to detect the geometry type. GeoJSON is such a format, KML is not. All geometries must be Points. Imported properties:
+
+* address (text)
+* subject (text, currently only BIKE_STANDS)
+* description (text, limited to 1000 characters)
+* number (integer)
+* fee_acceptable (boolean)
+
 ### importsectiondetails
 
 Imports section details including pictures and traffic information from CSV file. The file is usually downloaded from S3 with `downloadfiles`.

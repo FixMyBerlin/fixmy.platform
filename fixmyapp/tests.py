@@ -12,6 +12,7 @@ from .models import (
     Section,
     SectionDetails
 )
+import csv
 import decimal
 import json
 import tempfile
@@ -252,6 +253,11 @@ class ReportTest(TestCase):
             content_type='application/json')
         self.assertEqual(response.status_code, 403)
 
+    def test_export_reports(self):
+        with tempfile.NamedTemporaryFile(mode="w+", encoding="UTF-8") as f:
+            call_command('exportreports', f.name)
+            csv_reader = csv.DictReader(f, dialect='excel')
+            self.assertIn('id', csv_reader.fieldnames)
 
 class LikeTest(object):
 

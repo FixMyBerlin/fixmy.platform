@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.forms.models import model_to_dict
 from django.utils.translation import gettext_lazy as _
-from fixmyapp.models import Report
+from fixmyapp.models import Report, BikeStands
 import argparse
 import csv
 import logging
@@ -24,13 +24,13 @@ class Command(BaseCommand):
             'id',
             'address',
             'description',
+            'Anzahl gewünscht',
             'likes',
             'status',
             'status_reason',
+            'Position',
         ]
         FIELDNAMES_DE = [_(entry) for entry in FIELDNAMES]
-
-        filters = {'published': True}
 
         csv_writer = csv.DictWriter(
             options['filename'], fieldnames=FIELDNAMES, dialect='excel'
@@ -39,5 +39,14 @@ class Command(BaseCommand):
         # Write table headers using German translation
         csv_writer.writerow(dict(zip(FIELDNAMES, FIELDNAMES_DE)))
 
-        for r in Report.objects.filter(**filters).order_by('id'):
-            csv_writer.writerow(model_to_dict(r, fields=FIELDNAMES))
+        for report in Report.objects.order_by('id').prefetch_related(
+            'likes', 'bikestands'
+        ):
+            row_data = model_to_dict(report, fields=FIELDNAMES)
+            row_data["Position"] = f"{report.geometry.y},{report.geometry.x}"
+
+            bike_stands = BikeStands.objects.filter(report_ptr=report)
+            if len(bike_stands) > 0:
+                row_data['Anzahl gewünscht'] = bike_stands[0].number
+
+            csv_writer.writerow(row_data)

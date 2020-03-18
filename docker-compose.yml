@@ -24,7 +24,6 @@ services:
       PGPASSWORD: docker
       PGUSER: docker
       TOGGLE_NEWSLETTER:
-      TOGGLE_USE_GEOMETRY_LENGTH:
     command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/code

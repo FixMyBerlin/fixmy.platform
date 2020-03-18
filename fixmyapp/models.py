@@ -415,7 +415,6 @@ class Project(BaseModel):
         _('short description'), blank=True, null=True, max_length=200
     )
     geometry = models.GeometryField(_('geometry'), blank=True, null=True)
-    _length = models.IntegerField(_('length'), db_column='length', blank=True, null=True)
     category = models.CharField(
         _('category'),
         blank=True,
@@ -476,10 +475,9 @@ class Project(BaseModel):
             return self.geometry.point_on_surface
 
     def length(self):
-        if settings.TOGGLE_USE_GEOMETRY_LENGTH and self.geometry:
+        if self.geometry:
             return self.geometry.transform(self.TRANSFORM_EPSG_3035, clone=True).length
-        elif not settings.TOGGLE_USE_GEOMETRY_LENGTH:
-            return self._length
+        return None
 
     def __str__(self):
         return self.project_key

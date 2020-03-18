@@ -19,6 +19,10 @@ services:
       MAPBOX_UPLOAD_TILESET_SIDE:
       MAPBOX_UPLOAD_TILESET_SECTIONS:
       MAPBOX_UPLOAD_TILESET_PROJECTS:
+      PGDATABASE: docker
+      PGHOST: db
+      PGPASSWORD: docker
+      PGUSER: docker
       TOGGLE_NEWSLETTER:
       TOGGLE_USE_GEOMETRY_LENGTH:
     command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"

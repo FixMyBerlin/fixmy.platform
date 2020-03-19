@@ -1,5 +1,6 @@
 import djoser.email
 import urllib.parse
+from django.conf import settings
 
 
 class ActivationEmail(djoser.email.ActivationEmail):
@@ -12,3 +13,9 @@ class ActivationEmail(djoser.email.ActivationEmail):
                 context['url'], '?newsletter=yes')
 
         return context
+
+
+def template_context(request):
+    return {
+        "site_name": settings.SITE_NAME
+    }

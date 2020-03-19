@@ -99,6 +99,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'fixmyapp.email.template_context'
             ],
         },
     },
@@ -210,6 +211,8 @@ AWS_S3_SIGNATURE_VERSION = os.getenv('AWS_S3_SIGNATURE_VERSION', 's3v4')
 EMAIL_BACKEND = os.getenv('EMAIL_BACKEND', 'django.core.mail.backends.smtp.EmailBackend')
 
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'info@fixmyberlin.de')
+
+SITE_NAME = os.getenv('SITE_NAME', 'FixMyBerlin')
 
 ANYMAIL = {
     'MAILJET_API_KEY': os.getenv('MAILJET_API_KEY', ''),

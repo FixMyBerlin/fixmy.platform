@@ -23,9 +23,10 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            'preserve-staff',
+            '--preserve-staff',
             action='store_true',
-            default=True,
+            default=False,
+            dest='preserve-staff',
             help='preserve staff users'
         )
 

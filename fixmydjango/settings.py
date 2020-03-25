@@ -91,7 +91,7 @@ ROOT_URLCONF = 'fixmydjango.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates', os.getenv('TEMPLATE_SET', 'fixmyberlin'))],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

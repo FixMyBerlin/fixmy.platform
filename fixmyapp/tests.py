@@ -320,12 +320,6 @@ class LikeReportTest(LikeTest, TestCase):
         self.instance = Report.objects.create(
             address='Potsdamer Platz 1',
             description='Lorem ipsum dolor sit',
-            details={
-                'subject': 'BIKE_STANDS',
-                'number': 3,
-                'placement': 'SIDEWALK',
-                'fee': 0
-            },
             geometry=Point(13.34635540636318, 52.52565990333657)
         )
         self.instance_url = reverse('report-detail', kwargs={'pk': self.instance.id})

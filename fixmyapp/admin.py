@@ -105,9 +105,6 @@ class ReportAdmin(admin.OSMGeoAdmin):
     ordering = ('-created_date',)
     actions = [mark_in_progress]
 
-    def subject(self, obj):
-        return obj.details['subject']
-
     def has_add_permission(self, request):
         return False
 

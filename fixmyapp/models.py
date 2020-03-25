@@ -415,7 +415,6 @@ class Project(BaseModel):
         _('short description'), blank=True, null=True, max_length=200
     )
     geometry = models.GeometryField(_('geometry'), blank=True, null=True)
-    _length = models.IntegerField(_('length'), db_column='length', blank=True, null=True)
     category = models.CharField(
         _('category'),
         blank=True,
@@ -476,10 +475,8 @@ class Project(BaseModel):
             return self.geometry.point_on_surface
 
     def length(self):
-        if settings.TOGGLE_USE_GEOMETRY_LENGTH and self.geometry:
+        if self.geometry:
             return self.geometry.transform(self.TRANSFORM_EPSG_3035, clone=True).length
-        elif not settings.TOGGLE_USE_GEOMETRY_LENGTH:
-            return self._length
 
     def __str__(self):
         return self.project_key
@@ -564,12 +561,18 @@ class Report(BaseModel):
         (STATUS_DONE, _('done'))
     )
 
+    SUBJECT_BIKE_STANDS = 'BIKE_STANDS'
+    SUBJECT_CHOICES = (
+        (SUBJECT_BIKE_STANDS, _('bike stands')),
+    )
+
     address = models.TextField(_('address'), blank=True, null=True)
     geometry = models.PointField(_('geometry'), srid=4326)
+    subject = models.CharField(
+        _('subject'), max_length=100, choices=SUBJECT_CHOICES)
     description = models.CharField(
-        _('description'), blank=True, null=True, max_length=400
+        _('description'), blank=True, null=True, max_length=1000
     )
-    details = JSONField(_('details'))
     likes = GenericRelation(Like)
     photo = GenericRelation(Photo)
     published = models.BooleanField(_('published'), default=True)
@@ -589,3 +592,12 @@ class Report(BaseModel):
     class Meta:
         verbose_name = _('report')
         verbose_name_plural = _('reports')
+
+
+class BikeStands(Report):
+    number = models.PositiveSmallIntegerField(_('number'))
+    fee_acceptable = models.NullBooleanField(_('fee_acceptable'))
+
+    class Meta:
+        verbose_name = _('bike stands')
+        verbose_name_plural = _('bike stands')

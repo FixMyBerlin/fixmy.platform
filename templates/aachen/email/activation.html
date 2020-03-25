@@ -1,0 +1,15 @@
+{% load i18n %}
+
+{% block subject %}
+Aktivierung deines Kontos bei Radbügel für Aachen
+{% endblock subject %}
+
+{% block text_body %}
+{% trans "Please go to the following page to activate account:" %}
+
+{{ protocol }}://{{ domain }}/{{ url }}
+
+Vielen Dank!
+
+Dein Radbügel für Aachen-Team
+{% endblock text_body %}

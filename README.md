@@ -31,7 +31,7 @@ to get an overview of all commands available. With
     $ python manage.py createsuperuser
 
 you create a new user for Django's admin console, which can then be accessed at [http://localhost:8000/admin/](http://localhost:8000/admin/). You can run
-the test suite with 
+the test suite with
 
     $ python manage.py test
 
@@ -85,3 +85,10 @@ Uploads GeoJSON export of projects or sections (see `exportprojects` and `export
 
     $ python manage.py uploadtileset --dataset projects /tmp/projects.json
 
+## Other scripts
+
+### fetch_database
+
+Creates a backup using a given Heroku app, downloads it and uses it to overwrite the local database schema and contents. User data is anonymized in the process, except for staff users, who are preserved.
+
+    $ ./scripts/fetch_database.sh fixmyplatform

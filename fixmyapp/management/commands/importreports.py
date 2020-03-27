@@ -5,6 +5,7 @@ import os
 
 mapping = {
     'address': 'address',
+    'subject': 'subject',
     'description': 'description',
     'number': 'number',
     'fee_acceptable': 'fee_acceptable',

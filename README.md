@@ -73,7 +73,6 @@ This command requires a shape file in a format that allows GeoDjango to detect t
 * subject (text, currently only BIKE_STANDS)
 * description (text, limited to 1000 characters)
 * number (integer)
-* fee_acceptable (boolean)
 
 ### importsectiondetails
 

@@ -20,7 +20,7 @@ FIELDNAMES = [
     'likes',
     'status',
     'status_reason',
-    'Position',
+    'position',
 ]
 
 FIELDNAMES_DE = [_(entry) for entry in FIELDNAMES]
@@ -56,7 +56,7 @@ class Command(BaseCommand):
         for report in query:
             row_data = model_to_dict(report, fields=FIELDNAMES)
             row_data['created'] = report.created_date.isoformat()
-            row_data["Position"] = f"{report.geometry.y},{report.geometry.x}"
+            row_data["position"] = f"{report.geometry.y},{report.geometry.x}"
             row_data['number'] = report.bikestands.number
             row_data['fee_acceptable'] = report.bikestands.fee_acceptable is True
 

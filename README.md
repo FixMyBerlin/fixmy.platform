@@ -69,10 +69,22 @@ Imports reports about bike stands.
 
 This command requires a shape file in a format that allows GeoDjango to detect the geometry type. GeoJSON is such a format, KML is not. All geometries must be Points. Imported properties:
 
-* address (text)
-* subject (text, currently only BIKE_STANDS)
-* description (text, limited to 1000 characters)
-* number (integer)
+- address (text)
+- subject (text, currently only BIKE_STANDS)
+- description (text, limited to 1000 characters)
+- number (integer)
+
+### exportreports
+
+Export reports about bike stands in either CSV or GeoJSON format
+
+    $ python manage.py exportreports --format geojson /tmp/reports.json
+
+Notes:
+
+- Likes are exported as an aggregate count
+- Report creation date is exported as an ISO 8601 formatted datetime string
+- CSV export uses some localized (German) table headers
 
 ### importsectiondetails
 

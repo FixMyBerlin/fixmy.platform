@@ -90,7 +90,7 @@ class Command(BaseCommand):
                     },
                     "geometry": {
                         "type": "Point",
-                        "coordinates": [report.geometry.y, report.geometry.x],
+                        "coordinates": [report.geometry.x, report.geometry.y],
                     },
                 }
             )

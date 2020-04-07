@@ -67,7 +67,20 @@ Imports reports about bike stands.
 
     $ python manage.py importreports /tmp/reports.json
 
-This command requires a shape file in a format that allows GeoDjango to detect the geometry type. GeoJSON is such a format, KML is not. All geometries must be Points. Imported properties:
+This command requires a shape file in a format that allows GeoDjango to detect
+the geometry type. GeoJSON is such a format, KML is not. All geometries must be Points.
+
+For json file endings, field names available are guessed from the first feature
+in the source file. Only these properties are then imported. If the property `id`
+is available, existing reports with matching IDs are updated, if that property
+is not available, new reports are created.
+
+Caveats:
+
+- The `fee_acceptable` field can currently not be imported.
+- User likes can not be imported
+
+Imported properties:
 
 - address (text)
 - created_date (ISO 8601 with time zone)

@@ -1,9 +1,12 @@
+from django.contrib.gis.utils import LayerMapping
 from django.core.management.base import BaseCommand
 from fixmyapp.models import BikeStands
 import os
-from . import LayerMapping
+import json
 
-mapping = {
+from . import LayerMapping as LayerMappingPatched
+
+default_mapping = {
     'address': 'address',
     'created_date': 'created',
     'description': 'description',
@@ -32,14 +35,51 @@ class Command(BaseCommand):
             help='display the progress bar in any verbosity level.',
         )
 
+    def _create_mapping(self, filename, verbosity):
+        """Guess available fields in source file by looking at first feature."""
+        mapping = default_mapping
+
+        if filename.endswith('json'):
+            with open(filename) as f:
+                data = json.load(f)
+            try:
+                available_fields = data["features"][0]["properties"].keys()
+            except KeyError:
+                self.stderr.write("Could not extract available fields from json file")
+                available_fields = default_mapping.keys()
+            else:
+                if verbosity > 0:
+                    self.stdout.write(
+                        "Using fields available in source file: "
+                        + ",".join(available_fields)
+                    )
+                mapping = {}
+                for field in available_fields:
+                    if field in default_mapping.keys():
+                        mapping[field] = default_mapping[field]
+                    elif verbosity > 0:
+                        self.stdout.write("No mapping available for field " + field)
+
+                mapping["geometry"] = default_mapping["geometry"]
+        return mapping
+
     def handle(self, *args, **options):
-        lm = LayerMapping(
+        mapping = self._create_mapping(options['file'], options['verbosity'])
+
+        if "id" in mapping.keys():
+            UNIQUE_PARAM = ('id',)
+            LayerMappingCls = LayerMappingPatched
+        else:
+            UNIQUE_PARAM = None
+            LayerMappingCls = LayerMapping
+
+        lm = LayerMappingCls(
             BikeStands,
             os.path.abspath(options['file']),
             mapping,
             transform=True,
             encoding='utf-8',
-            unique=('id',),
+            unique=UNIQUE_PARAM,
         )
         lm.save(
             verbose=True if options['verbosity'] > 2 else False,

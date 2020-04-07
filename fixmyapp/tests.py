@@ -253,11 +253,25 @@ class ReportTest(TestCase):
             content_type='application/json')
         self.assertEqual(response.status_code, 403)
 
-    def test_export_reports(self):
+    def test_export_reports_csv(self):
+        self.client.post(
+            '/api/reports',
+            data=json.dumps(self.data),
+            content_type='application/json')
         with tempfile.NamedTemporaryFile(mode="w+", encoding="UTF-8") as f:
-            call_command('exportreports', f.name)
+            call_command('exportreports', f.name, format='csv')
             csv_reader = csv.DictReader(f, dialect='excel')
-            self.assertIn('id', csv_reader.fieldnames)
+            self.assertIn('ID', csv_reader.fieldnames)
+
+    def test_export_reports_geojson(self):
+        self.client.post(
+            '/api/reports',
+            data=json.dumps(self.data),
+            content_type='application/json')
+        with tempfile.NamedTemporaryFile(mode="w+", encoding="UTF-8") as f:
+            call_command('exportreports', f.name, format='geojson')
+            data = json.load(f)
+            self.assertIn('id', data["features"][0]["properties"].keys())
 
 class LikeTest(object):
 

@@ -2,6 +2,7 @@ from django.core.management.base import BaseCommand
 from django.forms.models import model_to_dict
 from django.utils.translation import gettext_lazy as _
 from fixmyapp.models import Report, BikeStands
+from datetime import datetime
 import argparse
 import csv
 import logging
@@ -13,7 +14,9 @@ FIELDNAMES = [
     'id',
     'address',
     'description',
-    'Anzahl gewünscht',
+    'number',
+    'fee_acceptable',
+    'created',
     'likes',
     'status',
     'status_reason',
@@ -54,17 +57,15 @@ class Command(BaseCommand):
             row_data = model_to_dict(report, fields=FIELDNAMES)
             row_data['created'] = report.created_date.isoformat()
             row_data["Position"] = f"{report.geometry.y},{report.geometry.x}"
-
-            bike_stands = BikeStands.objects.filter(report_ptr=report)
-            if len(bike_stands) > 0:
-                row_data['Anzahl gewünscht'] = bike_stands[0].number
+            row_data['number'] = report.bikestands.number
+            row_data['fee_acceptable'] = report.bikestands.fee_acceptable is True
 
             csv_writer.writerow(row_data)
 
     def export_geojson(self, query, target_file):
         results = {
             "type": "FeatureCollection",
-            "name": 'Reports export',
+            "name": f"reports export {datetime.now().isoformat()}",
             "crs": {
                 "type": "name",
                 "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"},
@@ -72,19 +73,19 @@ class Command(BaseCommand):
             'features': [],
         }
         for report in query:
-            bike_stands = BikeStands.objects.filter(report_ptr=report)
             results["features"].append(
                 {
                     "type": "Feature",
                     "properties": {
-                        "subject": "BIKE_STANDS",
-                        "fee_acceptable": False
-                        if len(bike_stands) == 0
-                        else bike_stands[0].fee_acceptable is True,
-                        "number": 0 if len(bike_stands) == 0 else bike_stands[0].number,
-                        "description": report.description,
                         "address": report.address,
                         "created": report.created_date.isoformat(),
+                        "description": report.description,
+                        "fee_acceptable": report.bikestands.fee_acceptable is True,
+                        "id": report.id,
+                        "likes": report.likes.count(),
+                        "number": report.bikestands.number,
+                        'status': report.status,
+                        "status_reason": report.status_reason,
                     },
                     "geometry": {
                         "type": "Point",
@@ -93,4 +94,4 @@ class Command(BaseCommand):
                 }
             )
 
-        json.dump(results, target_file, ensure_ascii=False)
+        json.dump(results, target_file, ensure_ascii=False, indent=2)

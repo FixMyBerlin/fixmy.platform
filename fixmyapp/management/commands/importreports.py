@@ -5,25 +5,31 @@ import os
 
 mapping = {
     'address': 'address',
-    'subject': 'subject',
+    'created_date': 'created',
     'description': 'description',
-    'number': 'number',
     'geometry': 'POINT',
+    'id': 'id',
+    'number': 'number',
+    'status_reason': 'status_reason',
+    'status': 'status',
+    'subject': 'subject',
 }
 
 
 class Command(BaseCommand):
-    help = (
-        'Imports reports from shape file'
-    )
+    help = 'Imports reports from shape file'
 
     def add_arguments(self, parser):
-        parser.add_argument('file', type=str, help='A shape file - please see README.md for expected format')
+        parser.add_argument(
+            'file',
+            type=str,
+            help='A shape file - please see README.md for expected format',
+        )
         parser.add_argument(
             '--show-progress',
             action='store_true',
             dest='progress',
-            help='display the progress bar in any verbosity level.'
+            help='display the progress bar in any verbosity level.',
         )
 
     def handle(self, *args, **options):
@@ -32,12 +38,12 @@ class Command(BaseCommand):
             os.path.abspath(options['file']),
             mapping,
             transform=True,
-            encoding='utf-8'
+            encoding='utf-8',
         )
         lm.save(
             verbose=True if options['verbosity'] > 2 else False,
             progress=options['progress'] or options['verbosity'] > 1,
             silent=options['verbosity'] == 0,
             stream=self.stdout,
-            strict=True
+            strict=True,
         )

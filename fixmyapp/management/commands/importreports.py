@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
-from django.contrib.gis.utils import LayerMapping
 from fixmyapp.models import BikeStands
 import os
+from . import LayerMapping
 
 mapping = {
     'address': 'address',
@@ -39,6 +39,7 @@ class Command(BaseCommand):
             mapping,
             transform=True,
             encoding='utf-8',
+            unique=('id',),
         )
         lm.save(
             verbose=True if options['verbosity'] > 2 else False,

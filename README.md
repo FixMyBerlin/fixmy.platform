@@ -70,9 +70,18 @@ Imports reports about bike stands.
 This command requires a shape file in a format that allows GeoDjango to detect the geometry type. GeoJSON is such a format, KML is not. All geometries must be Points. Imported properties:
 
 - address (text)
-- subject (text, currently only BIKE_STANDS)
+- created_date (ISO 8601 with time zone)
 - description (text, limited to 1000 characters)
+- id (integer)
 - number (integer)
+- subject (text, currently only BIKE_STANDS)
+- status_reason (text)
+- status (text)
+  - new
+  - verification
+  - accepted
+  - rejected
+  - done
 
 ### exportreports
 

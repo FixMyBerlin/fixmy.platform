@@ -8,7 +8,7 @@ from . import LayerMapping as LayerMappingPatched
 
 default_mapping = {
     'address': 'address',
-    'created_date': 'created',
+    'created_date': 'created_date',
     'description': 'description',
     'geometry': 'POINT',
     'id': 'id',

@@ -1,9 +1,6 @@
-from django.contrib.gis.gdal import OGRGeometry
 from django.core.management.base import BaseCommand
 from fixmyapp.models import Project
-import django.contrib.gis.utils
 import os
-import sys
 
 from . import LayerMapping
 

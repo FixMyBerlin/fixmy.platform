@@ -283,7 +283,6 @@ class ReportTest(TestCase):
             call_command('exportreports', f.name, format='geojson')
             data = json.load(f)
 
-        # Report.objects.all().delete()
         data["features"][0]["properties"]["address"] = "test"
         data["features"][0]["properties"]["number"] = 1
 
@@ -298,6 +297,18 @@ class ReportTest(TestCase):
         self.assertEqual(len(reports), 1)
         self.assertEqual(reports[0].address, 'test')
         self.assertEqual(reports[0].bikestands.number, 1)
+
+        with tempfile.NamedTemporaryFile(
+            mode="w+", encoding="UTF-8", suffix='geojson'
+        ) as f2:
+            json.dump(data, f2)
+            Report.objects.all().delete()
+            f2.seek(0)
+            call_command('importreports', f2.name)
+
+        reports = Report.objects.all()
+        self.assertEqual(len(reports), 1)
+
 
 class LikeTest(object):
 

@@ -18,9 +18,9 @@ class LayerMapping(django.contrib.gis.utils.LayerMapping):
         strict=False,
     ):
         """
-        Updates the geometries of the instances identified by the unique key,
-        replacing existing geometries. The parent class' save method adds
-        geometries instead of replacing them.
+        Create or update model instances, updating their geometries as well.
+        Timezone unaware datetime fields are converted to timezone aware 
+        values by assuming they are in UTC.
         """
         # Getting the default Feature ID range.
         default_range = self.check_fid_range(fid_range)
@@ -50,7 +50,14 @@ class LayerMapping(django.contrib.gis.utils.LayerMapping):
                     elif not silent:
                         stream.write('Ignoring feature id: {}\n'.format(feat.fid, msg))
                 else:
+                    # Always create timezone aware datetime values
+                    # and assume UTC for unaware datetime objects
+                    for k in kwargs.keys():
+                        if type(kwargs[k]) == datetime and kwargs[k].tzinfo is None:
+                            kwargs[k] = kwargs[k].replace(tzinfo=pytz.UTC)
+
                     if self.unique:
+                        is_update = True
                         try:
                             # Constructing the model using the keyword args
                             # If we want unique models on a particular field, handle the
@@ -70,16 +77,13 @@ class LayerMapping(django.contrib.gis.utils.LayerMapping):
                                 if k == self.geom_field:
                                     continue
 
-                                # Always create timezone aware datetime
-                                # and assume UTC for unaware datetime objects
-                                if type(v) == datetime and v.tzinfo is None:
-                                    v = v.replace(tzinfo=pytz.UTC)
-
                                 setattr(m, k, v)
                         except ObjectDoesNotExist:
                             # No unique model exists yet, create.
+                            is_update = False
                             m = self.model(**kwargs)
                     else:
+                        is_update = False
                         m = self.model(**kwargs)
 
                     try:

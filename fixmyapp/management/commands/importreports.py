@@ -46,7 +46,6 @@ class Command(BaseCommand):
                 available_fields = data["features"][0]["properties"].keys()
             except KeyError:
                 self.stderr.write("Could not extract available fields from json file")
-                available_fields = default_mapping.keys()
             else:
                 if verbosity > 0:
                     self.stdout.write(
@@ -67,10 +66,10 @@ class Command(BaseCommand):
         mapping = self._create_mapping(options['file'], options['verbosity'])
 
         if "id" in mapping.keys():
-            UNIQUE_PARAM = ('id',)
+            unique_param = ('id',)
             LayerMappingCls = LayerMappingPatched
         else:
-            UNIQUE_PARAM = None
+            unique_param = None
             LayerMappingCls = LayerMapping
 
         lm = LayerMappingCls(
@@ -79,7 +78,7 @@ class Command(BaseCommand):
             mapping,
             transform=True,
             encoding='utf-8',
-            unique=UNIQUE_PARAM,
+            unique=unique_param,
         )
         lm.save(
             verbose=True if options['verbosity'] > 2 else False,

@@ -273,6 +273,32 @@ class ReportTest(TestCase):
             data = json.load(f)
             self.assertIn('id', data["features"][0]["properties"].keys())
 
+    def test_import_reports(self):
+        self.client.post(
+            '/api/reports', data=json.dumps(self.data), content_type='application/json'
+        )
+        with tempfile.NamedTemporaryFile(
+            mode="w+", encoding="UTF-8", suffix='geojson'
+        ) as f:
+            call_command('exportreports', f.name, format='geojson')
+            data = json.load(f)
+
+        # Report.objects.all().delete()
+        data["features"][0]["properties"]["address"] = "test"
+        data["features"][0]["properties"]["number"] = 1
+
+        with tempfile.NamedTemporaryFile(
+            mode="w+", encoding="UTF-8", suffix='geojson'
+        ) as f1:
+            json.dump(data, f1)
+            f1.seek(0)
+            call_command('importreports', f1.name)
+
+        reports = Report.objects.all()
+        self.assertEqual(len(reports), 1)
+        self.assertEqual(reports[0].address, 'test')
+        self.assertEqual(reports[0].bikestands.number, 1)
+
 class LikeTest(object):
 
     def setUp(self):

@@ -141,7 +141,6 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
             'length',
             'photos',
             'likes',
-            'liked_by_user',
         )
 
 

@@ -109,17 +109,9 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
     center = GeometryField(precision=14)
     length = serializers.DecimalField(None, 0)
     likes = serializers.SerializerMethodField()
-    liked_by_user = serializers.SerializerMethodField()
 
     def get_likes(self, obj):
         return len(obj.likes.all())
-
-    def get_liked_by_user(self, obj):
-        user = self.context['request'].user
-        if user.is_authenticated:
-            return any(l.user.pk == user.pk for l in obj.likes.all())
-        else:
-            return False
 
     class Meta:
         model = Project

@@ -596,7 +596,7 @@ class Report(BaseModel):
 
 class BikeStands(Report):
     number = models.PositiveSmallIntegerField(_('number'))
-    fee_acceptable = models.NullBooleanField(_('fee_acceptable'))
+    fee_acceptable = models.BooleanField(_('fee_acceptable'), default=False)
 
     class Meta:
         verbose_name = _('bike stands')

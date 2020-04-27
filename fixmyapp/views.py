@@ -1,25 +1,21 @@
 from django.conf import settings
 from django.core import mail
 from django.core.exceptions import PermissionDenied
+from django.db.models import Count
 from django.shortcuts import get_object_or_404
 from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .models import (
-    Like,
-    Profile,
-    Project,
-    Report,
-    Section
-)
+from .models import Like, Profile, Project, Report, Section, PlaystreetSignup
 from .serializers import (
     FeedbackSerializer,
+    PlaystreetSignupSerializer,
     ProfileSerializer,
     ProjectSerializer,
     ReportSerializer,
-    SectionSerializer
+    SectionSerializer,
 )
 from .signals import sign_up_newsletter
 import requests
@@ -55,10 +51,8 @@ class LikedByUserReportList(generics.ListAPIView):
 
 class ProjectList(generics.ListAPIView):
     pagination_class = DefaultPagination
-    queryset = (Project.objects
-        .filter(published=1)
-        .order_by('id')
-        .prefetch_related('likes')
+    queryset = (
+        Project.objects.filter(published=1).order_by('id').prefetch_related('likes')
     )
     serializer_class = ProjectSerializer
 
@@ -81,7 +75,9 @@ class SectionDetail(generics.RetrieveAPIView):
 
 class ReportList(generics.ListCreateAPIView):
     permission_classes = (permissions.AllowAny,)
-    queryset = Report.objects.filter(published=1).prefetch_related('likes', 'bikestands')
+    queryset = Report.objects.filter(published=1).prefetch_related(
+        'likes', 'bikestands'
+    )
     serializer_class = ReportSerializer
 
     def perform_create(self, serializer):
@@ -111,6 +107,7 @@ class ReportDetail(generics.RetrieveUpdateAPIView):
 class LikeView(APIView):
     """Base class for liking resources
     """
+
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get(self, request, pk, model, format=None):
@@ -123,10 +120,7 @@ class LikeView(APIView):
         else:
             likes_by_user = 0
         likes = instance.likes.count()
-        result = {
-            'user_has_liked': bool(likes_by_user),
-            'likes': likes
-        }
+        result = {'user_has_liked': bool(likes_by_user), 'likes': likes}
         return Response(result)
 
     def post(self, request, pk, model, format=None):
@@ -134,10 +128,7 @@ class LikeView(APIView):
         """
         instance = get_object_or_404(model, pk=pk)
         if instance.likes.filter(user=request.user).count() == 0:
-            Like.objects.create(
-                content_object=instance,
-                user=request.user
-            )
+            Like.objects.create(content_object=instance, user=request.user)
             user_has_liked = True
             response_status = status.HTTP_201_CREATED
         else:
@@ -145,11 +136,32 @@ class LikeView(APIView):
             user_has_liked = False
             response_status = status.HTTP_200_OK
 
-        result = {
-            'user_has_liked': user_has_liked,
-            'likes': instance.likes.count()
-        }
+        result = {'user_has_liked': user_has_liked, 'likes': instance.likes.count()}
         return Response(result, status=response_status)
+
+
+class PlayStreetView(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def make_listing(self, campaign):
+        results = (
+            PlaystreetSignup.objects.filter(campaign=campaign)
+            .values('street')
+            .annotate(signups=Count('street'))
+        )
+        return {res['street']: res['signups'] for res in results}
+
+    def get(self, request, campaign):
+        """Returns a listing overview of cumulative signups per street."""
+        return Response(self.make_listing(campaign))
+
+    def put(self, request, campaign):
+        """Adds new signups."""
+        serializer = PlaystreetSignupSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(self.make_listing(campaign), status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['PUT'])
@@ -180,13 +192,13 @@ def feedback(request):
             serializer.data['name'],
             serializer.data['email'],
             serializer.data['subject'],
-            serializer.data['message']
+            serializer.data['message'],
         )
         mail.send_mail(
             subject=subject,
             message=message,
             from_email=settings.DEFAULT_FROM_EMAIL,
-            recipient_list=[settings.DEFAULT_FROM_EMAIL]
+            recipient_list=[settings.DEFAULT_FROM_EMAIL],
         )
         return Response(status=status.HTTP_204_NO_CONTENT)
 

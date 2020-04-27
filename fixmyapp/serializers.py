@@ -5,30 +5,30 @@ from rest_framework import serializers
 from rest_framework_gis.fields import GeometryField
 from .models import (
     BikeStands,
+    PlaystreetSignup,
     Photo,
     Profile,
     Project,
     Question,
     Report,
     Section,
-    SectionDetails
+    SectionDetails,
 )
 
 
 PLACEHOLDER_PHOTO = {
     'copyright': 'Photo by Anthony Ginsbrook',
-    'src': 'photos/Platzhalter_anthony-ginsbrook-225252-unsplash.jpg'
+    'src': 'photos/Platzhalter_anthony-ginsbrook-225252-unsplash.jpg',
 }
 
 
 ANOTHER_PLACEHOLDER_PHOTO = {
     'copyright': 'Photo by Emil Bruckner',
-    'src': 'photos/emil-bruckner-532523-unsplash.jpg'
+    'src': 'photos/emil-bruckner-532523-unsplash.jpg',
 }
 
 
 class ListWithDefaultSerializer(serializers.ListSerializer):
-
     def to_representation(self, data):
         """
         List of object instances -> List of dicts of primitive datatypes.
@@ -40,9 +40,7 @@ class ListWithDefaultSerializer(serializers.ListSerializer):
         if len(iterable) == 0 and type(self.default) == list:
             iterable = self.default
 
-        return [
-            self.child.to_representation(item) for item in iterable
-        ]
+        return [self.child.to_representation(item) for item in iterable]
 
 
 class QuestionSerializer(serializers.ModelSerializer):
@@ -221,7 +219,7 @@ class SectionSerializer(serializers.HyperlinkedModelSerializer):
             'borough',
             'street_category',
             'geometry',
-            'details'
+            'details',
         )
 
 
@@ -241,17 +239,18 @@ class FeedbackSerializer(serializers.Serializer):
 
 
 class ReportDetailsField(serializers.Field):
-
     def get_attribute(self, instance):
         return instance
 
     def to_representation(self, value):
         repr = {'subject': value.subject}
         if value.subject == Report.SUBJECT_BIKE_STANDS:
-            repr.update({
-                'number': value.bikestands.number,
-                'fee_acceptable': value.bikestands.fee_acceptable
-            })
+            repr.update(
+                {
+                    'number': value.bikestands.number,
+                    'fee_acceptable': value.bikestands.fee_acceptable,
+                }
+            )
         return repr
 
     def to_internal_value(self, data):
@@ -268,7 +267,8 @@ class ReportSerializer(serializers.HyperlinkedModelSerializer):
         many=False,
         queryset=get_user_model().objects.all(),
         required=False,
-        write_only=True)
+        write_only=True,
+    )
 
     def get_likes(self, obj):
         return obj.likes.count()
@@ -288,16 +288,15 @@ class ReportSerializer(serializers.HyperlinkedModelSerializer):
             report = BikeStands.objects.create(**validated_data).report_ptr
         else:
             report = Report.objects.create(
-                subject=validated_data['details']['subject'], **validated_data)
+                subject=validated_data['details']['subject'], **validated_data
+            )
         for photo_data in photos_data:
             Photo.objects.create(content_object=report, **photo_data)
         return report
 
     def to_internal_value(self, data):
         if 'photo' in data:
-            data['photo'] = [{
-                'src': data['photo']
-            }]
+            data['photo'] = [{'src': data['photo']}]
         return super().to_internal_value(data)
 
     def to_representation(self, instance):
@@ -321,5 +320,20 @@ class ReportSerializer(serializers.HyperlinkedModelSerializer):
             'status',
             'status_reason',
             'url',
-            'user'
+            'user',
         )
+
+
+class PlaystreetSignupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PlaystreetSignup
+        fields = [
+            'campaign',
+            'street',
+            'first_name',
+            'last_name',
+            'email',
+            'tos_accepted',
+            'captain',
+            'message',
+        ]

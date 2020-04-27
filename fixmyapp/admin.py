@@ -5,13 +5,14 @@ from django.contrib.gis import admin
 from django.utils.translation import gettext_lazy as _
 from reversion.admin import VersionAdmin
 from .models import (
+    PlaystreetSignup,
     Photo,
     Profile,
     Project,
     Question,
     Report,
     Section,
-    SectionDetails
+    SectionDetails,
 )
 
 
@@ -33,9 +34,7 @@ class AlertDateFilter(SimpleListFilter):
         human-readable name for the option that will appear
         in the right sidebar.
         """
-        return (
-            ('exceeded', _('exceeded')),
-        )
+        return (('exceeded', _('exceeded')),)
 
     def queryset(self, request, queryset):
         """
@@ -57,7 +56,8 @@ class ProjectAdmin(admin.OSMGeoAdmin, VersionAdmin):
         'category',
         'phase',
         'responsible',
-        'alert_date')
+        'alert_date',
+    )
     list_filter = (AlertDateFilter, 'category', 'phase', 'responsible')
     search_fields = ('project_key', 'street_name')
 
@@ -73,7 +73,7 @@ class SectionDetailsAdmin(admin.ModelAdmin):
 
 
 class SectionAdmin(admin.OSMGeoAdmin):
-    list_display = ('street_name', 'suffix', 'borough',)
+    list_display = ('street_name', 'suffix', 'borough')
     ordering = ('id',)
     search_fields = ('street_name', 'id')
 
@@ -109,9 +109,15 @@ class ReportAdmin(admin.OSMGeoAdmin):
         return False
 
 
+class PlaystreetSignupAdmin(admin.ModelAdmin):
+    list_display = ('id', 'campaign', 'street', 'captain', 'created_date')
+    ordering = ('campaign', 'street', 'created_date')
+
+
 admin.site.register(Project, ProjectAdmin)
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Report, ReportAdmin)
 admin.site.register(Section, SectionAdmin)
 admin.site.register(SectionDetails, SectionDetailsAdmin)
+admin.site.register(PlaystreetSignup, PlaystreetSignupAdmin)

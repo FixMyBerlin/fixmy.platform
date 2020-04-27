@@ -1,7 +1,6 @@
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.contrib.contenttypes.fields import (
-    GenericForeignKey, GenericRelation)
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.gis.db import models
 from django.contrib.postgres.fields import JSONField
@@ -22,12 +21,8 @@ class BaseModel(models.Model):
 class Section(BaseModel):
     street_name = models.CharField(_('street name'), max_length=100)
     suffix = models.CharField(_('suffix'), blank=True, null=True, max_length=3)
-    borough = models.CharField(
-        _('borough'), blank=True, null=True, max_length=255
-    )
-    street_category = models.PositiveSmallIntegerField(
-        _('street category'), null=True
-    )
+    borough = models.CharField(_('borough'), blank=True, null=True, max_length=255)
+    street_category = models.PositiveSmallIntegerField(_('street category'), null=True)
     geometry = models.MultiLineStringField(_('geometry'), srid=4326, null=True)
 
     class Meta:
@@ -36,13 +31,17 @@ class Section(BaseModel):
 
     def velocity_index(self):
         if len(self.details.all()) > 0:
-            return sum(d.velocity_index() for d in self.details.all()) / len(self.details.all())
+            return sum(d.velocity_index() for d in self.details.all()) / len(
+                self.details.all()
+            )
         else:
             return 0
 
     def safety_index(self):
         if len(self.details.all()) > 0:
-            return sum(d.safety_index() for d in self.details.all()) / len(self.details.all())
+            return sum(d.safety_index() for d in self.details.all()) / len(
+                self.details.all()
+            )
         else:
             return 0
 
@@ -88,10 +87,7 @@ class Like(BaseModel):
 class SectionDetails(BaseModel):
     RIGHT = 0
     LEFT = 1
-    SIDE_CHOICES = (
-        (RIGHT, _('right')),
-        (LEFT, _('left')),
-    )
+    SIDE_CHOICES = ((RIGHT, _('right')), (LEFT, _('left')))
     NORTH = 'N'
     EAST = 'E'
     SOUTH = 'S'
@@ -106,16 +102,27 @@ class SectionDetails(BaseModel):
     CI_RATIO_MIN = 0.65
 
     section = models.ForeignKey(
-        Section, related_name='details', on_delete=models.CASCADE)
+        Section, related_name='details', on_delete=models.CASCADE
+    )
     side = models.PositiveSmallIntegerField(_('side'), choices=SIDE_CHOICES)
     speed_limit = models.PositiveSmallIntegerField(_('speed limit'))
-    daily_traffic = models.DecimalField(_('daily traffic'), max_digits=8, decimal_places=2)
-    daily_traffic_heavy = models.DecimalField(_('daily traffic heavy'), max_digits=8, decimal_places=2)
-    daily_traffic_cargo = models.DecimalField(_('daily traffic cargo'), max_digits=8, decimal_places=2)
-    daily_traffic_bus = models.DecimalField(_('daily traffic bus'), max_digits=8, decimal_places=2)
+    daily_traffic = models.DecimalField(
+        _('daily traffic'), max_digits=8, decimal_places=2
+    )
+    daily_traffic_heavy = models.DecimalField(
+        _('daily traffic heavy'), max_digits=8, decimal_places=2
+    )
+    daily_traffic_cargo = models.DecimalField(
+        _('daily traffic cargo'), max_digits=8, decimal_places=2
+    )
+    daily_traffic_bus = models.DecimalField(
+        _('daily traffic bus'), max_digits=8, decimal_places=2
+    )
     length = models.DecimalField(_('length'), max_digits=8, decimal_places=2)
     crossings = models.PositiveSmallIntegerField(_('crossings'))
-    orientation = models.CharField(_('orientation'), max_length=1, choices=ORIENTATION_CHOICES)
+    orientation = models.CharField(
+        _('orientation'), max_length=1, choices=ORIENTATION_CHOICES
+    )
     rva1 = models.DecimalField(max_digits=16, decimal_places=12)
     rva2 = models.DecimalField(max_digits=16, decimal_places=12)
     rva3 = models.DecimalField(max_digits=16, decimal_places=12)
@@ -139,17 +146,19 @@ class SectionDetails(BaseModel):
         return self.velocity_index() + self.safety_index()
 
     def velocity_index(self):
-        weighted_sum = sum([
-            self.rva3 * 2,
-            self.rva4 * 1,
-            self.rva7 * 2,
-            self.rva8 * 3,
-            self.rva9 * 3,
-            self.rva10 * 3,
-            self.rva11 * 2,
-            self.rva12 * 3,
-            self.rva13 * 2
-        ])
+        weighted_sum = sum(
+            [
+                self.rva3 * 2,
+                self.rva4 * 1,
+                self.rva7 * 2,
+                self.rva8 * 3,
+                self.rva9 * 3,
+                self.rva10 * 3,
+                self.rva11 * 2,
+                self.rva12 * 3,
+                self.rva13 * 2,
+            ]
+        )
 
         if self.cycling_infrastructure_sum() > 0:
             ci_factor = weighted_sum / (self.cycling_infrastructure_sum() * 3)
@@ -157,9 +166,8 @@ class SectionDetails(BaseModel):
             ci_factor = decimal.Decimal(weighted_sum / 3)
 
         if self.cycling_infrastructure_ratio() < self.CI_RATIO_MIN:
-            return (
-                    self.cycling_infrastructure_ratio() * ci_factor +
-                    (1 - self.cycling_infrastructure_ratio())
+            return self.cycling_infrastructure_ratio() * ci_factor + (
+                1 - self.cycling_infrastructure_ratio()
             )
         else:
             return ci_factor
@@ -171,7 +179,9 @@ class SectionDetails(BaseModel):
         if ci_safety <= self.road_type():
             return (offset + ci_safety - self.road_type()) * decimal.Decimal('2.25')
         else:
-            return (offset + (ci_safety - self.road_type()) / 3) * decimal.Decimal('2.25')
+            return (offset + (ci_safety - self.road_type()) / 3) * decimal.Decimal(
+                '2.25'
+            )
 
     def length_without_crossings(self):
         """Returns length of section without crossings
@@ -186,19 +196,21 @@ class SectionDetails(BaseModel):
         Some fields are ignored because we do not count them as cycling
         infrastructure.
         """
-        return sum([
-            self.rva3,
-            self.rva4,
-            self.rva5,
-            self.rva6,
-            self.rva7,
-            self.rva8,
-            self.rva9,
-            self.rva10,
-            self.rva11,
-            self.rva12,
-            self.rva13
-        ])
+        return sum(
+            [
+                self.rva3,
+                self.rva4,
+                self.rva5,
+                self.rva6,
+                self.rva7,
+                self.rva8,
+                self.rva9,
+                self.rva10,
+                self.rva11,
+                self.rva12,
+                self.rva13,
+            ]
+        )
 
     def bike_path_sum(self):
         """Returns the length of all bike paths
@@ -288,19 +300,21 @@ class SectionDetails(BaseModel):
             return 3
 
     def cycling_infrastructure_safety(self):
-        weighted_sum = sum([
-            self.rva3 * 3,
-            self.rva4 * 3,
-            self.rva5 * 3,
-            self.rva6 * 3,
-            self.rva7 * 2,
-            self.rva8 * 3,
-            self.rva9 * 3,
-            self.rva10 * 3,
-            self.rva11 * 1,
-            self.rva12 * 1,
-            self.rva13 * 1
-        ])
+        weighted_sum = sum(
+            [
+                self.rva3 * 3,
+                self.rva4 * 3,
+                self.rva5 * 3,
+                self.rva6 * 3,
+                self.rva7 * 2,
+                self.rva8 * 3,
+                self.rva9 * 3,
+                self.rva10 * 3,
+                self.rva11 * 1,
+                self.rva12 * 1,
+                self.rva13 * 1,
+            ]
+        )
         if self.cycling_infrastructure_ratio() < self.CI_RATIO_MIN:
             safety = 0
         else:
@@ -386,7 +400,10 @@ class Project(BaseModel):
         (STATUS_EXECUTION_PLANNING, _('execution planning')),
         (STATUS_PREPARATION_OF_AWARDING, _('preparation of awarding')),
         (STATUS_AWARDING, _('awarding')),
-        (STATUS_APPLICATION_FOR_CONSTRUCTION_SITE, _('application for construction site')),
+        (
+            STATUS_APPLICATION_FOR_CONSTRUCTION_SITE,
+            _('application for construction site'),
+        ),
         (STATUS_EXECUTION_OF_CONSTRUCTION_WORK, _('execution of construction work')),
         (STATUS_READY, _('ready')),
         (STATUS_REVIEW, _('review')),
@@ -396,16 +413,11 @@ class Project(BaseModel):
     RIGHT = 0
     LEFT = 1
     BOTH = 2
-    SIDE_CHOICES = (
-        (RIGHT, _('right')),
-        (LEFT, _('left')),
-        (BOTH, _('both'))
-    )
+    SIDE_CHOICES = ((RIGHT, _('right')), (LEFT, _('left')), (BOTH, _('both')))
 
     TRANSFORM_EPSG_3035 = 3035
 
-    project_key = models.CharField(
-        _('project key'), max_length=100, unique=True)
+    project_key = models.CharField(_('project key'), max_length=100, unique=True)
     published = models.BooleanField(_('published'), default=True)
     title = models.CharField(_('title'), max_length=256)
     side = models.PositiveSmallIntegerField(_('side'), choices=SIDE_CHOICES)
@@ -416,14 +428,10 @@ class Project(BaseModel):
     )
     geometry = models.GeometryField(_('geometry'), blank=True, null=True)
     category = models.CharField(
-        _('category'),
-        blank=True,
-        null=True,
-        max_length=40,
-        choices=CATEGORY_CHOICES)
+        _('category'), blank=True, null=True, max_length=40, choices=CATEGORY_CHOICES
+    )
     street_name = models.CharField(_('street name'), max_length=100)
-    borough = models.CharField(
-        _('borough'), blank=True, null=True, max_length=255)
+    borough = models.CharField(_('borough'), blank=True, null=True, max_length=255)
     costs = models.PositiveIntegerField(_('costs'), blank=True, null=True)
     draft_submitted = models.CharField(
         _('draft submitted'), blank=True, null=True, max_length=100
@@ -436,27 +444,17 @@ class Project(BaseModel):
         blank=True,
         null=True,
         default=_('unknown'),
-        max_length=100
+        max_length=100,
     )
     construction_completed_date = models.DateField(
-        _('construction completed date'),
-        blank=True,
-        null=True,
+        _('construction completed date'), blank=True, null=True
     )
     alert_date = models.DateField(_('alert date'), blank=True, null=True)
     phase = models.CharField(
-        _('phase'),
-        blank=True,
-        null=True,
-        max_length=30,
-        choices=PHASE_CHOICES
+        _('phase'), blank=True, null=True, max_length=30, choices=PHASE_CHOICES
     )
     status = models.CharField(
-        _('status'),
-        blank=True,
-        null=True,
-        max_length=40,
-        choices=STATUS_CHOICES
+        _('status'), blank=True, null=True, max_length=40, choices=STATUS_CHOICES
     )
     external_url = models.URLField(_('external URL'), blank=True, null=True)
     cross_section = models.ImageField(
@@ -486,11 +484,7 @@ class Profile(BaseModel):
     MALE = 'm'
     FEMALE = 'f'
     OTHER = 'o'
-    SEX_CHOICES = (
-        (MALE, _('male')),
-        (FEMALE, _('female')),
-        (OTHER, _('other')),
-    )
+    SEX_CHOICES = ((MALE, _('male')), (FEMALE, _('female')), (OTHER, _('other')))
     RACING_CYCLE = 'racing_cycle'
     CITY_BIKE = 'city_bike'
     MOUNTAIN_BIKE = 'mountain_bike'
@@ -521,11 +515,9 @@ class Profile(BaseModel):
         blank=True,
         null=True,
         max_length=20,
-        choices=CATEGORY_OF_BIKE_CHOICES
+        choices=CATEGORY_OF_BIKE_CHOICES,
     )
-    has_trailer = models.NullBooleanField(
-        _('has trailer'), blank=True, null=True
-    )
+    has_trailer = models.NullBooleanField(_('has trailer'), blank=True, null=True)
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     postal_code = models.CharField(
         _('postal code'), blank=True, null=True, max_length=5
@@ -534,9 +526,7 @@ class Profile(BaseModel):
         _('sex'), blank=True, null=True, max_length=1, choices=SEX_CHOICES
     )
     speed = models.PositiveSmallIntegerField(_('speed'), blank=True, null=True)
-    security = models.PositiveSmallIntegerField(
-        _('security'), blank=True, null=True
-    )
+    security = models.PositiveSmallIntegerField(_('security'), blank=True, null=True)
     usage = models.PositiveSmallIntegerField(
         _('usage'), blank=True, null=True, choices=USAGE_CHOICES
     )
@@ -558,18 +548,15 @@ class Report(BaseModel):
         (STATUS_VERIFICATION, _('verification')),
         (STATUS_ACCEPTED, _('accepted')),
         (STATUS_REJECTED, _('rejected')),
-        (STATUS_DONE, _('done'))
+        (STATUS_DONE, _('done')),
     )
 
     SUBJECT_BIKE_STANDS = 'BIKE_STANDS'
-    SUBJECT_CHOICES = (
-        (SUBJECT_BIKE_STANDS, _('bike stands')),
-    )
+    SUBJECT_CHOICES = ((SUBJECT_BIKE_STANDS, _('bike stands')),)
 
     address = models.TextField(_('address'), blank=True, null=True)
     geometry = models.PointField(_('geometry'), srid=4326)
-    subject = models.CharField(
-        _('subject'), max_length=100, choices=SUBJECT_CHOICES)
+    subject = models.CharField(_('subject'), max_length=100, choices=SUBJECT_CHOICES)
     description = models.CharField(
         _('description'), blank=True, null=True, max_length=1000
     )
@@ -582,12 +569,12 @@ class Report(BaseModel):
         null=True,
         max_length=20,
         choices=STATUS_CHOICES,
-        default=STATUS_NEW)
-    status_reason = models.TextField(
-        _('reason for status'), blank=True, null=True
+        default=STATUS_NEW,
     )
+    status_reason = models.TextField(_('reason for status'), blank=True, null=True)
     user = models.ForeignKey(
-        get_user_model(), blank=True, null=True, on_delete=models.SET_NULL)
+        get_user_model(), blank=True, null=True, on_delete=models.SET_NULL
+    )
 
     class Meta:
         verbose_name = _('report')
@@ -601,3 +588,19 @@ class BikeStands(Report):
     class Meta:
         verbose_name = _('bike stands')
         verbose_name_plural = _('bike stands')
+
+
+class PlaystreetSignup(BaseModel):
+    campaign = models.CharField(_('campaign'), max_length=64)
+    street = models.CharField(_('play_street'), max_length=128)
+    first_name = models.TextField(_('first_name'))
+    last_name = models.TextField(_('last_name'))
+    email = models.CharField(_('email'), max_length=255)
+    tos_accepted = models.BooleanField(_('tos_accepted'), default=False)
+    captain = models.BooleanField(_('captain'), default=False)
+    message = models.TextField(_('message'), blank=True)
+
+    class Meta:
+        verbose_name = _('playstreet_signup')
+        verbose_name_plural = _('playstreet_signups')
+        ordering = ['campaign', 'street']

@@ -13,7 +13,8 @@ from .views import (
     SectionDetail,
     feedback,
     newsletter_signup,
-    profile
+    profile,
+    PlayStreetView
 )
 
 
@@ -74,6 +75,11 @@ urlpatterns = [
         'sections/<int:pk>',
         SectionDetail.as_view(),
         name='section-detail'
+    ),
+    path(
+        'playstreets/<str:campaign>',
+        PlayStreetView.as_view(),
+        name='playstreets'
     ),
     path(
         'users/me/liked/projects',

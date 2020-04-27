@@ -186,6 +186,42 @@ class FeedbackTest(TestCase):
         )
 
 
+class PlaystreetTest(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.data = {
+            "campaign": "xhain",
+            "first_name": "Max",
+            "last_name": "Mustermann",
+            "email": "max@mustermann.de",
+            "tos_accepted": True,
+            "captain": False,
+            "message": "",
+            "street": "Bergmannstraße",
+        }
+
+    def test_signup(self):
+        response = self.client.put(
+            '/api/playstreets/xhain',
+            data=json.dumps(self.data),
+            content_type='application/json',
+        )
+        self.assertEqual(response.status_code, 201)
+
+    def test_listing(self):
+        self.client.put(
+            '/api/playstreets/xhain',
+            data=json.dumps(self.data),
+            content_type='application/json',
+        )
+        response = self.client.get('/api/playstreets/xhain')
+        self.assertEqual(response.status_code, 200)
+        rv = response.json()
+        self.assertTrue(len(rv.items()) > 0)
+        sample = rv.popitem()
+        self.assertTrue(isinstance(sample[0], str))
+        self.assertTrue(isinstance(sample[1], int))
+
 @override_settings(
     DEFAULT_FILE_STORAGE='django.core.files.storage.FileSystemStorage')
 class ReportTest(TestCase):

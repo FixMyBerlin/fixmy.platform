@@ -5,10 +5,7 @@ from fixmyapp.models import Report, BikeStands
 from datetime import datetime
 import argparse
 import csv
-import logging
 import json
-
-logger = logging.getLogger(__name__)
 
 FIELDNAMES = [
     'id',

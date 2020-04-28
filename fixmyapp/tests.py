@@ -239,7 +239,7 @@ class PlaystreetTest(TestCase):
         with tempfile.NamedTemporaryFile(mode="w+", encoding="UTF-8") as f:
             call_command('exportplaystreets', f.name)
             csv_reader = csv.DictReader(f, dialect='excel')
-            self.assertIn('ID', csv_reader.fieldnames)
+            self.assertIn('Spielstraße', csv_reader.fieldnames)
 
 
 @override_settings(DEFAULT_FILE_STORAGE='django.core.files.storage.FileSystemStorage')

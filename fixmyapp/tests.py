@@ -6,12 +6,7 @@ from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 from mailjet_rest.client import Endpoint
 from unittest.mock import patch
-from .models import (
-    Project,
-    Report,
-    Section,
-    SectionDetails
-)
+from .models import Project, Report, Section, SectionDetails
 import csv
 import decimal
 import json
@@ -19,7 +14,6 @@ import tempfile
 
 
 class SectionDetailsTest(TestCase):
-
     def setUp(self):
         self.sections = [
             Section.objects.create(street_name='Foo'),
@@ -49,7 +43,7 @@ class SectionDetailsTest(TestCase):
                 rva10=0,
                 rva11=decimal.Decimal(21.9),
                 rva12=0,
-                rva13=0
+                rva13=0,
             ),
             SectionDetails.objects.create(
                 section=self.sections[0],
@@ -74,7 +68,7 @@ class SectionDetailsTest(TestCase):
                 rva10=0,
                 rva11=0,
                 rva12=0,
-                rva13=0
+                rva13=0,
             ),
             SectionDetails.objects.create(
                 section=self.sections[1],
@@ -99,19 +93,31 @@ class SectionDetailsTest(TestCase):
                 rva10=0,
                 rva11=0,
                 rva12=0,
-                rva13=0
+                rva13=0,
             ),
         ]
 
     def test_cycling_infrastructure_sum(self):
-        self.assertAlmostEqual(self.details[0].cycling_infrastructure_sum(), decimal.Decimal('21.90'), 2)
-        self.assertAlmostEqual(self.details[1].cycling_infrastructure_sum(), decimal.Decimal('0.00'), 2)
-        self.assertAlmostEqual(self.details[2].cycling_infrastructure_sum(), decimal.Decimal('485.95'), 2)
+        self.assertAlmostEqual(
+            self.details[0].cycling_infrastructure_sum(), decimal.Decimal('21.90'), 2
+        )
+        self.assertAlmostEqual(
+            self.details[1].cycling_infrastructure_sum(), decimal.Decimal('0.00'), 2
+        )
+        self.assertAlmostEqual(
+            self.details[2].cycling_infrastructure_sum(), decimal.Decimal('485.95'), 2
+        )
 
     def test_cycling_infrastructure_ratio(self):
-        self.assertAlmostEqual(self.details[0].cycling_infrastructure_ratio(), decimal.Decimal('0.025'), 3)
-        self.assertAlmostEqual(self.details[1].cycling_infrastructure_ratio(), decimal.Decimal('0.000'), 3)
-        self.assertAlmostEqual(self.details[2].cycling_infrastructure_ratio(), decimal.Decimal('0.982'), 3)
+        self.assertAlmostEqual(
+            self.details[0].cycling_infrastructure_ratio(), decimal.Decimal('0.025'), 3
+        )
+        self.assertAlmostEqual(
+            self.details[1].cycling_infrastructure_ratio(), decimal.Decimal('0.000'), 3
+        )
+        self.assertAlmostEqual(
+            self.details[2].cycling_infrastructure_ratio(), decimal.Decimal('0.982'), 3
+        )
 
     def test_road_type(self):
         self.assertAlmostEqual(self.details[0].road_type(), decimal.Decimal('0.6'), 1)
@@ -119,42 +125,49 @@ class SectionDetailsTest(TestCase):
         self.assertAlmostEqual(self.details[2].road_type(), decimal.Decimal('1.7'), 1)
 
     def test_velocity_index(self):
-        self.assertAlmostEqual(self.details[0].velocity_index(), decimal.Decimal('1.0'), 1)
-        self.assertAlmostEqual(self.details[1].velocity_index(), decimal.Decimal('1.0'), 1)
-        self.assertAlmostEqual(self.details[2].velocity_index(), decimal.Decimal('0.7'), 1)
+        self.assertAlmostEqual(
+            self.details[0].velocity_index(), decimal.Decimal('1.0'), 1
+        )
+        self.assertAlmostEqual(
+            self.details[1].velocity_index(), decimal.Decimal('1.0'), 1
+        )
+        self.assertAlmostEqual(
+            self.details[2].velocity_index(), decimal.Decimal('0.7'), 1
+        )
 
     def test_safety_index(self):
-        self.assertAlmostEqual(self.details[0].safety_index(), decimal.Decimal('5.3'), 1)
-        self.assertAlmostEqual(self.details[1].safety_index(), decimal.Decimal('5.3'), 1)
-        self.assertAlmostEqual(self.details[2].safety_index(), decimal.Decimal('7.7'), 1)
+        self.assertAlmostEqual(
+            self.details[0].safety_index(), decimal.Decimal('5.3'), 1
+        )
+        self.assertAlmostEqual(
+            self.details[1].safety_index(), decimal.Decimal('5.3'), 1
+        )
+        self.assertAlmostEqual(
+            self.details[2].safety_index(), decimal.Decimal('7.7'), 1
+        )
 
     def test_velocity_index_average(self):
         self.assertAlmostEqual(
             self.sections[0].velocity_index(),
             (self.details[0].velocity_index() + self.details[1].velocity_index()) / 2,
-            1
+            1,
         )
         self.assertAlmostEqual(
-            self.sections[1].velocity_index(),
-            self.details[2].velocity_index(),
-            1
+            self.sections[1].velocity_index(), self.details[2].velocity_index(), 1
         )
 
     def test_safety_index_average(self):
         self.assertAlmostEqual(
             self.sections[0].safety_index(),
             (self.details[0].safety_index() + self.details[1].safety_index()) / 2,
-            1
+            1,
         )
         self.assertAlmostEqual(
-            self.sections[1].safety_index(),
-            self.details[2].safety_index(),
-            1
+            self.sections[1].safety_index(), self.details[2].safety_index(), 1
         )
 
 
 class FeedbackTest(TestCase):
-
     def setUp(self):
         self.client = Client()
 
@@ -163,27 +176,22 @@ class FeedbackTest(TestCase):
             'name': 'Random cyclist',
             'email': 'r.c@example.de',
             'subject': 'Lorem ipsum',
-            'message': 'Lorem ipsum dolor sit'
+            'message': 'Lorem ipsum dolor sit',
         }
         response = self.client.post(
-            '/api/feedback',
-            data=json.dumps(data),
-            content_type='application/json')
+            '/api/feedback', data=json.dumps(data), content_type='application/json'
+        )
 
         self.assertEqual(response.status_code, 204)
         self.assertEqual(len(mail.outbox), 1)
         self.assertIn(
             'From: {} <{}>'.format(data['name'], data['email']),
-            mail.outbox[0].message()._payload
-        )
-        self.assertIn(
-            'Subject: {}'.format(data['subject']),
             mail.outbox[0].message()._payload,
         )
         self.assertIn(
-            data['message'],
-            mail.outbox[0].message()._payload,
+            'Subject: {}'.format(data['subject']), mail.outbox[0].message()._payload
         )
+        self.assertIn(data['message'], mail.outbox[0].message()._payload)
 
 
 class PlaystreetTest(TestCase):
@@ -222,37 +230,40 @@ class PlaystreetTest(TestCase):
         self.assertTrue(isinstance(sample[0], str))
         self.assertTrue(isinstance(sample[1], int))
 
-@override_settings(
-    DEFAULT_FILE_STORAGE='django.core.files.storage.FileSystemStorage')
-class ReportTest(TestCase):
+    def test_export_signups(self):
+        self.client.put(
+            '/api/playstreets/xhain',
+            data=json.dumps(self.data),
+            content_type='application/json',
+        )
+        with tempfile.NamedTemporaryFile(mode="w+", encoding="UTF-8") as f:
+            call_command('exportplaystreets', f.name)
+            csv_reader = csv.DictReader(f, dialect='excel')
+            self.assertIn('Spielstraße', csv_reader.fieldnames)
 
+
+@override_settings(DEFAULT_FILE_STORAGE='django.core.files.storage.FileSystemStorage')
+class ReportTest(TestCase):
     def setUp(self):
         self.user = get_user_model().objects.create_user(
-            'foo', 'foo@example.org', 'bar')
+            'foo', 'foo@example.org', 'bar'
+        )
         self.client = Client()
         self.data = {
             'address': 'Potsdamer Platz 1',
             'description': 'Lorem ipsum dolor sit',
-            'details': {
-                'subject': 'BIKE_STANDS',
-                'number': 3,
-                'fee_acceptable': True
-            },
+            'details': {'subject': 'BIKE_STANDS', 'number': 3, 'fee_acceptable': True},
             'geometry': {
                 'type': 'Point',
-                'coordinates': [
-                    13.34635540636318,
-                    52.52565990333657
-                ]
+                'coordinates': [13.34635540636318, 52.52565990333657],
             },
-            'photo': 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs='
+            'photo': 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=',
         }
 
     def test_post_report(self):
         response = self.client.post(
-            '/api/reports',
-            data=json.dumps(self.data),
-            content_type='application/json')
+            '/api/reports', data=json.dumps(self.data), content_type='application/json'
+        )
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.json().get('address'), self.data['address'])
         self.assertEqual(response.json().get('details'), self.data['details'])
@@ -269,16 +280,16 @@ class ReportTest(TestCase):
 
     def test_patch_report(self):
         response = self.client.post(
-            '/api/reports',
-            data=json.dumps(self.data),
-            content_type='application/json')
+            '/api/reports', data=json.dumps(self.data), content_type='application/json'
+        )
         id = response.json()['id']
         report = Report.objects.get(pk=id)
         self.assertIsNone(report.user)
         response = self.client.patch(
             '/api/reports/{}'.format(id),
             data=json.dumps({'user': self.user.pk}),
-            content_type='application/json')
+            content_type='application/json',
+        )
         self.assertEqual(response.status_code, 200)
         report = Report.objects.get(pk=id)
         self.assertIsNotNone(report.user)
@@ -286,14 +297,14 @@ class ReportTest(TestCase):
         response = self.client.patch(
             '/api/reports/{}'.format(id),
             data=json.dumps({'user': self.user.pk}),
-            content_type='application/json')
+            content_type='application/json',
+        )
         self.assertEqual(response.status_code, 403)
 
     def test_export_reports_csv(self):
         self.client.post(
-            '/api/reports',
-            data=json.dumps(self.data),
-            content_type='application/json')
+            '/api/reports', data=json.dumps(self.data), content_type='application/json'
+        )
         with tempfile.NamedTemporaryFile(mode="w+", encoding="UTF-8") as f:
             call_command('exportreports', f.name, format='csv')
             csv_reader = csv.DictReader(f, dialect='excel')
@@ -301,9 +312,8 @@ class ReportTest(TestCase):
 
     def test_export_reports_geojson(self):
         self.client.post(
-            '/api/reports',
-            data=json.dumps(self.data),
-            content_type='application/json')
+            '/api/reports', data=json.dumps(self.data), content_type='application/json'
+        )
         with tempfile.NamedTemporaryFile(mode="w+", encoding="UTF-8") as f:
             call_command('exportreports', f.name, format='geojson')
             data = json.load(f)
@@ -347,15 +357,13 @@ class ReportTest(TestCase):
 
 
 class LikeTest(object):
-
     def setUp(self):
         get_user_model().objects.create_user('foo', 'foo@example.org', 'bar')
         self.client = Client()
         self.credentials = {'username': 'foo', 'password': 'bar'}
 
     def test_get_like(self):
-        response = self.client.get(
-            self.likes_url, **self._get_authorization_header())
+        response = self.client.get(self.likes_url, **self._get_authorization_header())
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), {'user_has_liked': False, 'likes': 0})
 
@@ -365,20 +373,21 @@ class LikeTest(object):
         self.assertEqual(response.json(), {'user_has_liked': False, 'likes': 0})
 
     def test_post_like(self):
-        response = self.client.post(
-            self.likes_url, **self._get_authorization_header())
+        response = self.client.post(self.likes_url, **self._get_authorization_header())
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.json(), {'user_has_liked': True, 'likes': 1})
 
         response = self.client.get(
-            self.liked_by_user_url, **self._get_authorization_header())
+            self.liked_by_user_url, **self._get_authorization_header()
+        )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json().get('count'), 1)
         self.assertIn('results', response.json())
-        self.assertTrue(response.json().get('results')[0].get('url').endswith(self.instance_url))
+        self.assertTrue(
+            response.json().get('results')[0].get('url').endswith(self.instance_url)
+        )
 
-        response = self.client.post(
-            self.likes_url, **self._get_authorization_header())
+        response = self.client.post(self.likes_url, **self._get_authorization_header())
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), {'user_has_liked': False, 'likes': 0})
 
@@ -386,34 +395,28 @@ class LikeTest(object):
         response = self.client.post(
             '/api/jwt/create/',
             json.dumps(self.credentials),
-            content_type='application/json')
+            content_type='application/json',
+        )
         return {'HTTP_AUTHORIZATION': 'JWT ' + response.json()['access']}
 
 
-@override_settings(
-    DEFAULT_FILE_STORAGE='django.core.files.storage.FileSystemStorage')
+@override_settings(DEFAULT_FILE_STORAGE='django.core.files.storage.FileSystemStorage')
 class LikeProjectTest(LikeTest, TestCase):
-
     def setUp(self):
-        self.instance = Project.objects.create(
-            title='Lorem ipsum',
-            side=Project.BOTH,
-        )
+        self.instance = Project.objects.create(title='Lorem ipsum', side=Project.BOTH)
         self.instance_url = reverse('project-detail', kwargs={'pk': self.instance.id})
         self.likes_url = reverse('likes-projects', kwargs={'pk': self.instance.id})
         self.liked_by_user_url = reverse('projects-liked-by-user')
         super(LikeProjectTest, self).setUp()
 
 
-@override_settings(
-    DEFAULT_FILE_STORAGE='django.core.files.storage.FileSystemStorage')
+@override_settings(DEFAULT_FILE_STORAGE='django.core.files.storage.FileSystemStorage')
 class LikeReportTest(LikeTest, TestCase):
-
     def setUp(self):
         self.instance = Report.objects.create(
             address='Potsdamer Platz 1',
             description='Lorem ipsum dolor sit',
-            geometry=Point(13.34635540636318, 52.52565990333657)
+            geometry=Point(13.34635540636318, 52.52565990333657),
         )
         self.instance_url = reverse('report-detail', kwargs={'pk': self.instance.id})
         self.likes_url = reverse('likes-reports', kwargs={'pk': self.instance.id})
@@ -423,7 +426,6 @@ class LikeReportTest(LikeTest, TestCase):
 
 @override_settings(TOGGLE_NEWSLETTER=True)
 class NewsletterSignupTest(TestCase):
-
     def setUp(self):
         get_user_model().objects.create_user('foo', 'foo@example.org', 'bar')
         self.client = Client()
@@ -441,27 +443,22 @@ class NewsletterSignupTest(TestCase):
         mock_response.status_code = 200
         mock_response.json.return_value = {}
         mock_create.return_value = mock_response
-        response = self.client.post(
-            self.url, **self._get_authorization_header())
+        response = self.client.post(self.url, **self._get_authorization_header())
         self.assertEqual(response.status_code, 204)
 
     def _get_authorization_header(self):
         response = self.client.post(
             '/api/jwt/create/',
             json.dumps(self.credentials),
-            content_type='application/json')
+            content_type='application/json',
+        )
         return {'HTTP_AUTHORIZATION': 'JWT ' + response.json()['access']}
 
 
-@override_settings(
-    DEFAULT_FILE_STORAGE='django.core.files.storage.FileSystemStorage')
+@override_settings(DEFAULT_FILE_STORAGE='django.core.files.storage.FileSystemStorage')
 class ViewsTest(TestCase):
 
-    fixtures = [
-        'projects',
-        'sections',
-        'sectiondetails',
-    ]
+    fixtures = ['projects', 'sections', 'sectiondetails']
 
     def test_project_list(self):
         response = self.client.get('/api/projects')
@@ -490,10 +487,7 @@ class ViewsTest(TestCase):
 
 
 class CommandTestCase(TestCase):
-    fixtures = [
-        'sections',
-        'sectiondetails'
-    ]
+    fixtures = ['sections', 'sectiondetails']
 
     def test_exportsections(self):
         with tempfile.NamedTemporaryFile() as f:

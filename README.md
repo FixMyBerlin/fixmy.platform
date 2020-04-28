@@ -1,4 +1,4 @@
-# fixmy.platform
+e# fixmy.platform
 
 [![Build Status](https://semaphoreci.com/api/v1/hekele/fixmy-platform/branches/master/badge.svg)](https://semaphoreci.com/hekele/fixmy-platform)
 
@@ -107,6 +107,12 @@ Notes:
 - Likes are exported as an aggregate count
 - Report creation date is exported as an ISO 8601 formatted datetime string
 - CSV export uses some localized (German) table headers
+
+### exportplaystreets
+
+Similar to `exportreports`, this command exports play street signups to a csv file.
+
+    $ python manage.py exportplaystreets spielstrassen.csv
 
 ### importsectiondetails
 

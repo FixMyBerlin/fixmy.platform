@@ -36,7 +36,7 @@ urlpatterns = [
     ),
     path(
         'projects',
-        ProjectList.as_view(),
+        cache_page(60 * 60 * 4)(ProjectList.as_view()),
         name='project-list'
     ),
     path(

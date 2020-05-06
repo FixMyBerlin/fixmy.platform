@@ -10,6 +10,7 @@ default_mapping = {
     'address': 'address',
     'created_date': 'created_date',
     'description': 'description',
+    'fee_acceptable': 'fee_acceptable',
     'geometry': 'POINT',
     'id': 'id',
     'number': 'number',
@@ -50,7 +51,7 @@ class Command(BaseCommand):
                 if verbosity > 0:
                     self.stdout.write(
                         "Using fields available in source file: "
-                        + ",".join(available_fields)
+                        + ", ".join(available_fields)
                     )
                 mapping = {}
                 for field in available_fields:

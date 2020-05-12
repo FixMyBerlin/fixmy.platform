@@ -2,19 +2,20 @@ from django.urls import path
 from django.views.decorators.cache import cache_page
 from .models import Project, Report
 from .views import (
-    LikeView,
+    feedback,
+    GastroSignupView,
     LikedByUserProjectList,
     LikedByUserReportList,
+    LikeView,
+    newsletter_signup,
+    PlayStreetView,
+    profile,
     ProjectDetail,
     ProjectList,
     ReportDetail,
     ReportList,
-    SectionList,
     SectionDetail,
-    feedback,
-    newsletter_signup,
-    profile,
-    PlayStreetView
+    SectionList,
 )
 
 
@@ -23,6 +24,11 @@ urlpatterns = [
         'feedback',
         feedback,
         name='feedback'
+    ),
+    path(
+        'gastro/<str:campaign>',
+        GastroSignupView.as_view(),
+        name='gastro-signups'
     ),
     path(
         'newsletter-signup',

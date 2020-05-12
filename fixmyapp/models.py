@@ -604,3 +604,27 @@ class PlaystreetSignup(BaseModel):
         verbose_name = _('playstreet_signup')
         verbose_name_plural = _('playstreet_signups')
         ordering = ['campaign', 'street']
+
+
+class GastroSignup(BaseModel):
+    TIME_WEEKEND = 'weekend'
+    TIME_WEEK = 'week'
+
+    TIME_CHOICES = ((TIME_WEEKEND, _('weekend')), (TIME_WEEK, _('whole week')))
+
+    campaign = models.CharField(_('campaign'), max_length=64)
+    name = models.TextField(_('name'))
+    email = models.CharField(_('email'), max_length=255)
+    address = models.TextField(_('address'))
+    geometry = models.PointField(_('geometry'), srid=4326)
+    seats_requested = models.PositiveIntegerField(_('requested seats'))
+    time_requested = models.CharField(
+        _('time_requested'), max_length=32, choices=TIME_CHOICES
+    )
+    accepts_agreement = models.BooleanField(_('agreement accepted'))
+    tos_accepted = models.BooleanField(_('tos_accepted'), default=False)
+
+    class Meta:
+        verbose_name = _('gastro_signup')
+        verbose_name_plural = _('gastro_signups')
+        ordering = ['campaign', 'name']

@@ -194,6 +194,30 @@ class FeedbackTest(TestCase):
         self.assertIn(data['message'], mail.outbox[0].message()._payload)
 
 
+class GastroSignupTest(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.data = {
+            'campaign': 'xhain',
+            'name': 'Ikonos',
+            'address': 'Böckhstraße 3, 10967 Berlin',
+            'email': 'info@ikonos.internet',
+            'geometry': {'type': 'Point', 'coordinates': [13.415941, 52.494432]},
+            'seats_requested': 24,
+            'time_requested': 'week',
+            'accepts_agreement': True,
+            'tos_accepted': True,
+        }
+
+    def test_signup(self):
+        response = self.client.put(
+            '/api/gastro/xhain',
+            data=json.dumps(self.data),
+            content_type='application/json',
+        )
+        self.assertEqual(response.status_code, 201)
+
+
 class PlaystreetTest(TestCase):
     def setUp(self):
         self.client = Client()

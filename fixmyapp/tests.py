@@ -208,7 +208,6 @@ class GastroSignupTest(TestCase):
             'geometry': {'type': 'Point', 'coordinates': [13.415941, 52.494432]},
             'shopfront_length': 480,
             'opening_hours': 'week',
-            'accepts_agreement': True,
             'tos_accepted': True,
         }
 

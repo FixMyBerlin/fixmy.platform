@@ -347,7 +347,6 @@ class GastroSignupSerializer(serializers.ModelSerializer):
             'geometry',
             'shopfront_length',
             'opening_hours',
-            'accepts_agreement',
             'tos_accepted',
             'status',
         ]

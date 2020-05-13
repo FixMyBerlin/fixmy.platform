@@ -638,7 +638,6 @@ class GastroSignup(BaseModel):
         _('opening hours'), max_length=32, choices=TIME_CHOICES
     )
     shopfront_length = models.PositiveIntegerField(_('shopfront length'))
-    accepts_agreement = models.BooleanField(_('agreement accepted'))
     tos_accepted = models.BooleanField(_('tos_accepted'), default=False)
 
     status = models.CharField(

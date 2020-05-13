@@ -116,8 +116,8 @@ class PlaystreetSignupAdmin(admin.ModelAdmin):
 
 
 class GastroSignupAdmin(admin.OSMGeoAdmin):
-    list_display = ('id', 'campaign', 'name', 'address', 'created_date')
-    ordering = ('campaign', 'address', 'name')
+    list_display = ('id', 'shop_name', 'address', 'category', 'status', 'created_date')
+    ordering = ('campaign', 'address', 'shop_name')
 
 
 admin.site.register(Project, ProjectAdmin)

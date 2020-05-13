@@ -199,12 +199,15 @@ class GastroSignupTest(TestCase):
         self.client = Client()
         self.data = {
             'campaign': 'xhain',
-            'name': 'Ikonos',
+            'shop_name': 'Ikonos',
+            'category': 'Gaststätte',
+            'first_name': 'Max',
+            'last_name': 'Müller',
             'address': 'Böckhstraße 3, 10967 Berlin',
             'email': 'info@ikonos.internet',
             'geometry': {'type': 'Point', 'coordinates': [13.415941, 52.494432]},
-            'seats_requested': 24,
-            'time_requested': 'week',
+            'shopfront_length': 480,
+            'opening_hours': 'week',
             'accepts_agreement': True,
             'tos_accepted': True,
         }

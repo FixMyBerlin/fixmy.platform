@@ -338,12 +338,16 @@ class GastroSignupSerializer(serializers.ModelSerializer):
         model = GastroSignup
         fields = [
             'campaign',
-            'name',
+            'shop_name',
+            'first_name',
+            'last_name',
+            'category',
             'email',
             'address',
             'geometry',
-            'seats_requested',
-            'time_requested',
+            'shopfront_length',
+            'opening_hours',
             'accepts_agreement',
             'tos_accepted',
+            'status',
         ]

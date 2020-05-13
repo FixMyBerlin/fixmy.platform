@@ -5,6 +5,7 @@ from rest_framework import serializers
 from rest_framework_gis.fields import GeometryField
 from .models import (
     BikeStands,
+    GastroSignup,
     PlaystreetSignup,
     Photo,
     Profile,
@@ -327,4 +328,25 @@ class PlaystreetSignupSerializer(serializers.ModelSerializer):
             'tos_accepted',
             'captain',
             'message',
+        ]
+
+
+class GastroSignupSerializer(serializers.ModelSerializer):
+    geometry = GeometryField(precision=14)
+
+    class Meta:
+        model = GastroSignup
+        fields = [
+            'campaign',
+            'shop_name',
+            'first_name',
+            'last_name',
+            'category',
+            'email',
+            'address',
+            'geometry',
+            'shopfront_length',
+            'opening_hours',
+            'tos_accepted',
+            'status',
         ]

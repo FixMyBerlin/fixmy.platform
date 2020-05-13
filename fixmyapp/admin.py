@@ -5,6 +5,7 @@ from django.contrib.gis import admin
 from django.utils.translation import gettext_lazy as _
 from reversion.admin import VersionAdmin
 from .models import (
+    GastroSignup,
     PlaystreetSignup,
     Photo,
     Profile,
@@ -114,6 +115,11 @@ class PlaystreetSignupAdmin(admin.ModelAdmin):
     ordering = ('campaign', 'street', 'created_date')
 
 
+class GastroSignupAdmin(admin.OSMGeoAdmin):
+    list_display = ('id', 'shop_name', 'address', 'category', 'status', 'created_date')
+    ordering = ('campaign', 'address', 'shop_name')
+
+
 admin.site.register(Project, ProjectAdmin)
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Question, QuestionAdmin)
@@ -121,3 +127,4 @@ admin.site.register(Report, ReportAdmin)
 admin.site.register(Section, SectionAdmin)
 admin.site.register(SectionDetails, SectionDetailsAdmin)
 admin.site.register(PlaystreetSignup, PlaystreetSignupAdmin)
+admin.site.register(GastroSignup, GastroSignupAdmin)

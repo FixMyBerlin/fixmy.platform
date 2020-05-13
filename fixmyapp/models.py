@@ -604,3 +604,47 @@ class PlaystreetSignup(BaseModel):
         verbose_name = _('playstreet_signup')
         verbose_name_plural = _('playstreet_signups')
         ordering = ['campaign', 'street']
+
+
+class GastroSignup(BaseModel):
+    STATUS_NEW = 'new'
+    STATUS_VERIFICATION = 'verification'
+    STATUS_ACCEPTED = 'accepted'
+    STATUS_REJECTED = 'rejected'
+
+    STATUS_CHOICES = (
+        (STATUS_NEW, _('new')),
+        (STATUS_VERIFICATION, _('verification')),
+        (STATUS_ACCEPTED, _('accepted')),
+        (STATUS_REJECTED, _('rejected')),
+    )
+
+    TIME_WEEKEND = 'weekend'
+    TIME_WEEK = 'week'
+
+    TIME_CHOICES = ((TIME_WEEKEND, _('weekend')), (TIME_WEEK, _('whole week')))
+
+    campaign = models.CharField(_('campaign'), max_length=32)
+    shop_name = models.TextField(_('shop name'))
+    first_name = models.TextField(_('first name'))
+    last_name = models.TextField(_('last name'))
+    category = models.CharField(_('category'), max_length=255)
+    email = models.CharField(_('email'), max_length=255)
+
+    address = models.TextField(_('address'))
+    geometry = models.PointField(_('geometry'), srid=4326)
+
+    opening_hours = models.CharField(
+        _('opening hours'), max_length=32, choices=TIME_CHOICES
+    )
+    shopfront_length = models.PositiveIntegerField(_('shopfront length'))
+    tos_accepted = models.BooleanField(_('tos_accepted'), default=False)
+
+    status = models.CharField(
+        _('status'), max_length=20, choices=STATUS_CHOICES, default=STATUS_NEW
+    )
+
+    class Meta:
+        verbose_name = _('gastro_signup')
+        verbose_name_plural = _('gastro_signups')
+        ordering = ['campaign', 'address']

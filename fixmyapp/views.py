@@ -11,6 +11,7 @@ from rest_framework.views import APIView
 from .models import Like, Profile, Project, Report, Section, PlaystreetSignup
 from .serializers import (
     FeedbackSerializer,
+    GastroSignupSerializer,
     PlaystreetSignupSerializer,
     ProfileSerializer,
     ProjectSerializer,
@@ -161,6 +162,18 @@ class PlayStreetView(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(self.make_listing(campaign), status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class GastroSignupView(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def put(self, request, campaign):
+        """Adds new signups."""
+        serializer = GastroSignupSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(request.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

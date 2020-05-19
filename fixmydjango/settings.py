@@ -19,16 +19,12 @@ import os
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-    },
+    'handlers': {'console': {'class': 'logging.StreamHandler'}},
     'loggers': {
         'django': {
             'handlers': ['console'],
             'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
-        },
+        }
     },
 }
 
@@ -46,11 +42,7 @@ SECRET_KEY = 'l$1cu6s#k*+8(5ai05+y3-0w+xw^(+)@t=(2r704g_y+yub@d='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(os.getenv('DEBUG', False))
 
-ALLOWED_HOSTS = [
-    'localhost',
-    'fixmyberlin.de',
-    '35.234.67.137',
-]
+ALLOWED_HOSTS = ['localhost', 'fixmyberlin.de', '35.234.67.137']
 
 
 # Application definition
@@ -91,7 +83,11 @@ ROOT_URLCONF = 'fixmydjango.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates', os.getenv('TEMPLATE_SET', 'fixmyberlin'))],
+        'DIRS': [
+            os.path.join(
+                BASE_DIR, 'templates', os.getenv('TEMPLATE_SET', 'fixmyberlin')
+            )
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -99,9 +95,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-            ],
+            ]
         },
-    },
+    }
 ]
 
 WSGI_APPLICATION = 'fixmydjango.wsgi.application'
@@ -126,17 +122,11 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'
     },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
 
@@ -145,9 +135,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'de-de'
 
-LOCALE_PATHS = [
-    os.path.join(BASE_DIR, 'locale'),
-]
+LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
 
 TIME_ZONE = 'UTC'
 
@@ -174,8 +162,7 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 26214400
 
 # Maximum number of parameters per request
 # https://docs.djangoproject.com/en/2.1/ref/settings/#data-upload-max-number-fields
-DATA_UPLOAD_MAX_NUMBER_FIELDS = int(
-    os.getenv('DATA_UPLOAD_MAX_NUMBER_FIELDS', '1000'))
+DATA_UPLOAD_MAX_NUMBER_FIELDS = int(os.getenv('DATA_UPLOAD_MAX_NUMBER_FIELDS', '1000'))
 
 
 # CORS headers
@@ -207,7 +194,9 @@ AWS_S3_SIGNATURE_VERSION = os.getenv('AWS_S3_SIGNATURE_VERSION', 's3v4')
 # Anymail
 # https://anymail.readthedocs.io/en/stable/
 
-EMAIL_BACKEND = os.getenv('EMAIL_BACKEND', 'django.core.mail.backends.smtp.EmailBackend')
+EMAIL_BACKEND = os.getenv(
+    'EMAIL_BACKEND', 'django.core.mail.backends.smtp.EmailBackend'
+)
 
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'info@fixmyberlin.de')
 
@@ -247,14 +236,12 @@ MAPBOX_USERNAME = os.getenv('MAPBOX_USERNAME', '')
 REST_FRAMEWORK = {
     'COERCE_DECIMAL_TO_STRING': False,
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication'
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ],
-    'DEFAULT_RENDERER_CLASSES': [
-        'rest_framework.renderers.JSONRenderer',
-    ],
+    'DEFAULT_RENDERER_CLASSES': ['rest_framework.renderers.JSONRenderer'],
 }
 
 
@@ -272,14 +259,16 @@ SIMPLE_JWT = {
 # https://djoser.readthedocs.io/en/stable/index.html
 
 DJOSER = {
-    'PASSWORD_RESET_CONFIRM_URL': os.getenv('PASSWORD_RESET_CONFIRM_URL', 'reset/{uid}/{token}'),
-    'PASSWORD_RESET_CONFIRM_FRONTEND_URL': os.getenv('PASSWORD_RESET_CONFIRM_FRONTEND_URL', ''),
+    'PASSWORD_RESET_CONFIRM_URL': os.getenv(
+        'PASSWORD_RESET_CONFIRM_URL', 'reset/{uid}/{token}'
+    ),
+    'PASSWORD_RESET_CONFIRM_FRONTEND_URL': os.getenv(
+        'PASSWORD_RESET_CONFIRM_FRONTEND_URL', ''
+    ),
     'ACTIVATION_URL': os.getenv('ACTIVATION_URL', 'activate/{uid}/{token}'),
     'ACTIVATION_FRONTEND_URL': os.getenv('ACTIVATION_FRONTEND_URL', ''),
     'SEND_ACTIVATION_EMAIL': bool(os.getenv('SEND_ACTIVATION_EMAIL', False)),
-    'EMAIL': {
-        'activation': 'fixmyapp.email.ActivationEmail',
-    },
+    'EMAIL': {'activation': 'fixmyapp.email.ActivationEmail'},
 }
 
 
@@ -292,7 +281,9 @@ USE_X_FORWARDED_HOST = bool(os.getenv('USE_X_FORWARDED_HOST', False))
 # Use X-Forwarded-Proto header
 # https://docs.djangoproject.com/en/2.2/ref/settings/#secure-proxy-ssl-header
 
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https') if USE_X_FORWARDED_HOST else None
+SECURE_PROXY_SSL_HEADER = (
+    ('HTTP_X_FORWARDED_PROTO', 'https') if USE_X_FORWARDED_HOST else None
+)
 
 
 # Activate Django-Heroku
@@ -305,3 +296,4 @@ DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
 # Feature-Toggles
 
 TOGGLE_NEWSLETTER = bool(os.getenv('TOGGLE_NEWSLETTER', False))
+TOGGLE_GASTRO_SIGNUPS = bool(os.getenv('TOGGLE_GASTRO_SIGNUPS', False))

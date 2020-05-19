@@ -170,6 +170,11 @@ class GastroSignupView(APIView):
 
     def put(self, request, campaign):
         """Adds new signups."""
+        if not settings.TOGGLE_GASTRO_SIGNUPS:
+            return Response(
+                'Signups are currently not open',
+                status=status.HTTP_405_METHOD_NOT_ALLOWED,
+            )
         serializer = GastroSignupSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()

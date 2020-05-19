@@ -212,12 +212,21 @@ class GastroSignupTest(TestCase):
         }
 
     def test_signup(self):
-        response = self.client.put(
-            '/api/gastro/xhain',
-            data=json.dumps(self.data),
-            content_type='application/json',
-        )
-        self.assertEqual(response.status_code, 201)
+        with self.settings(TOGGLE_GASTRO_SIGNUPS=True):
+            response = self.client.put(
+                '/api/gastro/xhain',
+                data=json.dumps(self.data),
+                content_type='application/json',
+            )
+            self.assertEqual(response.status_code, 201)
+
+        with self.settings(TOGGLE_GASTRO_SIGNUPS=False):
+            response = self.client.put(
+                '/api/gastro/xhain',
+                data=json.dumps(self.data),
+                content_type='application/json',
+            )
+            self.assertEqual(response.status_code, 405)
 
 
 class PlaystreetTest(TestCase):

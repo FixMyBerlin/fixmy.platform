@@ -296,3 +296,4 @@ DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
 # Feature-Toggles
 
 TOGGLE_NEWSLETTER = bool(os.getenv('TOGGLE_NEWSLETTER', False))
+TOGGLE_GASTRO_SIGNUPS = bool(os.getenv('TOGGLE_GASTRO_SIGNUPS', False))

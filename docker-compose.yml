@@ -24,6 +24,7 @@ services:
       PGPASSWORD: docker
       PGUSER: docker
       TOGGLE_NEWSLETTER:
+      TOGGLE_GASTRO_SIGNUPS:
     command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/code

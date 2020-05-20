@@ -4,6 +4,7 @@ from django.contrib.contenttypes.admin import GenericTabularInline
 from django.contrib.gis import admin
 from django.utils.translation import gettext_lazy as _
 from reversion.admin import VersionAdmin
+
 from .models import (
     GastroSignup,
     PlaystreetSignup,
@@ -15,6 +16,12 @@ from .models import (
     Section,
     SectionDetails,
 )
+
+
+class FMBGeoAdmin(admin.OSMGeoAdmin):
+    map_template = 'gis/admin/osm-fmb.html'
+    map_width = 800
+    map_height = 600
 
 
 class PhotoInline(GenericTabularInline):
@@ -47,7 +54,7 @@ class AlertDateFilter(SimpleListFilter):
             return queryset.filter(alert_date__lte=date.today())
 
 
-class ProjectAdmin(admin.OSMGeoAdmin, VersionAdmin):
+class ProjectAdmin(FMBGeoAdmin, VersionAdmin):
     autocomplete_fields = ('faq',)
     inlines = (PhotoInline,)
     list_display = (
@@ -73,7 +80,7 @@ class SectionDetailsAdmin(admin.ModelAdmin):
         return False
 
 
-class SectionAdmin(admin.OSMGeoAdmin):
+class SectionAdmin(FMBGeoAdmin):
     list_display = ('street_name', 'suffix', 'borough')
     ordering = ('id',)
     search_fields = ('street_name', 'id')
@@ -100,7 +107,7 @@ def mark_in_progress(modeladmin, request, queryset):
 mark_in_progress.short_description = _('set status to "verification"')
 
 
-class ReportAdmin(admin.OSMGeoAdmin):
+class ReportAdmin(FMBGeoAdmin):
     inlines = (PhotoInline,)
     list_display = ('id', 'address', 'subject', 'description', 'status', 'created_date')
     ordering = ('-created_date',)
@@ -115,7 +122,7 @@ class PlaystreetSignupAdmin(admin.ModelAdmin):
     ordering = ('campaign', 'street', 'created_date')
 
 
-class GastroSignupAdmin(admin.OSMGeoAdmin):
+class GastroSignupAdmin(FMBGeoAdmin):
     list_display = ('id', 'shop_name', 'address', 'category', 'status', 'created_date')
     ordering = ('campaign', 'address', 'shop_name')
 

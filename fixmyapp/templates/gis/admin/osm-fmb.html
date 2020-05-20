@@ -1,0 +1,13 @@
+{% extends "gis/admin/openlayers.html" %}
+{% block openlayers %}{% include "gis/admin/osm-fmb.js" %}
+
+
+{% comment %} 
+
+Set the stroke width for generic geometries to a higher value so that line
+strings become visible in the map widget.
+
+{% endcomment %}
+{% if is_generic %}OpenLayers.Feature.Vector.style["default"]["strokeWidth"] = 8;{% endif %}
+
+{% endblock %}

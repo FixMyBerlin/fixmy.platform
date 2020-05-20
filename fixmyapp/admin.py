@@ -61,6 +61,7 @@ class ProjectAdmin(admin.OSMGeoAdmin, VersionAdmin):
     )
     list_filter = (AlertDateFilter, 'category', 'phase', 'responsible')
     search_fields = ('project_key', 'street_name')
+    map_template = 'gis/admin/osm-fmb.html'
 
 
 class SectionDetailsAdmin(admin.ModelAdmin):

@@ -19,6 +19,7 @@ from .models import (
 
 
 class FMBGeoAdmin(admin.OSMGeoAdmin):
+    map_template = 'gis/admin/osm-fmb.html'
     map_width = 800
     map_height = 600
 
@@ -67,7 +68,6 @@ class ProjectAdmin(FMBGeoAdmin, VersionAdmin):
     )
     list_filter = (AlertDateFilter, 'category', 'phase', 'responsible')
     search_fields = ('project_key', 'street_name')
-    map_template = 'gis/admin/osm-fmb.html'
 
 
 class SectionDetailsAdmin(admin.ModelAdmin):

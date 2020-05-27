@@ -609,14 +609,39 @@ class PlaystreetSignup(BaseModel):
 class GastroSignup(BaseModel):
     STATUS_NEW = 'new'
     STATUS_VERIFICATION = 'verification'
-    STATUS_ACCEPTED = 'accepted'
-    STATUS_REJECTED = 'rejected'
+    STATUS_REGISTRATION = 'waiting_for_application'
+    STATUS_REGISTERED = 'application_received'
+    STATUS_ACCEPTED = 'application_received'
+    STATUS_REJECTED = 'application_rejected'
 
     STATUS_CHOICES = (
         (STATUS_NEW, _('new')),
         (STATUS_VERIFICATION, _('verification')),
-        (STATUS_ACCEPTED, _('accepted')),
-        (STATUS_REJECTED, _('rejected')),
+        (STATUS_REGISTRATION, _('waiting for application')),
+        (STATUS_REGISTERED, _('application received')),
+        (STATUS_ACCEPTED, _('application accepted')),
+        (STATUS_REJECTED, _('application rejected')),
+    )
+
+    CATEGORY_CHOICES = (
+        ('restaurant', _('restaurant')),
+        ('retail', _('retail')),
+        ('workshop', _('workshop')),
+        ('social', _('social')),
+        ('other', _('miscellaneous')),
+    )
+
+    REGULATION_CHOICES = (
+        (0, "Parkplatz"),
+        (1, "Zone 1: Dresdener Straße 13-20"),
+        (2, "Zone 2: Dresdener Straße 119-124"),
+        (3, "Zone 3: Simon-Dach-Straße 6-14"),
+        (4, "Zone 4: Simon-Dach-Straße 35-41a"),
+        (5, "Zone 5: Gabriel-Max-Straße 1-5"),
+        (6, "Zone 6: Gabriel-Max-Straße 15-21"),
+        (7, "Zone 7: Krossener Straße 11-21"),
+        (8, "Zone 8: Grünberger Straße 73-79"),
+        (9, "Zone 9: Samariterstraße 34a-37"),
     )
 
     TIME_WEEKEND = 'weekend'
@@ -624,27 +649,46 @@ class GastroSignup(BaseModel):
 
     TIME_CHOICES = ((TIME_WEEKEND, _('weekend')), (TIME_WEEK, _('whole week')))
 
-    campaign = models.CharField(_('campaign'), max_length=32)
-    shop_name = models.TextField(_('shop name'))
-    first_name = models.TextField(_('first name'))
-    last_name = models.TextField(_('last name'))
-    category = models.CharField(_('category'), max_length=255)
-    email = models.CharField(_('email'), max_length=255)
+    CAMPAIGN_CHOICES = [('xhain', 'Friedrichshain-Kreuzberg 2020')]
 
-    address = models.TextField(_('address'))
-    geometry = models.PointField(_('geometry'), srid=4326)
+    campaign = models.CharField(_('campaign'), choices=CAMPAIGN_CHOICES, max_length=32)
+    status = models.CharField(
+        _('status'), max_length=64, choices=STATUS_CHOICES, default=STATUS_NEW
+    )
+
+    shop_name = models.CharField(_('shop name'), max_length=255)
+    first_name = models.CharField(_('first name'), max_length=255)
+    last_name = models.CharField(_('last name'), max_length=255)
+    category = models.CharField(_('category'), choices=CATEGORY_CHOICES, max_length=255)
+    email = models.CharField(_('email'), max_length=255)
+    phone = models.CharField(_('telephone number'), max_length=32, null=True)
+    usage = models.TextField(_('usage'), null=True)
 
     opening_hours = models.CharField(
         _('opening hours'), max_length=32, choices=TIME_CHOICES
     )
-    shopfront_length = models.PositiveIntegerField(_('shopfront length'))
-    tos_accepted = models.BooleanField(_('tos_accepted'), default=False)
-
-    status = models.CharField(
-        _('status'), max_length=20, choices=STATUS_CHOICES, default=STATUS_NEW
+    regulation = models.IntegerField(
+        _('regulation'), choices=REGULATION_CHOICES, default=0
     )
+    address = models.TextField(_('address'))
+    shopfront_length = models.PositiveIntegerField(_('shopfront length'))
+    geometry = models.PointField(_('geometry'), srid=4326)
+
+    area = models.PolygonField(_('installation area'), srid=4326, null=True, blank=True)
+
+    tos_accepted = models.BooleanField(_('tos_accepted'), default=False)
+    agreement_accepted = models.BooleanField(_('agreement accepted'), default=False)
+
+    access_key = models.UUIDField(default=uuid.uuid4, editable=False)
+
+    note = models.TextField(_('note for the registrant'), blank=True)
 
     class Meta:
         verbose_name = _('gastro_signup')
         verbose_name_plural = _('gastro_signups')
         ordering = ['campaign', 'address']
+
+    def __str__(self):
+        if self.shop_name is not None and len(self.shop_name) > 0:
+            return self.shop_name
+        return f"Schankstraßen-Anmeldung {self.id}"

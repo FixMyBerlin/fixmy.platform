@@ -343,10 +343,16 @@ class GastroSignupSerializer(serializers.ModelSerializer):
             'last_name',
             'category',
             'email',
+            'phone',
+            'usage',
             'address',
             'geometry',
             'shopfront_length',
             'opening_hours',
             'tos_accepted',
+            'agreement_accepted',
             'status',
+            'regulation',
         ]
+
+        read_only_fields = ['regulation', 'campaign']

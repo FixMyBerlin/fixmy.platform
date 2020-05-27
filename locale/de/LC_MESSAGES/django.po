@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE_VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-05-27 14:42+0000\n"
-"PO-Revision-Date: 2020-05-27 16:32+0200\n"
+"PO-Revision-Date: 2020-05-27 16:56+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -621,11 +621,11 @@ msgstr "Anmerkung an Antragsteller:in"
 
 #: fixmyapp/models.py:687
 msgid "gastro_signup"
-msgstr "Schankstraßen-Anmeldung"
+msgstr "Offene Terrassen-Anmeldung"
 
 #: fixmyapp/models.py:688
 msgid "gastro_signups"
-msgstr "Schankstraßen-Anmeldungen"
+msgstr "Offene Terrassen-Anmeldungen"
 
 #: survey/models.py:13
 msgid "cycle path"

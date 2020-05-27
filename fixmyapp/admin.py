@@ -126,6 +126,7 @@ class GastroSignupAdmin(FMBGeoAdmin):
     list_display = ('shop_name', 'category', 'address', 'regulation', 'status')
     list_filter = ('status', 'regulation', 'category')
     ordering = ('campaign', 'regulation', 'address')
+    readonly_fields = ('access_key', )
 
 
 admin.site.register(Project, ProjectAdmin)

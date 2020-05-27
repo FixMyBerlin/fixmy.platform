@@ -8,7 +8,15 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .models import Like, Profile, Project, Report, Section, PlaystreetSignup
+from .models import (
+    Like,
+    GastroSignup,
+    Profile,
+    Project,
+    Report,
+    Section,
+    PlaystreetSignup,
+)
 from .serializers import (
     FeedbackSerializer,
     GastroSignupSerializer,
@@ -168,7 +176,15 @@ class PlayStreetView(APIView):
 class GastroSignupView(APIView):
     permission_classes = (permissions.AllowAny,)
 
-    def put(self, request, campaign):
+    def get(self, request, campaign, pk, access_key):
+        """Request existing signup data using an access key"""
+        result = GastroSignup.objects.get(id=pk)
+        if str(result.access_key) != access_key:
+            return Response(None, status=status.HTTP_401_UNAUTHORIZED)
+        serialization = GastroSignupSerializer(result).data
+        return Response(serialization)
+
+    def post(self, request, campaign):
         """Adds new signups."""
         if not settings.TOGGLE_GASTRO_SIGNUPS:
             return Response(
@@ -176,6 +192,22 @@ class GastroSignupView(APIView):
                 status=status.HTTP_405_METHOD_NOT_ALLOWED,
             )
         serializer = GastroSignupSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(request.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, campaign, pk, access_key):
+        """Adds registration data to an existing signup."""
+        if not settings.TOGGLE_GASTRO_REGISTRATIONS:
+            return Response(
+                'Registration is currently not open',
+                status=status.HTTP_405_METHOD_NOT_ALLOWED,
+            )
+
+        instance = get_object_or_404(GastroSignup, pk=pk, access_key=access_key)
+
+        serializer = GastroSignupSerializer(instance=instance, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(request.data, status=status.HTTP_201_CREATED)

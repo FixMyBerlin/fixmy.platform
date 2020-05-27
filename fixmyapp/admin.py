@@ -123,8 +123,9 @@ class PlaystreetSignupAdmin(admin.ModelAdmin):
 
 
 class GastroSignupAdmin(FMBGeoAdmin):
-    list_display = ('id', 'shop_name', 'address', 'category', 'status', 'created_date')
-    ordering = ('campaign', 'address', 'shop_name')
+    list_display = ('shop_name', 'category', 'address', 'regulation', 'status')
+    list_filter = ('status', 'regulation', 'category')
+    ordering = ('campaign', 'regulation', 'address')
 
 
 admin.site.register(Project, ProjectAdmin)

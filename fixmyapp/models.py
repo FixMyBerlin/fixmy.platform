@@ -674,7 +674,7 @@ class GastroSignup(BaseModel):
     shopfront_length = models.PositiveIntegerField(_('shopfront length'))
     geometry = models.PointField(_('geometry'), srid=4326)
 
-    area = models.PolygonField(_('installation area'), srid=4326, null=True, blank=True)
+    area = models.GeometryField(_('installation area'), srid=4326, null=True, blank=True)
 
     tos_accepted = models.BooleanField(_('tos_accepted'), default=False)
     agreement_accepted = models.BooleanField(_('agreement accepted'), default=False)

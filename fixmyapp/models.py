@@ -606,12 +606,17 @@ class PlaystreetSignup(BaseModel):
         ordering = ['campaign', 'street']
 
 
+def get_upload_path(instance, filename):
+    """Determine the upload path for certificate files"""
+    return f"{instance.campaign}/gastro/{instance.id}/{filename}"
+
+
 class GastroSignup(BaseModel):
     STATUS_NEW = 'new'
     STATUS_VERIFICATION = 'verification'
     STATUS_REGISTRATION = 'waiting_for_application'
     STATUS_REGISTERED = 'application_received'
-    STATUS_ACCEPTED = 'application_received'
+    STATUS_ACCEPTED = 'application_accepted'
     STATUS_REJECTED = 'application_rejected'
 
     STATUS_CHOICES = (
@@ -678,6 +683,10 @@ class GastroSignup(BaseModel):
 
     area = models.GeometryField(
         _('installation area'), srid=4326, null=True, blank=True
+    )
+
+    certificate = models.FileField(
+        upload_to=get_upload_path, verbose_name=_('registration certificate'), null=True
     )
 
     tos_accepted = models.BooleanField(_('tos_accepted'), default=False)

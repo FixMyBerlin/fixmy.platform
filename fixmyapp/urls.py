@@ -4,6 +4,7 @@ from .models import Project, Report
 from .views import (
     feedback,
     GastroSignupView,
+    GastroCertificateView,
     LikedByUserProjectList,
     LikedByUserReportList,
     LikeView,
@@ -18,7 +19,7 @@ from .views import (
     SectionList,
 )
 
-
+# fmt: off
 urlpatterns = [
     path(
         'feedback',
@@ -29,6 +30,11 @@ urlpatterns = [
         'gastro/<str:campaign>',
         GastroSignupView.as_view(),
         name='gastro-signups'
+    ),
+    path(
+        'gastro/<str:campaign>/certificate/<int:pk>/<str:access_key>',
+        GastroCertificateView.as_view(),
+        name='gastro-certificate'
     ),
     path(
         'gastro/<str:campaign>/<int:pk>/<str:access_key>',
@@ -103,3 +109,4 @@ urlpatterns = [
         name='reports-liked-by-user'
     )
 ]
+# fmt: on

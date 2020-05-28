@@ -1,9 +1,12 @@
 from datetime import date
+from django.contrib import messages
+from django.core.mail import send_mail
 from django.contrib.admin import SimpleListFilter
 from django.contrib.contenttypes.admin import GenericTabularInline
 from django.contrib.gis import admin
 from django.utils.translation import gettext_lazy as _
 from reversion.admin import VersionAdmin
+from smtplib import SMTPException
 
 from .models import (
     GastroSignup,
@@ -100,7 +103,7 @@ class QuestionAdmin(admin.ModelAdmin):
 
 
 def mark_in_progress(modeladmin, request, queryset):
-    """Update report status to "in verification" for many items at once."""
+    """Update report status to "in verification" for many items at once"""
     queryset.update(status=Report.STATUS_VERIFICATION)
 
 
@@ -126,7 +129,57 @@ class GastroSignupAdmin(FMBGeoAdmin):
     list_display = ('shop_name', 'category', 'address', 'regulation', 'status')
     list_filter = ('status', 'regulation', 'category')
     ordering = ('campaign', 'regulation', 'address')
-    readonly_fields = ('access_key', )
+    readonly_fields = ('access_key',)
+
+    def mark_signup_verification(self, request, queryset):
+        """Update signup status to in 'in verification'"""
+        queryset.update(status=GastroSignup.STATUS_VERIFICATION)
+
+    mark_in_progress.short_description = _('set status to "verification"')
+
+    def send_gastro_registration_request(self, request, queryset):
+        """Send registration requests to registrants"""
+        numsent = 0
+        for signup in queryset:
+            sender = 'hello@fixmyberlin.de'
+            subject = 'Ihre Interessensbekundung bei Offene Terrassen für Friedrichshain-Kreuzberg'
+            registration_url = f"https://fixmyberlin.de/friedrichshain-kreuzberg/terrassen/registrierung/{signup.id}/{signup.access_key}"
+            body = f'''Sehr geehrte Damen und Herren,
+
+Sie haben einen Bedarf für eine temporäre Erweiterung der Außenflächen
+Ihres Gewerbes, Einzelhandels oder sozialen Projektes angemeldet.
+
+Vielen Dank dafür. Für den nächsten Schritt bitten wir Sie, Ihre Angaben
+unter folgendem für sie personalisierten Link bis zum Montag, den 1.Juni 2020
+zu ergänzen.
+
+Bitte geben Sie diesen Link nicht an Dritte weiter.
+
+{registration_url}
+
+Mit freundlichen Grüßen,
+Ihr Bezirksamt Friedrichshain-Kreuzberg'''
+            try:
+                send_mail(subject, body, sender, [signup.email])
+            except SMTPException as e:
+                self.message_user(
+                    request,
+                    f"Antragsformular für {signup.shop_name} konnte nicht versandt werden: {e.strerror}",
+                    messages.ERROR,
+                )
+            else:
+                numsent += 1
+                signup.status = GastroSignup.STATUS_REGISTRATION
+                signup.save()
+        self.message_user(
+            request,
+            f"Antragsformular wurde an {numsent} Adressaten versandt.",
+            messages.SUCCESS,
+        )
+
+    send_gastro_registration_request.short_description = _('send registation requests')
+
+    actions = [mark_signup_verification, send_gastro_registration_request]
 
 
 admin.site.register(Project, ProjectAdmin)

@@ -220,15 +220,10 @@ class GastroSignupView(APIView):
 
     def send_registration_confirmation(self, instance):
         """Send a registration confirmation email for this signup"""
-        supplicant_recipient_email = settings.DEFAULT_FROM_EMAIL
         subject = 'Ihr Antrag bei Offene Terrassen für Friedrichshain-Kreuzberg'
         body = f'''Sehr geehrte Damen und Herren,
 
 hiermit wird der erfolgreiche Eingang Ihrer Daten bestätigt.
-
-Um Ihren Antrag abzuschließen, senden Sie einen Scan oder ein Foto der
-ersten Seite Ihrer Gewerbeanmeldung oder des Vereinsregisters an {supplicant_recipient_email}
-(Bitte achten Sie auf die Lesbarkeit).
 
 Vermerk: Das Bezirksamt bearbeitet die Anträge in der Reihenfolge Ihres
 vollständigen Eingangs. Sobald Ihr Antrag bearbeitet wurde, erhalten Sie eine

@@ -1,10 +1,11 @@
 from datetime import date
+from django.conf import settings
 from django.contrib import messages
-from django.core.mail import send_mail
 from django.contrib.admin import SimpleListFilter
 from django.contrib.contenttypes.admin import GenericTabularInline
 from django.contrib.gis import admin
-from django.utils.translation import gettext_lazy as _
+from django.core.mail import send_mail
+from django.utils.translation import ngettext, gettext_lazy as _
 from reversion.admin import VersionAdmin
 from smtplib import SMTPException
 
@@ -134,14 +135,23 @@ class GastroSignupAdmin(FMBGeoAdmin):
     def mark_signup_verification(self, request, queryset):
         """Update signup status to in 'in verification'"""
         queryset.update(status=GastroSignup.STATUS_VERIFICATION)
+        numaffected = len(queryset)
+        self.message_user(
+            request,
+            ngettext(
+                "{numaffected} signup set to 'in verification'",
+                "{numaffected} signups set to 'in verification'",
+                numaffected,
+            ).format(numaffected=numaffected),
+            messages.SUCCESS,
+        )
 
-    mark_in_progress.short_description = _('set status to "verification"')
+    mark_signup_verification.short_description = _('set status to "verification"')
 
     def send_gastro_registration_request(self, request, queryset):
         """Send registration requests to registrants"""
         numsent = 0
         for signup in queryset:
-            sender = 'hello@fixmyberlin.de'
             subject = 'Ihre Interessensbekundung bei Offene Terrassen für Friedrichshain-Kreuzberg'
             registration_url = f"https://fixmyberlin.de/friedrichshain-kreuzberg/terrassen/registrierung/{signup.id}/{signup.access_key}"
             body = f'''Sehr geehrte Damen und Herren,
@@ -160,7 +170,7 @@ Bitte geben Sie diesen Link nicht an Dritte weiter.
 Mit freundlichen Grüßen,
 Ihr Bezirksamt Friedrichshain-Kreuzberg'''
             try:
-                send_mail(subject, body, sender, [signup.email])
+                send_mail(subject, body, settings.DEFAULT_FROM_EMAIL, [signup.email])
             except SMTPException as e:
                 self.message_user(
                     request,

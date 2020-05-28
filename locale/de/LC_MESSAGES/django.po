@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE_VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-27 14:42+0000\n"
-"PO-Revision-Date: 2020-05-27 16:56+0200\n"
+"POT-Creation-Date: 2020-05-28 09:46+0000\n"
+"PO-Revision-Date: 2020-05-28 11:47+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -18,17 +18,28 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 2.3.1\n"
 
-#: fixmyapp/admin.py:34 fixmyapp/models.py:452
+#: fixmyapp/admin.py:38 fixmyapp/models.py:452
 msgid "alert date"
 msgstr "Benachrichtigungsdatum"
 
-#: fixmyapp/admin.py:45
+#: fixmyapp/admin.py:49
 msgid "exceeded"
 msgstr "erreicht"
 
-#: fixmyapp/admin.py:107
+#: fixmyapp/admin.py:111 fixmyapp/admin.py:149
 msgid "set status to \"verification\""
 msgstr "Status auf „in Prüfung“ setzen"
+
+#: fixmyapp/admin.py:142
+#, python-brace-format
+msgid "{numaffected} signup set to 'in verification'"
+msgid_plural "{numaffected} signups set to 'in verification'"
+msgstr[0] "{numaffected} Anmeldung auf ‚in Prüfung‘ gesetzt"
+msgstr[1] "{numaffected} Anmeldungen auf ‚in Prüfung‘ gesetzt"
+
+#: fixmyapp/admin.py:190
+msgid "send registation requests"
+msgstr "Antragsformular versenden"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:12
 #: fixmyapp/models.py:659
@@ -36,17 +47,17 @@ msgid "shop name"
 msgstr "Name des Betriebs"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:13
-#: fixmyapp/models.py:557 fixmyapp/models.py:673
+#: fixmyapp/models.py:557 fixmyapp/models.py:675
 msgid "address"
 msgstr "Adresse"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:14 fixmyapp/models.py:26
-#: fixmyapp/models.py:429 fixmyapp/models.py:558 fixmyapp/models.py:675
+#: fixmyapp/models.py:429 fixmyapp/models.py:558 fixmyapp/models.py:677
 msgid "geometry"
 msgstr "Geometrie"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:15
-#: fixmyapp/models.py:674
+#: fixmyapp/models.py:676
 msgid "shopfront length"
 msgstr "Länge der Ladenfront"
 
@@ -78,7 +89,7 @@ msgstr "Status"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:22
 #: fixmyapp/management/commands/exportplaystreets.py:17 fixmyapp/models.py:599
-#: fixmyapp/models.py:679
+#: fixmyapp/models.py:683
 msgid "tos_accepted"
 msgstr "Bedingungen akzeptiert"
 
@@ -479,7 +490,7 @@ msgstr "Geschwindigkeit"
 msgid "security"
 msgstr "Sicherheit"
 
-#: fixmyapp/models.py:531 fixmyapp/models.py:665
+#: fixmyapp/models.py:531 fixmyapp/models.py:667
 msgid "usage"
 msgstr "Nutzung"
 
@@ -595,35 +606,35 @@ msgstr "Wochenende"
 msgid "whole week"
 msgstr "Ganze Woche"
 
-#: fixmyapp/models.py:664
+#: fixmyapp/models.py:665
 msgid "telephone number"
 msgstr "Telefonnummer"
 
-#: fixmyapp/models.py:668
+#: fixmyapp/models.py:670
 msgid "opening hours"
 msgstr "Öffnungszeiten"
 
-#: fixmyapp/models.py:671
+#: fixmyapp/models.py:673
 msgid "regulation"
 msgstr "Regulation"
 
-#: fixmyapp/models.py:677
+#: fixmyapp/models.py:680
 msgid "installation area"
 msgstr "Aufstellfläche"
 
-#: fixmyapp/models.py:680
+#: fixmyapp/models.py:684
 msgid "agreement accepted"
 msgstr "Vereinbarung angenommen"
 
-#: fixmyapp/models.py:684
+#: fixmyapp/models.py:688
 msgid "note for the registrant"
 msgstr "Anmerkung an Antragsteller:in"
 
-#: fixmyapp/models.py:687
+#: fixmyapp/models.py:691
 msgid "gastro_signup"
 msgstr "Offene Terrassen-Anmeldung"
 
-#: fixmyapp/models.py:688
+#: fixmyapp/models.py:692
 msgid "gastro_signups"
 msgstr "Offene Terrassen-Anmeldungen"
 

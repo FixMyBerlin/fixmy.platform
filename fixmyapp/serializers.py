@@ -333,6 +333,29 @@ class PlaystreetSignupSerializer(serializers.ModelSerializer):
 
 class GastroSignupSerializer(serializers.ModelSerializer):
     geometry = GeometryField(precision=14)
+
+    class Meta:
+        model = GastroSignup
+        fields = [
+            'campaign',
+            'shop_name',
+            'first_name',
+            'last_name',
+            'category',
+            'email',
+            'address',
+            'geometry',
+            'shopfront_length',
+            'opening_hours',
+            'tos_accepted',
+            'status',
+        ]
+
+        read_only_fields = ['campaign']
+
+
+class GastroRegistrationSerializer(serializers.ModelSerializer):
+    geometry = GeometryField(precision=14)
     area = GeometryField(precision=14)
 
     class Meta:

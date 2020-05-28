@@ -194,39 +194,39 @@ class FeedbackTest(TestCase):
         self.assertIn(data['message'], mail.outbox[0].message()._payload)
 
 
-# class GastroSignupTest(TestCase):
-#     def setUp(self):
-#         self.client = Client()
-#         self.data = {
-#             'campaign': 'xhain',
-#             'shop_name': 'Ikonos',
-#             'category': 'Gaststätte',
-#             'first_name': 'Max',
-#             'last_name': 'Müller',
-#             'address': 'Böckhstraße 3, 10967 Berlin',
-#             'email': 'info@ikonos.internet',
-#             'geometry': {'type': 'Point', 'coordinates': [13.415941, 52.494432]},
-#             'shopfront_length': 480,
-#             'opening_hours': 'week',
-#             'tos_accepted': True,
-#         }
+class GastroSignupTest(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.signup_data = {
+            'campaign': 'xhain',
+            'shop_name': 'Ikonos',
+            'category': 'restaurant',
+            'first_name': 'Max',
+            'last_name': 'Müller',
+            'address': 'Böckhstraße 3, 10967 Berlin',
+            'email': 'info@ikonos.internet',
+            'geometry': {'type': 'Point', 'coordinates': [13.415941, 52.494432]},
+            'shopfront_length': 480,
+            'opening_hours': 'week',
+            'tos_accepted': True,
+        }
 
-#     def test_signup(self):
-#         with self.settings(TOGGLE_GASTRO_SIGNUPS=True):
-#             response = self.client.post(
-#                 '/api/gastro/xhain',
-#                 data=json.dumps(self.data),
-#                 content_type='application/json',
-#             )
-#             self.assertEqual(response.status_code, 201)
+    def test_signup(self):
+        with self.settings(TOGGLE_GASTRO_SIGNUPS=True):
+            response = self.client.post(
+                '/api/gastro/xhain',
+                data=json.dumps(self.signup_data),
+                content_type='application/json',
+            )
+            self.assertEqual(response.status_code, 201)
 
-#         with self.settings(TOGGLE_GASTRO_SIGNUPS=False):
-#             response = self.client.post(
-#                 '/api/gastro/xhain',
-#                 data=json.dumps(self.data),
-#                 content_type='application/json',
-#             )
-#             self.assertEqual(response.status_code, 405)
+        with self.settings(TOGGLE_GASTRO_SIGNUPS=False):
+            response = self.client.post(
+                '/api/gastro/xhain',
+                data=json.dumps(self.signup_data),
+                content_type='application/json',
+            )
+            self.assertEqual(response.status_code, 405)
 
 
 class PlaystreetTest(TestCase):

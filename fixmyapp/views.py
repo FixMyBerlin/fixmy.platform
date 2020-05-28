@@ -20,6 +20,7 @@ from .models import (
 from .serializers import (
     FeedbackSerializer,
     GastroSignupSerializer,
+    GastroRegistrationSerializer,
     PlaystreetSignupSerializer,
     ProfileSerializer,
     ProjectSerializer,
@@ -181,7 +182,7 @@ class GastroSignupView(APIView):
         result = GastroSignup.objects.get(id=pk)
         if str(result.access_key) != access_key:
             return Response(None, status=status.HTTP_401_UNAUTHORIZED)
-        serialization = GastroSignupSerializer(result).data
+        serialization = GastroRegistrationSerializer(result).data
         return Response(serialization)
 
     def post(self, request, campaign):
@@ -207,7 +208,7 @@ class GastroSignupView(APIView):
 
         instance = get_object_or_404(GastroSignup, pk=pk, access_key=access_key)
 
-        serializer = GastroSignupSerializer(instance=instance, data=request.data)
+        serializer = GastroRegistrationSerializer(instance=instance, data=request.data)
         if serializer.is_valid():
             serializer.save()
             self.send_registration_confirmation(instance)

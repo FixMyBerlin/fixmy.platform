@@ -661,8 +661,10 @@ class GastroSignup(BaseModel):
     last_name = models.CharField(_('last name'), max_length=255)
     category = models.CharField(_('category'), choices=CATEGORY_CHOICES, max_length=255)
     email = models.CharField(_('email'), max_length=255)
-    phone = models.CharField(_('telephone number'), max_length=32, null=True)
-    usage = models.TextField(_('usage'), null=True)
+    phone = models.CharField(
+        _('telephone number'), max_length=32, null=True, blank=True
+    )
+    usage = models.TextField(_('usage'), null=True, blank=True)
 
     opening_hours = models.CharField(
         _('opening hours'), max_length=32, choices=TIME_CHOICES
@@ -674,7 +676,9 @@ class GastroSignup(BaseModel):
     shopfront_length = models.PositiveIntegerField(_('shopfront length'))
     geometry = models.PointField(_('geometry'), srid=4326)
 
-    area = models.GeometryField(_('installation area'), srid=4326, null=True, blank=True)
+    area = models.GeometryField(
+        _('installation area'), srid=4326, null=True, blank=True
+    )
 
     tos_accepted = models.BooleanField(_('tos_accepted'), default=False)
     agreement_accepted = models.BooleanField(_('agreement accepted'), default=False)

@@ -207,6 +207,7 @@ class GastroSignupView(APIView):
             )
 
         instance = get_object_or_404(GastroSignup, pk=pk, access_key=access_key)
+        instance.status = GastroSignup.STATUS_REGISTERED
 
         serializer = GastroRegistrationSerializer(instance=instance, data=request.data)
         if serializer.is_valid():

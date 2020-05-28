@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.parsers import FileUploadParser, JSONParser, MultiPartParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import (
@@ -21,6 +22,7 @@ from .serializers import (
     FeedbackSerializer,
     GastroSignupSerializer,
     GastroRegistrationSerializer,
+    GastroCertificateSerializer,
     PlaystreetSignupSerializer,
     ProfileSerializer,
     ProjectSerializer,
@@ -243,6 +245,38 @@ Ihr Bezirksamt Friedrichshain-Kreuzberg'''
             [instance.email],
             fail_silently=True,
         )
+
+
+class GastroCertificateView(APIView):
+    permission_classes = (permissions.AllowAny,)
+    parser_classes = [FileUploadParser]
+    serializer_class = GastroCertificateSerializer
+
+    def post(self, request, campaign, pk, access_key):
+        """Add a certificate to a signup"""
+        if not settings.TOGGLE_GASTRO_REGISTRATIONS:
+            return Response(
+                'Registration is currently not open',
+                status=status.HTTP_405_METHOD_NOT_ALLOWED,
+            )
+
+        instance = get_object_or_404(
+            GastroSignup, campaign=campaign, pk=pk, access_key=access_key
+        )
+
+        if instance.status != GastroSignup.STATUS_REGISTRATION:
+            return Response(
+                'Für Ihr Gewerbe liegt bereits ein Antrag vor',
+                status=status.HTTP_405_METHOD_NOT_ALLOWED,
+            )
+
+        try:
+            instance.certificate = request.data['file']
+            instance.save()
+        except Exception:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(['PUT'])

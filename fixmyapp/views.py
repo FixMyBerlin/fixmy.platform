@@ -208,20 +208,10 @@ class GastroSignupView(APIView):
                 status=status.HTTP_405_METHOD_NOT_ALLOWED,
             )
 
-        instance = get_object_or_404(GastroSignup, pk=pk, access_key=access_key)
-        instance.status = GastroSignup.STATUS_REGISTERED
-
-        serializer = GastroRegistrationSerializer(instance=instance, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            self.send_registration_confirmation(instance)
-            return Response(request.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def send_registration_confirmation(self, instance):
-        """Send a registration confirmation email for this signup"""
-        subject = 'Ihr Antrag bei Offene Terrassen für Friedrichshain-Kreuzberg'
-        body = f'''Sehr geehrte Damen und Herren,
+        def send_registration_confirmation(instance):
+            """Send a registration confirmation email for this signup"""
+            subject = 'Ihr Antrag bei Offene Terrassen für Friedrichshain-Kreuzberg'
+            body = f'''Sehr geehrte Damen und Herren,
 
 hiermit wird der erfolgreiche Eingang Ihrer Daten bestätigt.
 
@@ -233,13 +223,23 @@ Vielen Dank!
 
 Mit freundlichen Grüßen,
 Ihr Bezirksamt Friedrichshain-Kreuzberg'''
-        mail.send_mail(
-            subject,
-            body,
-            settings.DEFAULT_FROM_EMAIL,
-            [instance.email],
-            fail_silently=True,
-        )
+            mail.send_mail(
+                subject,
+                body,
+                settings.DEFAULT_FROM_EMAIL,
+                [instance.email],
+                fail_silently=True,
+            )
+
+        instance = get_object_or_404(GastroSignup, pk=pk, access_key=access_key)
+
+        serializer = GastroRegistrationSerializer(instance=instance, data=request.data)
+        if serializer.is_valid():
+            serializer.validated_data["status"] = GastroSignup.STATUS_REGISTERED
+            serializer.save()
+            send_registration_confirmation(instance)
+            return Response(request.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class GastroCertificateView(APIView):

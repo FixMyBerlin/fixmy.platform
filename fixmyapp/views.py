@@ -213,7 +213,7 @@ class GastroSignupView(APIView):
             subject = 'Ihr Antrag bei Offene Terrassen für Friedrichshain-Kreuzberg'
             body = f'''Sehr geehrte Damen und Herren,
 
-hiermit wird der erfolgreiche Eingang Ihrer Daten bestätigt.
+hiermit wird der erfolgreiche Eingang Ihres Antrags auf Nutzung einer temporären Sonderfläche bestätigt.
 
 Vermerk: Das Bezirksamt bearbeitet die Anträge in der Reihenfolge Ihres
 vollständigen Eingangs. Sobald Ihr Antrag bearbeitet wurde, erhalten Sie eine

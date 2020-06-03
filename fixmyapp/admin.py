@@ -156,16 +156,21 @@ class GastroSignupAdmin(FMBGeoAdmin):
             registration_url = f"https://fixmyberlin.de/friedrichshain-kreuzberg/terrassen/registrierung/{signup.id}/{signup.access_key}"
             body = f'''Sehr geehrte Damen und Herren,
 
-Sie haben einen Bedarf für eine temporäre Erweiterung der Außenflächen
-Ihres Gewerbes, Einzelhandels oder sozialen Projektes angemeldet.
+Vielen Dank für Ihre Meldung. Um einen formalen Antrag auf Nutzung einer 
+Sonderfläche zu stellen bitten wir Sie, Ihre Angaben unter folgendem, für sie 
+personalisierten Link zu ergänzen:
 
-Vielen Dank dafür. Für den nächsten Schritt bitten wir Sie, Ihre Angaben
-unter folgendem für sie personalisierten Link bis zum Montag, den 1.Juni 2020
-zu ergänzen.
-
-Bitte geben Sie diesen Link nicht an Dritte weiter.
+Der Link funktioniert nur für die Antragstellung Ihres Betriebs, bitte geben Sie 
+den Link nicht an Dritte weiter, um einen Missbrauch zu vermeiden. Alle Anträge 
+werden nach Eingangsdatum bearbeitet, bitte rechnen Sie mit einigen Tagen Bearbeitungszeit. 
+Sobald Ihr Antrag bewilligt oder abgelehnt wurde, erhalten Sie eine weitere E-Mail. 
+Bitte halten Sie für die Registrierung eine Kopie oder ein Foto Ihrer 
+Gewerbeanmeldung (1. Seite) bereit.
 
 {registration_url}
+
+Wir hoffen, dass wir Ihren Betrieb mit dieser Maßnahme in diesen wirtschaftlich 
+schwierigen Zeiten unterstützen können.
 
 Mit freundlichen Grüßen,
 Ihr Bezirksamt Friedrichshain-Kreuzberg'''

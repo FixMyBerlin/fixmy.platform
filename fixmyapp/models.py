@@ -616,6 +616,7 @@ class GastroSignup(BaseModel):
     STATUS_VERIFICATION = 'verification'
     STATUS_REGISTRATION = 'waiting_for_application'
     STATUS_REGISTERED = 'application_received'
+    STATUS_CONFIRMING = 'application_verification'
     STATUS_ACCEPTED = 'application_accepted'
     STATUS_REJECTED = 'application_rejected'
 
@@ -624,6 +625,7 @@ class GastroSignup(BaseModel):
         (STATUS_VERIFICATION, _('verification')),
         (STATUS_REGISTRATION, _('waiting for application')),
         (STATUS_REGISTERED, _('application received')),
+        (STATUS_CONFIRMING, _('application verification')),
         (STATUS_ACCEPTED, _('application accepted')),
         (STATUS_REJECTED, _('application rejected')),
     )

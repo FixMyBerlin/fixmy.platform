@@ -688,7 +688,7 @@ class GastroSignup(BaseModel):
     )
 
     certificate = models.FileField(
-        upload_to=get_upload_path, verbose_name=_('registration certificate'), null=True
+        upload_to=get_upload_path, verbose_name=_('registration certificate'), null=True, blank=True
     )
 
     tos_accepted = models.BooleanField(_('tos_accepted'), default=False)

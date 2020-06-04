@@ -259,12 +259,6 @@ class GastroCertificateView(APIView):
             GastroSignup, campaign=campaign, pk=pk, access_key=access_key
         )
 
-        if instance.status != GastroSignup.STATUS_REGISTRATION:
-            return Response(
-                'Für Ihr Gewerbe liegt bereits ein Antrag vor',
-                status=status.HTTP_405_METHOD_NOT_ALLOWED,
-            )
-
         try:
             instance.certificate = request.data['file']
             instance.save()

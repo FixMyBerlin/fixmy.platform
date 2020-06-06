@@ -1,4 +1,4 @@
-Django==3.0.5
+Django==3.0.7
 black==19.3b0
 boto3==1.7.42
 django-anymail==3.0

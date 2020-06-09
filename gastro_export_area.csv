@@ -1,0 +1,50 @@
+{
+  "type": "FeatureCollection",
+  "name": "gastro signups export 2020-06-09T11:57:21.285388",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "shop_name": "Testoerino",
+        "address": "Dresdner Str. 15",
+        "created_date": "2020-05-13T16:32:39.203497+00:00",
+        "category": "restaurant",
+        "status": "application_received",
+        "id": 4
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              13.41707801350146,
+              52.50101995101227
+            ],
+            [
+              13.41695865520163,
+              52.50098484606702
+            ],
+            [
+              13.41703912147124,
+              52.50090157375859
+            ],
+            [
+              13.41714104541403,
+              52.500930964003
+            ],
+            [
+              13.41707801350146,
+              52.50101995101227
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

@@ -114,6 +114,18 @@ Similar to `exportreports`, this command exports play street signups to a csv fi
 
     $ python manage.py exportplaystreets spielstrassen.csv
 
+### exportgastrosignups
+
+This command exports GastroSignup entries, either in CSV or GeoJSON format. The GeoJSON format has an additional switch that allows exporting usage areas instead of the geolocation of the entry's shop.
+
+The CSV format doesn't include usage areas and uploaded certificates.
+
+The GeoJSON format doesn't include any personal information.
+
+In order to export the requested usage areas in GeoJSON format into a file `gastrosignup_area.geojson`:
+
+    $ python manage.py exportgastrosignups --format geojson --area gastrosignup_area.geojson
+
 ### importsectiondetails
 
 Imports section details including pictures and traffic information from CSV file. The file is usually downloaded from S3 with `downloadfiles`.

@@ -131,10 +131,19 @@ class PlaystreetSignupAdmin(admin.ModelAdmin):
 
 
 class GastroSignupAdmin(FMBGastroAdmin):
-    list_display = ('shop_name', 'category', 'address', 'regulation', 'status')
+    list_display = (
+        'id',
+        'shop_name',
+        'address',
+        'regulation',
+        'status',
+        'created_date',
+        'modified_date',
+    )
     list_filter = ('status', 'regulation', 'category')
-    ordering = ('campaign', 'regulation', 'address')
-    readonly_fields = ('access_key',)
+    ordering = ('status', 'created_date')
+    readonly_fields = ('access_key', 'created_date')
+    search_fields = ('shop_name', 'last_name', 'address')
 
     def mark_signup_verification(self, request, queryset):
         """Update signup status to in 'in verification'"""

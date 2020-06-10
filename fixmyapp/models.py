@@ -649,6 +649,11 @@ class GastroSignup(BaseModel):
         (7, "Zone 7: Krossener Straße 11-21"),
         (8, "Zone 8: Grünberger Straße 73-79"),
         (9, "Zone 9: Samariterstraße 34a-37"),
+        (10, "Gehweg"),
+        (11, "Parken längs"),
+        (12, "Parken quer"),
+        (13, "Parken diagonal"),
+        (14, "Sonstige"),
     )
 
     TIME_WEEKEND = 'weekend'
@@ -688,7 +693,10 @@ class GastroSignup(BaseModel):
     )
 
     certificate = models.FileField(
-        upload_to=get_upload_path, verbose_name=_('registration certificate'), null=True, blank=True
+        upload_to=get_upload_path,
+        verbose_name=_('registration certificate'),
+        null=True,
+        blank=True,
     )
 
     tos_accepted = models.BooleanField(_('tos_accepted'), default=False)

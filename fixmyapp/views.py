@@ -233,6 +233,14 @@ Ihr Bezirksamt Friedrichshain-Kreuzberg'''
 
         instance = get_object_or_404(GastroSignup, pk=pk, access_key=access_key)
 
+        if instance.status not in [
+            GastroSignup.STATUS_REGISTRATION,
+            GastroSignup.STATUS_REGISTERED,
+        ]:
+            return Response(
+                'This application is locked', status=status.HTTP_405_METHOD_NOT_ALLOWED
+            )
+
         serializer = GastroRegistrationSerializer(instance=instance, data=request.data)
         if serializer.is_valid():
             serializer.validated_data["status"] = GastroSignup.STATUS_REGISTERED

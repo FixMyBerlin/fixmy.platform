@@ -6,7 +6,7 @@ from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 from mailjet_rest.client import Endpoint
 from unittest.mock import patch
-from .models import Project, Report, Section, SectionDetails
+from .models import Project, Report, Section, SectionDetails, GastroSignup
 import csv
 import decimal
 import json
@@ -81,9 +81,9 @@ class SectionDetailsTest(TestCase):
                 length=decimal.Decimal(500.76),
                 crossings=1,
                 orientation=SectionDetails.EAST,
-                rva1=decimal.Decimal(216.0621912),
+                rva1=decimal.Decimal(216.062_191_2),
                 rva2=0,
-                rva3=decimal.Decimal(485.9469249),
+                rva3=decimal.Decimal(485.946_924_9),
                 rva4=0,
                 rva5=0,
                 rva6=0,
@@ -205,7 +205,7 @@ class GastroSignupTest(TestCase):
             'last_name': 'Müller',
             'address': 'Böckhstraße 3, 10967 Berlin',
             'email': 'info@ikonos.internet',
-            'geometry': {'type': 'Point', 'coordinates': [13.415941, 52.494432]},
+            'geometry': {'type': 'Point', 'coordinates': [13.415_941, 52.494_432]},
             'shopfront_length': 480,
             'opening_hours': 'week',
             'tos_accepted': True,
@@ -227,6 +227,48 @@ class GastroSignupTest(TestCase):
                 content_type='application/json',
             )
             self.assertEqual(response.status_code, 405)
+
+    def test_signups_closed(self):
+        """Test that changing a submission is not possible after it has been approved or rejected"""
+
+        with self.settings(TOGGLE_GASTRO_SIGNUPS=True):
+            self.client.post(
+                '/api/gastro/xhain',
+                data=json.dumps(self.signup_data),
+                content_type='application/json',
+            )
+        instance = GastroSignup.objects.first()
+
+        data = self.signup_data
+        data.update({"phone": "03012345"})
+
+        for succeeding_status in [
+            GastroSignup.STATUS_REGISTRATION,
+            GastroSignup.STATUS_REGISTERED,
+        ]:
+            instance.status = succeeding_status
+            instance.save()
+
+            resp = self.client.put(
+                f'/api/gastro/xhain/{instance.id}/{instance.access_key}',
+                data=data,
+                content_type="application/json",
+            )
+            self.assertEqual(resp.status_code, 201)
+
+        for failing_status in [
+            GastroSignup.STATUS_ACCEPTED,
+            GastroSignup.STATUS_REJECTED,
+        ]:
+            instance.status = failing_status
+            instance.save()
+
+            resp = self.client.put(
+                f'/api/gastro/xhain/{instance.id}/{instance.access_key}',
+                data=json.dumps({"phone": "03012345"}),
+                content_type="application/json",
+            )
+            self.assertEqual(resp.status_code, 405)
 
 
 class PlaystreetTest(TestCase):
@@ -290,7 +332,7 @@ class ReportTest(TestCase):
             'details': {'subject': 'BIKE_STANDS', 'number': 3, 'fee_acceptable': True},
             'geometry': {
                 'type': 'Point',
-                'coordinates': [13.34635540636318, 52.52565990333657],
+                'coordinates': [13.346_355_406_363_18, 52.525_659_903_336_57],
             },
             'photo': 'data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=',
         }
@@ -451,7 +493,7 @@ class LikeReportTest(LikeTest, TestCase):
         self.instance = Report.objects.create(
             address='Potsdamer Platz 1',
             description='Lorem ipsum dolor sit',
-            geometry=Point(13.34635540636318, 52.52565990333657),
+            geometry=Point(13.346_355_406_363_18, 52.525_659_903_336_57),
         )
         self.instance_url = reverse('report-detail', kwargs={'pk': self.instance.id})
         self.likes_url = reverse('likes-reports', kwargs={'pk': self.instance.id})

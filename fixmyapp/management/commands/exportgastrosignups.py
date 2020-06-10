@@ -23,7 +23,7 @@ FIELDNAMES = {
     'regulation': _('regulation'),
     'created_date': 'Eingereicht',
     'note': _('note'),
-    'status': _('Kennziffer'),
+    'status': _('Status'),
     'tos_accepted': _('tos_accepted'),
     'agreement_accepted': _('agreement accepted'),
 }
@@ -63,12 +63,26 @@ class Command(BaseCommand):
         # Write table headers using German translation
         csv_writer.writerow(FIELDNAMES)
 
+        def translate_status(status):
+            return next(x[1] for x in GastroSignup.STATUS_CHOICES if x[0] == status)
+
         for report in query:
             row_data = model_to_dict(report, fields=FIELDNAMES.keys())
             row_data['created_date'] = date_format(
                 report.created_date, format='DATETIME_FORMAT', use_l10n=True
             )
+
+            # Translate values
             row_data['tos_accepted'] = 'Ja' if report.tos_accepted else 'Nein'
+            row_data['agreement_accepted'] = (
+                'Ja' if report.agreement_accepted else 'Nein'
+            )
+            row_data['status'] = translate_status(report.status)
+            row_data['category'] = _(report.category)
+            row_data['regulation'] = GastroSignup.REGULATION_CHOICES[report.regulation][
+                1
+            ]
+
             row_data["location"] = f"{report.geometry.y},{report.geometry.x}"
 
             csv_writer.writerow(row_data)

@@ -28,6 +28,10 @@ class FMBGeoAdmin(admin.OSMGeoAdmin):
     map_height = 600
 
 
+class FMBGastroAdmin(FMBGeoAdmin):
+    map_template = 'gis/admin/gastro/index.html'
+
+
 class PhotoInline(GenericTabularInline):
     extra = 1
     fields = ('src', 'copyright')
@@ -126,7 +130,7 @@ class PlaystreetSignupAdmin(admin.ModelAdmin):
     ordering = ('campaign', 'street', 'created_date')
 
 
-class GastroSignupAdmin(FMBGeoAdmin):
+class GastroSignupAdmin(FMBGastroAdmin):
     list_display = ('shop_name', 'category', 'address', 'regulation', 'status')
     list_filter = ('status', 'regulation', 'category')
     ordering = ('campaign', 'regulation', 'address')

@@ -11,8 +11,8 @@ import uuid
 
 
 class BaseModel(models.Model):
-    created_date = models.DateTimeField(auto_now_add=True)
-    modified_date = models.DateTimeField(auto_now=True)
+    created_date = models.DateTimeField(_('Created date'), auto_now_add=True)
+    modified_date = models.DateTimeField(_('Modified date'), auto_now=True)
 
     class Meta:
         abstract = True
@@ -686,7 +686,7 @@ class GastroSignup(BaseModel):
     )
     address = models.TextField(_('address'))
     shopfront_length = models.PositiveIntegerField(_('shopfront length'))
-    geometry = models.PointField(_('geometry'), srid=4326)
+    geometry = models.PointField(_('location'), srid=4326)
 
     area = models.GeometryField(
         _('installation area'), srid=4326, null=True, blank=True

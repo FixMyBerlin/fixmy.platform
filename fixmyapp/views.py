@@ -181,7 +181,7 @@ class GastroSignupView(APIView):
 
     def get(self, request, campaign, pk, access_key):
         """Request existing signup data using an access key"""
-        result = GastroSignup.objects.get(id=pk)
+        result = get_object_or_404(GastroSignup, pk=pk)
         if str(result.access_key) != access_key:
             return Response(None, status=status.HTTP_401_UNAUTHORIZED)
         serialization = GastroRegistrationSerializer(result).data

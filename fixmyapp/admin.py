@@ -28,6 +28,10 @@ class FMBGeoAdmin(admin.OSMGeoAdmin):
     map_height = 600
 
 
+class FMBGastroAdmin(FMBGeoAdmin):
+    map_template = 'gis/admin/gastro/index.html'
+
+
 class PhotoInline(GenericTabularInline):
     extra = 1
     fields = ('src', 'copyright')
@@ -126,11 +130,20 @@ class PlaystreetSignupAdmin(admin.ModelAdmin):
     ordering = ('campaign', 'street', 'created_date')
 
 
-class GastroSignupAdmin(FMBGeoAdmin):
-    list_display = ('shop_name', 'category', 'address', 'regulation', 'status')
+class GastroSignupAdmin(FMBGastroAdmin):
+    list_display = (
+        'id',
+        'shop_name',
+        'address',
+        'regulation',
+        'status',
+        'created_date',
+        'modified_date',
+    )
     list_filter = ('status', 'regulation', 'category')
-    ordering = ('campaign', 'regulation', 'address')
-    readonly_fields = ('access_key',)
+    ordering = ('status', 'created_date')
+    readonly_fields = ('access_key', 'created_date')
+    search_fields = ('shop_name', 'last_name', 'address')
 
     def mark_signup_verification(self, request, queryset):
         """Update signup status to in 'in verification'"""

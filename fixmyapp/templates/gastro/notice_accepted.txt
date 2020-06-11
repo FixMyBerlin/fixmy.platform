@@ -4,8 +4,10 @@ Sehr geehrte Damen und Herren,
 
 hiermit erhalten Sie gemäß Ihres Antrags:
 
-- eine Ausnahmegenehmigung nach der Straßenverkehrsordnung
-{% if not is_boardwalk %}- eine Straßenverkehrsrechtliche Anordnung{% endif %}
+- eine Ausnahmegenehmigung nach der Straßenverkehrsordnung:
+  {{ link_permit }}{% if not is_boardwalk %}
+- eine Straßenverkehrsrechtliche Anordnung:
+  {{ link_traffic_order}}{% endif %}
 
 Beide Dokumente sind auszudrucken und sichtbar straßenseitig an der 
 Sondernutzungsfläche anzubringen!

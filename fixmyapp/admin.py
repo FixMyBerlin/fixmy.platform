@@ -219,6 +219,8 @@ Ihr Bezirksamt Friedrichshain-Kreuzberg'''
             context = {
                 "is_boardwalk": application.regulation == REGULATION_GEHWEG,
                 "applicant_email": application.email,
+                "link_permit": application.get_permit_url(),
+                "link_traffic_order": application.get_traffic_order_url(),
             }
             subject = "Ihre Sondergenehmigung - XHainTerrassen"
             body = render_to_string(

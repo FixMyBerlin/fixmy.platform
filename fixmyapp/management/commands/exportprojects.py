@@ -30,6 +30,7 @@ class Command(BaseCommand):
                         'id': p.pk,
                         'title': p.title,
                         'side': p.side,
+                        'published': p.published,
                         'responsible': p.responsible,
                         'short_description': p.short_description,
                         'category': p.category,

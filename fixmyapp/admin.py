@@ -5,6 +5,8 @@ from django.contrib.admin import SimpleListFilter
 from django.contrib.contenttypes.admin import GenericTabularInline
 from django.contrib.gis import admin
 from django.core.mail import send_mail
+from django.template import Context
+from django.template.loader import render_to_string
 from django.utils.translation import ngettext, gettext_lazy as _
 from reversion.admin import VersionAdmin
 from smtplib import SMTPException
@@ -207,7 +209,43 @@ Ihr Bezirksamt Friedrichshain-Kreuzberg'''
 
     send_gastro_registration_request.short_description = _('send registation requests')
 
-    actions = [mark_signup_verification, send_gastro_registration_request]
+    def send_notices(self, request, queryset):
+        """Send acception/rejection notices to applicants"""
+        REGULATION_GEHWEG = 10
+        GENERIC_RECIPIENT = "aufsicht.sga@ba-fk.berlin.de"
+
+        numsent = 0
+        for application in queryset:
+            context = {
+                "is_boardwalk": application.regulation == REGULATION_GEHWEG,
+                "applicant_email": application.email,
+            }
+            subject = "Ihre Sondergenehmigung - XHainTerrassen"
+            body = render_to_string(
+                "gastro/notice_accepted.txt", context=context, request=request
+            )
+
+            try:
+                send_mail(
+                    subject, body, settings.DEFAULT_FROM_EMAIL, [GENERIC_RECIPIENT]
+                )
+            except SMTPException as e:
+                self.message_user(
+                    request,
+                    f"Benachrichtigung für {application.shop_name} konnte nicht versandt werden: {e.strerror}",
+                    messages.ERROR,
+                )
+            else:
+                numsent += 1
+        self.message_user(
+            request,
+            f"Benachrichtigung wurde an {numsent} Adressaten versandt.",
+            messages.SUCCESS,
+        )
+
+    send_notices.short_description = _('send application notices')
+
+    actions = [mark_signup_verification, send_gastro_registration_request, send_notices]
 
 
 admin.site.register(Project, ProjectAdmin)

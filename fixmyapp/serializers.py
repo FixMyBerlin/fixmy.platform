@@ -383,6 +383,27 @@ class GastroRegistrationSerializer(serializers.ModelSerializer):
         read_only_fields = ['regulation', 'campaign', 'certificate']
 
 
+class GastroRegistrationPublicSerializer(serializers.ModelSerializer):
+    geometry = GeometryField(precision=14)
+    area = GeometryField(precision=14)
+
+    class Meta:
+        model = GastroSignup
+        fields = [
+            'campaign',
+            'shop_name',
+            'first_name',
+            'last_name',
+            'category',
+            'address',
+            'geometry',
+            'area',
+            'status',
+            'regulation',
+            'note',
+        ]
+
+
 class GastroCertificateSerializer(serializers.ModelSerializer):
     class Meta:
         model = GastroSignup

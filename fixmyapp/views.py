@@ -22,6 +22,7 @@ from .serializers import (
     FeedbackSerializer,
     GastroSignupSerializer,
     GastroRegistrationSerializer,
+    GastroRegistrationPublicSerializer,
     GastroCertificateSerializer,
     PlaystreetSignupSerializer,
     ProfileSerializer,
@@ -179,13 +180,17 @@ class PlayStreetView(APIView):
 class GastroSignupView(APIView):
     permission_classes = (permissions.AllowAny,)
 
-    def get(self, request, campaign, pk, access_key):
+    def get(self, request, campaign, pk, access_key=None):
         """Request existing signup data using an access key"""
         result = get_object_or_404(GastroSignup, pk=pk)
-        if str(result.access_key) != access_key:
-            return Response(None, status=status.HTTP_401_UNAUTHORIZED)
-        serialization = GastroRegistrationSerializer(result).data
-        return Response(serialization)
+        if access_key is None:
+            serialization = GastroRegistrationPublicSerializer(result).data
+            return Response(serialization)
+        else:
+            if str(result.access_key) != access_key:
+                return Response(None, status=status.HTTP_401_UNAUTHORIZED)
+            serialization = GastroRegistrationSerializer(result).data
+            return Response(serialization)
 
     def post(self, request, campaign):
         """Adds new signups."""

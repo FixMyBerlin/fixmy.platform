@@ -5,7 +5,6 @@ from django.contrib.admin import SimpleListFilter
 from django.contrib.contenttypes.admin import GenericTabularInline
 from django.contrib.gis import admin
 from django.core.mail import send_mail
-from django.template import Context
 from django.template.loader import render_to_string
 from django.utils.translation import ngettext, gettext_lazy as _
 from reversion.admin import VersionAdmin
@@ -171,20 +170,20 @@ class GastroSignupAdmin(FMBGastroAdmin):
             registration_url = f"https://fixmyberlin.de/friedrichshain-kreuzberg/terrassen/registrierung/{signup.id}/{signup.access_key}"
             body = f'''Sehr geehrte Damen und Herren,
 
-Vielen Dank für Ihre Meldung. Um einen formalen Antrag auf Nutzung einer 
-Sonderfläche zu stellen bitten wir Sie, Ihre Angaben unter folgendem, für sie 
+Vielen Dank für Ihre Meldung. Um einen formalen Antrag auf Nutzung einer
+Sonderfläche zu stellen bitten wir Sie, Ihre Angaben unter folgendem, für sie
 personalisierten Link zu ergänzen:
 
-Der Link funktioniert nur für die Antragstellung Ihres Betriebs, bitte geben Sie 
-den Link nicht an Dritte weiter, um einen Missbrauch zu vermeiden. Alle Anträge 
-werden nach Eingangsdatum bearbeitet, bitte rechnen Sie mit einigen Tagen Bearbeitungszeit. 
-Sobald Ihr Antrag bewilligt oder abgelehnt wurde, erhalten Sie eine weitere E-Mail. 
-Bitte halten Sie für die Registrierung eine Kopie oder ein Foto Ihrer 
+Der Link funktioniert nur für die Antragstellung Ihres Betriebs, bitte geben Sie
+den Link nicht an Dritte weiter, um einen Missbrauch zu vermeiden. Alle Anträge
+werden nach Eingangsdatum bearbeitet, bitte rechnen Sie mit einigen Tagen Bearbeitungszeit.
+Sobald Ihr Antrag bewilligt oder abgelehnt wurde, erhalten Sie eine weitere E-Mail.
+Bitte halten Sie für die Registrierung eine Kopie oder ein Foto Ihrer
 Gewerbeanmeldung (1. Seite) bereit.
 
 {registration_url}
 
-Wir hoffen, dass wir Ihren Betrieb mit dieser Maßnahme in diesen wirtschaftlich 
+Wir hoffen, dass wir Ihren Betrieb mit dieser Maßnahme in diesen wirtschaftlich
 schwierigen Zeiten unterstützen können.
 
 Mit freundlichen Grüßen,
@@ -216,29 +215,30 @@ Ihr Bezirksamt Friedrichshain-Kreuzberg'''
 
         numsent = 0
         for application in queryset:
-            context = {
-                "is_boardwalk": application.regulation == REGULATION_GEHWEG,
-                "applicant_email": application.email,
-                "link_permit": application.get_permit_url(),
-                "link_traffic_order": application.get_traffic_order_url(),
-            }
-            subject = "Ihre Sondergenehmigung - XHainTerrassen"
-            body = render_to_string(
-                "gastro/notice_accepted.txt", context=context, request=request
-            )
+            if application.status == GastroSignup.STATUS_ACCEPTED:
+                context = {
+                    "is_boardwalk": application.regulation == REGULATION_GEHWEG,
+                    "applicant_email": application.email,
+                    "link_permit": application.get_permit_url(),
+                    "link_traffic_order": application.get_traffic_order_url(),
+                }
+                subject = "Ihre Sondergenehmigung - XHainTerrassen"
+                body = render_to_string(
+                    "gastro/notice_accepted.txt", context=context, request=request
+                )
 
-            try:
-                send_mail(
-                    subject, body, settings.DEFAULT_FROM_EMAIL, [GENERIC_RECIPIENT]
-                )
-            except SMTPException as e:
-                self.message_user(
-                    request,
-                    f"Benachrichtigung für {application.shop_name} konnte nicht versandt werden: {e.strerror}",
-                    messages.ERROR,
-                )
-            else:
-                numsent += 1
+                try:
+                    send_mail(
+                        subject, body, settings.DEFAULT_FROM_EMAIL, [GENERIC_RECIPIENT]
+                    )
+                except SMTPException as e:
+                    self.message_user(
+                        request,
+                        f"Benachrichtigung für {application.shop_name} konnte nicht versandt werden: {e.strerror}",
+                        messages.ERROR,
+                    )
+                else:
+                    numsent += 1
         self.message_user(
             request,
             f"Benachrichtigung wurde an {numsent} Adressaten versandt.",

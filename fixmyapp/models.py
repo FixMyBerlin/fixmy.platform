@@ -668,6 +668,15 @@ class GastroSignup(BaseModel):
         _('status'), max_length=64, choices=STATUS_CHOICES, default=STATUS_NEW
     )
 
+    opening_hours = models.CharField(
+        _('opening hours'), max_length=32, choices=TIME_CHOICES
+    )
+    regulation = models.IntegerField(
+        _('regulation'), choices=REGULATION_CHOICES, default=0
+    )
+    application_received = models.DateTimeField(_('Application received'), null=True)
+    application_decided = models.DateTimeField(_('Notice sent'), null=True)
+
     shop_name = models.CharField(_('shop name'), max_length=255)
     first_name = models.CharField(_('first name'), max_length=255)
     last_name = models.CharField(_('last name'), max_length=255)
@@ -677,13 +686,6 @@ class GastroSignup(BaseModel):
         _('telephone number'), max_length=32, null=True, blank=True
     )
     usage = models.TextField(_('usage'), null=True, blank=True)
-
-    opening_hours = models.CharField(
-        _('opening hours'), max_length=32, choices=TIME_CHOICES
-    )
-    regulation = models.IntegerField(
-        _('regulation'), choices=REGULATION_CHOICES, default=0
-    )
     address = models.TextField(_('address'))
     shopfront_length = models.PositiveIntegerField(_('shopfront length'))
     geometry = models.PointField(_('location'), srid=4326)
@@ -705,6 +707,7 @@ class GastroSignup(BaseModel):
     access_key = models.UUIDField(default=uuid.uuid4, editable=False)
 
     note = models.TextField(_('note for the registrant'), blank=True)
+    note_internal = models.TextField(_('internal note'), blank=True)
 
     class Meta:
         verbose_name = _('gastro_signup')

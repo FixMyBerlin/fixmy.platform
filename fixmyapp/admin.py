@@ -143,7 +143,12 @@ class GastroSignupAdmin(FMBGastroAdmin):
     )
     list_filter = ('status', 'regulation', 'category')
     ordering = ('status', 'created_date')
-    readonly_fields = ('access_key', 'created_date')
+    readonly_fields = (
+        'access_key',
+        'created_date',
+        'application_received',
+        'application_decided',
+    )
     search_fields = ('shop_name', 'last_name', 'address')
 
     def mark_signup_verification(self, request, queryset):

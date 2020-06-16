@@ -1,3 +1,4 @@
+from datetime import datetime, timezone
 from django.conf import settings
 from django.core import mail
 from django.core.exceptions import PermissionDenied
@@ -250,6 +251,13 @@ Ihr Bezirksamt Friedrichshain-Kreuzberg'''
         if serializer.is_valid():
             serializer.validated_data["status"] = GastroSignup.STATUS_REGISTERED
             serializer.save()
+
+            # application_received cannot be set through serializer because
+            # it is not editable
+            instance.refresh_from_db()
+            instance.application_received = datetime.now(tz=timezone.utc)
+            instance.save()
+
             send_registration_confirmation(instance)
             return Response(request.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

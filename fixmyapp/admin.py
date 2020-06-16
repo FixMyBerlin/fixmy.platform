@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime, timezone
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.admin import SimpleListFilter
@@ -243,6 +243,8 @@ Ihr Bezirksamt Friedrichshain-Kreuzberg'''
                         messages.ERROR,
                     )
                 else:
+                    application.application_decided = datetime.now(tz=timezone.utc)
+                    application.save()
                     numsent += 1
         self.message_user(
             request,

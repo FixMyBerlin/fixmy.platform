@@ -150,6 +150,7 @@ class GastroSignupAdmin(FMBGastroAdmin):
         'application_decided',
     )
     search_fields = ('shop_name', 'last_name', 'address')
+    save_on_top = True
 
     def mark_signup_verification(self, request, queryset):
         """Update signup status to in 'in verification'"""

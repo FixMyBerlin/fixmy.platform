@@ -239,7 +239,7 @@ Ihr Bezirksamt Friedrichshain-Kreuzberg'''
                 except SMTPException as e:
                     self.message_user(
                         request,
-                        f"Benachrichtigung für {application.shop_name} konnte nicht versandt werden: {e.strerror}",
+                        f"Bescheid für {application.shop_name} konnte nicht versandt werden: {e.strerror}",
                         messages.ERROR,
                     )
                 else:
@@ -248,7 +248,7 @@ Ihr Bezirksamt Friedrichshain-Kreuzberg'''
                     numsent += 1
         self.message_user(
             request,
-            f"Benachrichtigung wurde an {numsent} Adressaten versandt.",
+            f"Ein Bescheid wurde an {numsent} Adressaten versandt.",
             messages.SUCCESS,
         )
 

@@ -12,10 +12,24 @@ hiermit erhalten Sie gemäß Ihres Antrags:
 Beide Dokumente sind auszudrucken und sichtbar straßenseitig an der 
 Sondernutzungsfläche anzubringen!
 
+Als weitere Anlagen erhalten Sie:
+
+- Allgemeine Nebenbestimmungen
+  https://fixmyberlin.de/uploads/offene-terrassen/Nebenbestimmungen.pdf{% if is_restaurant %}
+- Spezielle Nebenbestimmungen für Schankvorgärten
+  https://fixmyberlin.de/uploads/offene-terrassen/Nebenbestimmungen_Schankvorgaerten.pdf{% endif %}{% if is_retail %}
+- Spezielle Nebenbestimmungen für das Herausstellen von Waren
+  https://fixmyberlin.de/uploads/offene-terrassen/Nebenbestimmungen_Herausstellen_von_Waren.pdf{% endif %}{% if not is_boardwalk %}
+- Hinweise zur Durchführung der Straßenverkehrsrechtlichen Anordnung
+  https://fixmyberlin.de/uploads/offene-terrassen/Straßenverkehrsrechtliche_Anordnung_XHain_Terrassen.pdf{% endif %}
+- Regelpläne Straßenraum
+  https://fixmyberlin.de/uploads/offene-terrassen/Regelplaene_Strassenraum.pdf
+
 Um die Straßenverkehrsrechtliche Anordnung durchzuführen, müssen Sie 
 selbständig eine Beschilderungsfirma mit der Aufstellung der Verkehrszeichen 
-oder Absperrungen beauftragen, weitere Hinweise finden Sie im 
-angehängten Merkblatt.
+oder Absperrungen beauftragen, weitere Hinweise finden Sie unter:
+
+https://fixmyberlin.de/uploads/offene-terrassen/Beschilderungsfirmen_Berlin.pdf
 
 Wenn Sie von ihrem Antrag zurücktreten möchten, können Sie dies über eine 
 formlose Email an terrassen.sga@ba-fk.berlin.de tun.

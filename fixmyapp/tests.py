@@ -1,5 +1,3 @@
-
-
 import csv
 import decimal
 import json
@@ -232,6 +230,41 @@ class GastroSignupTest(TestCase):
             )
             self.assertEqual(response.status_code, 405)
 
+    def test_application_readonly_fields(self):
+        """Test that changing read-only fields is not possible"""
+
+        # Create a new signup
+        with self.settings(TOGGLE_GASTRO_SIGNUPS=True):
+            self.client.post(
+                '/api/gastro/xhain',
+                data=json.dumps(self.signup_data),
+                content_type='application/json',
+            )
+        instance = GastroSignup.objects.first()
+
+        # Open signup for application
+        instance.status = GastroSignup.STATUS_REGISTRATION
+        instance.save()
+
+        readonly_samples = [
+            {"status": GastroSignup.STATUS_ACCEPTED},
+            {"application_decided": datetime.now(tz=timezone.utc)},
+            {"application_received": datetime.now(tz=timezone.utc)},
+        ]
+
+        for sample in readonly_samples:
+            # Submit application
+            data = self.signup_data
+            data.update(sample)
+            self.client.put(
+                f'/api/gastro/xhain/{instance.id}/{instance.access_key}',
+                data=data,
+                content_type="application/json",
+            )
+            instance.refresh_from_db()
+            k, v = sample.popitem()
+            self.assertNotEqual(getattr(instance, k), v)
+
     def test_signups_closed(self):
         """Test that changing a submission is not possible after it has been approved or rejected"""
 
@@ -258,7 +291,7 @@ class GastroSignupTest(TestCase):
                 data=data,
                 content_type="application/json",
             )
-            self.assertEqual(resp.status_code, 201)
+            self.assertEqual(resp.status_code, 201, resp.content)
 
         for failing_status in [
             GastroSignup.STATUS_ACCEPTED,

@@ -42,6 +42,11 @@ urlpatterns = [
         name='gastro-signups-detail'
     ),
     path(
+        'gastro/<str:campaign>/<int:pk>/<str:access_key>',
+        GastroSignupView.as_view(),
+        name='gastro-signups-detail-restricted'
+    ),
+    path(
         'newsletter-signup',
         newsletter_signup,
         name='newsletter-signup'

@@ -1,3 +1,8 @@
+import csv
+import decimal
+import json
+import tempfile
+from datetime import datetime, timezone, timedelta
 from django.contrib.auth import get_user_model
 from django.contrib.gis.geos import Point
 from django.core import mail
@@ -7,10 +12,6 @@ from django.urls import reverse
 from mailjet_rest.client import Endpoint
 from unittest.mock import patch
 from .models import Project, Report, Section, SectionDetails, GastroSignup
-import csv
-import decimal
-import json
-import tempfile
 
 
 class SectionDetailsTest(TestCase):
@@ -212,6 +213,7 @@ class GastroSignupTest(TestCase):
         }
 
     def test_signup(self):
+        """Test that signups are possible when TOGGLE_GASTRO_SIGNUPS is set"""
         with self.settings(TOGGLE_GASTRO_SIGNUPS=True):
             response = self.client.post(
                 '/api/gastro/xhain',
@@ -227,6 +229,41 @@ class GastroSignupTest(TestCase):
                 content_type='application/json',
             )
             self.assertEqual(response.status_code, 405)
+
+    def test_application_readonly_fields(self):
+        """Test that changing read-only fields is not possible"""
+
+        # Create a new signup
+        with self.settings(TOGGLE_GASTRO_SIGNUPS=True):
+            self.client.post(
+                '/api/gastro/xhain',
+                data=json.dumps(self.signup_data),
+                content_type='application/json',
+            )
+        instance = GastroSignup.objects.first()
+
+        # Open signup for application
+        instance.status = GastroSignup.STATUS_REGISTRATION
+        instance.save()
+
+        readonly_samples = [
+            {"status": GastroSignup.STATUS_ACCEPTED},
+            {"application_decided": datetime.now(tz=timezone.utc)},
+            {"application_received": datetime.now(tz=timezone.utc)},
+        ]
+
+        for sample in readonly_samples:
+            # Submit application
+            data = self.signup_data
+            data.update(sample)
+            self.client.put(
+                f'/api/gastro/xhain/{instance.id}/{instance.access_key}',
+                data=data,
+                content_type="application/json",
+            )
+            instance.refresh_from_db()
+            k, v = sample.popitem()
+            self.assertNotEqual(getattr(instance, k), v)
 
     def test_signups_closed(self):
         """Test that changing a submission is not possible after it has been approved or rejected"""
@@ -254,7 +291,7 @@ class GastroSignupTest(TestCase):
                 data=data,
                 content_type="application/json",
             )
-            self.assertEqual(resp.status_code, 201)
+            self.assertEqual(resp.status_code, 201, resp.content)
 
         for failing_status in [
             GastroSignup.STATUS_ACCEPTED,
@@ -269,6 +306,42 @@ class GastroSignupTest(TestCase):
                 content_type="application/json",
             )
             self.assertEqual(resp.status_code, 405)
+
+    def test_signup_timestamp(self):
+        """Test that the date of signups is recorded on update"""
+
+        # Create a new signup
+        with self.settings(TOGGLE_GASTRO_SIGNUPS=True):
+            self.client.post(
+                '/api/gastro/xhain',
+                data=json.dumps(self.signup_data),
+                content_type='application/json',
+            )
+        instance = GastroSignup.objects.first()
+
+        # No application date should have been set initially
+        self.assertEqual(instance.application_received, None)
+
+        # Open signup for application
+        instance.status = GastroSignup.STATUS_REGISTRATION
+        instance.save()
+
+        # Submit application
+        data = self.signup_data
+        resp = self.client.put(
+            f'/api/gastro/xhain/{instance.id}/{instance.access_key}',
+            data=data,
+            content_type="application/json",
+        )
+        self.assertEqual(resp.status_code, 201)
+
+        # Test that application was recorded as having been submitted just now
+        instance.refresh_from_db()
+        self.assertTrue(instance.application_received <= datetime.now(tz=timezone.utc))
+        self.assertTrue(
+            instance.application_received
+            >= (datetime.now(tz=timezone.utc) - timedelta(seconds=5))
+        )
 
 
 class PlaystreetTest(TestCase):

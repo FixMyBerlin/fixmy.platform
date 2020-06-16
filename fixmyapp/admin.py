@@ -1,10 +1,11 @@
-from datetime import date
+from datetime import date, datetime, timezone
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.admin import SimpleListFilter
 from django.contrib.contenttypes.admin import GenericTabularInline
 from django.contrib.gis import admin
 from django.core.mail import send_mail
+from django.template.loader import render_to_string
 from django.utils.translation import ngettext, gettext_lazy as _
 from reversion.admin import VersionAdmin
 from smtplib import SMTPException
@@ -142,7 +143,12 @@ class GastroSignupAdmin(FMBGastroAdmin):
     )
     list_filter = ('status', 'regulation', 'category')
     ordering = ('status', 'created_date')
-    readonly_fields = ('access_key', 'created_date')
+    readonly_fields = (
+        'access_key',
+        'created_date',
+        'application_received',
+        'application_decided',
+    )
     search_fields = ('shop_name', 'last_name', 'address')
 
     def mark_signup_verification(self, request, queryset):
@@ -169,20 +175,20 @@ class GastroSignupAdmin(FMBGastroAdmin):
             registration_url = f"https://fixmyberlin.de/friedrichshain-kreuzberg/terrassen/registrierung/{signup.id}/{signup.access_key}"
             body = f'''Sehr geehrte Damen und Herren,
 
-Vielen Dank für Ihre Meldung. Um einen formalen Antrag auf Nutzung einer 
-Sonderfläche zu stellen bitten wir Sie, Ihre Angaben unter folgendem, für sie 
+Vielen Dank für Ihre Meldung. Um einen formalen Antrag auf Nutzung einer
+Sonderfläche zu stellen bitten wir Sie, Ihre Angaben unter folgendem, für sie
 personalisierten Link zu ergänzen:
 
-Der Link funktioniert nur für die Antragstellung Ihres Betriebs, bitte geben Sie 
-den Link nicht an Dritte weiter, um einen Missbrauch zu vermeiden. Alle Anträge 
-werden nach Eingangsdatum bearbeitet, bitte rechnen Sie mit einigen Tagen Bearbeitungszeit. 
-Sobald Ihr Antrag bewilligt oder abgelehnt wurde, erhalten Sie eine weitere E-Mail. 
-Bitte halten Sie für die Registrierung eine Kopie oder ein Foto Ihrer 
+Der Link funktioniert nur für die Antragstellung Ihres Betriebs, bitte geben Sie
+den Link nicht an Dritte weiter, um einen Missbrauch zu vermeiden. Alle Anträge
+werden nach Eingangsdatum bearbeitet, bitte rechnen Sie mit einigen Tagen Bearbeitungszeit.
+Sobald Ihr Antrag bewilligt oder abgelehnt wurde, erhalten Sie eine weitere E-Mail.
+Bitte halten Sie für die Registrierung eine Kopie oder ein Foto Ihrer
 Gewerbeanmeldung (1. Seite) bereit.
 
 {registration_url}
 
-Wir hoffen, dass wir Ihren Betrieb mit dieser Maßnahme in diesen wirtschaftlich 
+Wir hoffen, dass wir Ihren Betrieb mit dieser Maßnahme in diesen wirtschaftlich
 schwierigen Zeiten unterstützen können.
 
 Mit freundlichen Grüßen,
@@ -207,7 +213,48 @@ Ihr Bezirksamt Friedrichshain-Kreuzberg'''
 
     send_gastro_registration_request.short_description = _('send registation requests')
 
-    actions = [mark_signup_verification, send_gastro_registration_request]
+    def send_notices(self, request, queryset):
+        """Send acception/rejection notices to applicants"""
+        REGULATION_GEHWEG = 10
+        GENERIC_RECIPIENT = "aufsicht.sga@ba-fk.berlin.de"
+
+        numsent = 0
+        for application in queryset:
+            if application.status == GastroSignup.STATUS_ACCEPTED:
+                context = {
+                    "is_boardwalk": application.regulation == REGULATION_GEHWEG,
+                    "applicant_email": application.email,
+                    "link_permit": application.get_permit_url(),
+                    "link_traffic_order": application.get_traffic_order_url(),
+                }
+                subject = "Ihre Sondergenehmigung - XHainTerrassen"
+                body = render_to_string(
+                    "gastro/notice_accepted.txt", context=context, request=request
+                )
+
+                try:
+                    send_mail(
+                        subject, body, settings.DEFAULT_FROM_EMAIL, [GENERIC_RECIPIENT]
+                    )
+                except SMTPException as e:
+                    self.message_user(
+                        request,
+                        f"Benachrichtigung für {application.shop_name} konnte nicht versandt werden: {e.strerror}",
+                        messages.ERROR,
+                    )
+                else:
+                    application.application_decided = datetime.now(tz=timezone.utc)
+                    application.save()
+                    numsent += 1
+        self.message_user(
+            request,
+            f"Benachrichtigung wurde an {numsent} Adressaten versandt.",
+            messages.SUCCESS,
+        )
+
+    send_notices.short_description = _('send application notices')
+
+    actions = [mark_signup_verification, send_gastro_registration_request, send_notices]
 
 
 admin.site.register(Project, ProjectAdmin)

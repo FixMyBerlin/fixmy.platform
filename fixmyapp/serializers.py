@@ -378,9 +378,17 @@ class GastroRegistrationSerializer(serializers.ModelSerializer):
             'agreement_accepted',
             'status',
             'regulation',
+            'application_received',
+            'application_decided',
         ]
 
-        read_only_fields = ['regulation', 'campaign', 'certificate']
+        read_only_fields = [
+            'regulation',
+            'campaign',
+            'certificate',
+            'application_received',
+            'application_decided',
+        ]
 
 
 class GastroCertificateSerializer(serializers.ModelSerializer):

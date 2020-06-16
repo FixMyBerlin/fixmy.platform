@@ -37,9 +37,14 @@ urlpatterns = [
         name='gastro-certificate'
     ),
     path(
-        'gastro/<str:campaign>/<int:pk>/<str:access_key>',
+        'gastro/<str:campaign>/<int:pk>',
         GastroSignupView.as_view(),
         name='gastro-signups-detail'
+    ),
+    path(
+        'gastro/<str:campaign>/<int:pk>/<str:access_key>',
+        GastroSignupView.as_view(),
+        name='gastro-signups-detail-restricted'
     ),
     path(
         'newsletter-signup',

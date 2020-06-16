@@ -1,3 +1,4 @@
+from datetime import datetime, timezone
 from django.conf import settings
 from django.core import mail
 from django.core.exceptions import PermissionDenied
@@ -6,7 +7,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.parsers import FileUploadParser, JSONParser, MultiPartParser
+from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import (
@@ -179,11 +180,10 @@ class PlayStreetView(APIView):
 class GastroSignupView(APIView):
     permission_classes = (permissions.AllowAny,)
 
-    def get(self, request, campaign, pk, access_key):
-        """Request existing signup data using an access key"""
+    def get(self, request, campaign, pk):
+        """Request existing signup data"""
         result = get_object_or_404(GastroSignup, pk=pk)
-        if str(result.access_key) != access_key:
-            return Response(None, status=status.HTTP_401_UNAUTHORIZED)
+
         serialization = GastroRegistrationSerializer(result).data
         return Response(serialization)
 
@@ -245,6 +245,13 @@ Ihr Bezirksamt Friedrichshain-Kreuzberg'''
         if serializer.is_valid():
             serializer.validated_data["status"] = GastroSignup.STATUS_REGISTERED
             serializer.save()
+
+            # application_received cannot be set through serializer because
+            # it is not editable
+            instance.refresh_from_db()
+            instance.application_received = datetime.now(tz=timezone.utc)
+            instance.save()
+
             send_registration_confirmation(instance)
             return Response(request.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

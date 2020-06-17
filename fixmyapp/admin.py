@@ -223,6 +223,7 @@ Ihr Bezirksamt Friedrichshain-Kreuzberg'''
             if application.status == GastroSignup.STATUS_ACCEPTED:
                 context = {
                     "is_boardwalk": application.regulation == REGULATION_GEHWEG,
+                    "is_restaurant": application.category == 'restaurant',
                     "applicant_email": application.email,
                     "link_permit": application.get_permit_url(),
                     "link_traffic_order": application.get_traffic_order_url(),

@@ -9,29 +9,27 @@ hiermit erhalten Sie gemäß Ihres Antrags:
 - eine Straßenverkehrsrechtliche Anordnung:
   {{ link_traffic_order}}{% endif %}
 
-Beide Dokumente sind auszudrucken und sichtbar straßenseitig an der 
+{% if is_boardwalk %}Dieses Dokument ist{% endif %}{% if not is_boardwalk %}Beide Dokumente sind{% endif %} auszudrucken und sichtbar straßenseitig an der 
 Sondernutzungsfläche anzubringen!
 
 Als weitere Anlagen erhalten Sie:
 
 - Allgemeine Nebenbestimmungen
-  https://fixmyberlin.de/uploads/offene-terrassen/Nebenbestimmungen.pdf{% if is_restaurant %}
+  https://fixmyberlin.de/uploads/offene-terrassen/Allgemeine_Nebenbestimmungen.pdf{% if is_restaurant %}
 - Spezielle Nebenbestimmungen für Schankvorgärten
-  https://fixmyberlin.de/uploads/offene-terrassen/Nebenbestimmungen_Schankvorgaerten.pdf{% endif %}{% if is_retail %}
+  https://fixmyberlin.de/uploads/offene-terrassen/Nebenbestimmungen_Schankvorgaerten.pdf{% endif %}{% if not is_restaurant %}
 - Spezielle Nebenbestimmungen für das Herausstellen von Waren
   https://fixmyberlin.de/uploads/offene-terrassen/Nebenbestimmungen_Herausstellen_von_Waren.pdf{% endif %}{% if not is_boardwalk %}
-- Hinweise zur Durchführung der Straßenverkehrsrechtlichen Anordnung
-  https://fixmyberlin.de/uploads/offene-terrassen/Straßenverkehrsrechtliche_Anordnung_XHain_Terrassen.pdf{% endif %}
 - Regelpläne Straßenraum
-  https://fixmyberlin.de/uploads/offene-terrassen/Regelplaene_Strassenraum.pdf
+  https://fixmyberlin.de/uploads/offene-terrassen/Regelplaene_Strassenraum.pdf{% endif %}
 
-Um die Straßenverkehrsrechtliche Anordnung durchzuführen, müssen Sie 
+{% if not is_boardwalk %}Um die Straßenverkehrsrechtliche Anordnung durchzuführen, müssen Sie 
 selbständig eine Beschilderungsfirma mit der Aufstellung der Verkehrszeichen 
 oder Absperrungen beauftragen, weitere Hinweise finden Sie unter:
 
-https://fixmyberlin.de/uploads/offene-terrassen/Beschilderungsfirmen_Berlin.pdf
+https://fixmyberlin.de/uploads/offene-terrassen/Straßenverkehrsrechtliche_Anordnung_XHain_Terrassen.pdf
 
-Wenn Sie von ihrem Antrag zurücktreten möchten, können Sie dies über eine 
+{% endif %}Wenn Sie von ihrem Antrag zurücktreten möchten, können Sie dies über eine 
 formlose Email an terrassen.sga@ba-fk.berlin.de tun.
 
 Mit freundlichen Grüßen,

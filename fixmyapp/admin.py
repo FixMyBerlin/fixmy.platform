@@ -217,7 +217,6 @@ Ihr Bezirksamt Friedrichshain-Kreuzberg'''
     def send_notices(self, request, queryset):
         """Send acception/rejection notices to applicants"""
         REGULATION_GEHWEG = 10
-        GENERIC_RECIPIENT = "aufsicht.sga@ba-fk.berlin.de"
 
         numsent = 0
         for application in queryset:
@@ -235,7 +234,10 @@ Ihr Bezirksamt Friedrichshain-Kreuzberg'''
 
                 try:
                     send_mail(
-                        subject, body, settings.DEFAULT_FROM_EMAIL, [GENERIC_RECIPIENT]
+                        subject,
+                        body,
+                        settings.DEFAULT_FROM_EMAIL,
+                        [settings.GASTRO_RECIPIENT],
                     )
                 except SMTPException as e:
                     self.message_user(

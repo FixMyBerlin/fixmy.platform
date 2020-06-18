@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE_VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-16 16:22+0000\n"
-"PO-Revision-Date: 2020-06-16 18:28+0200\n"
+"POT-Creation-Date: 2020-06-18 09:31+0000\n"
+"PO-Revision-Date: 2020-06-18 11:32+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -18,30 +18,38 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 2.3.1\n"
 
-#: fixmyapp/admin.py:43 fixmyapp/models.py:452
+#: fixmyapp/admin.py:44 fixmyapp/models.py:452
 msgid "alert date"
 msgstr "Benachrichtigungsdatum"
 
-#: fixmyapp/admin.py:54
+#: fixmyapp/admin.py:55
 msgid "exceeded"
 msgstr "erreicht"
 
-#: fixmyapp/admin.py:116 fixmyapp/admin.py:168
+#: fixmyapp/admin.py:117 fixmyapp/admin.py:196
 msgid "set status to \"verification\""
 msgstr "Status auf „in Prüfung“ setzen"
 
-#: fixmyapp/admin.py:161
+#: fixmyapp/admin.py:168
+msgid "permit"
+msgstr "Genehmigung"
+
+#: fixmyapp/admin.py:180
+msgid "traffic order"
+msgstr "Verkehrsrechtliche Anordnung"
+
+#: fixmyapp/admin.py:189
 #, python-brace-format
 msgid "{numaffected} signup set to 'in verification'"
 msgid_plural "{numaffected} signups set to 'in verification'"
 msgstr[0] "{numaffected} Anmeldung auf ‚in Prüfung‘ gesetzt"
 msgstr[1] "{numaffected} Anmeldungen auf ‚in Prüfung‘ gesetzt"
 
-#: fixmyapp/admin.py:214
+#: fixmyapp/admin.py:242
 msgid "send registation requests"
 msgstr "Antragsformular versenden"
 
-#: fixmyapp/admin.py:255
+#: fixmyapp/admin.py:286
 msgid "send application notices"
 msgstr "Bescheide versenden"
 

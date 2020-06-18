@@ -719,10 +719,12 @@ class GastroSignup(BaseModel):
             return self.shop_name
         return f"Schankstraßen-Anmeldung {self.id}"
 
-    def get_permit_url(self):
+    @property
+    def permit_url(self):
         """Return URL of this application's permit"""
         return f"https://fixmyberlin.de/friedrichshain-kreuzberg/terrassen/verzeichnis/{self.id}/genehmigung"
 
-    def get_traffic_order_url(self):
+    @property
+    def traffic_order_url(self):
         """Return URL of this application's traffic order"""
         return f"https://fixmyberlin.de/friedrichshain-kreuzberg/terrassen/verzeichnis/{self.id}/anordnung"

@@ -6,6 +6,7 @@ from django.contrib.contenttypes.admin import GenericTabularInline
 from django.contrib.gis import admin
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
+from django.utils.html import format_html
 from django.utils.translation import ngettext, gettext_lazy as _
 from reversion.admin import VersionAdmin
 from smtplib import SMTPException
@@ -148,9 +149,35 @@ class GastroSignupAdmin(FMBGastroAdmin):
         'created_date',
         'application_received',
         'application_decided',
+        'permit',
+        'traffic_order',
     )
     search_fields = ('shop_name', 'last_name', 'address')
     save_on_top = True
+
+    def permit(self, obj):
+        return format_html(
+            '<a href="'
+            + obj.permit_url
+            + '" target="_blank">'
+            + obj.permit_url
+            + '</a> <p>(nur einsehbar, wenn Antrag angenommen)</p>'
+        )
+
+    permit.allow_tags = True
+    permit.short_description = _('permit')
+
+    def traffic_order(self, obj):
+        return format_html(
+            '<a href="'
+            + obj.traffic_order_url
+            + '" target="_blank">'
+            + obj.traffic_order_url
+            + '</a> <p>(nur einsehbar, wenn Antrag angenommen)</p>'
+        )
+
+    traffic_order.allow_tags = True
+    traffic_order.short_description = _('traffic order')
 
     def mark_signup_verification(self, request, queryset):
         """Update signup status to in 'in verification'"""
@@ -225,8 +252,8 @@ Ihr Bezirksamt Friedrichshain-Kreuzberg'''
                     "is_boardwalk": application.regulation == REGULATION_GEHWEG,
                     "is_restaurant": application.category == 'restaurant',
                     "applicant_email": application.email,
-                    "link_permit": application.get_permit_url(),
-                    "link_traffic_order": application.get_traffic_order_url(),
+                    "link_permit": application.permit_url,
+                    "link_traffic_order": application.traffic_order_url,
                 }
                 subject = "Ihre Sondergenehmigung - XHainTerrassen"
                 body = render_to_string(

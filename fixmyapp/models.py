@@ -657,30 +657,43 @@ class GastroSignup(BaseModel):
     )
 
     TIME_WEEKEND = 'weekend'
-    TIME_WEEK = 'week'
+    TIME_WORKDAYS = 'workdays'
+    TIME_WHOLE_WEEK = 'whole_week'
 
-    TIME_CHOICES = ((TIME_WEEKEND, _('weekend')), (TIME_WEEK, _('whole week')))
+    TIME_CHOICES = (
+        (TIME_WEEKEND, _('weekend')),
+        (TIME_WORKDAYS, _('workdays')),
+        (TIME_WHOLE_WEEK, _('whole week')),
+    )
 
-    CAMPAIGN_CHOICES = [('xhain', 'Friedrichshain-Kreuzberg 2020')]
+    CAMPAIGN_CHOICES = [
+        ('xhain', 'Friedrichshain-Kreuzberg 2020'),
+        ('tempelberg', 'Tempelhof-Schöneberg 2020'),
+    ]
+
+    CAMPAIGN_PATHS = {
+        'xhain': 'friedrichshain-kreuzberg',
+        'tempelberg': 'tempelhof-schoeneberg',
+    }
 
     campaign = models.CharField(_('campaign'), choices=CAMPAIGN_CHOICES, max_length=32)
     status = models.CharField(
         _('status'), max_length=64, choices=STATUS_CHOICES, default=STATUS_NEW
     )
-
-    opening_hours = models.CharField(
-        _('opening hours'), max_length=32, choices=TIME_CHOICES
-    )
     regulation = models.IntegerField(
         _('regulation'), choices=REGULATION_CHOICES, default=0
     )
+    opening_hours = models.CharField(
+        _('opening hours'), max_length=32, choices=TIME_CHOICES
+    )
+    category = models.CharField(_('category'), choices=CATEGORY_CHOICES, max_length=255)
+
     application_received = models.DateTimeField(_('Application received'), null=True)
     application_decided = models.DateTimeField(_('Notice sent'), null=True)
 
     shop_name = models.CharField(_('shop name'), max_length=255)
     first_name = models.CharField(_('first name'), max_length=255)
     last_name = models.CharField(_('last name'), max_length=255)
-    category = models.CharField(_('category'), choices=CATEGORY_CHOICES, max_length=255)
     email = models.CharField(_('email'), max_length=255)
     phone = models.CharField(
         _('telephone number'), max_length=32, null=True, blank=True
@@ -717,14 +730,19 @@ class GastroSignup(BaseModel):
     def __str__(self):
         if self.shop_name is not None and len(self.shop_name) > 0:
             return self.shop_name
-        return f"Schankstraßen-Anmeldung {self.id}"
+        return f"Terrassen-Anmeldung {self.id}"
 
     @property
     def permit_url(self):
         """Return URL of this application's permit"""
-        return f"https://fixmyberlin.de/friedrichshain-kreuzberg/terrassen/verzeichnis/{self.id}/genehmigung"
+        return f"{settings.FRONTEND_URL}/{self.CAMPAIGN_PATHS[self.campaign]}/terrassen/verzeichnis/{self.id}/genehmigung"
 
     @property
     def traffic_order_url(self):
         """Return URL of this application's traffic order"""
-        return f"https://fixmyberlin.de/friedrichshain-kreuzberg/terrassen/verzeichnis/{self.id}/anordnung"
+        return f"{settings.FRONTEND_URL}/{self.CAMPAIGN_PATHS[self.campaign]}/terrassen/verzeichnis/{self.id}/anordnung"
+
+    @property
+    def application_form_url(self):
+        """Return URL of this application's signup form"""
+        return f"{settings.FRONTEND_URL}/{self.CAMPAIGN_PATHS[self.campaign]}/terrassen/registrierung/{self.id}/{self.access_key}"

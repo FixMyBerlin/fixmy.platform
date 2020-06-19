@@ -21,6 +21,7 @@ FIELDNAMES = {
     'usage': _('usage'),
     'category': _('category'),
     'regulation': _('regulation'),
+    'opening_hours': _('opening hours'),
     'created_date': 'Eingereicht',
     'note': _('note'),
     'status': _('Status'),

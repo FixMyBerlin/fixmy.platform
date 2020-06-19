@@ -26,6 +26,9 @@ services:
       TOGGLE_NEWSLETTER:
       TOGGLE_GASTRO_SIGNUPS:
       TOGGLE_GASTRO_REGISTRATIONS:
+      FRONTEND_URL:
+      GASTRO_SIGNUPS_OPEN:
+      GASTRO_SIGNUPS_CLOSE:
     command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/code

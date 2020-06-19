@@ -305,3 +305,8 @@ TOGGLE_GASTRO_REGISTRATIONS = bool(os.getenv('TOGGLE_GASTRO_REGISTRATIONS', True
 # Configuration for Gastro-app
 
 GASTRO_RECIPIENT = os.getenv('GASTRO_RECIPIENT', 'aufsicht.sga@ba-fk.berlin.de')
+GASTRO_SIGNUPS_OPEN = os.getenv('GASTRO_SIGNUPS_OPEN', None)
+GASTRO_SIGNUPS_CLOSE = os.getenv('GASTRO_SIGNUPS_CLOSE', None)
+
+# To enable showing absolute URLs of objects in the admin panel
+FRONTEND_URL = os.getenv('FRONTEND_URL', 'https://fixmyberlin.de')

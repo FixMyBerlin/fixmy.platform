@@ -351,8 +351,6 @@ class GastroSignupSerializer(serializers.ModelSerializer):
             'status',
         ]
 
-        read_only_fields = ['campaign']
-
 
 class GastroRegistrationSerializer(serializers.ModelSerializer):
     geometry = GeometryField(precision=14)

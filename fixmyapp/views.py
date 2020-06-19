@@ -180,7 +180,7 @@ class PlayStreetView(APIView):
 class GastroSignupView(APIView):
     permission_classes = (permissions.AllowAny,)
 
-    def get(self, request, campaign, pk, access_key):
+    def get(self, request, campaign, pk, access_key=None):
         """Request existing signup data"""
         result = get_object_or_404(GastroSignup, pk=pk)
 

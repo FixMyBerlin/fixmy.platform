@@ -222,6 +222,10 @@ class GastroSignupTest(TestCase):
             )
             self.assertEqual(response.status_code, 201)
 
+            signup_id = GastroSignup.objects.first().id
+            response2 = self.client.get(f'/api/gastro/xhain/{signup_id}')
+            self.assertEqual(response2.status_code, 200)
+
         with self.settings(TOGGLE_GASTRO_SIGNUPS=False):
             response = self.client.post(
                 '/api/gastro/xhain',

@@ -9,6 +9,7 @@ from django.core import mail
 from django.core.management import call_command
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
 from mailjet_rest.client import Endpoint
 from unittest.mock import patch
 from .models import Project, Report, Section, SectionDetails, GastroSignup
@@ -208,8 +209,27 @@ class GastroSignupTest(TestCase):
             'email': 'info@ikonos.internet',
             'geometry': {'type': 'Point', 'coordinates': [13.415_941, 52.494_432]},
             'shopfront_length': 480,
-            'opening_hours': 'week',
+            'opening_hours': 'weekend',
             'tos_accepted': True,
+        }
+
+        self.registration_data = {
+            **self.signup_data,
+            'phone': '030123456',
+            'usage': 'Schankvorraum',
+            'agreement_accepted': True,
+            'area': {
+                'type': 'Polygon',
+                'coordinates': [
+                    [
+                        [13.417_282_352_175_079, 52.500_718_600_163_28],
+                        [13.417_193_839_277_53, 52.500_816_567_976_7],
+                        [13.417_057_046_617_8, 52.500_762_685_706_434],
+                        [13.417_133_489_575_633, 52.500_667_166_974_18],
+                        [13.417_282_352_175_079, 52.500_718_600_163_28],
+                    ]
+                ],
+            },
         }
 
     def test_signup(self):
@@ -280,9 +300,6 @@ class GastroSignupTest(TestCase):
             )
         instance = GastroSignup.objects.first()
 
-        data = self.signup_data
-        data.update({"phone": "03012345"})
-
         for succeeding_status in [
             GastroSignup.STATUS_REGISTRATION,
             GastroSignup.STATUS_REGISTERED,
@@ -292,7 +309,7 @@ class GastroSignupTest(TestCase):
 
             resp = self.client.put(
                 f'/api/gastro/xhain/{instance.id}/{instance.access_key}',
-                data=data,
+                data=self.registration_data,
                 content_type="application/json",
             )
             self.assertEqual(resp.status_code, 201, resp.content)
@@ -306,7 +323,7 @@ class GastroSignupTest(TestCase):
 
             resp = self.client.put(
                 f'/api/gastro/xhain/{instance.id}/{instance.access_key}',
-                data=json.dumps({"phone": "03012345"}),
+                data=self.registration_data,
                 content_type="application/json",
             )
             self.assertEqual(resp.status_code, 405)
@@ -346,6 +363,64 @@ class GastroSignupTest(TestCase):
             instance.application_received
             >= (datetime.now(tz=timezone.utc) - timedelta(seconds=5))
         )
+
+    def test_exportgastrosignups(self):
+        """Test exporting Gastro signups"""
+        with self.settings(TOGGLE_GASTRO_SIGNUPS=True):
+            self.client.post(
+                '/api/gastro/xhain',
+                data=json.dumps(self.signup_data),
+                content_type='application/json',
+            )
+            # Signup twice so we can have one signup with updated registation data
+            # and one without in the following export tests
+            self.client.post(
+                '/api/gastro/xhain',
+                data=json.dumps(self.signup_data),
+                content_type='application/json',
+            )
+
+        # Update data on one of the two instances
+        instance = GastroSignup.objects.first()
+        instance.status = GastroSignup.STATUS_REGISTRATION
+        instance.save()
+
+        resp = self.client.put(
+            f'/api/gastro/xhain/{instance.id}/{instance.access_key}',
+            data=self.registration_data,
+            content_type="application/json",
+        )
+        self.assertEqual(resp.status_code, 201, resp.content)
+
+        # Test CSV export
+        with tempfile.NamedTemporaryFile(mode="w+", encoding="UTF-8") as f:
+            call_command('exportgastrosignups', f.name, format='csv')
+            csv_reader = csv.DictReader(f, dialect='excel')
+            self.assertIn(_('geometry'), csv_reader.fieldnames)
+            self.assertEqual(
+                self.signup_data["shop_name"], csv_reader.__next__()[_('shop name')]
+            )
+
+        # Test GeoJSON export
+        with tempfile.NamedTemporaryFile(mode="w+", encoding="UTF-8") as f:
+            call_command('exportgastrosignups', f.name, format='geojson')
+            data = json.load(f)
+            self.assertEqual('FeatureCollection', data["type"])
+            self.assertIn('CRS84', data["crs"]["properties"]["name"])
+            self.assertEqual(2, len(data["features"]))
+            self.assertEqual("Point", data["features"][0]["geometry"]["type"])
+            self.assertIn("shop_name", data["features"][0]["properties"].keys())
+
+        # Test GeoJSON export of area
+        with tempfile.NamedTemporaryFile(mode="w+", encoding="UTF-8") as f:
+            call_command('exportgastrosignups', f.name, '--area', format='geojson')
+            data = json.load(f)
+            self.assertEqual('FeatureCollection', data["type"])
+            self.assertIn('CRS84', data["crs"]["properties"]["name"])
+            # Here only one feature is expected because only one signup has area data
+            self.assertEqual(1, len(data["features"]))
+            self.assertEqual("Polygon", data["features"][0]["geometry"]["type"])
+            self.assertIn("shop_name", data["features"][0]["properties"].keys())
 
 
 class PlaystreetTest(TestCase):

@@ -1,3 +1,4 @@
+import dateutil.parser
 from datetime import datetime, timezone
 from django.conf import settings
 from django.core import mail
@@ -189,11 +190,23 @@ class GastroSignupView(APIView):
 
     def post(self, request, campaign):
         """Adds new signups."""
-        if not settings.TOGGLE_GASTRO_SIGNUPS:
+
+        def gastro_signups_open():
+            try:
+                start = dateutil.parser.parse(settings.GASTRO_SIGNUPS_OPEN)
+                end = dateutil.parser.parse(settings.GASTRO_SIGNUPS_CLOSE)
+            except TypeError:
+                # No explicit start and end times defined
+                return True
+            rv = start < datetime.now(tz=timezone.utc) < end
+            return rv
+
+        if not settings.TOGGLE_GASTRO_SIGNUPS or not gastro_signups_open():
             return Response(
                 'Signups are currently not open',
                 status=status.HTTP_405_METHOD_NOT_ALLOWED,
             )
+
         serializer = GastroSignupSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()

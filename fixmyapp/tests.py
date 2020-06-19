@@ -270,7 +270,7 @@ class GastroSignupTest(TestCase):
             self.assertNotEqual(getattr(instance, k), v)
 
     def test_signups_closed(self):
-        """Test that changing a submission is not possible after it has been approved or rejected"""
+        """Test that changing a submission is only possible if it has the right status"""
 
         with self.settings(TOGGLE_GASTRO_SIGNUPS=True):
             self.client.post(

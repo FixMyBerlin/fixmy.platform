@@ -145,15 +145,29 @@ class GastroSignupAdmin(FMBGastroAdmin):
     list_filter = ('status', 'regulation', 'category')
     ordering = ('status', 'created_date')
     readonly_fields = (
+        'campaign',
         'access_key',
         'created_date',
         'application_received',
         'application_decided',
+        'application_form',
         'permit',
         'traffic_order',
     )
     search_fields = ('shop_name', 'last_name', 'address')
     save_on_top = True
+
+    def application_form(self, obj):
+        return format_html(
+            '<a href="'
+            + obj.application_form_url
+            + '" target="_blank">'
+            + obj.application_form_url
+            + '</a> <p>(nur einsehbar für die Statusse <em>wartet auf Antrag</em> und <em>Antrag liegt vor</em>)</p>'
+        )
+
+    application_form.allow_tags = True
+    application_form.short_description = _('application form')
 
     def permit(self, obj):
         return format_html(

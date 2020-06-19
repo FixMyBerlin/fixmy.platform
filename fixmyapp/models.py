@@ -673,7 +673,7 @@ class GastroSignup(BaseModel):
 
     CAMPAIGN_PATHS = {
         'xhain': 'friedrichshain-kreuzberg',
-        'tempelberg': 'tempelhof-schöneberg',
+        'tempelberg': 'tempelhof-schoeneberg',
     }
 
     campaign = models.CharField(_('campaign'), choices=CAMPAIGN_CHOICES, max_length=32)
@@ -730,7 +730,7 @@ class GastroSignup(BaseModel):
     def __str__(self):
         if self.shop_name is not None and len(self.shop_name) > 0:
             return self.shop_name
-        return f"Schankstraßen-Anmeldung {self.id}"
+        return f"Terrassen-Anmeldung {self.id}"
 
     @property
     def permit_url(self):
@@ -745,4 +745,4 @@ class GastroSignup(BaseModel):
     @property
     def application_form_url(self):
         """Return URL of this application's signup form"""
-        return f"{settings.FRONTEND_URL}/{self.CAMPAIGN_PATHS[self.campaign]}/registrierung/{self.id}/{self.access_key}"
+        return f"{settings.FRONTEND_URL}/{self.CAMPAIGN_PATHS[self.campaign]}/terrassen/registrierung/{self.id}/{self.access_key}"

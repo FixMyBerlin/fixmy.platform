@@ -282,7 +282,14 @@ Ihr Bezirksamt Friedrichshain-Kreuzberg'''
                     "gastro/notice_accepted.txt", context=context, request=request
                 )
             elif application.status == GastroSignup.STATUS_REJECTED:
-                pass
+                context = {
+                    "applicant_email": application.email,
+                    "rejection_reason": application.note,
+                }
+                subject = "Ihre Sondergenehmigung - XHainTerrassen"
+                body = render_to_string(
+                    "gastro/notice_rejected.txt", context=context, request=request
+                )
             else:
                 continue
 

@@ -384,7 +384,7 @@ class GastroAdminTest(TestCase):
             call_command('exportgastrosignups', f.name, format='csv')
             csv_reader = csv.DictReader(f, dialect='excel')
             self.assertIn(_('geometry'), csv_reader.fieldnames)
-            self.assertEqual("Buttergeschäft", csv_reader.__next__()[_('shop name')])
+            self.assertEqual("Butt", csv_reader.__next__()[_('last name')])
 
         # Test GeoJSON export
         with tempfile.NamedTemporaryFile(mode="w+", encoding="UTF-8") as f:
@@ -409,25 +409,37 @@ class GastroAdminTest(TestCase):
 
     def test_send_notices(self):
         """Test sending notices to applicants"""
-        instance = GastroSignup.objects.first()
-        instance.status = GastroSignup.STATUS_ACCEPTED
-        instance.save()
 
+        # Both of theses statuses should trigger sending emails
+        instances = GastroSignup.objects.all()
+        statuses = [GastroSignup.STATUS_ACCEPTED, GastroSignup.STATUS_REJECTED]
+        for i, inst in enumerate(instances):
+            inst.status = statuses[i]
+            inst.save()
+            self.assertEqual(inst.status, statuses[i])
+
+        # Need to be signed in as admin user in order to trigger admin actions
         self.client.login(username=self.username, password=self.password)
 
-        data = {'action': 'send_notices', '_selected_action': [instance.pk]}
+        # Trigger the admin action by posting this request
+        data = {
+            'action': 'send_notices',
+            '_selected_action': [inst.pk for inst in instances],
+        }
         resp = self.client.post(
             reverse('admin:fixmyapp_gastrosignup_changelist'), data=data
         )
 
-        instance.refresh_from_db()
+        # Sending notice should update the application_decided field
+        instances[0].refresh_from_db()
         self.assertTrue(
-            (instance.application_decided - datetime.now(tz=timezone.utc))
+            (instances[0].application_decided - datetime.now(tz=timezone.utc))
             < timedelta(seconds=5),
-            instance.application_decided,
+            instances[0].application_decided,
         )
+
         self.assertEqual(resp.status_code, 302, resp.content)
-        self.assertEqual(len(mail.outbox), 1, resp.content)
+        self.assertEqual(len(mail.outbox), 2, mail.outbox)
 
 
 class PlaystreetTest(TestCase):

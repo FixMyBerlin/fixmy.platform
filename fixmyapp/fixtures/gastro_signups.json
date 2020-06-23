@@ -37,7 +37,7 @@
       "created_date": "2020-06-11T03:28:18.979Z",
       "modified_date": "2020-06-18T14:38:59.061Z",
       "campaign": "xhain",
-      "status": "new",
+      "status": "application_rejected",
       "regulation": 12,
       "opening_hours": "weekend",
       "category": "retail",
@@ -57,7 +57,7 @@
       "tos_accepted": true,
       "agreement_accepted": true,
       "access_key": "08e4e18e-0348-40d9-9b79-9e398b63f51a",
-      "note": "",
+      "note": "Keine Butter auf der Straße bitteschön!",
       "note_internal": ""
     }
   }

@@ -281,24 +281,28 @@ Ihr Bezirksamt Friedrichshain-Kreuzberg'''
                 body = render_to_string(
                     "gastro/notice_accepted.txt", context=context, request=request
                 )
+            elif application.status == GastroSignup.STATUS_REJECTED:
+                pass
+            else:
+                continue
 
-                try:
-                    send_mail(
-                        subject,
-                        body,
-                        settings.DEFAULT_FROM_EMAIL,
-                        [settings.GASTRO_RECIPIENT],
-                    )
-                except SMTPException as e:
-                    self.message_user(
-                        request,
-                        f"Bescheid für {application.shop_name} konnte nicht versandt werden: {e.strerror}",
-                        messages.ERROR,
-                    )
-                else:
-                    application.application_decided = datetime.now(tz=timezone.utc)
-                    application.save()
-                    numsent += 1
+            try:
+                send_mail(
+                    subject,
+                    body,
+                    settings.DEFAULT_FROM_EMAIL,
+                    [settings.GASTRO_RECIPIENT],
+                )
+            except SMTPException as e:
+                self.message_user(
+                    request,
+                    f"Bescheid für {application.shop_name} konnte nicht versandt werden: {e.strerror}",
+                    messages.ERROR,
+                )
+            else:
+                application.application_decided = datetime.now(tz=timezone.utc)
+                application.save()
+                numsent += 1
         self.message_user(
             request,
             f"Ein Bescheid wurde an {numsent} Adressaten versandt.",

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE_VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-23 14:37+0000\n"
-"PO-Revision-Date: 2020-06-23 16:42+0200\n"
+"POT-Creation-Date: 2020-06-23 14:53+0000\n"
+"PO-Revision-Date: 2020-06-23 16:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -26,38 +26,46 @@ msgstr "Benachrichtigungsdatum"
 msgid "exceeded"
 msgstr "erreicht"
 
-#: fixmyapp/admin.py:120 fixmyapp/admin.py:218
+#: fixmyapp/admin.py:120 fixmyapp/admin.py:236
 msgid "set status to \"verification\""
 msgstr "Status auf „in Prüfung“ setzen"
 
-#: fixmyapp/admin.py:164 fixmyapp/admin.py:178 fixmyapp/admin.py:192
+#: fixmyapp/admin.py:141 fixmyapp/admin.py:145 fixmyapp/models.py:692
+msgid "Notice sent"
+msgstr "Bescheid versandt"
+
+#: fixmyapp/admin.py:145
+msgid "Notice not sent"
+msgstr "Bescheid noch nicht versandt"
+
+#: fixmyapp/admin.py:182 fixmyapp/admin.py:196 fixmyapp/admin.py:210
 msgid "Permalinks are available after saving for the first time"
 msgstr ""
 
-#: fixmyapp/admin.py:174
+#: fixmyapp/admin.py:192
 msgid "application form"
 msgstr "Anmeldeformular"
 
-#: fixmyapp/admin.py:188
+#: fixmyapp/admin.py:206
 msgid "permit"
 msgstr "Genehmigung"
 
-#: fixmyapp/admin.py:202
+#: fixmyapp/admin.py:220
 msgid "traffic order"
 msgstr "Verkehrsrechtliche Anordnung"
 
-#: fixmyapp/admin.py:211
+#: fixmyapp/admin.py:229
 #, python-brace-format
 msgid "{numaffected} signup set to 'in verification'"
 msgid_plural "{numaffected} signups set to 'in verification'"
 msgstr[0] "{numaffected} Anmeldung auf ‚in Prüfung‘ gesetzt"
 msgstr[1] "{numaffected} Anmeldungen auf ‚in Prüfung‘ gesetzt"
 
-#: fixmyapp/admin.py:264
+#: fixmyapp/admin.py:282
 msgid "send registation requests"
 msgstr "Antragsformular versenden"
 
-#: fixmyapp/admin.py:319
+#: fixmyapp/admin.py:337
 msgid "send application notices"
 msgstr "Bescheide versenden"
 
@@ -67,12 +75,12 @@ msgid "Kennziffer"
 msgstr ""
 
 #: fixmyapp/management/commands/exportgastrosignups.py:13
-#: fixmyapp/models.py:703
+#: fixmyapp/models.py:705
 msgid "shop name"
 msgstr "Name des Betriebs"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:14
-#: fixmyapp/models.py:557 fixmyapp/models.py:711
+#: fixmyapp/models.py:557 fixmyapp/models.py:713
 msgid "address"
 msgstr "Adresse"
 
@@ -82,23 +90,23 @@ msgid "geometry"
 msgstr "Geometrie"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:16
-#: fixmyapp/models.py:712
+#: fixmyapp/models.py:714
 msgid "shopfront length"
 msgstr "Länge der Ladenfront"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:17
-#: fixmyapp/models.py:704
+#: fixmyapp/models.py:706
 msgid "first name"
 msgstr "Vorname"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:18
-#: fixmyapp/models.py:705 fixmyapp/tests.py:387
+#: fixmyapp/models.py:707 fixmyapp/tests.py:387
 msgid "last name"
 msgstr "Nachname"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:19
 #: fixmyapp/management/commands/exportplaystreets.py:14 fixmyapp/models.py:598
-#: fixmyapp/models.py:706
+#: fixmyapp/models.py:708
 msgid "email"
 msgstr "E-Mail"
 
@@ -107,7 +115,7 @@ msgid "phone"
 msgstr "Telefonnummer"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:21
-#: fixmyapp/models.py:531 fixmyapp/models.py:710
+#: fixmyapp/models.py:531 fixmyapp/models.py:712
 msgid "usage"
 msgstr "Nutzung"
 
@@ -131,17 +139,42 @@ msgid "note"
 msgstr "Anmerkung"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:27
+#: fixmyapp/models.py:734
+msgid "internal note"
+msgstr "Interne Anmerkung"
+
+#: fixmyapp/management/commands/exportgastrosignups.py:28
 msgid "Status"
 msgstr "Status"
 
-#: fixmyapp/management/commands/exportgastrosignups.py:28
+#: fixmyapp/management/commands/exportgastrosignups.py:29
+#: fixmyapp/models.py:694
+msgid "permit checked"
+msgstr "Sondernutzung geprüft"
+
+#: fixmyapp/management/commands/exportgastrosignups.py:30
+#: fixmyapp/models.py:696
+msgid "permit check notes"
+msgstr "Anmerkung zur Sondernutzung"
+
+#: fixmyapp/management/commands/exportgastrosignups.py:31
+#: fixmyapp/models.py:699
+msgid "traffic order checked"
+msgstr "Verkehrsrechtliche Anordnung geprüft"
+
+#: fixmyapp/management/commands/exportgastrosignups.py:32
+#: fixmyapp/models.py:702
+msgid "traffic order check notes"
+msgstr "Anmerkung zur verkehrsrechtlichen Anordnung"
+
+#: fixmyapp/management/commands/exportgastrosignups.py:33
 #: fixmyapp/management/commands/exportplaystreets.py:17 fixmyapp/models.py:599
-#: fixmyapp/models.py:726
+#: fixmyapp/models.py:728
 msgid "tos_accepted"
 msgstr "Bedingungen akzeptiert"
 
-#: fixmyapp/management/commands/exportgastrosignups.py:29
-#: fixmyapp/models.py:727
+#: fixmyapp/management/commands/exportgastrosignups.py:34
+#: fixmyapp/models.py:729
 msgid "agreement accepted"
 msgstr "Vereinbarung angenommen"
 
@@ -673,55 +706,31 @@ msgstr "Ganze Woche"
 msgid "Application received"
 msgstr "Antragseingang"
 
-#: fixmyapp/models.py:692
-msgid "Notice sent"
-msgstr "Bescheid versandt"
-
-#: fixmyapp/models.py:694
-msgid "permit checked"
-msgstr "Sondernutzung geprüft"
-
-#: fixmyapp/models.py:695
-msgid "permit check notes"
-msgstr "Anmerkung zur Sondernutzung"
-
-#: fixmyapp/models.py:697
-msgid "traffic order checked"
-msgstr "Verkehrsrechtliche Anordnung geprüft"
-
-#: fixmyapp/models.py:700
-msgid "traffic order check notes"
-msgstr "Anmerkung zur verkehrsrechtlichen Anordnung"
-
-#: fixmyapp/models.py:708
+#: fixmyapp/models.py:710
 msgid "telephone number"
 msgstr "Telefonnummer"
 
-#: fixmyapp/models.py:713
+#: fixmyapp/models.py:715
 msgid "location"
 msgstr "Standort"
 
-#: fixmyapp/models.py:716
+#: fixmyapp/models.py:718
 msgid "installation area"
 msgstr "Aufstellfläche"
 
-#: fixmyapp/models.py:721
+#: fixmyapp/models.py:723
 msgid "registration certificate"
 msgstr "Gewerbeanmeldung / Vereinsregister"
 
-#: fixmyapp/models.py:731
+#: fixmyapp/models.py:733
 msgid "note for the registrant"
 msgstr "Anmerkung an Antragsteller:in"
 
-#: fixmyapp/models.py:732
-msgid "internal note"
-msgstr "Interne Anmerkung"
-
-#: fixmyapp/models.py:735
+#: fixmyapp/models.py:737
 msgid "gastro_signup"
 msgstr "Offene Terrassen-Anmeldung"
 
-#: fixmyapp/models.py:736
+#: fixmyapp/models.py:738
 msgid "gastro_signups"
 msgstr "Offene Terrassen-Anmeldungen"
 

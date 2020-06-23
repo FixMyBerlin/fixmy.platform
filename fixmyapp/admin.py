@@ -135,6 +135,24 @@ class PlaystreetSignupAdmin(admin.ModelAdmin):
     ordering = ('campaign', 'street', 'created_date')
 
 
+class NoticeSentFilter(SimpleListFilter):
+    """Filter entries whose application decided date has not been set"""
+
+    title = _('Notice sent')
+    parameter_name = 'are_notices_sent'
+
+    def lookups(self, request, model_admin):
+        return (('yes', _('Notice sent')), ('no', _('Notice not sent')))
+
+    def queryset(self, request, queryset):
+        if self.value() == 'yes':
+            return queryset.exclude(application_decided=None)
+        elif self.value() == 'no':
+            return queryset.filter(application_decided=None)
+        else:
+            return queryset
+
+
 class GastroSignupAdmin(FMBGastroAdmin):
     list_display = (
         'id',
@@ -145,7 +163,7 @@ class GastroSignupAdmin(FMBGastroAdmin):
         'created_date',
         'modified_date',
     )
-    list_filter = ('status', 'regulation', 'category')
+    list_filter = ('status', NoticeSentFilter, 'regulation', 'category')
     ordering = ('status', 'created_date')
     readonly_fields = (
         'access_key',

@@ -735,14 +735,14 @@ class GastroSignup(BaseModel):
     @property
     def permit_url(self):
         """Return URL of this application's permit"""
-        return f"{settings.FRONTEND_URL}/{self.CAMPAIGN_PATHS[self.campaign]}/terrassen/verzeichnis/{self.id}/genehmigung"
+        return f"{settings.FRONTEND_URL}/{self.CAMPAIGN_PATHS.get(self.campaign)}/terrassen/verzeichnis/{self.id}/genehmigung"
 
     @property
     def traffic_order_url(self):
         """Return URL of this application's traffic order"""
-        return f"{settings.FRONTEND_URL}/{self.CAMPAIGN_PATHS[self.campaign]}/terrassen/verzeichnis/{self.id}/anordnung"
+        return f"{settings.FRONTEND_URL}/{self.CAMPAIGN_PATHS.get(self.campaign)}/terrassen/verzeichnis/{self.id}/anordnung"
 
     @property
     def application_form_url(self):
         """Return URL of this application's signup form"""
-        return f"{settings.FRONTEND_URL}/{self.CAMPAIGN_PATHS[self.campaign]}/terrassen/registrierung/{self.id}/{self.access_key}"
+        return f"{settings.FRONTEND_URL}/{self.CAMPAIGN_PATHS.get(self.campaign)}/terrassen/registrierung/{self.id}/{self.access_key}"

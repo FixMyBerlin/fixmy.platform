@@ -28,6 +28,9 @@ class FMBGeoAdmin(admin.OSMGeoAdmin):
     map_template = 'gis/admin/osm-fmb.html'
     map_width = 800
     map_height = 600
+    default_lat = 6_894_699.801_282_43
+    default_lon = 1_492_237.774_083_83
+    default_zoom = 11
 
 
 class FMBGastroAdmin(FMBGeoAdmin):
@@ -145,7 +148,6 @@ class GastroSignupAdmin(FMBGastroAdmin):
     list_filter = ('status', 'regulation', 'category')
     ordering = ('status', 'created_date')
     readonly_fields = (
-        'campaign',
         'access_key',
         'created_date',
         'application_received',
@@ -158,6 +160,8 @@ class GastroSignupAdmin(FMBGastroAdmin):
     save_on_top = True
 
     def application_form(self, obj):
+        if obj.pk is None:
+            return _('Permalinks are available after saving for the first time')
         return format_html(
             '<a href="'
             + obj.application_form_url
@@ -170,6 +174,8 @@ class GastroSignupAdmin(FMBGastroAdmin):
     application_form.short_description = _('application form')
 
     def permit(self, obj):
+        if obj.pk is None:
+            return _('Permalinks are available after saving for the first time')
         return format_html(
             '<a href="'
             + obj.permit_url
@@ -182,6 +188,8 @@ class GastroSignupAdmin(FMBGastroAdmin):
     permit.short_description = _('permit')
 
     def traffic_order(self, obj):
+        if obj.pk is None:
+            return _('Permalinks are available after saving for the first time')
         return format_html(
             '<a href="'
             + obj.traffic_order_url

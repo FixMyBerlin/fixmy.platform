@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE_VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-06-25 10:23+0000\n"
-"PO-Revision-Date: 2020-06-25 12:24+0200\n"
+"PO-Revision-Date: 2020-06-25 13:31+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -171,7 +171,7 @@ msgstr "Sondernutzung geprüft"
 #: fixmyapp/management/commands/exportgastrosignups.py:30
 #: fixmyapp/models.py:696
 msgid "permit check notes"
-msgstr "Anmerkung zur Sondernutzung"
+msgstr "Bearbeitungsvermerk zur Sondernutzung"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:31
 #: fixmyapp/models.py:699
@@ -181,7 +181,7 @@ msgstr "Verkehrsrechtliche Anordnung geprüft"
 #: fixmyapp/management/commands/exportgastrosignups.py:32
 #: fixmyapp/models.py:702
 msgid "traffic order check notes"
-msgstr "Anmerkung zur verkehrsrechtlichen Anordnung"
+msgstr "Bearbeitungsvermerk zur verkehrsrechtlichen Anordnung"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:33
 #: fixmyapp/management/commands/exportplaystreets.py:17 fixmyapp/models.py:599

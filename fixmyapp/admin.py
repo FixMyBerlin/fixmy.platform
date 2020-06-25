@@ -153,6 +153,48 @@ class NoticeSentFilter(SimpleListFilter):
             return queryset
 
 
+class PermitCheckFilter(SimpleListFilter):
+    """Filter entries where permit conditions have been checked"""
+
+    title = _('Permit checked')
+    parameter_name = 'permit_checked'
+
+    def lookups(self, request, model_admin):
+        return (
+            ('checked', _('Permit checked')),
+            ('unchecked', _('Permit not checked')),
+        )
+
+    def queryset(self, request, queryset):
+        if self.value() == 'checked':
+            return queryset.filter(permit_checked=True)
+        elif self.value() == 'unchecked':
+            return queryset.exclude(permit_checked=True)
+        else:
+            return queryset
+
+
+class TrafficOrderCheckFilter(SimpleListFilter):
+    """Filter entries where traffic order conditions have been checked"""
+
+    title = _('Traffic order checked')
+    parameter_name = 'traffic_order_checked'
+
+    def lookups(self, request, model_admin):
+        return (
+            ('checked', _('Traffic order checked')),
+            ('unchecked', _('Traffic order not checked')),
+        )
+
+    def queryset(self, request, queryset):
+        if self.value() == 'checked':
+            return queryset.filter(traffic_order_checked=True)
+        elif self.value() == 'unchecked':
+            return queryset.exclude(traffic_order_checked=True)
+        else:
+            return queryset
+
+
 class GastroSignupAdmin(FMBGastroAdmin):
     list_display = (
         'id',
@@ -163,7 +205,14 @@ class GastroSignupAdmin(FMBGastroAdmin):
         'created_date',
         'modified_date',
     )
-    list_filter = ('status', NoticeSentFilter, 'regulation', 'category')
+    list_filter = (
+        'status',
+        NoticeSentFilter,
+        PermitCheckFilter,
+        TrafficOrderCheckFilter,
+        'regulation',
+        'category',
+    )
     ordering = ('status', 'created_date')
     readonly_fields = (
         'access_key',

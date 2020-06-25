@@ -24,7 +24,12 @@ FIELDNAMES = {
     'opening_hours': _('opening hours'),
     'created_date': 'Eingereicht',
     'note': _('note'),
+    'note_internal': _('internal note'),
     'status': _('Status'),
+    'permit_checked': _('permit checked'),
+    'permit_check_note': _('permit check notes'),
+    'traffic_order_checked': _('traffic order checked'),
+    'traffic_order_check_note': _('traffic order check notes'),
     'tos_accepted': _('tos_accepted'),
     'agreement_accepted': _('agreement accepted'),
 }
@@ -83,6 +88,10 @@ class Command(BaseCommand):
             row_data['regulation'] = GastroSignup.REGULATION_CHOICES[report.regulation][
                 1
             ]
+            row_data['permit_checked'] = 'Ja' if report.permit_checked else 'Nein'
+            row_data['traffic_order_checked'] = (
+                'Ja' if report.traffic_order_checked else 'Nein'
+            )
 
             row_data["location"] = f"{report.geometry.y},{report.geometry.x}"
 

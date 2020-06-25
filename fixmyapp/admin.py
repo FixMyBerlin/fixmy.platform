@@ -1,4 +1,4 @@
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timezone, timedelta
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.admin import SimpleListFilter
@@ -135,6 +135,66 @@ class PlaystreetSignupAdmin(admin.ModelAdmin):
     ordering = ('campaign', 'street', 'created_date')
 
 
+class NoticeSentFilter(SimpleListFilter):
+    """Filter entries whose application decided date has not been set"""
+
+    title = _('Notice sent')
+    parameter_name = 'are_notices_sent'
+
+    def lookups(self, request, model_admin):
+        return (('yes', _('Notice sent')), ('no', _('Notice not sent')))
+
+    def queryset(self, request, queryset):
+        if self.value() == 'yes':
+            return queryset.exclude(application_decided=None)
+        elif self.value() == 'no':
+            return queryset.filter(application_decided=None)
+        else:
+            return queryset
+
+
+class PermitCheckFilter(SimpleListFilter):
+    """Filter entries where permit conditions have been checked"""
+
+    title = _('Permit checked')
+    parameter_name = 'permit_checked'
+
+    def lookups(self, request, model_admin):
+        return (
+            ('checked', _('Permit checked')),
+            ('unchecked', _('Permit not checked')),
+        )
+
+    def queryset(self, request, queryset):
+        if self.value() == 'checked':
+            return queryset.filter(permit_checked=True)
+        elif self.value() == 'unchecked':
+            return queryset.exclude(permit_checked=True)
+        else:
+            return queryset
+
+
+class TrafficOrderCheckFilter(SimpleListFilter):
+    """Filter entries where traffic order conditions have been checked"""
+
+    title = _('Traffic order checked')
+    parameter_name = 'traffic_order_checked'
+
+    def lookups(self, request, model_admin):
+        return (
+            ('checked', _('Traffic order checked')),
+            ('unchecked', _('Traffic order not checked')),
+        )
+
+    def queryset(self, request, queryset):
+        if self.value() == 'checked':
+            return queryset.filter(traffic_order_checked=True)
+        elif self.value() == 'unchecked':
+            return queryset.exclude(traffic_order_checked=True)
+        else:
+            return queryset
+
+
 class GastroSignupAdmin(FMBGastroAdmin):
     list_display = (
         'id',
@@ -145,7 +205,14 @@ class GastroSignupAdmin(FMBGastroAdmin):
         'created_date',
         'modified_date',
     )
-    list_filter = ('status', 'regulation', 'category')
+    list_filter = (
+        'status',
+        NoticeSentFilter,
+        PermitCheckFilter,
+        TrafficOrderCheckFilter,
+        'regulation',
+        'category',
+    )
     ordering = ('status', 'created_date')
     readonly_fields = (
         'access_key',
@@ -281,24 +348,57 @@ Ihr Bezirksamt Friedrichshain-Kreuzberg'''
                 body = render_to_string(
                     "gastro/notice_accepted.txt", context=context, request=request
                 )
-
+            elif application.status == GastroSignup.STATUS_REJECTED:
                 try:
-                    send_mail(
-                        subject,
-                        body,
-                        settings.DEFAULT_FROM_EMAIL,
-                        [settings.GASTRO_RECIPIENT],
-                    )
-                except SMTPException as e:
+                    context = {
+                        "applicant_email": application.email,
+                        "application_created": application.application_received.date(),
+                        "application_received": application.application_received.date(),
+                        "legal_deadline": date.today() + timedelta(days=14),
+                        "shop_name": application.shop_name,
+                        "full_name": f"{application.first_name} {application.last_name}",
+                        "rejection_reason": application.note,
+                    }
+                except AttributeError:
                     self.message_user(
                         request,
-                        f"Bescheid für {application.shop_name} konnte nicht versandt werden: {e.strerror}",
+                        f"Im Antrag {application.pk} sind nicht alle für den Bescheid nötigen Informationen eingetragen.",
                         messages.ERROR,
                     )
-                else:
-                    application.application_decided = datetime.now(tz=timezone.utc)
-                    application.save()
-                    numsent += 1
+                    continue
+
+                if application.note is None or len(application.note) == 0:
+                    self.message_user(
+                        request,
+                        f"Die Ablehnung für {application.shop_name} enthält noch keine Begründung und wurde daher nicht versandt",
+                        messages.WARNING,
+                    )
+                    continue
+
+                subject = "Ihr Antrag auf eine Sondernutzungsfläche XHainTerrassen"
+                body = render_to_string(
+                    "gastro/notice_rejected.txt", context=context, request=request
+                )
+            else:
+                continue
+
+            try:
+                send_mail(
+                    subject,
+                    body,
+                    settings.DEFAULT_FROM_EMAIL,
+                    [settings.GASTRO_RECIPIENT],
+                )
+            except SMTPException as e:
+                self.message_user(
+                    request,
+                    f"Bescheid für {application.shop_name} konnte nicht versandt werden: {e.strerror}",
+                    messages.ERROR,
+                )
+            else:
+                application.application_decided = datetime.now(tz=timezone.utc)
+                application.save()
+                numsent += 1
         self.message_user(
             request,
             f"Ein Bescheid wurde an {numsent} Adressaten versandt.",

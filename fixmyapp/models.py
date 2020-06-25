@@ -691,6 +691,17 @@ class GastroSignup(BaseModel):
     application_received = models.DateTimeField(_('Application received'), null=True)
     application_decided = models.DateTimeField(_('Notice sent'), null=True)
 
+    permit_checked = models.BooleanField(_('permit checked'), default=False)
+    permit_check_note = models.CharField(
+        _('permit check notes'), max_length=255, blank=True, null=True
+    )
+    traffic_order_checked = models.BooleanField(
+        _('traffic order checked'), default=False
+    )
+    traffic_order_check_note = models.CharField(
+        _('traffic order check notes'), max_length=255, blank=True, null=True
+    )
+
     shop_name = models.CharField(_('shop name'), max_length=255)
     first_name = models.CharField(_('first name'), max_length=255)
     last_name = models.CharField(_('last name'), max_length=255)

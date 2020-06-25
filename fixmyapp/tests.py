@@ -364,42 +364,27 @@ class GastroSignupTest(TestCase):
             >= (datetime.now(tz=timezone.utc) - timedelta(seconds=5))
         )
 
+
+class GastroAdminTest(TestCase):
+    username = 'test_user'
+    password = 'test_password'
+
+    fixtures = ['gastro_signups']
+
+    def setUp(self):
+        self.user = get_user_model().objects.create_superuser(
+            self.username, 'test@example.com', self.password
+        )
+
     def test_exportgastrosignups(self):
         """Test exporting Gastro signups"""
-        with self.settings(TOGGLE_GASTRO_SIGNUPS=True):
-            self.client.post(
-                '/api/gastro/xhain',
-                data=json.dumps(self.signup_data),
-                content_type='application/json',
-            )
-            # Signup twice so we can have one signup with updated registation data
-            # and one without in the following export tests
-            self.client.post(
-                '/api/gastro/xhain',
-                data=json.dumps(self.signup_data),
-                content_type='application/json',
-            )
-
-        # Update data on one of the two instances
-        instance = GastroSignup.objects.first()
-        instance.status = GastroSignup.STATUS_REGISTRATION
-        instance.save()
-
-        resp = self.client.put(
-            f'/api/gastro/xhain/{instance.id}/{instance.access_key}',
-            data=self.registration_data,
-            content_type="application/json",
-        )
-        self.assertEqual(resp.status_code, 201, resp.content)
 
         # Test CSV export
         with tempfile.NamedTemporaryFile(mode="w+", encoding="UTF-8") as f:
             call_command('exportgastrosignups', f.name, format='csv')
             csv_reader = csv.DictReader(f, dialect='excel')
             self.assertIn(_('geometry'), csv_reader.fieldnames)
-            self.assertEqual(
-                self.signup_data["shop_name"], csv_reader.__next__()[_('shop name')]
-            )
+            self.assertEqual("Butt", csv_reader.__next__()[_('last name')])
 
         # Test GeoJSON export
         with tempfile.NamedTemporaryFile(mode="w+", encoding="UTF-8") as f:
@@ -421,6 +406,69 @@ class GastroSignupTest(TestCase):
             self.assertEqual(1, len(data["features"]))
             self.assertEqual("Polygon", data["features"][0]["geometry"]["type"])
             self.assertIn("shop_name", data["features"][0]["properties"].keys())
+
+    def test_send_notices(self):
+        """Test sending notices to applicants"""
+
+        # Both of theses statuses should trigger sending emails
+        instances = GastroSignup.objects.all()
+        statuses = [GastroSignup.STATUS_ACCEPTED, GastroSignup.STATUS_REJECTED]
+        for i, inst in enumerate(instances):
+            inst.status = statuses[i]
+            inst.save()
+            self.assertEqual(inst.status, statuses[i])
+
+        # Need to be signed in as admin user in order to trigger admin actions
+        self.client.login(username=self.username, password=self.password)
+
+        # Trigger the admin action by posting this request
+        data = {
+            'action': 'send_notices',
+            '_selected_action': [inst.pk for inst in instances],
+        }
+        resp = self.client.post(
+            reverse('admin:fixmyapp_gastrosignup_changelist'), data=data
+        )
+
+        # Sending notice should update the application_decided field
+        instances[0].refresh_from_db()
+        self.assertTrue(
+            (instances[0].application_decided - datetime.now(tz=timezone.utc))
+            < timedelta(seconds=5),
+            instances[0].application_decided,
+        )
+
+        self.assertEqual(resp.status_code, 302, resp.content)
+        self.assertEqual(len(mail.outbox), 2, mail.outbox)
+
+    def test_incomplete_applications(self):
+        """Test that incomplete applications don't trigger notices to be sent"""
+
+        # Both of theses statuses should trigger sending emails
+        instances = GastroSignup.objects.all()
+
+        for i, inst in enumerate(instances):
+            inst.status = GastroSignup.STATUS_REJECTED
+            if i == 0:
+                inst.application_received = None
+            if i == 1:
+                inst.note = ''
+            inst.save()
+
+        # Need to be signed in as admin user in order to trigger admin actions
+        self.client.login(username=self.username, password=self.password)
+
+        # Trigger the admin action by posting this request
+        data = {
+            'action': 'send_notices',
+            '_selected_action': [inst.pk for inst in instances],
+        }
+        resp = self.client.post(
+            reverse('admin:fixmyapp_gastrosignup_changelist'), data=data
+        )
+
+        self.assertEqual(resp.status_code, 302, resp.content)
+        self.assertEqual(len(mail.outbox), 0, mail.outbox)
 
 
 class PlaystreetTest(TestCase):

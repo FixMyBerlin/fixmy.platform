@@ -441,6 +441,35 @@ class GastroAdminTest(TestCase):
         self.assertEqual(resp.status_code, 302, resp.content)
         self.assertEqual(len(mail.outbox), 2, mail.outbox)
 
+    def test_incomplete_applications(self):
+        """Test that incomplete applications don't trigger notices to be sent"""
+
+        # Both of theses statuses should trigger sending emails
+        instances = GastroSignup.objects.all()
+
+        for i, inst in enumerate(instances):
+            inst.status = GastroSignup.STATUS_REJECTED
+            if i == 0:
+                inst.application_received = None
+            if i == 1:
+                inst.note = ''
+            inst.save()
+
+        # Need to be signed in as admin user in order to trigger admin actions
+        self.client.login(username=self.username, password=self.password)
+
+        # Trigger the admin action by posting this request
+        data = {
+            'action': 'send_notices',
+            '_selected_action': [inst.pk for inst in instances],
+        }
+        resp = self.client.post(
+            reverse('admin:fixmyapp_gastrosignup_changelist'), data=data
+        )
+
+        self.assertEqual(resp.status_code, 302, resp.content)
+        self.assertEqual(len(mail.outbox), 0, mail.outbox)
+
 
 class PlaystreetTest(TestCase):
     def setUp(self):

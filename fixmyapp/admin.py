@@ -1,4 +1,4 @@
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timezone, timedelta
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.admin import SimpleListFilter
@@ -349,11 +349,33 @@ Ihr Bezirksamt Friedrichshain-Kreuzberg'''
                     "gastro/notice_accepted.txt", context=context, request=request
                 )
             elif application.status == GastroSignup.STATUS_REJECTED:
-                context = {
-                    "applicant_email": application.email,
-                    "rejection_reason": application.note,
-                }
-                subject = "Ihre Sondergenehmigung - XHainTerrassen"
+                try:
+                    context = {
+                        "applicant_email": application.email,
+                        "application_created": application.application_received.date(),
+                        "application_received": application.application_received.date(),
+                        "legal_deadline": date.today() + timedelta(days=14),
+                        "shop_name": application.shop_name,
+                        "full_name": f"{application.first_name} {application.last_name}",
+                        "rejection_reason": application.note,
+                    }
+                except AttributeError:
+                    self.message_user(
+                        request,
+                        f"Im Antrag {application.pk} sind nicht alle für den Bescheid nötigen Informationen eingetragen.",
+                        messages.ERROR,
+                    )
+                    continue
+
+                if application.note is None or len(application.note) == 0:
+                    self.message_user(
+                        request,
+                        f"Die Ablehnung für {application.shop_name} enthält noch keine Begründung und wurde daher nicht versandt",
+                        messages.WARNING,
+                    )
+                    continue
+
+                subject = "Ihr Antrag auf eine Sondernutzungsfläche XHainTerrassen"
                 body = render_to_string(
                     "gastro/notice_rejected.txt", context=context, request=request
                 )

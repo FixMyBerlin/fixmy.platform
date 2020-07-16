@@ -6,6 +6,7 @@ from django.core import mail
 from django.core.exceptions import PermissionDenied
 from django.db.models import Count
 from django.shortcuts import get_object_or_404
+from django.template.loader import render_to_string
 from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.pagination import PageNumberPagination
@@ -184,6 +185,14 @@ class PlayStreetView(APIView):
 class GastroSignupView(APIView):
     permission_classes = (permissions.AllowAny,)
 
+    def _send_registration_confirmation(self, recipient, request):
+        """Send a registration confirmation email notice"""
+        subject = 'Ihr Antrag bei Offene Terrassen für Friedrichshain-Kreuzberg'
+        body = render_to_string('gastro/notice_registered.txt', request=request)
+        mail.send_mail(
+            subject, body, settings.DEFAULT_FROM_EMAIL, [recipient], fail_silently=True
+        )
+
     def get(self, request, campaign, pk, access_key=None):
         """Request existing signup data"""
         result = get_object_or_404(GastroSignup, pk=pk)
@@ -213,11 +222,12 @@ class GastroSignupView(APIView):
         if settings.TOGGLE_GASTRO_DIRECT_SIGNUP:
             serializer = GastroDirectRegistrationSerializer(data=request.data)
             if serializer.is_valid():
-                serializer.save(
+                instance = serializer.save(
                     status=GastroSignup.STATUS_REGISTERED,
                     certificate=request.data.get('certificateS3'),
                     application_received=datetime.now(tz=timezone.utc),
                 )
+                self._send_registration_confirmation(instance.email, request)
                 return Response(request.data, status=status.HTTP_201_CREATED)
         else:
             serializer = GastroSignupSerializer(data=request.data)
@@ -233,29 +243,6 @@ class GastroSignupView(APIView):
             return Response(
                 'Registration is currently not open',
                 status=status.HTTP_405_METHOD_NOT_ALLOWED,
-            )
-
-        def send_registration_confirmation(instance):
-            """Send a registration confirmation email for this signup"""
-            subject = 'Ihr Antrag bei Offene Terrassen für Friedrichshain-Kreuzberg'
-            body = f'''Sehr geehrte Damen und Herren,
-
-hiermit wird der erfolgreiche Eingang Ihres Antrags auf Nutzung einer temporären Sonderfläche bestätigt.
-
-Vermerk: Das Bezirksamt bearbeitet die Anträge in der Reihenfolge Ihres
-vollständigen Eingangs. Sobald Ihr Antrag bearbeitet wurde, erhalten Sie eine
-Nachricht zum weiteren Vorgehen. Bitte sehen Sie von individuellen Nachfragen ab.
-
-Vielen Dank!
-
-Mit freundlichen Grüßen,
-Ihr Bezirksamt Friedrichshain-Kreuzberg'''
-            mail.send_mail(
-                subject,
-                body,
-                settings.DEFAULT_FROM_EMAIL,
-                [instance.email],
-                fail_silently=True,
             )
 
         instance = get_object_or_404(GastroSignup, pk=pk, access_key=access_key)
@@ -275,7 +262,7 @@ Ihr Bezirksamt Friedrichshain-Kreuzberg'''
                 application_received=datetime.now(tz=timezone.utc),
             )
 
-            send_registration_confirmation(instance)
+            self._send_registration_confirmation(instance.email, request)
             return Response(request.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

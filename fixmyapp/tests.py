@@ -238,7 +238,13 @@ class GastroSignupTest(TestCase):
         }
 
     def test_signup(self):
-        """Test that signups are possible when TOGGLE_GASTRO_SIGNUPS is set"""
+        """
+        Test conditions for opening signups
+        
+        It should only be possible to sign-up when TOGGLE_GASTRO_SIGNUPS is
+        set and either no start and end date are defined or the current datetime
+        is in that time window.
+        """
         with self.settings(
             TOGGLE_GASTRO_SIGNUPS=True, TOGGLE_GASTRO_DIRECT_SIGNUP=False
         ):
@@ -255,6 +261,23 @@ class GastroSignupTest(TestCase):
 
         with self.settings(
             TOGGLE_GASTRO_SIGNUPS=False, TOGGLE_GASTRO_DIRECT_SIGNUP=False
+        ):
+            response = self.client.post(
+                '/api/gastro/xhain',
+                data=json.dumps(self.signup_data),
+                content_type='application/json',
+            )
+            self.assertEqual(response.status_code, 405)
+
+        with self.settings(
+            TOGGLE_GASTRO_SIGNUPS=True,
+            TOGGLE_GASTRO_DIRECT_SIGNUP=False,
+            GASTRO_SIGNUPS_OPEN=(
+                datetime.now(tz=timezone.utc) - timedelta(seconds=30)
+            ).isoformat(),
+            GASTRO_SIGNUPS_CLOSE=(
+                datetime.now(tz=timezone.utc) - timedelta(seconds=5)
+            ).isoformat(),
         ):
             response = self.client.post(
                 '/api/gastro/xhain',

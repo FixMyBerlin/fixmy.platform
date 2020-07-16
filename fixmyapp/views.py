@@ -187,7 +187,7 @@ class GastroSignupView(APIView):
 
     def _send_registration_confirmation(self, recipient, request):
         """Send a registration confirmation email notice"""
-        subject = 'Ihr Antrag bei Offene Terrassen für Friedrichshain-Kreuzberg'
+        subject = 'Ihr Antrag bei XHain-Terrassen'
         body = render_to_string('gastro/notice_registered.txt', request=request)
         mail.send_mail(
             subject, body, settings.DEFAULT_FROM_EMAIL, [recipient], fail_silently=True

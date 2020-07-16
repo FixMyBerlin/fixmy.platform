@@ -407,8 +407,11 @@ class GastroDirectRegistrationSerializer(GastroRegistrationSerializer):
         except botocore.exceptions.ClientError as e:
             if e.response['Error']['Code'] == "404":
                 raise serializers.ValidationError(_('Please upload a certificate'))
-            else:
-                raise
+            raise
+        except ValueError:
+            if self.initial_data.get('certificateS3') is None:
+                raise serializers.ValidationError(_('Please upload a certificate'))
+            raise
         return values
 
 

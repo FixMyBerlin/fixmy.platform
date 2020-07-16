@@ -301,6 +301,7 @@ DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
 TOGGLE_NEWSLETTER = bool(os.getenv('TOGGLE_NEWSLETTER', False))
 TOGGLE_GASTRO_SIGNUPS = bool(os.getenv('TOGGLE_GASTRO_SIGNUPS', False))
 TOGGLE_GASTRO_REGISTRATIONS = bool(os.getenv('TOGGLE_GASTRO_REGISTRATIONS', True))
+TOGGLE_GASTRO_DIRECT_SIGNUP = bool(os.getenv('TOGGLE_GASTRO_DIRECT_SIGNUP', False))
 
 # Configuration for Gastro-app
 

@@ -232,9 +232,22 @@ class GastroSignupTest(TestCase):
             },
         }
 
+        self.direct_registration_data = {
+            **self.registration_data,
+            'certificateS3': 'unit_test_data/test.txt',
+        }
+
     def test_signup(self):
-        """Test that signups are possible when TOGGLE_GASTRO_SIGNUPS is set"""
-        with self.settings(TOGGLE_GASTRO_SIGNUPS=True):
+        """
+        Test conditions for opening signups
+        
+        It should only be possible to sign-up when TOGGLE_GASTRO_SIGNUPS is
+        set and either no start and end date are defined or the current datetime
+        is in that time window.
+        """
+        with self.settings(
+            TOGGLE_GASTRO_SIGNUPS=True, TOGGLE_GASTRO_DIRECT_SIGNUP=False
+        ):
             response = self.client.post(
                 '/api/gastro/xhain',
                 data=json.dumps(self.signup_data),
@@ -246,7 +259,26 @@ class GastroSignupTest(TestCase):
             response2 = self.client.get(f'/api/gastro/xhain/{signup_id}')
             self.assertEqual(response2.status_code, 200)
 
-        with self.settings(TOGGLE_GASTRO_SIGNUPS=False):
+        with self.settings(
+            TOGGLE_GASTRO_SIGNUPS=False, TOGGLE_GASTRO_DIRECT_SIGNUP=False
+        ):
+            response = self.client.post(
+                '/api/gastro/xhain',
+                data=json.dumps(self.signup_data),
+                content_type='application/json',
+            )
+            self.assertEqual(response.status_code, 405)
+
+        with self.settings(
+            TOGGLE_GASTRO_SIGNUPS=True,
+            TOGGLE_GASTRO_DIRECT_SIGNUP=False,
+            GASTRO_SIGNUPS_OPEN=(
+                datetime.now(tz=timezone.utc) - timedelta(seconds=30)
+            ).isoformat(),
+            GASTRO_SIGNUPS_CLOSE=(
+                datetime.now(tz=timezone.utc) - timedelta(seconds=5)
+            ).isoformat(),
+        ):
             response = self.client.post(
                 '/api/gastro/xhain',
                 data=json.dumps(self.signup_data),
@@ -258,7 +290,9 @@ class GastroSignupTest(TestCase):
         """Test that changing read-only fields is not possible"""
 
         # Create a new signup
-        with self.settings(TOGGLE_GASTRO_SIGNUPS=True):
+        with self.settings(
+            TOGGLE_GASTRO_SIGNUPS=True, TOGGLE_GASTRO_DIRECT_SIGNUP=False
+        ):
             self.client.post(
                 '/api/gastro/xhain',
                 data=json.dumps(self.signup_data),
@@ -292,7 +326,9 @@ class GastroSignupTest(TestCase):
     def test_signups_closed(self):
         """Test that changing a submission is only possible if it has the right status"""
 
-        with self.settings(TOGGLE_GASTRO_SIGNUPS=True):
+        with self.settings(
+            TOGGLE_GASTRO_SIGNUPS=True, TOGGLE_GASTRO_DIRECT_SIGNUP=False
+        ):
             self.client.post(
                 '/api/gastro/xhain',
                 data=json.dumps(self.signup_data),
@@ -332,7 +368,9 @@ class GastroSignupTest(TestCase):
         """Test that the date of signups is recorded on update"""
 
         # Create a new signup
-        with self.settings(TOGGLE_GASTRO_SIGNUPS=True):
+        with self.settings(
+            TOGGLE_GASTRO_SIGNUPS=True, TOGGLE_GASTRO_DIRECT_SIGNUP=False
+        ):
             self.client.post(
                 '/api/gastro/xhain',
                 data=json.dumps(self.signup_data),
@@ -363,6 +401,38 @@ class GastroSignupTest(TestCase):
             instance.application_received
             >= (datetime.now(tz=timezone.utc) - timedelta(seconds=5))
         )
+
+    def test_direct_registration(self):
+        """Test direct registration"""
+        with self.settings(
+            TOGGLE_GASTRO_SIGNUPS=True, TOGGLE_GASTRO_DIRECT_SIGNUP=True
+        ):
+            response = self.client.post(
+                '/api/gastro/xhain',
+                data=json.dumps(self.registration_data),
+                content_type="application/json",
+            )
+        self.assertEqual(response.status_code, 400)
+
+        with self.settings(
+            TOGGLE_GASTRO_SIGNUPS=True, TOGGLE_GASTRO_DIRECT_SIGNUP=True
+        ):
+            response = self.client.post(
+                '/api/gastro/xhain',
+                data=json.dumps(self.direct_registration_data),
+                content_type="application/json",
+            )
+        self.assertEqual(response.status_code, 201)
+
+        instance = GastroSignup.objects.first()
+
+        self.assertTrue(instance.application_received <= datetime.now(tz=timezone.utc))
+        self.assertTrue(
+            instance.application_received
+            >= (datetime.now(tz=timezone.utc) - timedelta(seconds=5))
+        )
+
+        self.assertEqual(instance.status, GastroSignup.STATUS_REGISTERED)
 
 
 class GastroAdminTest(TestCase):

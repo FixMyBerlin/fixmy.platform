@@ -1,5 +1,7 @@
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 from drf_extra_fields.fields import HybridImageField
 from rest_framework import serializers
 from rest_framework_gis.fields import GeometryField
@@ -389,6 +391,28 @@ class GastroRegistrationSerializer(serializers.ModelSerializer):
             'application_decided',
             'note',
         ]
+
+
+class GastroDirectRegistrationSerializer(GastroRegistrationSerializer):
+    def validate(self, values):
+        """Validate that the given S3 key exists in current bucket"""
+        import botocore
+        import boto3
+
+        s3 = boto3.resource('s3')
+        try:
+            s3.Object(
+                settings.AWS_STORAGE_BUCKET_NAME, self.initial_data.get('certificateS3')
+            ).load()
+        except botocore.exceptions.ClientError as e:
+            if e.response['Error']['Code'] == "404":
+                raise serializers.ValidationError(_('Please upload a certificate'))
+            raise
+        except ValueError:
+            if self.initial_data.get('certificateS3') is None:
+                raise serializers.ValidationError(_('Please upload a certificate'))
+            raise
+        return values
 
 
 class GastroCertificateSerializer(serializers.ModelSerializer):

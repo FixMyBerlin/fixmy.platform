@@ -667,12 +667,14 @@ class GastroSignup(BaseModel):
     )
 
     CAMPAIGN_CHOICES = [
-        ('xhain', 'Friedrichshain-Kreuzberg 2020'),
+        ('xhain', 'Friedrichshain-Kreuzberg Mai 2020'),
+        ('xhain2', 'Friedrichshain-Kreuzberg Juli 2020'),
         ('tempelberg', 'Tempelhof-Schöneberg 2020'),
     ]
 
     CAMPAIGN_PATHS = {
         'xhain': 'friedrichshain-kreuzberg',
+        'xhain2': 'friedrichshain-kreuzberg',
         'tempelberg': 'tempelhof-schoeneberg',
     }
 

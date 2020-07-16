@@ -383,7 +383,6 @@ class GastroRegistrationSerializer(serializers.ModelSerializer):
 
         read_only_fields = [
             'regulation',
-            'campaign',
             'certificate',
             'application_received',
             'application_decided',

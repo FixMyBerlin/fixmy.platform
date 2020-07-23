@@ -3,7 +3,7 @@
 from django.db import migrations
 
 replacements = {
-    'Krossener Straße': 'Krossener Straße / Gabriel-Max-Straße (Boxhagener Platz)',
+    'Krossener Straße': 'Krossener Straße / Gabriel-Max-Straße',
     'Arndtstraße': 'Chamissoplatz',
     'Paul-Lincke-Ufer': 'Paul-Lincke-Ufer / Forsterstraße',
     'Helmerdingstraße': 'Simplonstraße',

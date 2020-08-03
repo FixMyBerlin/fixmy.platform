@@ -380,6 +380,8 @@ class GastroRegistrationSerializer(serializers.ModelSerializer):
             'regulation',
             'application_received',
             'application_decided',
+            'permit_start',
+            'permit_end',
             'note',
         ]
 
@@ -388,6 +390,8 @@ class GastroRegistrationSerializer(serializers.ModelSerializer):
             'certificate',
             'application_received',
             'application_decided',
+            'permit_start',
+            'permit_end',
             'note',
         ]
 

@@ -693,6 +693,9 @@ class GastroSignup(BaseModel):
     application_received = models.DateTimeField(_('Application received'), null=True)
     application_decided = models.DateTimeField(_('Notice sent'), null=True)
 
+    permit_start = models.DateField(_('Permit valid from'), null=True)
+    permit_end = models.DateField(_('Permit valid until'), null=True)
+
     permit_checked = models.BooleanField(_('permit checked'), default=False)
     permit_check_note = models.CharField(
         _('permit check notes'), max_length=255, blank=True, null=True

@@ -220,6 +220,8 @@ class GastroSignupAdmin(FMBGastroAdmin):
         'application_received',
         'application_decided',
         'application_form',
+        'permit_start',
+        'permit_end',
         'permit',
         'traffic_order',
     )

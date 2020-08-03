@@ -1,3 +1,4 @@
+from datetime import datetime, date, timezone
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
@@ -678,6 +679,12 @@ class GastroSignup(BaseModel):
         'tempelberg': 'tempelhof-schoeneberg',
     }
 
+    CAMPAIGN_DURATION = {
+        'xhain': [date(2020, 6, 23), date(2020, 8, 31)],
+        'xhain2': [date(2020, 7, 16), date(2020, 10, 31)],
+        'tempelberg': None,
+    }
+
     campaign = models.CharField(_('campaign'), choices=CAMPAIGN_CHOICES, max_length=32)
     status = models.CharField(
         _('status'), max_length=64, choices=STATUS_CHOICES, default=STATUS_NEW
@@ -762,3 +769,15 @@ class GastroSignup(BaseModel):
     def application_form_url(self):
         """Return URL of this application's signup form"""
         return f"{settings.FRONTEND_URL}/{self.CAMPAIGN_PATHS.get(self.campaign)}/terrassen/registrierung/{self.id}/{self.access_key}"
+
+    def set_application_decided(self):
+        """Save dates relative to time of application decision"""
+        self.application_decided = datetime.now(tz=timezone.utc)
+        if self.status == self.STATUS_ACCEPTED:
+            campaign_start = self.CAMPAIGN_DURATION[self.campaign][0]
+            campaign_end = self.CAMPAIGN_DURATION[self.campaign][1]
+
+            today = datetime.now(tz=timezone.utc).date()
+
+            self.permit_start = today if today > campaign_start else campaign_start
+            self.permit_end = campaign_end

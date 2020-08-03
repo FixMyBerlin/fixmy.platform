@@ -2,6 +2,30 @@
 
 from django.db import migrations, models
 from datetime import date
+from fixmyapp.models import GastroSignup as GastroSignupModel
+
+
+def fill_permit_date(apps, schema_editor):
+    """Fill in the permit dates on applications that have been decided already"""
+    GastroSignup = apps.get_model('fixmyapp', 'GastroSignup')
+    for entry in GastroSignup.objects.all():
+        if (
+            entry.application_decided is not None
+            and entry.permit_start is None
+            and entry.campaign.startswith('xhain')
+        ):
+            entry.permit_start = entry.application_decided
+            try:
+                # CAMPAIGN_DURATION attribute is not available on `GastroSignup`
+                # which is imported as a ModelBase
+                entry.permit_end = GastroSignupModel.CAMPAIGN_DURATION[entry.campaign][
+                    1
+                ]
+            except KeyError:
+                raise ValueError(
+                    'Entry is part of a campaign not supported by this migration'
+                )
+            entry.save()
 
 
 class Migration(migrations.Migration):
@@ -19,4 +43,5 @@ class Migration(migrations.Migration):
             name='permit_start',
             field=models.DateField(null=True, verbose_name='Permit valid from'),
         ),
+        migrations.RunPython(fill_permit_date),
     ]

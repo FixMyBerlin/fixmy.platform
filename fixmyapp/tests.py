@@ -308,6 +308,8 @@ class GastroSignupTest(TestCase):
             {"status": GastroSignup.STATUS_ACCEPTED},
             {"application_decided": datetime.now(tz=timezone.utc)},
             {"application_received": datetime.now(tz=timezone.utc)},
+            {"permit_start": datetime.now(tz=timezone.utc)},
+            {"permit_end": datetime.now(tz=timezone.utc)},
         ]
 
         for sample in readonly_samples:
@@ -506,6 +508,19 @@ class GastroAdminTest(TestCase):
             (instances[0].application_decided - datetime.now(tz=timezone.utc))
             < timedelta(seconds=5),
             instances[0].application_decided,
+        )
+
+        self.assertTrue(
+            (instances[0].permit_start == datetime.now(tz=timezone.utc).date()),
+            instances[0].permit_start,
+        )
+
+        self.assertTrue(
+            (
+                instances[0].permit_end
+                == GastroSignup.CAMPAIGN_DURATION[instances[0].campaign][1]
+            ),
+            instances[0].permit_end,
         )
 
         self.assertEqual(resp.status_code, 302, resp.content)

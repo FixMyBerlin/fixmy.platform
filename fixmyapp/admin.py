@@ -220,6 +220,8 @@ class GastroSignupAdmin(FMBGastroAdmin):
         'application_received',
         'application_decided',
         'application_form',
+        'permit_start',
+        'permit_end',
         'permit',
         'traffic_order',
     )
@@ -396,8 +398,14 @@ Ihr Bezirksamt Friedrichshain-Kreuzberg'''
                     messages.ERROR,
                 )
             else:
-                application.application_decided = datetime.now(tz=timezone.utc)
-                application.save()
+                try:
+                    application.set_application_decided()
+                    application.save()
+                except KeyError:
+                    self.message_user(
+                        request,
+                        f"Der Antrag für {application.shop_name} ist Teil der Kampagne {_(application.campaign)}, für die noch keine Regelzeiträume für die Genehmigungen festgelegt wurden.",
+                    )
                 numsent += 1
         self.message_user(
             request,

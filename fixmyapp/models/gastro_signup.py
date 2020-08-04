@@ -140,7 +140,14 @@ class GastroSignup(BaseModel):
     tos_accepted = models.BooleanField(_('tos_accepted'), default=False)
     agreement_accepted = models.BooleanField(_('agreement accepted'), default=False)
 
+    # Access key for using approved signup data to send in a proper
+    # application
     access_key = models.UUIDField(default=uuid.uuid4, editable=False)
+
+    # Access key for applying for a renewal of the permit
+    access_key_renewal = models.UUIDField(
+        default=uuid.uuid4, editable=False, unique=True
+    )
 
     note = models.TextField(_('note for the registrant'), blank=True)
     note_internal = models.TextField(_('internal note'), blank=True)

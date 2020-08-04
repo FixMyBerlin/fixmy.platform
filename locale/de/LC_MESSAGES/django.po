@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE_VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-08-03 14:16+0000\n"
-"PO-Revision-Date: 2020-08-03 16:18+0200\n"
+"PO-Revision-Date: 2020-08-04 10:38+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -752,11 +752,11 @@ msgstr "Anmerkung an Antragsteller:in"
 
 #: fixmyapp/models.py:749
 msgid "gastro_signup"
-msgstr "Offene Terrassen-Anmeldung"
+msgstr "Antrag auf Ausnahmegenehmigung"
 
 #: fixmyapp/models.py:750
 msgid "gastro_signups"
-msgstr "Offene Terrassen-Anmeldungen"
+msgstr "Anträge auf Ausnahmegenehmigung"
 
 #: fixmyapp/serializers.py:412 fixmyapp/serializers.py:416
 msgid "Please upload a certificate"

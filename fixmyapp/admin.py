@@ -213,7 +213,7 @@ class GastroSignupAdmin(FMBGastroAdmin):
         'regulation',
         'category',
     )
-    ordering = ('status', 'created_date')
+    ordering = ['-created_date']
     readonly_fields = (
         'access_key',
         'created_date',

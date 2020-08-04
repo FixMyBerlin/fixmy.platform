@@ -6,14 +6,17 @@ import fixmyapp.models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('fixmyapp', '0070_auto_20200603_0950'),
-    ]
+    dependencies = [('fixmyapp', '0070_auto_20200603_0950')]
 
     operations = [
         migrations.AlterField(
             model_name='gastrosignup',
             name='certificate',
-            field=models.FileField(blank=True, null=True, upload_to=fixmyapp.models.get_upload_path, verbose_name='registration certificate'),
-        ),
+            field=models.FileField(
+                blank=True,
+                null=True,
+                upload_to=fixmyapp.models.get_upload_path,
+                verbose_name='registration certificate',
+            ),
+        )
     ]

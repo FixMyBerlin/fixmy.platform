@@ -144,13 +144,25 @@ class GastroSignup(BaseModel):
     # application
     access_key = models.UUIDField(default=uuid.uuid4, editable=False)
 
+    note = models.TextField(_('note for the registrant'), blank=True)
+    note_internal = models.TextField(_('internal note'), blank=True)
+
     # Access key for applying for a renewal of the permit
     access_key_renewal = models.UUIDField(
         default=uuid.uuid4, editable=False, unique=True
     )
-
-    note = models.TextField(_('note for the registrant'), blank=True)
-    note_internal = models.TextField(_('internal note'), blank=True)
+    renewal_sent_on = models.DateTimeField(
+        _('offer to apply for renewal sent on'), null=True, blank=True
+    )
+    renewal_application = models.ForeignKey(
+        'self',
+        verbose_name=_('renewal application'),
+        related_name='previous_application',
+        editable=False,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
 
     class Meta:
         verbose_name = _('gastro_signup')
@@ -176,6 +188,11 @@ class GastroSignup(BaseModel):
     def application_form_url(self):
         """Return URL of this application's signup form"""
         return f"{settings.FRONTEND_URL}/{self.CAMPAIGN_PATHS.get(self.campaign)}/terrassen/registrierung/{self.id}/{self.access_key}"
+
+    @property
+    def renewal_form_url(self):
+        """Return URL where applicants can apply for a renewal of the permit"""
+        return f"{settings.FRONTEND_URL}/{self.CAMPAIGN_PATHS.get(self.campaign)}/terrassen/folgeantrag/{self.id}/{self.access_key_renewal}"
 
     def set_application_decided(self):
         """Save dates relative to time of application decision"""

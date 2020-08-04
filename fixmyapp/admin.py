@@ -215,7 +215,6 @@ class GastroSignupAdmin(FMBGastroAdmin):
     )
     ordering = ['-created_date']
     readonly_fields = (
-        'access_key',
         'created_date',
         'application_received',
         'application_decided',
@@ -223,6 +222,8 @@ class GastroSignupAdmin(FMBGastroAdmin):
         'permit_start',
         'permit_end',
         'permit',
+        'renewal_sent_on',
+        'renewal_application',
         'traffic_order',
     )
     search_fields = ('shop_name', 'last_name', 'address')
@@ -241,6 +242,20 @@ class GastroSignupAdmin(FMBGastroAdmin):
 
     application_form.allow_tags = True
     application_form.short_description = _('application form')
+
+    def renewal_form(self, obj):
+        if obj.pk is None:
+            return _('Permalinks are available after saving for the first time')
+        return format_html(
+            '<a href="'
+            + obj.renewal_form_url
+            + '" target="_blank">'
+            + obj.renewal_form_url
+            + '</a> <p>(nur einsehbar, nachdem Angebot zum Folgeantrag verschickt wurde)</p>'
+        )
+
+    renewal_form.allow_tags = True
+    renewal_form.short_description = _('renewal form')
 
     def permit(self, obj):
         if obj.pk is None:
@@ -377,7 +392,7 @@ Ihr Bezirksamt Friedrichshain-Kreuzberg'''
                     )
                     continue
 
-                subject = "Ihr Antrag auf eine Sondernutzungsfläche XHainTerrassen"
+                subject = "Ihr Antrag auf eine Sondernutzungsfläche XHain-Terrassen"
                 body = render_to_string(
                     "gastro/notice_rejected.txt", context=context, request=request
                 )
@@ -415,7 +430,59 @@ Ihr Bezirksamt Friedrichshain-Kreuzberg'''
 
     send_notices.short_description = _('send application notices')
 
-    actions = [mark_signup_verification, send_gastro_registration_request, send_notices]
+    def send_renewal_offer(self, request, queryset):
+        """Send offers to apply for a renewal of the application"""
+        RENEWAL_CAMPAIGN = 'xhain2'
+        numsent = 0
+        for application in queryset:
+            renewal_campaign_end = GastroSignup.CAMPAIGN_DURATION[RENEWAL_CAMPAIGN][1]
+            application_form_url = f"{settings.FRONTEND_URL}/{GastroSignup.CAMPAIGN_PATHS.get(application.campaign)}/terrassen/anmeldung"
+
+            context = {
+                "permit_end": application.permit_end,
+                "renewal_campaign_end": renewal_campaign_end,
+                "renewal_form_url": application.renewal_form_url,
+                "application_form_url": application_form_url,
+                "sender": "Bezirksamt Friedrichshain-Kreuzberg",
+            }
+
+            subject = "Folgeantrag für Sondernutzungsfläche XHain-Terrassen"
+            body = render_to_string(
+                "gastro/renewal_offer.txt", context=context, request=request
+            )
+
+            try:
+                send_mail(
+                    subject,
+                    body,
+                    settings.DEFAULT_FROM_EMAIL,
+                    [settings.GASTRO_RECIPIENT],
+                )
+            except SMTPException as e:
+                self.message_user(
+                    request,
+                    f"Bescheid für {application.shop_name} konnte nicht versandt werden: {e.strerror}",
+                    messages.ERROR,
+                )
+            else:
+                application.renewal_sent_on = datetime.now(tz=timezone.utc)
+                application.save()
+                numsent += 1
+
+        self.message_user(
+            request,
+            f"Ein Angebot zum Folgeantrag wurde an {numsent} Adressaten versandt.",
+            messages.SUCCESS,
+        )
+
+    send_renewal_offer.short_description = _('send renewal offer')
+
+    actions = [
+        mark_signup_verification,
+        send_gastro_registration_request,
+        send_notices,
+        send_renewal_offer,
+    ]
 
 
 admin.site.register(Project, ProjectAdmin)

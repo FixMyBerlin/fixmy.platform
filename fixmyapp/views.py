@@ -369,6 +369,7 @@ class GastroRenewalView(APIView):
         renewal.campaign = renewal_campaign
         renewal.received = datetime.now(tz=timezone.utc)
         renewal.status = GastroSignup.STATUS_ACCEPTED
+        renewal.application_received = datetime.now(tz=timezone.utc)
         renewal.application_decided = datetime.now(tz=timezone.utc)
         renewal.set_application_decided()
         renewal.access_key = uuid.uuid4()

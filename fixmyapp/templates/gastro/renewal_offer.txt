@@ -1,0 +1,22 @@
+Sehr geehrte Damen und Herren,
+
+Ihre Sondergenehmigung zur Nutzung einer Sonderfläche läuft zum {{permit_end}} aus.
+Wir bieten Ihnen an, einen Folgeantrag zu stellen, um eine Genehmigung zu erhalten,
+die Fläche bis zum {{renewal_campaign_end}} nutzen zu können.
+
+Nutzen Sie den folgenden Link um mit einem Klick einen Folgeantrag mit den Daten
+aus Ihrem vorherigen Antrag zu stellen:
+
+{{renewal_form_url}}
+
+Falls sich an Ihren Daten etwas geändert hat, oder sie einen Antrag für eine 
+geänderte Nutzungsfläche stellen möchten, können Sie über den folgenden Link auch
+einen neuen Antrag stellen. Die Bearbeitungszeit ist in diesem Fall etwas länger.
+
+{{application_form_url}}
+
+Für Folgeanträge, die bis zum 27.8.2020 eingehen, können Genehmigungen ausgestellt
+werden, mit denen eine Nutzung ab dem 4.9.2020 wieder möglich ist.
+
+Mit freundlichen Grüßen,
+Ihr {{sender}}

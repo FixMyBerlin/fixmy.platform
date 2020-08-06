@@ -382,6 +382,7 @@ class GastroRegistrationSerializer(serializers.ModelSerializer):
             'application_decided',
             'permit_start',
             'permit_end',
+            'renewal_application',
             'note',
         ]
 
@@ -392,6 +393,7 @@ class GastroRegistrationSerializer(serializers.ModelSerializer):
             'application_decided',
             'permit_start',
             'permit_end',
+            'renewal_application',
             'note',
         ]
 

@@ -6,6 +6,7 @@ from django.contrib.contenttypes.admin import GenericTabularInline
 from django.contrib.gis import admin
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.translation import ngettext, gettext_lazy as _
 from reversion.admin import VersionAdmin
@@ -195,6 +196,39 @@ class TrafficOrderCheckFilter(SimpleListFilter):
             return queryset
 
 
+class CampaignFilter(SimpleListFilter):
+    """Filter entries by campaign"""
+
+    title = _('Kampagne')
+    parameter_name = 'campaign'
+
+    def lookups(self, request, model_admin):
+        return GastroSignup.CAMPAIGN_CHOICES
+
+    def queryset(self, request, queryset):
+        if self.value() is None:
+            return queryset
+        return queryset.filter(campaign=self.value())
+
+
+class RenewalOfferSentFilter(SimpleListFilter):
+    """Filter entries for which a renewal offer has been sent"""
+
+    title = _('Renewal offer')
+    parameter_name = 'renewal_offer_sent'
+
+    def lookups(self, request, model_admin):
+        return (('yes', _('Sent')), ('no', _('Not sent')))
+
+    def queryset(self, request, queryset):
+        if self.value() == 'no':
+            return queryset.filter(renewal_sent_on=None)
+        elif self.value() == 'yes':
+            return queryset.exclude(renewal_sent_on=None)
+        else:
+            return queryset
+
+
 class GastroSignupAdmin(FMBGastroAdmin):
     list_display = (
         'id',
@@ -206,24 +240,29 @@ class GastroSignupAdmin(FMBGastroAdmin):
         'modified_date',
     )
     list_filter = (
+        CampaignFilter,
         'status',
         NoticeSentFilter,
         PermitCheckFilter,
         TrafficOrderCheckFilter,
+        RenewalOfferSentFilter,
         'regulation',
         'category',
     )
-    ordering = ('status', 'created_date')
+    ordering = ['-created_date']
     readonly_fields = (
-        'access_key',
         'created_date',
         'application_received',
-        'application_decided',
         'application_form',
+        'application_decided',
         'permit_start',
         'permit_end',
         'permit',
         'traffic_order',
+        'renewal_sent_on',
+        'renewal_form',
+        'renewal_application_link',
+        'previous_application_link',
     )
     search_fields = ('shop_name', 'last_name', 'address')
     save_on_top = True
@@ -241,6 +280,62 @@ class GastroSignupAdmin(FMBGastroAdmin):
 
     application_form.allow_tags = True
     application_form.short_description = _('application form')
+
+    def renewal_form(self, obj):
+        if obj.pk is None:
+            return _('Permalinks are available after saving for the first time')
+
+        if GastroSignup.RENEWAL_CAMPAIGN.get(obj.campaign, None) is None:
+            return _('No renewal defined for this campaign')
+
+        return format_html(
+            '<a href="'
+            + obj.renewal_form_url
+            + '" target="_blank">'
+            + obj.renewal_form_url
+            + '</a>'
+        )
+
+    renewal_form.allow_tags = True
+    renewal_form.short_description = _('renewal form')
+
+    def renewal_application_link(self, obj):
+        if obj.pk is None:
+            return _('Permalinks are available after saving for the first time')
+
+        if obj.renewal_application is None:
+            return _('No renewal application available')
+
+        link = reverse(
+            "admin:fixmyapp_gastrosignup_change", args=[obj.renewal_application.id]
+        )
+        return format_html(
+            '<a href="'
+            + link
+            + '" target="_blank">'
+            + str(obj.renewal_application)
+            + '</a>'
+        )
+
+    renewal_application_link.allow_tags = True
+    renewal_application_link.short_description = _('renewal application')
+
+    def previous_application_link(self, obj):
+        if obj.pk is None:
+            return _('Permalinks are available after saving for the first time')
+
+        prev = obj.previous_application.first()
+
+        if prev is None:
+            return _('This is the initial application')
+
+        link = reverse("admin:fixmyapp_gastrosignup_change", args=[prev.id])
+        return format_html(
+            '<a href="' + link + '" target="_blank">' + str(prev) + '</a>'
+        )
+
+    previous_application_link.allow_tags = True
+    previous_application_link.short_description = _('previous application link')
 
     def permit(self, obj):
         if obj.pk is None:
@@ -334,55 +429,88 @@ Ihr Bezirksamt Friedrichshain-Kreuzberg'''
 
     def send_notices(self, request, queryset):
         """Send acception/rejection notices to applicants"""
-        REGULATION_GEHWEG = 10
 
         numsent = 0
         for application in queryset:
-            if application.status == GastroSignup.STATUS_ACCEPTED:
-                context = {
-                    "is_boardwalk": application.regulation == REGULATION_GEHWEG,
-                    "is_restaurant": application.category == 'restaurant',
-                    "applicant_email": application.email,
-                    "link_permit": application.permit_url,
-                    "link_traffic_order": application.traffic_order_url,
-                }
-                subject = "Ihre Sondergenehmigung - XHainTerrassen"
-                body = render_to_string(
-                    "gastro/notice_accepted.txt", context=context, request=request
-                )
-            elif application.status == GastroSignup.STATUS_REJECTED:
-                try:
-                    context = {
-                        "applicant_email": application.email,
-                        "application_created": application.application_received.date(),
-                        "application_received": application.application_received.date(),
-                        "legal_deadline": date.today() + timedelta(days=14),
-                        "shop_name": application.shop_name,
-                        "full_name": f"{application.first_name} {application.last_name}",
-                        "rejection_reason": application.note,
-                    }
-                except AttributeError:
+            if application.status not in [
+                GastroSignup.STATUS_ACCEPTED,
+                GastroSignup.STATUS_REJECTED,
+            ]:
+                continue
+
+            try:
+                application.send_notice()
+                application.save()
+                numsent += 1
+            except AttributeError as err:
+                if str(err) == "Missing data":
                     self.message_user(
                         request,
                         f"Im Antrag {application.pk} sind nicht alle für den Bescheid nötigen Informationen eingetragen.",
                         messages.ERROR,
                     )
                     continue
-
-                if application.note is None or len(application.note) == 0:
+                elif str(err) == "Missing note":
                     self.message_user(
                         request,
                         f"Die Ablehnung für {application.shop_name} enthält noch keine Begründung und wurde daher nicht versandt",
-                        messages.WARNING,
+                        messages.ERROR,
                     )
                     continue
-
-                subject = "Ihr Antrag auf eine Sondernutzungsfläche XHainTerrassen"
-                body = render_to_string(
-                    "gastro/notice_rejected.txt", context=context, request=request
+                elif str(err) == "Campaign missing permit date range":
+                    self.message_user(
+                        request,
+                        f"Der Antrag für {application.shop_name} ist Teil der Kampagne {_(application.campaign)}, für die noch keine Regelzeiträume für die Genehmigungen festgelegt wurden.",
+                        messages.ERROR,
+                    )
+                else:
+                    raise
+            except SMTPException as e:
+                self.message_user(
+                    request,
+                    f"Bescheid für {application.shop_name} konnte nicht versandt werden: {e.strerror}",
+                    messages.ERROR,
                 )
-            else:
+
+        self.message_user(
+            request,
+            f"Ein Bescheid wurde an {numsent} Adressaten versandt.",
+            messages.SUCCESS if numsent > 0 else messages.WARNING,
+        )
+
+    send_notices.short_description = _('send application notices')
+
+    def send_renewal_offer(self, request, queryset):
+        """Send offers to apply for a renewal of the application"""
+
+        numsent = 0
+        for application in queryset:
+            renewal_campaign = GastroSignup.RENEWAL_CAMPAIGN.get(
+                application.campaign, None
+            )
+            if renewal_campaign is None:
+                self.message_user(
+                    request,
+                    f"Der Antrag {application} ist Teil einer Kampagne für die noch kein Folgezeitraum festgelegt wurde",
+                    messages.WARNING,
+                )
                 continue
+
+            renewal_campaign_end = GastroSignup.CAMPAIGN_DURATION[renewal_campaign][1]
+            application_form_url = f"{settings.FRONTEND_URL}/{GastroSignup.CAMPAIGN_PATHS.get(application.campaign)}/terrassen/anmeldung"
+
+            context = {
+                "permit_end": application.permit_end,
+                "renewal_campaign_end": renewal_campaign_end,
+                "renewal_form_url": application.renewal_form_url,
+                "application_form_url": application_form_url,
+                "sender": "Bezirksamt Friedrichshain-Kreuzberg",
+            }
+
+            subject = "Folgeantrag für Sondernutzungsfläche XHain-Terrassen"
+            body = render_to_string(
+                "gastro/renewal_offer.txt", context=context, request=request
+            )
 
             try:
                 send_mail(
@@ -398,24 +526,24 @@ Ihr Bezirksamt Friedrichshain-Kreuzberg'''
                     messages.ERROR,
                 )
             else:
-                try:
-                    application.set_application_decided()
-                    application.save()
-                except KeyError:
-                    self.message_user(
-                        request,
-                        f"Der Antrag für {application.shop_name} ist Teil der Kampagne {_(application.campaign)}, für die noch keine Regelzeiträume für die Genehmigungen festgelegt wurden.",
-                    )
+                application.renewal_sent_on = datetime.now(tz=timezone.utc)
+                application.save()
                 numsent += 1
+
         self.message_user(
             request,
-            f"Ein Bescheid wurde an {numsent} Adressaten versandt.",
+            f"Ein Angebot zum Folgeantrag wurde an {numsent} Adressaten versandt.",
             messages.SUCCESS,
         )
 
-    send_notices.short_description = _('send application notices')
+    send_renewal_offer.short_description = _('send renewal offer')
 
-    actions = [mark_signup_verification, send_gastro_registration_request, send_notices]
+    actions = [
+        mark_signup_verification,
+        send_gastro_registration_request,
+        send_notices,
+        send_renewal_offer,
+    ]
 
 
 admin.site.register(Project, ProjectAdmin)

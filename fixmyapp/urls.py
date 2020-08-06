@@ -3,8 +3,9 @@ from django.views.decorators.cache import cache_page
 from .models import Project, Report
 from .views import (
     feedback,
-    GastroSignupView,
     GastroCertificateView,
+    GastroRenewalView,
+    GastroSignupView,
     LikedByUserProjectList,
     LikedByUserReportList,
     LikeView,
@@ -40,6 +41,11 @@ urlpatterns = [
         'gastro/<str:campaign>/certificate/<int:pk>/<str:access_key>',
         GastroCertificateView.as_view(),
         name='gastro-certificate-existing-signup'
+    ),
+    path(
+        'gastro/<str:campaign>/renewal/<int:pk>/<str:access_key>',
+        GastroRenewalView.as_view(),
+        name='gastro-signups-detail-restricted'
     ),
     path(
         'gastro/<str:campaign>/<int:pk>',

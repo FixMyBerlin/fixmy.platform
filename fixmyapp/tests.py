@@ -556,6 +556,71 @@ class GastroAdminTest(TestCase):
         self.assertEqual(len(mail.outbox), 0, mail.outbox)
 
 
+class GastroRenewalTest(TestCase):
+    username = 'test_user'
+    password = 'test_password'
+
+    fixtures = ['gastro_signups']
+
+    def setUp(self):
+        self.user = get_user_model().objects.create_superuser(
+            self.username, 'test@example.com', self.password
+        )
+
+    def test_offer_renewal(self):
+        instances = GastroSignup.objects.all()
+        statuses = [GastroSignup.STATUS_ACCEPTED, GastroSignup.STATUS_REJECTED]
+        for i, inst in enumerate(instances):
+            inst.status = statuses[i]
+            inst.save()
+
+        # Need to be signed in as admin user in order to trigger admin actions
+        self.client.login(username=self.username, password=self.password)
+
+        # Trigger the admin action by posting this request
+        data = {
+            'action': 'send_renewal_offer',
+            '_selected_action': [inst.pk for inst in instances],
+        }
+        resp = self.client.post(
+            reverse('admin:fixmyapp_gastrosignup_changelist'), data=data
+        )
+
+        for inst in instances:
+            inst.refresh_from_db()
+            self.assertTrue(inst.renewal_sent_on is not None)
+
+        self.assertEqual(resp.status_code, 302, resp.content)
+        self.assertEqual(len(mail.outbox), 2, mail.outbox)
+
+    def test_accept_renewal(self):
+        instance = GastroSignup.objects.first()
+        instance.status = GastroSignup.STATUS_ACCEPTED
+        instance.save()
+
+        endpoint = (
+            f"/api/gastro/{instance.campaign}/renewal/{instance.id}/invalid_access_key"
+        )
+        resp = self.client.post(endpoint, content_type="application/json")
+        self.assertEqual(resp.status_code, 401)
+
+        endpoint = f"/api/gastro/{instance.campaign}/renewal/{instance.id}/{instance.access_key_renewal}"
+        resp = self.client.post(endpoint, content_type="application/json")
+        self.assertEqual(resp.status_code, 200)
+
+        instance.refresh_from_db()
+        renewal = instance.renewal_application
+        self.assertEqual(renewal.shop_name, instance.shop_name)
+        self.assertEqual(
+            renewal.campaign, GastroSignup.RENEWAL_CAMPAIGN[instance.campaign]
+        )
+        self.assertTrue(
+            renewal.application_received - datetime.now(tz=timezone.utc)
+            < timedelta(seconds=5)
+        )
+        self.assertTrue(renewal.renewal_sent_on is None)
+
+
 class PlaystreetTest(TestCase):
     def setUp(self):
         self.client = Client()

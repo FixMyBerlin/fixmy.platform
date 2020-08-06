@@ -1,5 +1,6 @@
 import dateutil.parser
 import boto3
+import uuid
 from datetime import datetime, timezone
 from django.conf import settings
 from django.core import mail
@@ -7,6 +8,7 @@ from django.core.exceptions import PermissionDenied
 from django.db.models import Count
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
+from django.utils.translation import gettext_lazy as _
 from rest_framework import generics, permissions, status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.pagination import PageNumberPagination
@@ -312,6 +314,77 @@ class GastroCertificateView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class GastroRenewalView(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get(self, request, campaign, pk, access_key):
+        """Request information about the possibility to renew an application"""
+
+        result = get_object_or_404(GastroSignup, pk=pk)
+
+        print(type(result.access_key_renewal), type(access_key))
+
+        if result.access_key_renewal != uuid.UUID(access_key):
+            return Response(
+                _('Invalid access key'), status=status.HTTP_401_UNAUTHORIZED
+            )
+
+        serialization = GastroRegistrationSerializer(result).data
+        return Response(serialization)
+
+    def post(self, request, campaign, pk, access_key):
+        """Submit a renewal application"""
+        application = get_object_or_404(GastroSignup, pk=pk)
+
+        renewal_campaign = GastroSignup.RENEWAL_CAMPAIGN.get(application.campaign, None)
+
+        if renewal_campaign is None:
+            return Response(
+                _('No renewal defined for this campaign'),
+                status=status.HTTP_405_METHOD_NOT_ALLOWED,
+            )
+
+        try:
+            if application.access_key_renewal != uuid.UUID(access_key):
+                return Response(
+                    _('Invalid access key'), status=status.HTTP_401_UNAUTHORIZED
+                )
+        except ValueError:
+            return Response(
+                _('Invalid access key'), status=status.HTTP_401_UNAUTHORIZED
+            )
+
+        if (
+            datetime.now(tz=timezone.utc).date()
+            >= GastroSignup.CAMPAIGN_DURATION[renewal_campaign][1]
+        ):
+            return Response(_('Campaign has ended'), status=status.HTTP_400_BAD_REQUEST)
+
+        # Create a new instance by setting primary key to `None`
+        renewal = application
+        renewal.pk = None
+
+        renewal.campaign = renewal_campaign
+        renewal.received = datetime.now(tz=timezone.utc)
+        renewal.status = GastroSignup.STATUS_ACCEPTED
+        renewal.application_decided = datetime.now(tz=timezone.utc)
+        renewal.set_application_decided()
+        renewal.access_key = uuid.uuid4()
+        renewal.access_key_renewal = uuid.uuid4()
+        renewal.renewal_sent_on = None
+        renewal.save()
+
+        prev_application = GastroSignup.objects.get(pk=pk)
+        prev_application.renewal_application = renewal
+        prev_application.save()
+
+        renewal.send_notice()
+        renewal.save()
+
+        serialization = GastroRegistrationSerializer(prev_application).data
+        return Response(serialization)
 
 
 @api_view(['PUT'])

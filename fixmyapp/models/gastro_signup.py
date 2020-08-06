@@ -1,6 +1,8 @@
-from datetime import datetime, date, timezone
+from datetime import datetime, date, timezone, timedelta
 from django.conf import settings
 from django.contrib.gis.db import models
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 from django.utils.translation import gettext_lazy as _
 import uuid
 
@@ -68,22 +70,29 @@ class GastroSignup(BaseModel):
     )
 
     CAMPAIGN_CHOICES = [
-        ('xhain', 'Friedrichshain-Kreuzberg Mai 2020'),
-        ('xhain2', 'Friedrichshain-Kreuzberg Juli 2020'),
+        ('xhain', 'XHain Mai 2020'),
+        ('xhain2', 'XHain Juli 2020'),
+        ('xhain3', 'XHain Verlängerungen ab Sep 2020'),
         ('tempelberg', 'Tempelhof-Schöneberg 2020'),
     ]
 
     CAMPAIGN_PATHS = {
         'xhain': 'friedrichshain-kreuzberg',
         'xhain2': 'friedrichshain-kreuzberg',
+        'xhain3': 'friedrichshain-kreuzberg',
         'tempelberg': 'tempelhof-schoeneberg',
     }
 
     CAMPAIGN_DURATION = {
         'xhain': [date(2020, 6, 23), date(2020, 8, 31)],
         'xhain2': [date(2020, 7, 16), date(2020, 10, 31)],
+        'xhain3': [date(2020, 8, 31), date(2020, 10, 31)],
         'tempelberg': None,
     }
+
+    # Maps campaigns to the campaign that a renewal will be created in.
+    # Maps to None if renewal is not possible.
+    RENEWAL_CAMPAIGN = {'xhain': 'xhain3', 'xhain2': None, 'xhain3': None}
 
     campaign = models.CharField(_('campaign'), choices=CAMPAIGN_CHOICES, max_length=32)
     status = models.CharField(
@@ -171,7 +180,7 @@ class GastroSignup(BaseModel):
 
     def __str__(self):
         if self.shop_name is not None and len(self.shop_name) > 0:
-            return self.shop_name
+            return f"{self.shop_name} (Antrag {self.id})"
         return f"Terrassen-Anmeldung {self.id}"
 
     @property
@@ -193,6 +202,55 @@ class GastroSignup(BaseModel):
     def renewal_form_url(self):
         """Return URL where applicants can apply for a renewal of the permit"""
         return f"{settings.FRONTEND_URL}/{self.CAMPAIGN_PATHS.get(self.campaign)}/terrassen/folgeantrag/{self.id}/{self.access_key_renewal}"
+
+    def send_notice(self):
+        """Send notice informing the applicant about being accepted/rejected
+        
+        Make sure to save the instance after calling this method as the date of
+        the decision is recorded on call.
+        """
+        REGULATION_GEHWEG = 10
+
+        if self.status == GastroSignup.STATUS_ACCEPTED:
+            context = {
+                "is_boardwalk": self.regulation == REGULATION_GEHWEG,
+                "is_restaurant": self.category == 'restaurant',
+                "applicant_email": self.email,
+                "link_permit": self.permit_url,
+                "link_traffic_order": self.traffic_order_url,
+            }
+            subject = "Ihre Sondergenehmigung - XHain-Terrassen"
+            body = render_to_string("gastro/notice_accepted.txt", context=context)
+        elif self.status == GastroSignup.STATUS_REJECTED:
+            try:
+                context = {
+                    "applicant_email": self.email,
+                    "application_created": self.application_received.date(),
+                    "application_received": self.application_received.date(),
+                    "legal_deadline": date.today() + timedelta(days=14),
+                    "shop_name": self.shop_name,
+                    "full_name": f"{self.first_name} {self.last_name}",
+                    "rejection_reason": self.note,
+                }
+            except AttributeError:
+                raise AttributeError("Missing data")
+
+            if self.note is None or len(self.note) == 0:
+                raise AttributeError("Missing note")
+
+            subject = "Ihr Antrag auf eine Sondernutzungsfläche XHain-Terrassen"
+            body = render_to_string("gastro/notice_rejected.txt", context=context)
+        else:
+            raise ValueError("Invalid status for sending notice email")
+
+        send_mail(
+            subject, body, settings.DEFAULT_FROM_EMAIL, [settings.GASTRO_RECIPIENT]
+        )
+
+        try:
+            self.set_application_decided()
+        except KeyError:
+            raise AttributeError("Campaign missing permit date range")
 
     def set_application_decided(self):
         """Save dates relative to time of application decision"""

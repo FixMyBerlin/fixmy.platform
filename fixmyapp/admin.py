@@ -196,6 +196,39 @@ class TrafficOrderCheckFilter(SimpleListFilter):
             return queryset
 
 
+class CampaignFilter(SimpleListFilter):
+    """Filter entries by campaign"""
+
+    title = _('Kampagne')
+    parameter_name = 'campaign'
+
+    def lookups(self, request, model_admin):
+        return GastroSignup.CAMPAIGN_CHOICES
+
+    def queryset(self, request, queryset):
+        if self.value() is None:
+            return queryset
+        return queryset.filter(campaign=self.value())
+
+
+class RenewalOfferSentFilter(SimpleListFilter):
+    """Filter entries for which a renewal offer has been sent"""
+
+    title = _('Renewal offer')
+    parameter_name = 'renewal_offer_sent'
+
+    def lookups(self, request, model_admin):
+        return (('yes', _('Sent')), ('no', _('Not sent')))
+
+    def queryset(self, request, queryset):
+        if self.value() == 'no':
+            return queryset.filter(renewal_sent_on=None)
+        elif self.value() == 'yes':
+            return queryset.exclude(renewal_sent_on=None)
+        else:
+            return queryset
+
+
 class GastroSignupAdmin(FMBGastroAdmin):
     list_display = (
         'id',
@@ -207,10 +240,12 @@ class GastroSignupAdmin(FMBGastroAdmin):
         'modified_date',
     )
     list_filter = (
+        CampaignFilter,
         'status',
         NoticeSentFilter,
         PermitCheckFilter,
         TrafficOrderCheckFilter,
+        RenewalOfferSentFilter,
         'regulation',
         'category',
     )

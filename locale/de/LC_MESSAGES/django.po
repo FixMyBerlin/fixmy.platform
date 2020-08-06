@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE_VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-06 11:03+0000\n"
-"PO-Revision-Date: 2020-08-06 13:05+0200\n"
+"POT-Creation-Date: 2020-08-06 11:19+0000\n"
+"PO-Revision-Date: 2020-08-06 13:19+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -26,7 +26,7 @@ msgstr "Benachrichtigungsdatum"
 msgid "exceeded"
 msgstr "erreicht"
 
-#: fixmyapp/admin.py:121 fixmyapp/admin.py:347
+#: fixmyapp/admin.py:121 fixmyapp/admin.py:382
 msgid "set status to \"verification\""
 msgstr "Status auf „in Prüfung“ setzen"
 
@@ -55,63 +55,79 @@ msgstr "Verkehrsrechtliche Anordnung geprüft"
 msgid "Traffic order not checked"
 msgstr "Verkehrsrechtliche Anordnung ungeprüft"
 
-#: fixmyapp/admin.py:237 fixmyapp/admin.py:251 fixmyapp/admin.py:269
-#: fixmyapp/admin.py:290 fixmyapp/admin.py:307 fixmyapp/admin.py:321
+#: fixmyapp/admin.py:202
+msgid "Kampagne"
+msgstr "Kampagne"
+
+#: fixmyapp/admin.py:217
+msgid "Renewal offer"
+msgstr "Angebot für Folgeantrag"
+
+#: fixmyapp/admin.py:221
+msgid "Sent"
+msgstr "Versandt"
+
+#: fixmyapp/admin.py:221
+msgid "Not sent"
+msgstr "Nicht versandt"
+
+#: fixmyapp/admin.py:272 fixmyapp/admin.py:286 fixmyapp/admin.py:304
+#: fixmyapp/admin.py:325 fixmyapp/admin.py:342 fixmyapp/admin.py:356
 msgid "Permalinks are available after saving for the first time"
 msgstr "Permalinks sind nach dem ersten Speichern verfügbar"
 
-#: fixmyapp/admin.py:247
+#: fixmyapp/admin.py:282
 msgid "application form"
 msgstr "Anmeldeformular"
 
-#: fixmyapp/admin.py:254 fixmyapp/views.py:345
+#: fixmyapp/admin.py:289 fixmyapp/views.py:345
 msgid "No renewal defined for this campaign"
 msgstr "Für diese Kampagne ist noch kein Zeitraum für Verlängerungen definiert"
 
-#: fixmyapp/admin.py:265
+#: fixmyapp/admin.py:300
 msgid "renewal form"
 msgstr "Formular für Folgeantrag"
 
-#: fixmyapp/admin.py:272
+#: fixmyapp/admin.py:307
 msgid "No renewal application available"
 msgstr "Folgeantrag liegt nicht vor"
 
-#: fixmyapp/admin.py:286 fixmyapp/models/gastro_signup.py:168
+#: fixmyapp/admin.py:321 fixmyapp/models/gastro_signup.py:168
 msgid "renewal application"
 msgstr "Folgeantrag"
 
-#: fixmyapp/admin.py:295
+#: fixmyapp/admin.py:330
 msgid "This is the initial application"
 msgstr "Dies ist der Initialantrag"
 
-#: fixmyapp/admin.py:303
+#: fixmyapp/admin.py:338
 msgid "previous application link"
 msgstr "Vorgängerantrag"
 
-#: fixmyapp/admin.py:317
+#: fixmyapp/admin.py:352
 msgid "permit"
 msgstr "Genehmigung"
 
-#: fixmyapp/admin.py:331
+#: fixmyapp/admin.py:366
 msgid "traffic order"
 msgstr "Verkehrsrechtliche Anordnung"
 
-#: fixmyapp/admin.py:340
+#: fixmyapp/admin.py:375
 #, python-brace-format
 msgid "{numaffected} signup set to 'in verification'"
 msgid_plural "{numaffected} signups set to 'in verification'"
 msgstr[0] "{numaffected} Anmeldung auf ‚in Prüfung‘ gesetzt"
 msgstr[1] "{numaffected} Anmeldungen auf ‚in Prüfung‘ gesetzt"
 
-#: fixmyapp/admin.py:393
+#: fixmyapp/admin.py:428
 msgid "send registation requests"
 msgstr "Antragsformular versenden"
 
-#: fixmyapp/admin.py:446
+#: fixmyapp/admin.py:481
 msgid "send application notices"
 msgstr "Bescheide versenden"
 
-#: fixmyapp/admin.py:504
+#: fixmyapp/admin.py:539
 msgid "send renewal offer"
 msgstr "Angebot für Folgeantrag senden"
 

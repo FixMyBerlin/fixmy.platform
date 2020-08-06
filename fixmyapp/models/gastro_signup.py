@@ -180,8 +180,8 @@ class GastroSignup(BaseModel):
 
     def __str__(self):
         if self.shop_name is not None and len(self.shop_name) > 0:
-            return f"{self.shop_name} (Antrag {self.id})"
-        return f"Terrassen-Anmeldung {self.id}"
+            return f"{self.id}: {self.shop_name}"
+        return f"{self.id}: Kein Betriebsname"
 
     @property
     def permit_url(self):

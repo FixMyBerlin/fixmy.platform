@@ -289,22 +289,18 @@ class GastroSignupAdmin(FMBGastroAdmin):
         if obj.pk is None:
             return _('Permalinks are available after saving for the first time')
 
-        if obj.previous_application is None:
+        prev = obj.previous_application.first()
+
+        if prev is None:
             return _('This is the initial application')
 
-        link = reverse(
-            "admin:fixmyapp_gastro_signup_change", args=[obj.previous_application.id]
-        )
+        link = reverse("admin:fixmyapp_gastrosignup_change", args=[prev.id])
         return format_html(
-            '<a href="'
-            + link
-            + '" target="_blank">'
-            + str(obj.previous_application)
-            + '</a>'
+            '<a href="' + link + '" target="_blank">' + str(prev) + '</a>'
         )
 
     previous_application_link.allow_tags = True
-    previous_application_link.short_description = _('previous application')
+    previous_application_link.short_description = _('previous application link')
 
     def permit(self, obj):
         if obj.pk is None:

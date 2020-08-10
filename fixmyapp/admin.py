@@ -514,12 +514,9 @@ Ihr Bezirksamt Friedrichshain-Kreuzberg'''
 
             try:
                 send_mail(
-                    subject,
-                    body,
-                    settings.DEFAULT_FROM_EMAIL,
-                    [settings.GASTRO_RECIPIENT],
+                    subject, body, settings.DEFAULT_FROM_EMAIL, [application.email]
                 )
-            except SMTPException as e:
+            except SMTPException:
                 self.message_user(
                     request,
                     f"Bescheid für {application.shop_name} konnte nicht versandt werden: {e.strerror}",

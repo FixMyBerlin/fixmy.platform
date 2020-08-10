@@ -593,6 +593,11 @@ class GastroRenewalTest(TestCase):
         self.assertEqual(resp.status_code, 302, resp.content)
         self.assertEqual(len(mail.outbox), 2, mail.outbox)
 
+        # Regression test for email recipeint being application email address
+        # (`mail.outbox` is in reverse order of the instances)
+        for i, inst in enumerate(instances[::-1]):
+            self.assertEqual(inst.email, mail.outbox[i].to[0])
+
     def test_accept_renewal(self):
         instance = GastroSignup.objects.first()
         instance.status = GastroSignup.STATUS_ACCEPTED

@@ -22,7 +22,7 @@ jobs:
     - uses: satackey/action-docker-layer-caching@v0.0.8
 
     - name: Docker build step
-      run: docker-compose up -d --build
+      run: docker-compose up --build
     
     - name: List running containers for debugging
       run: docker ps -a

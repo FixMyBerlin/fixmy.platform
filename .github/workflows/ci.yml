@@ -35,6 +35,10 @@ jobs:
         # Use -T parameter to avoid input device not being recognized
         # https://github.com/docker/compose/issues/5696#issuecomment-425112003
         run: docker-compose exec -T app python manage.py test
+        
+      - uses: codecov/codecov-action@v1
+        with:
+          file: ./coverage.xml
 
       - name: List running containers for debugging
         if: always()

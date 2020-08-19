@@ -33,10 +33,10 @@ jobs:
     - name: Wait until app ready...
       uses: cygnetdigital/wait_for_response@v2.0.0
       with:
-        url: 'http://localhost:8000/'
+        url: 'http://0.0.0.0:8000/'
         responseCode: '200,500'
-        timeout: 10000
-        interval: 150
+        timeout: 60000
+        interval: 500
     
     - name: Run tests
       # Use -T parameter to avoid input device not being recognized 

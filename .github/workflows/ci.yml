@@ -22,6 +22,8 @@ jobs:
 
       - name: Restore docker layer cache
         uses: satackey/action-docker-layer-caching@v0.0.8
+        with:
+          key: docker-cache-{ hash }-${{ hashFiles('./requirements.txt') }} 
 
       - name: Docker build step
         run: docker-compose up -d

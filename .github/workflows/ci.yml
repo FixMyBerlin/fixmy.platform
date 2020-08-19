@@ -17,16 +17,19 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-#     - run: docker-compose pull
+    - name: Provide pull-only docker images
+      run: docker-compose pull
 
-#     - uses: satackey/action-docker-layer-caching@v0.0.8
+    - name: Restore docker layer cache
+      uses: satackey/action-docker-layer-caching@v0.0.8
 
     - name: Docker build step
-      run: docker-compose up -d --build
+      run: docker-compose up -d
 
-    - uses: jakejarvis/wait-action@master
+    - name: Wait 15 seconds for docker to boot...
+      uses: jakejarvis/wait-action@master
       with:
-        time: '20s'
+        time: '15s'
     
     - name: Run tests
       # Use -T parameter to avoid input device not being recognized 

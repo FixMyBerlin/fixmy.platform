@@ -51,18 +51,19 @@ ALLOWED_HOSTS = ['localhost', 'fixmyberlin.de', '35.234.67.137']
 INSTALLED_APPS = [
     'anymail',
     'corsheaders',
+    'django_nose',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
     'django.contrib.gis',
+    'django.contrib.messages',
+    'django.contrib.sessions',
+    'django.contrib.staticfiles',
     'djoser',
     'fixmyapp.apps.FixmyappConfig',
     'markdownx',
-    'rest_framework',
     'rest_framework_gis',
+    'rest_framework',
     'reversion',
     'survey',
 ]
@@ -103,6 +104,18 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'fixmydjango.wsgi.application'
+
+# Testing
+
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+NOSE_ARGS = [
+    '--cover-erase',
+    '--cover-package=fixmyapp,survey',
+    '--with-coverage',
+    '--cover-xml',
+    '--cover-xml-file=./coverage.xml',
+]
 
 
 # Database

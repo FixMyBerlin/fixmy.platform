@@ -14,14 +14,20 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Question',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('created_date', models.DateTimeField(auto_now_add=True)),
                 ('modified_date', models.DateTimeField(auto_now=True)),
                 ('text', models.CharField(max_length=256)),
                 ('answer', markdownx.models.MarkdownxField()),
             ],
-            options={
-                'ordering': ('text',),
-            },
+            options={'ordering': ('text',),},
         ),
     ]

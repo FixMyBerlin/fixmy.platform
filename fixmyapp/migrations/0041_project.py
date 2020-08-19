@@ -15,30 +15,137 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Project',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('created_date', models.DateTimeField(auto_now_add=True)),
                 ('modified_date', models.DateTimeField(auto_now=True)),
                 ('published', models.BooleanField(default=True)),
                 ('title', models.CharField(max_length=256)),
-                ('side', models.PositiveSmallIntegerField(choices=[(0, 'right'), (1, 'left'), (2, 'both')])),
+                (
+                    'side',
+                    models.PositiveSmallIntegerField(
+                        choices=[(0, 'right'), (1, 'left'), (2, 'both')]
+                    ),
+                ),
                 ('responsible', models.CharField(max_length=256)),
                 ('description', markdownx.models.MarkdownxField()),
-                ('short_description', models.CharField(blank=True, max_length=200, null=True)),
-                ('geometry', django.contrib.gis.db.models.fields.GeometryField(blank=True, null=True, srid=4326)),
-                ('category', models.CharField(blank=True, choices=[('new cycling infrastructure', 'new cycling infrastructure'), ('renovation of cycling infrastructure', 'renovation of cycling infrastructure'), ('bike street', 'bike street'), ('modification of junction', 'modification of junction'), ('bike parking', 'bike parking'), ('crossing aid', 'crossing aid'), ('modification of cross section', 'modification of cross section'), ('new street', 'new street'), ('shared space', 'shared space'), ('miscellaneous', 'miscellaneous')], max_length=40, null=True)),
-                ('project_key', models.CharField(blank=True, max_length=100, null=True)),
+                (
+                    'short_description',
+                    models.CharField(blank=True, max_length=200, null=True),
+                ),
+                (
+                    'geometry',
+                    django.contrib.gis.db.models.fields.GeometryField(
+                        blank=True, null=True, srid=4326
+                    ),
+                ),
+                (
+                    'category',
+                    models.CharField(
+                        blank=True,
+                        choices=[
+                            (
+                                'new cycling infrastructure',
+                                'new cycling infrastructure',
+                            ),
+                            (
+                                'renovation of cycling infrastructure',
+                                'renovation of cycling infrastructure',
+                            ),
+                            ('bike street', 'bike street'),
+                            ('modification of junction', 'modification of junction'),
+                            ('bike parking', 'bike parking'),
+                            ('crossing aid', 'crossing aid'),
+                            (
+                                'modification of cross section',
+                                'modification of cross section',
+                            ),
+                            ('new street', 'new street'),
+                            ('shared space', 'shared space'),
+                            ('miscellaneous', 'miscellaneous'),
+                        ],
+                        max_length=40,
+                        null=True,
+                    ),
+                ),
+                (
+                    'project_key',
+                    models.CharField(blank=True, max_length=100, null=True),
+                ),
                 ('costs', models.PositiveIntegerField(blank=True, null=True)),
-                ('draft_submitted', models.CharField(blank=True, max_length=100, null=True)),
-                ('construction_started', models.CharField(blank=True, max_length=100, null=True)),
-                ('construction_completed', models.CharField(blank=True, max_length=100, null=True)),
-                ('phase', models.CharField(blank=True, choices=[('draft', 'draft'), ('planning', 'planning'), ('review', 'review'), ('inactive', 'inactive'), ('execution', 'execution'), ('ready', 'ready'), ('miscellaneous', 'miscellaneous')], max_length=30, null=True)),
-                ('status', models.CharField(blank=True, choices=[('unknown', 'unknown'), ('idea', 'idea'), ('preliminary planning', 'preliminary planning'), ('blueprint planning', 'blueprint planning'), ('approval planning', 'approval planning'), ('examination', 'examination'), ('execution planning', 'execution planning'), ('preparation of awarding', 'preparation of awarding'), ('awarding', 'awarding'), ('application for construction site', 'application for construction site'), ('execution of construction work', 'execution of construction work'), ('ready', 'ready'), ('review', 'review'), ('cancelled', 'cancelled')], max_length=40, null=True)),
+                (
+                    'draft_submitted',
+                    models.CharField(blank=True, max_length=100, null=True),
+                ),
+                (
+                    'construction_started',
+                    models.CharField(blank=True, max_length=100, null=True),
+                ),
+                (
+                    'construction_completed',
+                    models.CharField(blank=True, max_length=100, null=True),
+                ),
+                (
+                    'phase',
+                    models.CharField(
+                        blank=True,
+                        choices=[
+                            ('draft', 'draft'),
+                            ('planning', 'planning'),
+                            ('review', 'review'),
+                            ('inactive', 'inactive'),
+                            ('execution', 'execution'),
+                            ('ready', 'ready'),
+                            ('miscellaneous', 'miscellaneous'),
+                        ],
+                        max_length=30,
+                        null=True,
+                    ),
+                ),
+                (
+                    'status',
+                    models.CharField(
+                        blank=True,
+                        choices=[
+                            ('unknown', 'unknown'),
+                            ('idea', 'idea'),
+                            ('preliminary planning', 'preliminary planning'),
+                            ('blueprint planning', 'blueprint planning'),
+                            ('approval planning', 'approval planning'),
+                            ('examination', 'examination'),
+                            ('execution planning', 'execution planning'),
+                            ('preparation of awarding', 'preparation of awarding'),
+                            ('awarding', 'awarding'),
+                            (
+                                'application for construction site',
+                                'application for construction site',
+                            ),
+                            (
+                                'execution of construction work',
+                                'execution of construction work',
+                            ),
+                            ('ready', 'ready'),
+                            ('review', 'review'),
+                            ('cancelled', 'cancelled'),
+                        ],
+                        max_length=40,
+                        null=True,
+                    ),
+                ),
                 ('external_url', models.URLField(blank=True, null=True)),
-                ('cross_section', models.ImageField(blank=True, null=True, upload_to='photos')),
+                (
+                    'cross_section',
+                    models.ImageField(blank=True, null=True, upload_to='photos'),
+                ),
                 ('faq', models.ManyToManyField(blank=True, to='fixmyapp.Question')),
             ],
-            options={
-                'abstract': False,
-            },
+            options={'abstract': False,},
         ),
     ]

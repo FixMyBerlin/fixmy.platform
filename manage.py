@@ -2,6 +2,8 @@
 import os
 import sys
 
+is_testing = 'test' in sys.argv
+
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "fixmydjango.settings")
     try:
@@ -12,4 +14,17 @@ if __name__ == "__main__":
             "available on your PYTHONPATH environment variable? Did you "
             "forget to activate a virtual environment?"
         ) from exc
+
+    if is_testing:
+        import coverage
+
+        cov = coverage.coverage(source=['fixmyapp', 'survey'], omit=['*/tests/*'])
+        cov.set_option('report:show_missing', True)
+        cov.erase()
+        cov.start()
+
     execute_from_command_line(sys.argv)
+
+    if is_testing:
+        cov.stop()
+        cov.save()

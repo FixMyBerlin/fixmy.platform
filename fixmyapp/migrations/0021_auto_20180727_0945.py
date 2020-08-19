@@ -13,6 +13,25 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='planning',
             name='status',
-            field=models.CharField(blank=True, choices=[('unknown', 'unknown'), ('idea', 'idea'), ('preliminary planning', 'preliminary planning'), ('blueprint planning', 'blueprint planning'), ('approval planning', 'approval planning'), ('execution planning', 'execution planning'), ('preparation of awarding', 'preparation of awarding'), ('awarding', 'awarding'), ('execution of construction work', 'execution of construction work'), ('ready', 'ready')], max_length=30, null=True),
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    ('unknown', 'unknown'),
+                    ('idea', 'idea'),
+                    ('preliminary planning', 'preliminary planning'),
+                    ('blueprint planning', 'blueprint planning'),
+                    ('approval planning', 'approval planning'),
+                    ('execution planning', 'execution planning'),
+                    ('preparation of awarding', 'preparation of awarding'),
+                    ('awarding', 'awarding'),
+                    (
+                        'execution of construction work',
+                        'execution of construction work',
+                    ),
+                    ('ready', 'ready'),
+                ],
+                max_length=30,
+                null=True,
+            ),
         ),
     ]

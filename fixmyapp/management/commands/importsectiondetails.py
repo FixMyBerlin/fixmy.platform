@@ -37,10 +37,7 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            'file',
-            type=argparse.FileType('r'),
-            default=sys.stdin,
-            help='A CSV file'
+            'file', type=argparse.FileType('r'), default=sys.stdin, help='A CSV file'
         )
 
     def handle(self, *args, **options):
@@ -48,9 +45,7 @@ class Command(BaseCommand):
         reader = csv.DictReader(options['file'])
         for row in (row for row in reader if row['exist'] == '1'):
             # Marshall CSV key names and formatting to Model format
-            kwargs = {
-                mapping[key]: row[key].replace(',', '.') for key in mapping
-            }
+            kwargs = {mapping[key]: row[key].replace(',', '.') for key in mapping}
 
             try:
                 obj, created = SectionDetails.objects.update_or_create(**kwargs)
@@ -58,7 +53,7 @@ class Command(BaseCommand):
                     photo = Photo(
                         content_object=obj,
                         copyright='Geoportal Berlin / Radverkehrsanlagen',
-                        src='rva_pics{}'.format(path)
+                        src='rva_pics{}'.format(path),
                     )
                     photo.save()
             except IntegrityError as e:

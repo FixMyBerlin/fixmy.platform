@@ -15,30 +15,37 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Photo',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('created_date', models.DateTimeField(auto_now_add=True)),
                 ('modified_date', models.DateTimeField(auto_now=True)),
                 ('copyright', models.CharField(blank=True, max_length=256, null=True)),
                 ('object_id', models.PositiveIntegerField()),
-                ('src', models.ImageField(upload_to='photos', verbose_name='Image URL')),
-                ('content_type', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='contenttypes.ContentType')),
+                (
+                    'src',
+                    models.ImageField(upload_to='photos', verbose_name='Image URL'),
+                ),
+                (
+                    'content_type',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to='contenttypes.ContentType',
+                    ),
+                ),
             ],
-            options={
-                'abstract': False,
-            },
+            options={'abstract': False,},
         ),
         migrations.RemoveField(
-            model_name='cyclinginfrastructurephoto',
-            name='planning_section_detail',
+            model_name='cyclinginfrastructurephoto', name='planning_section_detail',
         ),
-        migrations.RemoveField(
-            model_name='planningphoto',
-            name='planning',
-        ),
-        migrations.DeleteModel(
-            name='CyclingInfrastructurePhoto',
-        ),
-        migrations.DeleteModel(
-            name='PlanningPhoto',
-        ),
+        migrations.RemoveField(model_name='planningphoto', name='planning',),
+        migrations.DeleteModel(name='CyclingInfrastructurePhoto',),
+        migrations.DeleteModel(name='PlanningPhoto',),
     ]

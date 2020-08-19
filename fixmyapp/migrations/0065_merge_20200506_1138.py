@@ -10,5 +10,4 @@ class Migration(migrations.Migration):
         ('fixmyapp', '0064_playstreetsignup'),
     ]
 
-    operations = [
-    ]
+    operations = []

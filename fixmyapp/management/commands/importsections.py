@@ -22,7 +22,7 @@ class Command(BaseCommand):
             '--show-progress',
             action='store_true',
             dest='progress',
-            help='display the progress bar in any verbosity level.'
+            help='display the progress bar in any verbosity level.',
         )
 
     def handle(self, *args, **options):
@@ -32,12 +32,12 @@ class Command(BaseCommand):
             mapping,
             transform=True,
             encoding='utf-8',
-            unique=('id',)
+            unique=('id',),
         )
         lm.save(
             verbose=True if options['verbosity'] > 2 else False,
             progress=options['progress'] or options['verbosity'] > 1,
             silent=options['verbosity'] == 0,
             stream=self.stdout,
-            strict=True
+            strict=True,
         )

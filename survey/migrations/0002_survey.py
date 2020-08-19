@@ -16,13 +16,20 @@ class Migration(migrations.Migration):
             fields=[
                 ('created_date', models.DateTimeField(auto_now_add=True)),
                 ('modified_date', models.DateTimeField(auto_now=True)),
-                ('id', models.UUIDField(primary_key=True, serialize=False, verbose_name='Session ID')),
-                ('profile', django.contrib.postgres.fields.jsonb.JSONField(verbose_name='profile')),
+                (
+                    'id',
+                    models.UUIDField(
+                        primary_key=True, serialize=False, verbose_name='Session ID'
+                    ),
+                ),
+                (
+                    'profile',
+                    django.contrib.postgres.fields.jsonb.JSONField(
+                        verbose_name='profile'
+                    ),
+                ),
                 ('project', models.PositiveSmallIntegerField(verbose_name='project')),
             ],
-            options={
-                'verbose_name': 'survey',
-                'verbose_name_plural': 'surveys',
-            },
+            options={'verbose_name': 'survey', 'verbose_name_plural': 'surveys',},
         ),
     ]

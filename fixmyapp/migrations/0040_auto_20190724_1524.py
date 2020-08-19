@@ -13,7 +13,19 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='report',
             name='status',
-            field=models.CharField(blank=True, choices=[('new', 'new'), ('verification', 'verification'), ('accepted', 'accepted'), ('rejected', 'rejected'), ('done', 'done')], default='new', max_length=20, null=True),
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    ('new', 'new'),
+                    ('verification', 'verification'),
+                    ('accepted', 'accepted'),
+                    ('rejected', 'rejected'),
+                    ('done', 'done'),
+                ],
+                default='new',
+                max_length=20,
+                null=True,
+            ),
         ),
         migrations.AddField(
             model_name='report',

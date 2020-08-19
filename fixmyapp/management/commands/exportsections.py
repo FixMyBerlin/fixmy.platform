@@ -8,23 +8,16 @@ class Command(BaseCommand):
     help = 'Exports planning sections as GeoJSON'
 
     def add_arguments(self, parser):
-        parser.add_argument(
-            'file',
-            type=argparse.FileType('w'),
-            help='write to file'
-        )
+        parser.add_argument('file', type=argparse.FileType('w'), help='write to file')
         parser.add_argument(
             '--indent',
             type=int,
             default=None,
-            help='indentation level for pretty printing'
+            help='indentation level for pretty printing',
         )
 
     def handle(self, *args, **options):
-        result = {
-            'type': 'FeatureCollection',
-            'features': []
-        }
+        result = {'type': 'FeatureCollection', 'features': []}
 
         for s in Section.objects.all():
             feature = {
@@ -37,15 +30,15 @@ class Command(BaseCommand):
                     'borough': s.borough,
                     'street_category': s.street_category,
                     'velocity': float(round(s.velocity_index(), 3)),
-                    'safety': float(round(s.safety_index(), 3))
-                }
+                    'safety': float(round(s.safety_index(), 3)),
+                },
             }
 
             for detail in s.details.all():
                 orientation = detail.orientation
                 velocity = float(round(detail.velocity_index(), 3))
                 safety = float(round(detail.safety_index(), 3))
-                
+
                 prefix = 'side{}_'.format(detail.side)
                 feature['properties'][prefix + 'orientation'] = orientation
                 feature['properties'][prefix + 'velocity'] = velocity

@@ -4,6 +4,7 @@ import json
 import tempfile
 from anymail.exceptions import AnymailInvalidAddress
 from datetime import datetime, timezone, timedelta
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.gis.geos import Point
@@ -417,24 +418,36 @@ class GastroSignupTest(TestCase):
 
     def test_direct_registration(self):
         """Test direct registration"""
-        with self.settings(
-            TOGGLE_GASTRO_SIGNUPS=True, TOGGLE_GASTRO_DIRECT_SIGNUP=True
-        ):
-            response = self.client.post(
-                '/api/gastro/xhain',
-                data=json.dumps(self.registration_data),
-                content_type="application/json",
-            )
-        self.assertEqual(response.status_code, 400)
+        from rest_framework import serializers
 
         with self.settings(
             TOGGLE_GASTRO_SIGNUPS=True, TOGGLE_GASTRO_DIRECT_SIGNUP=True
         ):
-            response = self.client.post(
-                '/api/gastro/xhain',
-                data=json.dumps(self.direct_registration_data),
-                content_type="application/json",
-            )
+            with patch("fixmyapp.serializers.boto3") as boto3:
+                boto3.resource.return_value.Object.side_effect = (
+                    serializers.ValidationError()
+                )
+                response = self.client.post(
+                    '/api/gastro/xhain',
+                    data=json.dumps(self.registration_data),
+                    content_type="application/json",
+                )
+        self.assertEqual(response.status_code, 400, response.data)
+
+        with self.settings(
+            TOGGLE_GASTRO_SIGNUPS=True, TOGGLE_GASTRO_DIRECT_SIGNUP=True
+        ):
+            with patch("fixmyapp.serializers.boto3") as boto3:
+                response = self.client.post(
+                    '/api/gastro/xhain',
+                    data=json.dumps(self.direct_registration_data),
+                    content_type="application/json",
+                )
+                s3 = boto3.resource.return_value
+                s3.Object.assert_called_with(
+                    settings.AWS_STORAGE_BUCKET_NAME,
+                    self.direct_registration_data.get('certificateS3'),
+                )
         self.assertEqual(response.status_code, 201)
 
         instance = GastroSignup.objects.first()

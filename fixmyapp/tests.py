@@ -2,10 +2,13 @@ import csv
 import decimal
 import json
 import tempfile
+from anymail.exceptions import AnymailInvalidAddress
 from datetime import datetime, timezone, timedelta
+from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.gis.geos import Point
 from django.core import mail
+from django.core.mail.backends.base import BaseEmailBackend
 from django.core.management import call_command
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
@@ -13,6 +16,14 @@ from django.utils.translation import gettext_lazy as _
 from mailjet_rest.client import Endpoint
 from unittest.mock import patch
 from .models import Project, Report, Section, SectionDetails, GastroSignup
+
+
+class FailingMockEmailBackend(BaseEmailBackend):
+    # This mock email backend raises an AnyMail error on any attempt to
+    # send an email
+
+    def send_messages(self, email_messages):
+        raise AnymailInvalidAddress(email_message=email_messages[0])
 
 
 class SectionDetailsTest(TestCase):
@@ -597,6 +608,29 @@ class GastroRenewalTest(TestCase):
         # (`mail.outbox` is in reverse order of the instances)
         for i, inst in enumerate(instances[::-1]):
             self.assertEqual(inst.email, mail.outbox[i].to[0])
+
+    @override_settings(EMAIL_BACKEND='fixmyapp.tests.FailingMockEmailBackend')
+    def test_offer_renewal_invalid_email(self):
+        inst = GastroSignup.objects.first()
+        inst.status = GastroSignup.STATUS_ACCEPTED
+        inst.email = 'test@me.not; secondemail@otherdomain.net'
+        inst.save()
+
+        self.client.login(username=self.username, password=self.password)
+        resp = self.client.post(
+            reverse('admin:fixmyapp_gastrosignup_changelist'),
+            data={'action': 'send_renewal_offer', '_selected_action': [inst.pk]},
+        )
+
+        # This action should result in two email messages, one with the error
+        # and another one to inform about zero emails having been sent
+        msgs = list(resp.context['messages'])
+        self.assertEqual(len(msgs), 2, msgs)
+        self.assertEqual(msgs[0].level, messages.ERROR, msgs[0])
+
+        # However, the response should still be successful and no email sent
+        self.assertEqual(resp.status_code, 302, resp.content)
+        self.assertEqual(len(mail.outbox), 0, mail.outbox)
 
     def test_accept_renewal(self):
         instance = GastroSignup.objects.first()

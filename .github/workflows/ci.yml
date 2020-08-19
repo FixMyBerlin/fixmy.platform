@@ -23,20 +23,10 @@ jobs:
 
     - name: Docker build step
       run: docker-compose up -d
-    
-    - name: List running containers for debugging
-      run: docker ps -a
-    
-    - name: Show logs for debugging
-      run: docker-compose logs
-      
-    - name: Wait until app ready...
-      uses: cygnetdigital/wait_for_response@v2.0.0
+
+    - uses: jakejarvis/wait-action@master
       with:
-        url: 'http://0.0.0.0:8000/'
-        responseCode: '200,500'
-        timeout: 60000
-        interval: 500
+        time: '20s'
     
     - name: Run tests
       # Use -T parameter to avoid input device not being recognized 
@@ -44,9 +34,11 @@ jobs:
       run: docker-compose exec -T app python manage.py test
     
     - name: List running containers for debugging
+      if: always()
       run: docker ps -a
     
     - name: Show logs for debugging
+      if: always()
       run: docker-compose logs
 
 #   run-linters:

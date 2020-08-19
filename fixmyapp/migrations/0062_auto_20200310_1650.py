@@ -13,6 +13,8 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='report',
             name='description',
-            field=models.CharField(blank=True, max_length=1000, null=True, verbose_name='description'),
+            field=models.CharField(
+                blank=True, max_length=1000, null=True, verbose_name='description'
+            ),
         ),
     ]

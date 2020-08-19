@@ -21,8 +21,6 @@ class Migration(migrations.Migration):
             new_name='construction_started',
         ),
         migrations.RenameField(
-            model_name='planning',
-            old_name='draft',
-            new_name='draft_submitted',
+            model_name='planning', old_name='draft', new_name='draft_submitted',
         ),
     ]

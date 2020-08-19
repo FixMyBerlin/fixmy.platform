@@ -7,26 +7,53 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
             name='Scene',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('created_date', models.DateTimeField(auto_now_add=True)),
                 ('modified_date', models.DateTimeField(auto_now=True)),
-                ('experiment', models.CharField(choices=[('CP', 'cycle path'), ('MS', 'main street'), ('SI', 'side street')], max_length=2, verbose_name='experiment')),
-                ('image', models.ImageField(upload_to='KatasterKI/scenes', verbose_name='image')),
+                (
+                    'experiment',
+                    models.CharField(
+                        choices=[
+                            ('CP', 'cycle path'),
+                            ('MS', 'main street'),
+                            ('SI', 'side street'),
+                        ],
+                        max_length=2,
+                        verbose_name='experiment',
+                    ),
+                ),
+                (
+                    'image',
+                    models.ImageField(
+                        upload_to='KatasterKI/scenes', verbose_name='image'
+                    ),
+                ),
                 ('number', models.PositiveIntegerField(verbose_name='number')),
-                ('perspective', models.CharField(choices=[('A', 'car'), ('C', 'bicycle'), ('P', 'pedestrian')], max_length=1, verbose_name='perspective')),
+                (
+                    'perspective',
+                    models.CharField(
+                        choices=[('A', 'car'), ('C', 'bicycle'), ('P', 'pedestrian')],
+                        max_length=1,
+                        verbose_name='perspective',
+                    ),
+                ),
                 ('project', models.PositiveSmallIntegerField(verbose_name='project')),
                 ('weight', models.PositiveSmallIntegerField(verbose_name='weight')),
             ],
-            options={
-                'verbose_name': 'scene',
-                'verbose_name_plural': 'scenes',
-            },
+            options={'verbose_name': 'scene', 'verbose_name_plural': 'scenes',},
         ),
     ]

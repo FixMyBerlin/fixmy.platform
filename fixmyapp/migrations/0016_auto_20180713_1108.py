@@ -11,13 +11,13 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RenameField(
-            model_name='planning',
-            old_name='url',
-            new_name='external_url',
+            model_name='planning', old_name='url', new_name='external_url',
         ),
         migrations.AlterField(
             model_name='planning',
             name='planning_sections',
-            field=models.ManyToManyField(related_name='plannings', to='fixmyapp.PlanningSection'),
+            field=models.ManyToManyField(
+                related_name='plannings', to='fixmyapp.PlanningSection'
+            ),
         ),
     ]

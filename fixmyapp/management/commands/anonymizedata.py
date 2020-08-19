@@ -11,10 +11,7 @@ def anonymize_user_data(preserve_staff):
         users = get_user_model().objects
 
     users.update(
-        email='',
-        username=Concat(Value('user-'), 'id'),
-        first_name='',
-        last_name=''
+        email='', username=Concat(Value('user-'), 'id'), first_name='', last_name=''
     )
 
 
@@ -27,7 +24,7 @@ class Command(BaseCommand):
             action='store_true',
             default=False,
             dest='preserve-staff',
-            help='preserve staff users'
+            help='preserve staff users',
         )
 
     def handle(self, *args, **options):

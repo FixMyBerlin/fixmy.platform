@@ -13,7 +13,9 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='photo',
             name='copyright',
-            field=models.CharField(blank=True, max_length=256, null=True, verbose_name='copyright'),
+            field=models.CharField(
+                blank=True, max_length=256, null=True, verbose_name='copyright'
+            ),
         ),
         migrations.AlterField(
             model_name='photo',
@@ -28,37 +30,53 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='sectiondetails',
             name='daily_traffic',
-            field=models.DecimalField(decimal_places=2, max_digits=8, verbose_name='daily traffic'),
+            field=models.DecimalField(
+                decimal_places=2, max_digits=8, verbose_name='daily traffic'
+            ),
         ),
         migrations.AlterField(
             model_name='sectiondetails',
             name='daily_traffic_bus',
-            field=models.DecimalField(decimal_places=2, max_digits=8, verbose_name='daily traffic bus'),
+            field=models.DecimalField(
+                decimal_places=2, max_digits=8, verbose_name='daily traffic bus'
+            ),
         ),
         migrations.AlterField(
             model_name='sectiondetails',
             name='daily_traffic_cargo',
-            field=models.DecimalField(decimal_places=2, max_digits=8, verbose_name='daily traffic cargo'),
+            field=models.DecimalField(
+                decimal_places=2, max_digits=8, verbose_name='daily traffic cargo'
+            ),
         ),
         migrations.AlterField(
             model_name='sectiondetails',
             name='daily_traffic_heavy',
-            field=models.DecimalField(decimal_places=2, max_digits=8, verbose_name='daily traffic heavy'),
+            field=models.DecimalField(
+                decimal_places=2, max_digits=8, verbose_name='daily traffic heavy'
+            ),
         ),
         migrations.AlterField(
             model_name='sectiondetails',
             name='length',
-            field=models.DecimalField(decimal_places=2, max_digits=8, verbose_name='length'),
+            field=models.DecimalField(
+                decimal_places=2, max_digits=8, verbose_name='length'
+            ),
         ),
         migrations.AlterField(
             model_name='sectiondetails',
             name='orientation',
-            field=models.CharField(choices=[('N', 'north'), ('E', 'east'), ('S', 'south'), ('W', 'west')], max_length=1, verbose_name='orientation'),
+            field=models.CharField(
+                choices=[('N', 'north'), ('E', 'east'), ('S', 'south'), ('W', 'west')],
+                max_length=1,
+                verbose_name='orientation',
+            ),
         ),
         migrations.AlterField(
             model_name='sectiondetails',
             name='side',
-            field=models.PositiveSmallIntegerField(choices=[(0, 'right'), (1, 'left')], verbose_name='side'),
+            field=models.PositiveSmallIntegerField(
+                choices=[(0, 'right'), (1, 'left')], verbose_name='side'
+            ),
         ),
         migrations.AlterField(
             model_name='sectiondetails',

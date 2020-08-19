@@ -13,11 +13,28 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='profile',
             name='category_of_bike',
-            field=models.CharField(choices=[('racing_cycle', 'racing cycle'), ('city_bike', 'city bike'), ('mountain_bike', 'mountain bike'), ('e_bike', 'e-bike'), ('cargo_bike', 'cargo bike'), ('e_cargo_bike', 'e-cargo-bike')], max_length=20),
+            field=models.CharField(
+                choices=[
+                    ('racing_cycle', 'racing cycle'),
+                    ('city_bike', 'city bike'),
+                    ('mountain_bike', 'mountain bike'),
+                    ('e_bike', 'e-bike'),
+                    ('cargo_bike', 'cargo bike'),
+                    ('e_cargo_bike', 'e-cargo-bike'),
+                ],
+                max_length=20,
+            ),
         ),
         migrations.AlterField(
             model_name='profile',
             name='usage',
-            field=models.PositiveSmallIntegerField(choices=[(0, 'never'), (3, 'once per day'), (2, 'once per week'), (1, 'once per month')]),
+            field=models.PositiveSmallIntegerField(
+                choices=[
+                    (0, 'never'),
+                    (3, 'once per day'),
+                    (2, 'once per week'),
+                    (1, 'once per month'),
+                ]
+            ),
         ),
     ]

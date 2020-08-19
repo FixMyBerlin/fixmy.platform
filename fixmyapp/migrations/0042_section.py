@@ -14,17 +14,28 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Section',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('created_date', models.DateTimeField(auto_now_add=True)),
                 ('modified_date', models.DateTimeField(auto_now=True)),
                 ('street_name', models.CharField(max_length=100)),
                 ('suffix', models.CharField(blank=True, max_length=3, null=True)),
                 ('borough', models.CharField(blank=True, max_length=255, null=True)),
                 ('street_category', models.PositiveSmallIntegerField(null=True)),
-                ('geometry', django.contrib.gis.db.models.fields.MultiLineStringField(null=True, srid=4326)),
+                (
+                    'geometry',
+                    django.contrib.gis.db.models.fields.MultiLineStringField(
+                        null=True, srid=4326
+                    ),
+                ),
             ],
-            options={
-                'abstract': False,
-            },
+            options={'abstract': False,},
         ),
     ]

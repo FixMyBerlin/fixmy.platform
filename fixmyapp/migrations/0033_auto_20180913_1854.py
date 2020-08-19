@@ -13,6 +13,25 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='planning',
             name='category',
-            field=models.CharField(blank=True, choices=[('new cycling infrastructure', 'new cycling infrastructure'), ('renovation of cycling infrastructure', 'renovation of cycling infrastructure'), ('bike street', 'bike street'), ('modification of junction', 'modification of junction'), ('bike parking', 'bike parking'), ('crossing aid', 'crossing aid'), ('modification of cross section', 'modification of cross section'), ('new street', 'new street'), ('shared space', 'shared space'), ('miscellaneous', 'miscellaneous')], max_length=40, null=True),
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    ('new cycling infrastructure', 'new cycling infrastructure'),
+                    (
+                        'renovation of cycling infrastructure',
+                        'renovation of cycling infrastructure',
+                    ),
+                    ('bike street', 'bike street'),
+                    ('modification of junction', 'modification of junction'),
+                    ('bike parking', 'bike parking'),
+                    ('crossing aid', 'crossing aid'),
+                    ('modification of cross section', 'modification of cross section'),
+                    ('new street', 'new street'),
+                    ('shared space', 'shared space'),
+                    ('miscellaneous', 'miscellaneous'),
+                ],
+                max_length=40,
+                null=True,
+            ),
         ),
     ]

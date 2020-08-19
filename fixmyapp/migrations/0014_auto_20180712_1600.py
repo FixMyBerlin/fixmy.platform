@@ -18,7 +18,9 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='planning',
             name='side',
-            field=models.PositiveSmallIntegerField(blank=True, choices=[(0, 'right'), (1, 'left')], null=True),
+            field=models.PositiveSmallIntegerField(
+                blank=True, choices=[(0, 'right'), (1, 'left')], null=True
+            ),
         ),
         migrations.AlterField(
             model_name='planning',

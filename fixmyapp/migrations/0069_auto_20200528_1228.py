@@ -13,11 +13,27 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='gastrosignup',
             name='certificate',
-            field=models.FileField(null=True, upload_to='friedrichshain-kreuzberg/certificates', verbose_name='registration certificate'),
+            field=models.FileField(
+                null=True,
+                upload_to='friedrichshain-kreuzberg/certificates',
+                verbose_name='registration certificate',
+            ),
         ),
         migrations.AlterField(
             model_name='gastrosignup',
             name='status',
-            field=models.CharField(choices=[('new', 'new'), ('verification', 'verification'), ('waiting_for_application', 'waiting for application'), ('application_received', 'application received'), ('application_accepted', 'application accepted'), ('application_rejected', 'application rejected')], default='new', max_length=64, verbose_name='status'),
+            field=models.CharField(
+                choices=[
+                    ('new', 'new'),
+                    ('verification', 'verification'),
+                    ('waiting_for_application', 'waiting for application'),
+                    ('application_received', 'application received'),
+                    ('application_accepted', 'application accepted'),
+                    ('application_rejected', 'application rejected'),
+                ],
+                default='new',
+                max_length=64,
+                verbose_name='status',
+            ),
         ),
     ]

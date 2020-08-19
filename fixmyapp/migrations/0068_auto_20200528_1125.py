@@ -14,12 +14,16 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='gastrosignup',
             name='area',
-            field=django.contrib.gis.db.models.fields.GeometryField(blank=True, null=True, srid=4326, verbose_name='installation area'),
+            field=django.contrib.gis.db.models.fields.GeometryField(
+                blank=True, null=True, srid=4326, verbose_name='installation area'
+            ),
         ),
         migrations.AlterField(
             model_name='gastrosignup',
             name='phone',
-            field=models.CharField(blank=True, max_length=32, null=True, verbose_name='telephone number'),
+            field=models.CharField(
+                blank=True, max_length=32, null=True, verbose_name='telephone number'
+            ),
         ),
         migrations.AlterField(
             model_name='gastrosignup',

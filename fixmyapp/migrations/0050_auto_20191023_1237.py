@@ -13,6 +13,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='project',
             name='project_key',
-            field=models.CharField(blank=True, max_length=100, null=True, unique=True, verbose_name='project key'),
+            field=models.CharField(
+                blank=True,
+                max_length=100,
+                null=True,
+                unique=True,
+                verbose_name='project key',
+            ),
         ),
     ]

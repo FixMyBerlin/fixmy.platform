@@ -17,14 +17,11 @@ class SessionSerializer(serializers.ModelSerializer):
     ratings = serializers.SerializerMethodField()
 
     def get_stopped_at_scene_id(self, obj):
-        is_partial = (
-            any(r.rating is not None for r in obj.ratings.all()) and
-            any(r.rating is None for r in obj.ratings.all())
+        is_partial = any(r.rating is not None for r in obj.ratings.all()) and any(
+            r.rating is None for r in obj.ratings.all()
         )
         if is_partial:
-            missing_scenes = [
-                r.scene for r in obj.ratings.all() if r.rating is None
-            ]
+            missing_scenes = [r.scene for r in obj.ratings.all() if r.rating is None]
             return str(missing_scenes[0])
 
     def get_ratings(self, obj):
@@ -39,5 +36,5 @@ class SessionSerializer(serializers.ModelSerializer):
             'profile',
             'created',
             'stopped_at_scene_id',
-            'ratings'
+            'ratings',
         )

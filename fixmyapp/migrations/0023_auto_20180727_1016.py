@@ -13,12 +13,42 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='planning',
             name='category',
-            field=models.CharField(blank=True, choices=[('new cycling infrastructure', 'new cycling infrastructure'), ('renovation of cycling infrastructure', 'renovation of cycling infrastructure'), ('bike street', 'bike street'), ('modification of junction', 'modification of junction'), ('bike parking', 'bike parking'), ('crossing aid', 'crossing aid'), ('modification of cross section', 'modification of cross section'), ('miscellaneous', 'miscellaneous')], max_length=30, null=True),
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    ('new cycling infrastructure', 'new cycling infrastructure'),
+                    (
+                        'renovation of cycling infrastructure',
+                        'renovation of cycling infrastructure',
+                    ),
+                    ('bike street', 'bike street'),
+                    ('modification of junction', 'modification of junction'),
+                    ('bike parking', 'bike parking'),
+                    ('crossing aid', 'crossing aid'),
+                    ('modification of cross section', 'modification of cross section'),
+                    ('miscellaneous', 'miscellaneous'),
+                ],
+                max_length=30,
+                null=True,
+            ),
         ),
         migrations.AddField(
             model_name='planning',
             name='phase',
-            field=models.CharField(blank=True, choices=[('draft', 'draft'), ('planning', 'planning'), ('review', 'review'), ('examination', 'examination'), ('execution', 'execution'), ('ready', 'ready'), ('miscellaneous', 'miscellaneous')], max_length=30, null=True),
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    ('draft', 'draft'),
+                    ('planning', 'planning'),
+                    ('review', 'review'),
+                    ('examination', 'examination'),
+                    ('execution', 'execution'),
+                    ('ready', 'ready'),
+                    ('miscellaneous', 'miscellaneous'),
+                ],
+                max_length=30,
+                null=True,
+            ),
         ),
         migrations.AddField(
             model_name='planning',

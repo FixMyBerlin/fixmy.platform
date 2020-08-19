@@ -26,10 +26,10 @@ jobs:
       - name: Docker build step
         run: docker-compose up -d
 
-      - name: Wait 15 seconds for docker to boot...
+      - name: Wait 20 seconds for docker to boot...
         uses: jakejarvis/wait-action@master
         with:
-          time: "15s"
+          time: "20s"
 
       - name: Run tests
         # Use -T parameter to avoid input device not being recognized

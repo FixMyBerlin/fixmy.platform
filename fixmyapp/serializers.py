@@ -1,3 +1,5 @@
+import botocore
+import boto3
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import models
@@ -401,9 +403,6 @@ class GastroRegistrationSerializer(serializers.ModelSerializer):
 class GastroDirectRegistrationSerializer(GastroRegistrationSerializer):
     def validate(self, values):
         """Validate that the given S3 key exists in current bucket"""
-        import botocore
-        import boto3
-
         s3 = boto3.resource('s3')
         try:
             s3.Object(

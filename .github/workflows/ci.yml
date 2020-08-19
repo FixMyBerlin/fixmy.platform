@@ -31,7 +31,7 @@ jobs:
       run: docker-compose logs
       
     - name: Wait until app ready...
-      uses: cygnetdigitial/wait_for_response@v2
+      uses: cygnetdigital/wait_for_response@v2.0.0
       with:
         url: 'http://localhost:8000/'
         responseCode: '200,500'

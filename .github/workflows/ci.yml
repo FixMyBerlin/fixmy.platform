@@ -11,10 +11,15 @@ on:
 
 jobs:
   tests:
+    name: Test Suite
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
+
+    - run: docker-compose pull
+
+    - uses: satackey/action-docker-layer-caching@v0.0.8
 
     - name: Docker build step
       run: docker-compose up -d --build
@@ -26,4 +31,30 @@ jobs:
       run: docker-compose logs
     
     - name: Run tests
-      run: docker-compose exec app python manage.py test
+      # Use -T parameter to avoid input device not being recognized 
+      # https://github.com/docker/compose/issues/5696#issuecomment-425112003    
+      run: docker-compose exec -T app python manage.py test
+
+  run-linters:
+    name: Run linters
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.6
+
+      - name: Install Python dependencies
+        run: pip install black flake8
+
+      - name: Run linters
+        uses: wearerequired/lint-action@v1
+        with:
+          github_token: ${{ secrets.github_token }}
+          # Enable linters
+          black: true
+          flake8: true

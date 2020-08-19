@@ -17,12 +17,12 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - run: docker-compose pull
+#     - run: docker-compose pull
 
-    - uses: satackey/action-docker-layer-caching@v0.0.8
+#     - uses: satackey/action-docker-layer-caching@v0.0.8
 
     - name: Docker build step
-      run: docker-compose up -d
+      run: docker-compose up -d --build
 
     - uses: jakejarvis/wait-action@master
       with:
@@ -39,7 +39,7 @@ jobs:
     
     - name: Show logs for debugging
       if: always()
-      run: docker-compose logs
+      run: docker-compose logs -t
 
 #   run-linters:
 #     name: Run linters

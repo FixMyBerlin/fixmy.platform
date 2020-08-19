@@ -6,7 +6,7 @@ name: CI
 # events but only for the master branch
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
 
 jobs:
@@ -15,55 +15,55 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Provide pull-only docker images
-      run: docker-compose pull
+      - name: Provide pull-only docker images
+        run: docker-compose pull
 
-    - name: Restore docker layer cache
-      uses: satackey/action-docker-layer-caching@v0.0.8
+      - name: Restore docker layer cache
+        uses: satackey/action-docker-layer-caching@v0.0.8
 
-    - name: Docker build step
-      run: docker-compose up -d
+      - name: Docker build step
+        run: docker-compose up -d
 
-    - name: Wait 15 seconds for docker to boot...
-      uses: jakejarvis/wait-action@master
-      with:
-        time: '15s'
-    
-    - name: Run tests
-      # Use -T parameter to avoid input device not being recognized 
-      # https://github.com/docker/compose/issues/5696#issuecomment-425112003    
-      run: docker-compose exec -T app python manage.py test
-    
-    - name: List running containers for debugging
-      if: always()
-      run: docker ps -a
-    
-    - name: Show logs for debugging
-      if: always()
-      run: docker-compose logs -t
+      - name: Wait 15 seconds for docker to boot...
+        uses: jakejarvis/wait-action@master
+        with:
+          time: "15s"
 
-#   run-linters:
-#     name: Run linters
-#     runs-on: ubuntu-latest
+      - name: Run tests
+        # Use -T parameter to avoid input device not being recognized
+        # https://github.com/docker/compose/issues/5696#issuecomment-425112003
+        run: docker-compose exec -T app python manage.py test
 
-#     steps:
-#       - name: Check out Git repository
-#         uses: actions/checkout@v2
+      - name: List running containers for debugging
+        if: always()
+        run: docker ps -a
 
-#       - name: Set up Python
-#         uses: actions/setup-python@v1
-#         with:
-#           python-version: 3.6
+      - name: Show logs for debugging
+        if: always()
+        run: docker-compose logs -t
 
-#       - name: Install Python dependencies
-#         run: pip install black flake8
+  run-linters:
+    name: Run linters
+    runs-on: ubuntu-latest
 
-#       - name: Run linters
-#         uses: wearerequired/lint-action@v1
-#         with:
-#           github_token: ${{ secrets.github_token }}
-#           # Enable linters
-#           black: true
-#           flake8: true
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.6
+
+      - name: Install Python dependencies
+        run: pip install black flake8
+
+      - name: Run linters
+        uses: wearerequired/lint-action@v1
+        with:
+          github_token: ${{ secrets.github_token }}
+          # Enable linters
+          black: true
+          flake8: true

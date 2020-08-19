@@ -13,7 +13,24 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='planning',
             name='phase',
-            field=models.CharField(choices=[('unknown', 'unknown'), ('idea', 'idea'), ('preliminary planning', 'preliminary planning'), ('blueprint planning', 'blueprint planning'), ('approval planning', 'approval planning'), ('execution planning', 'execution planning'), ('preparation of awarding', 'preparation of awarding'), ('awarding', 'awarding'), ('execution of construction work', 'execution of construction work'), ('ready', 'ready')], max_length=30),
+            field=models.CharField(
+                choices=[
+                    ('unknown', 'unknown'),
+                    ('idea', 'idea'),
+                    ('preliminary planning', 'preliminary planning'),
+                    ('blueprint planning', 'blueprint planning'),
+                    ('approval planning', 'approval planning'),
+                    ('execution planning', 'execution planning'),
+                    ('preparation of awarding', 'preparation of awarding'),
+                    ('awarding', 'awarding'),
+                    (
+                        'execution of construction work',
+                        'execution of construction work',
+                    ),
+                    ('ready', 'ready'),
+                ],
+                max_length=30,
+            ),
         ),
         migrations.AlterField(
             model_name='planningphoto',
@@ -23,6 +40,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='planningphoto',
             name='src',
-            field=models.ImageField(height_field='height', upload_to='photos', verbose_name='Image', width_field='width'),
+            field=models.ImageField(
+                height_field='height',
+                upload_to='photos',
+                verbose_name='Image',
+                width_field='width',
+            ),
         ),
     ]

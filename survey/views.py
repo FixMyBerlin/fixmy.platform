@@ -15,11 +15,9 @@ class SurveyView(APIView):
 
     @transaction.atomic
     def put(self, request, project, session):
-        serializer = SessionSerializer(data={
-            'session_id': session,
-            'profile': request.data,
-            'project': project
-        })
+        serializer = SessionSerializer(
+            data={'session_id': session, 'profile': request.data, 'project': project}
+        )
 
         if serializer.is_valid(raise_exception=True):
             session = serializer.save()
@@ -34,9 +32,9 @@ class SurveyView(APIView):
             return Response(
                 data={
                     'scenes': [str(s) for s in scenes],
-                    'ratings_total': total_ratings
+                    'ratings_total': total_ratings,
                 },
-                status=status.HTTP_201_CREATED
+                status=status.HTTP_201_CREATED,
             )
 
     @transaction.atomic
@@ -52,11 +50,8 @@ class SurveyView(APIView):
             Rating.objects.create(scene=s, session=session)
 
         return Response(
-            data={
-                'scenes': [str(s) for s in scenes],
-                'ratings_total': total_ratings
-            },
-            status=status.HTTP_200_OK
+            data={'scenes': [str(s) for s in scenes], 'ratings_total': total_ratings},
+            status=status.HTTP_200_OK,
         )
 
 
@@ -64,11 +59,7 @@ class SurveyView(APIView):
 @permission_classes((permissions.AllowAny,))
 def add_rating(request, project, session, scene_id):
     scene = Scene.find_by_scene_id(scene_id)
-    rating = (
-        Rating.objects
-            .filter(session=session, scene=scene)
-            .order_by('id').last()
-    )
+    rating = Rating.objects.filter(session=session, scene=scene).order_by('id').last()
     if rating is None:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -82,14 +73,9 @@ def add_rating(request, project, session, scene_id):
 @api_view(['GET'])
 @permission_classes((permissions.AllowAny,))
 def results(request, project):
-    prefetch_ratings = Prefetch(
-        'ratings',
-        queryset=Rating.objects.order_by('id')
-    )
-    queryset = (
-        Session.objects
-            .filter(project=project)
-            .prefetch_related(prefetch_ratings)
+    prefetch_ratings = Prefetch('ratings', queryset=Rating.objects.order_by('id'))
+    queryset = Session.objects.filter(project=project).prefetch_related(
+        prefetch_ratings
     )
     data = SessionSerializer(queryset, many=True).data
 

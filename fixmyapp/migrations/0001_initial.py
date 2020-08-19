@@ -8,14 +8,16 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
             name='Edge',
             fields=[
-                ('elem_nr', models.CharField(max_length=254, primary_key=True, serialize=False)),
+                (
+                    'elem_nr',
+                    models.CharField(max_length=254, primary_key=True, serialize=False),
+                ),
                 ('strschl', models.CharField(max_length=254)),
                 ('str_name', models.CharField(max_length=254)),
                 ('str_bez', models.CharField(max_length=254)),
@@ -31,13 +33,24 @@ class Migration(migrations.Migration):
                 ('laenge', models.FloatField()),
                 ('gilt_von', models.FloatField()),
                 ('okstra_id', models.CharField(max_length=254)),
-                ('geom', django.contrib.gis.db.models.fields.MultiLineStringField(srid=4326)),
+                (
+                    'geom',
+                    django.contrib.gis.db.models.fields.MultiLineStringField(srid=4326),
+                ),
             ],
         ),
         migrations.CreateModel(
             name='Project',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('created_date', models.DateTimeField(auto_now_add=True)),
                 ('modified_date', models.DateTimeField(auto_now=True)),
                 ('name', models.CharField(max_length=100)),
@@ -45,8 +58,6 @@ class Migration(migrations.Migration):
                 ('geom_hash', models.CharField(max_length=40, null=True)),
                 ('edges', models.ManyToManyField(to='fixmyapp.Edge')),
             ],
-            options={
-                'abstract': False,
-            },
+            options={'abstract': False,},
         ),
     ]

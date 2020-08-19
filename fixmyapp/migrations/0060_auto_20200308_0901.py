@@ -10,7 +10,8 @@ def copy_report_details(apps, schema_editor):
         bike_stands = BikeStands(
             report_ptr=report,
             number=report.details['number'],
-            fee_acceptable=report.details['fee_acceptable'])
+            fee_acceptable=report.details['fee_acceptable'],
+        )
         bike_stands.__dict__.update(report.__dict__)
         bike_stands.save()
 

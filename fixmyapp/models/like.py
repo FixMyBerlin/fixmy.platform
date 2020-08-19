@@ -11,4 +11,3 @@ class Like(BaseModel):
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-

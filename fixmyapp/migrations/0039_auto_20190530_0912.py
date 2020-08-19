@@ -13,6 +13,19 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='planning',
             name='phase',
-            field=models.CharField(blank=True, choices=[('draft', 'draft'), ('planning', 'planning'), ('review', 'review'), ('inactive', 'inactive'), ('execution', 'execution'), ('ready', 'ready'), ('miscellaneous', 'miscellaneous')], max_length=30, null=True),
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    ('draft', 'draft'),
+                    ('planning', 'planning'),
+                    ('review', 'review'),
+                    ('inactive', 'inactive'),
+                    ('execution', 'execution'),
+                    ('ready', 'ready'),
+                    ('miscellaneous', 'miscellaneous'),
+                ],
+                max_length=30,
+                null=True,
+            ),
         ),
     ]

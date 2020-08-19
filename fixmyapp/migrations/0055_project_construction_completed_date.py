@@ -13,6 +13,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='project',
             name='construction_completed_date',
-            field=models.DateField(blank=True, null=True, verbose_name='construction completed date'),
+            field=models.DateField(
+                blank=True, null=True, verbose_name='construction completed date'
+            ),
         ),
     ]

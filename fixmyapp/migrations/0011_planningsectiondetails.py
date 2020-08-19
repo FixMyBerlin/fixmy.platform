@@ -14,18 +14,51 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='PlanningSectionDetails',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('created_date', models.DateTimeField(auto_now_add=True)),
                 ('modified_date', models.DateTimeField(auto_now=True)),
-                ('side', models.PositiveSmallIntegerField(choices=[(0, 'right'), (1, 'left')])),
+                (
+                    'side',
+                    models.PositiveSmallIntegerField(
+                        choices=[(0, 'right'), (1, 'left')]
+                    ),
+                ),
                 ('speed_limit', models.PositiveSmallIntegerField()),
                 ('daily_traffic', models.DecimalField(decimal_places=2, max_digits=8)),
-                ('daily_traffic_heavy', models.DecimalField(decimal_places=2, max_digits=8)),
-                ('daily_traffic_cargo', models.DecimalField(decimal_places=2, max_digits=8)),
-                ('daily_traffic_bus', models.DecimalField(decimal_places=2, max_digits=8)),
+                (
+                    'daily_traffic_heavy',
+                    models.DecimalField(decimal_places=2, max_digits=8),
+                ),
+                (
+                    'daily_traffic_cargo',
+                    models.DecimalField(decimal_places=2, max_digits=8),
+                ),
+                (
+                    'daily_traffic_bus',
+                    models.DecimalField(decimal_places=2, max_digits=8),
+                ),
                 ('length', models.DecimalField(decimal_places=2, max_digits=8)),
                 ('crossings', models.PositiveSmallIntegerField()),
-                ('orientation', models.CharField(choices=[('N', 'north'), ('E', 'east'), ('S', 'south'), ('W', 'west')], max_length=1)),
+                (
+                    'orientation',
+                    models.CharField(
+                        choices=[
+                            ('N', 'north'),
+                            ('E', 'east'),
+                            ('S', 'south'),
+                            ('W', 'west'),
+                        ],
+                        max_length=1,
+                    ),
+                ),
                 ('rva1', models.DecimalField(decimal_places=12, max_digits=16)),
                 ('rva2', models.DecimalField(decimal_places=12, max_digits=16)),
                 ('rva3', models.DecimalField(decimal_places=12, max_digits=16)),
@@ -39,7 +72,14 @@ class Migration(migrations.Migration):
                 ('rva11', models.DecimalField(decimal_places=12, max_digits=16)),
                 ('rva12', models.DecimalField(decimal_places=12, max_digits=16)),
                 ('rva13', models.DecimalField(decimal_places=12, max_digits=16)),
-                ('planning_section', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='details', to='fixmyapp.PlanningSection')),
+                (
+                    'planning_section',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name='details',
+                        to='fixmyapp.PlanningSection',
+                    ),
+                ),
             ],
             options={
                 'verbose_name': 'Planning section details',

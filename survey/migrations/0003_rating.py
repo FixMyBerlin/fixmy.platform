@@ -14,17 +14,42 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Rating',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('created_date', models.DateTimeField(auto_now_add=True)),
                 ('modified_date', models.DateTimeField(auto_now=True)),
-                ('duration', models.PositiveIntegerField(null=True, verbose_name='duration')),
-                ('rating', models.PositiveSmallIntegerField(null=True, verbose_name='rating')),
-                ('scene', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='survey.Scene')),
-                ('survey', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='ratings', to='survey.Survey')),
+                (
+                    'duration',
+                    models.PositiveIntegerField(null=True, verbose_name='duration'),
+                ),
+                (
+                    'rating',
+                    models.PositiveSmallIntegerField(null=True, verbose_name='rating'),
+                ),
+                (
+                    'scene',
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to='survey.Scene',
+                    ),
+                ),
+                (
+                    'survey',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name='ratings',
+                        to='survey.Survey',
+                    ),
+                ),
             ],
-            options={
-                'verbose_name': 'rating',
-                'verbose_name_plural': 'ratings',
-            },
+            options={'verbose_name': 'rating', 'verbose_name_plural': 'ratings',},
         ),
     ]

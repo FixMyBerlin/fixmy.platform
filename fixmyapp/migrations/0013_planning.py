@@ -15,7 +15,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Planning',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
                 ('created_date', models.DateTimeField(auto_now_add=True)),
                 ('modified_date', models.DateTimeField(auto_now=True)),
                 ('title', models.CharField(max_length=256)),
@@ -25,15 +33,43 @@ class Migration(migrations.Migration):
                 ('draft', models.DateField(blank=True, null=True)),
                 ('start_of_construction', models.DateField(blank=True, null=True)),
                 ('completion', models.DateField(blank=True, null=True)),
-                ('phase', models.CharField(choices=[('unknown', 'unknown'), ('idea', 'idea'), (('preliminary planning',), 'preliminary planning'), (('blueprint planning',), 'blueprint planning'), ('approval planning', 'approval planning'), ('execution planning', 'execution planning'), ('preparation of awarding', 'preparation of awarding'), ('awarding', 'awarding'), ('execution of construction work', 'execution of construction work'), ('ready', 'ready')], max_length=30)),
+                (
+                    'phase',
+                    models.CharField(
+                        choices=[
+                            ('unknown', 'unknown'),
+                            ('idea', 'idea'),
+                            (('preliminary planning',), 'preliminary planning'),
+                            (('blueprint planning',), 'blueprint planning'),
+                            ('approval planning', 'approval planning'),
+                            ('execution planning', 'execution planning'),
+                            ('preparation of awarding', 'preparation of awarding'),
+                            ('awarding', 'awarding'),
+                            (
+                                'execution of construction work',
+                                'execution of construction work',
+                            ),
+                            ('ready', 'ready'),
+                        ],
+                        max_length=30,
+                    ),
+                ),
                 ('responsible', models.CharField(max_length=256)),
                 ('url', models.URLField(blank=True, null=True)),
-                ('cross_section_photo', models.ImageField(blank=True, null=True, upload_to='')),
+                (
+                    'cross_section_photo',
+                    models.ImageField(blank=True, null=True, upload_to=''),
+                ),
                 ('faq', models.ManyToManyField(blank=True, to='fixmyapp.Question')),
-                ('planning_section', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='plannings', to='fixmyapp.PlanningSection')),
+                (
+                    'planning_section',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name='plannings',
+                        to='fixmyapp.PlanningSection',
+                    ),
+                ),
             ],
-            options={
-                'abstract': False,
-            },
+            options={'abstract': False,},
         ),
     ]

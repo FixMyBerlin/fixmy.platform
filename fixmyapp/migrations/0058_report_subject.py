@@ -13,7 +13,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='report',
             name='subject',
-            field=models.CharField(choices=[('BIKE_STANDS', 'bike stands')], default='BIKE_STANDS', max_length=100, verbose_name='subject'),
+            field=models.CharField(
+                choices=[('BIKE_STANDS', 'bike stands')],
+                default='BIKE_STANDS',
+                max_length=100,
+                verbose_name='subject',
+            ),
             preserve_default=False,
         ),
     ]

@@ -10,10 +10,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='planningsection',
-            name='description',
-        ),
+        migrations.RemoveField(model_name='planningsection', name='description',),
         migrations.AddField(
             model_name='planningsection',
             name='suffix',

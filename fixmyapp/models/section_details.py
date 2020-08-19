@@ -254,4 +254,3 @@ class SectionDetails(BaseModel):
 
     def __str__(self):
         return '{} {}'.format(self.section, self.SIDE_CHOICES[self.side][1])
-

@@ -34,27 +34,33 @@ jobs:
       # Use -T parameter to avoid input device not being recognized 
       # https://github.com/docker/compose/issues/5696#issuecomment-425112003    
       run: docker-compose exec -T app python manage.py test
+    
+    - name: List running containers for debugging
+      run: docker ps -a
+    
+    - name: Show logs for debugging
+      run: docker-compose logs
 
-  run-linters:
-    name: Run linters
-    runs-on: ubuntu-latest
+#   run-linters:
+#     name: Run linters
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Check out Git repository
-        uses: actions/checkout@v2
+#     steps:
+#       - name: Check out Git repository
+#         uses: actions/checkout@v2
 
-      - name: Set up Python
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.6
+#       - name: Set up Python
+#         uses: actions/setup-python@v1
+#         with:
+#           python-version: 3.6
 
-      - name: Install Python dependencies
-        run: pip install black flake8
+#       - name: Install Python dependencies
+#         run: pip install black flake8
 
-      - name: Run linters
-        uses: wearerequired/lint-action@v1
-        with:
-          github_token: ${{ secrets.github_token }}
-          # Enable linters
-          black: true
-          flake8: true
+#       - name: Run linters
+#         uses: wearerequired/lint-action@v1
+#         with:
+#           github_token: ${{ secrets.github_token }}
+#           # Enable linters
+#           black: true
+#           flake8: true

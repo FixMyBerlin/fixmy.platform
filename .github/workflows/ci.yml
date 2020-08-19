@@ -1,0 +1,29 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Docker build step
+      run: docker-compose up -d --build
+    
+    - name: List running containers for debugging
+      run: docker ps -a
+    
+    - name: Show logs for debugging
+      run: docker-compose logs
+    
+    - name: Run tests
+      run: docker-compose exec app python manage.py test

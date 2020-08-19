@@ -1,3 +1,4 @@
+from anymail.exceptions import AnymailError
 from datetime import date, datetime, timezone, timedelta
 from django.conf import settings
 from django.contrib import messages
@@ -409,10 +410,10 @@ Mit freundlichen Grüßen,
 Ihr Bezirksamt Friedrichshain-Kreuzberg'''
             try:
                 send_mail(subject, body, settings.DEFAULT_FROM_EMAIL, [signup.email])
-            except SMTPException as e:
+            except (SMTPException, AnymailError) as e:
                 self.message_user(
                     request,
-                    f"Antragsformular für {signup.shop_name} konnte nicht versandt werden: {e.strerror}",
+                    f"Antragsformular für {signup.shop_name} konnte nicht versandt werden: {str(e)}",
                     messages.ERROR,
                 )
             else:
@@ -465,10 +466,10 @@ Ihr Bezirksamt Friedrichshain-Kreuzberg'''
                     )
                 else:
                     raise
-            except SMTPException as e:
+            except (SMTPException, AnymailError) as e:
                 self.message_user(
                     request,
-                    f"Bescheid für {application.shop_name} konnte nicht versandt werden: {e.strerror}",
+                    f"Bescheid für {application.shop_name} konnte nicht versandt werden: {str(e)}",
                     messages.ERROR,
                 )
 
@@ -516,10 +517,10 @@ Ihr Bezirksamt Friedrichshain-Kreuzberg'''
                 send_mail(
                     subject, body, settings.DEFAULT_FROM_EMAIL, [application.email]
                 )
-            except SMTPException:
+            except (SMTPException, AnymailError) as e:
                 self.message_user(
                     request,
-                    f"Bescheid für {application.shop_name} konnte nicht versandt werden: {e.strerror}",
+                    f"Bescheid für {application.shop_name} konnte nicht versandt werden: {str(e)}",
                     messages.ERROR,
                 )
             else:

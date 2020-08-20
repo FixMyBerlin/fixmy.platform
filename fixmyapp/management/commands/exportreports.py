@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.forms.models import model_to_dict
 from django.utils.translation import gettext_lazy as _
-from fixmyapp.models import Report, BikeStands
+from fixmyapp.models import Report
 from datetime import datetime
 import argparse
 import csv
@@ -63,10 +63,6 @@ class Command(BaseCommand):
         results = {
             "type": "FeatureCollection",
             "name": f"reports export {datetime.now().isoformat()}",
-            "crs": {
-                "type": "name",
-                "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"},
-            },
             'features': [],
         }
 

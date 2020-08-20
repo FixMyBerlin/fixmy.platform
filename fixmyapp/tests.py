@@ -487,7 +487,6 @@ class GastroAdminTest(TestCase):
             call_command('exportgastrosignups', f.name, format='geojson')
             data = json.load(f)
             self.assertEqual('FeatureCollection', data["type"])
-            self.assertIn('CRS84', data["crs"]["properties"]["name"])
             self.assertEqual(2, len(data["features"]))
             self.assertEqual("Point", data["features"][0]["geometry"]["type"])
             self.assertIn("shop_name", data["features"][0]["properties"].keys())
@@ -497,7 +496,6 @@ class GastroAdminTest(TestCase):
             call_command('exportgastrosignups', f.name, '--area', format='geojson')
             data = json.load(f)
             self.assertEqual('FeatureCollection', data["type"])
-            self.assertIn('CRS84', data["crs"]["properties"]["name"])
             # Here only one feature is expected because only one signup has area data
             self.assertEqual(1, len(data["features"]))
             self.assertEqual("Polygon", data["features"][0]["geometry"]["type"])

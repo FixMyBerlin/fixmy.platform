@@ -1,7 +1,5 @@
 FROM python:3.6
 
-MAINTAINER Boris Hekele <hekele@parliamentwatch.org>
-
 ENV DEBIAN_FRONTEND noninteractive
 ENV PYTHONUNBUFFERED 1
 

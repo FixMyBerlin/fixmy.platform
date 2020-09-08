@@ -42,6 +42,8 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={'abstract': False,},
+            options={
+                'abstract': False,
+            },
         ),
     ]

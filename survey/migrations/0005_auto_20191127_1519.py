@@ -10,13 +10,18 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RenameModel(old_name='Survey', new_name='Session',),
+        migrations.RenameModel(
+            old_name='Survey',
+            new_name='Session',
+        ),
         migrations.AlterModelOptions(
             name='session',
             options={'verbose_name': 'session', 'verbose_name_plural': 'sessions'},
         ),
         migrations.RenameField(
-            model_name='rating', old_name='survey', new_name='session',
+            model_name='rating',
+            old_name='survey',
+            new_name='session',
         ),
         migrations.AlterField(
             model_name='session',

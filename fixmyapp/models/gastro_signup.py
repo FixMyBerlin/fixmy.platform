@@ -205,7 +205,7 @@ class GastroSignup(BaseModel):
 
     def send_notice(self):
         """Send notice informing the applicant about being accepted/rejected
-        
+
         Make sure to save the instance after calling this method as the date of
         the decision is recorded on call.
         """

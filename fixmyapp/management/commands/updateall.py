@@ -13,8 +13,8 @@ logging.basicConfig(level=logging.INFO)
 
 class Command(BaseCommand):
     """Load current data from S3, overwriting current data.
-    
-    This command executes the commands 
+
+    This command executes the commands
 
     - createinitialrevisions
     - migrate
@@ -22,8 +22,8 @@ class Command(BaseCommand):
     - importsections
     - importsectiondetails
 
-    in this order. Command parameters are specified using the constants 
-    defined at the top of this file. If one of the files does not exist in S3, an 
+    in this order. Command parameters are specified using the constants
+    defined at the top of this file. If one of the files does not exist in S3, an
     appropriate warning is emitted before importing any data.
     """
 

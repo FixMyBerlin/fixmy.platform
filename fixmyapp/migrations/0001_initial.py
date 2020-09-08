@@ -58,6 +58,8 @@ class Migration(migrations.Migration):
                 ('geom_hash', models.CharField(max_length=40, null=True)),
                 ('edges', models.ManyToManyField(to='fixmyapp.Edge')),
             ],
-            options={'abstract': False,},
+            options={
+                'abstract': False,
+            },
         ),
     ]

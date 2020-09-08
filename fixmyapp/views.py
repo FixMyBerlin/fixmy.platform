@@ -125,14 +125,12 @@ class ReportDetail(generics.RetrieveUpdateAPIView):
 
 
 class LikeView(APIView):
-    """Base class for liking resources
-    """
+    """Base class for liking resources"""
 
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get(self, request, pk, model, format=None):
-        """Returns the number of likes for an object
-        """
+        """Returns the number of likes for an object"""
 
         instance = get_object_or_404(model, pk=pk)
         if request.user.is_authenticated:
@@ -144,8 +142,7 @@ class LikeView(APIView):
         return Response(result)
 
     def post(self, request, pk, model, format=None):
-        """Adds or removes a like by the current authenticated user
-        """
+        """Adds or removes a like by the current authenticated user"""
         instance = get_object_or_404(model, pk=pk)
         if instance.likes.filter(user=request.user).count() == 0:
             Like.objects.create(content_object=instance, user=request.user)

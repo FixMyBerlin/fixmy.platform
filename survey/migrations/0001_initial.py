@@ -54,6 +54,9 @@ class Migration(migrations.Migration):
                 ('project', models.PositiveSmallIntegerField(verbose_name='project')),
                 ('weight', models.PositiveSmallIntegerField(verbose_name='weight')),
             ],
-            options={'verbose_name': 'scene', 'verbose_name_plural': 'scenes',},
+            options={
+                'verbose_name': 'scene',
+                'verbose_name_plural': 'scenes',
+            },
         ),
     ]

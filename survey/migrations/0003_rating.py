@@ -50,6 +50,9 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={'verbose_name': 'rating', 'verbose_name_plural': 'ratings',},
+            options={
+                'verbose_name': 'rating',
+                'verbose_name_plural': 'ratings',
+            },
         ),
     ]

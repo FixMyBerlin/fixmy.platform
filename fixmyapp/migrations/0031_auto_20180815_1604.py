@@ -40,12 +40,22 @@ class Migration(migrations.Migration):
                     ),
                 ),
             ],
-            options={'abstract': False,},
+            options={
+                'abstract': False,
+            },
         ),
         migrations.RemoveField(
-            model_name='cyclinginfrastructurephoto', name='planning_section_detail',
+            model_name='cyclinginfrastructurephoto',
+            name='planning_section_detail',
         ),
-        migrations.RemoveField(model_name='planningphoto', name='planning',),
-        migrations.DeleteModel(name='CyclingInfrastructurePhoto',),
-        migrations.DeleteModel(name='PlanningPhoto',),
+        migrations.RemoveField(
+            model_name='planningphoto',
+            name='planning',
+        ),
+        migrations.DeleteModel(
+            name='CyclingInfrastructurePhoto',
+        ),
+        migrations.DeleteModel(
+            name='PlanningPhoto',
+        ),
     ]

@@ -252,7 +252,7 @@ class GastroSignupTest(TestCase):
     def test_signup(self):
         """
         Test conditions for opening signups
-        
+
         It should only be possible to sign-up when TOGGLE_GASTRO_SIGNUPS is
         set and either no start and end date are defined or the current datetime
         is in that time window.

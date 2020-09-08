@@ -19,7 +19,7 @@ class LayerMapping(django.contrib.gis.utils.LayerMapping):
     ):
         """
         Create or update model instances, updating their geometries as well.
-        Timezone unaware datetime fields are converted to timezone aware 
+        Timezone unaware datetime fields are converted to timezone aware
         values by assuming they are in UTC.
         """
         # Getting the default Feature ID range.

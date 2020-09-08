@@ -28,6 +28,8 @@ class Migration(migrations.Migration):
                 ('text', models.CharField(max_length=256)),
                 ('answer', markdownx.models.MarkdownxField()),
             ],
-            options={'ordering': ('text',),},
+            options={
+                'ordering': ('text',),
+            },
         ),
     ]

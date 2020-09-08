@@ -10,14 +10,32 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(model_name='planning', name='faq',),
-        migrations.RemoveField(model_name='planning', name='planning_sections',),
-        migrations.RemoveField(model_name='planningsection', name='edges',),
         migrations.RemoveField(
-            model_name='planningsectiondetails', name='planning_section',
+            model_name='planning',
+            name='faq',
         ),
-        migrations.DeleteModel(name='Edge',),
-        migrations.DeleteModel(name='Planning',),
-        migrations.DeleteModel(name='PlanningSection',),
-        migrations.DeleteModel(name='PlanningSectionDetails',),
+        migrations.RemoveField(
+            model_name='planning',
+            name='planning_sections',
+        ),
+        migrations.RemoveField(
+            model_name='planningsection',
+            name='edges',
+        ),
+        migrations.RemoveField(
+            model_name='planningsectiondetails',
+            name='planning_section',
+        ),
+        migrations.DeleteModel(
+            name='Edge',
+        ),
+        migrations.DeleteModel(
+            name='Planning',
+        ),
+        migrations.DeleteModel(
+            name='PlanningSection',
+        ),
+        migrations.DeleteModel(
+            name='PlanningSectionDetails',
+        ),
     ]

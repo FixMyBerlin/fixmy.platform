@@ -39,6 +39,8 @@ class Migration(migrations.Migration):
                 ('security', models.PositiveSmallIntegerField()),
                 ('usage', models.PositiveSmallIntegerField()),
             ],
-            options={'abstract': False,},
+            options={
+                'abstract': False,
+            },
         ),
     ]

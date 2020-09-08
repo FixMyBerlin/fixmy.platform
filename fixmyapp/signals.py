@@ -19,7 +19,14 @@ def sign_up_newsletter(user):
     api_secret = settings.ANYMAIL['MAILJET_SECRET_KEY']
     list_id = settings.NEWSLETTER_LIST_ID
     client = Client(auth=(api_key, api_secret))
-    data = {'Action': 'addnoforce', 'Contacts': [{'Email': user.email,}]}
+    data = {
+        'Action': 'addnoforce',
+        'Contacts': [
+            {
+                'Email': user.email,
+            }
+        ],
+    }
     response = client.contactslist_ManageManyContacts.create(id=list_id, data=data)
 
     if response.status_code >= 400:

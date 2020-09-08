@@ -32,7 +32,9 @@ class Migration(migrations.Migration):
             ),
         ),
         migrations.AlterField(
-            model_name='profile', name='has_trailer', field=models.NullBooleanField(),
+            model_name='profile',
+            name='has_trailer',
+            field=models.NullBooleanField(),
         ),
         migrations.AlterField(
             model_name='profile',

@@ -30,6 +30,9 @@ class Migration(migrations.Migration):
                 ),
                 ('project', models.PositiveSmallIntegerField(verbose_name='project')),
             ],
-            options={'verbose_name': 'survey', 'verbose_name_plural': 'surveys',},
+            options={
+                'verbose_name': 'survey',
+                'verbose_name_plural': 'surveys',
+            },
         ),
     ]

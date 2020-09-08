@@ -146,6 +146,8 @@ class Migration(migrations.Migration):
                 ),
                 ('faq', models.ManyToManyField(blank=True, to='fixmyapp.Question')),
             ],
-            options={'abstract': False,},
+            options={
+                'abstract': False,
+            },
         ),
     ]

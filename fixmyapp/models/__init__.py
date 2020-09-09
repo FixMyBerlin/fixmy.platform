@@ -1,4 +1,5 @@
 # fmt: off
+from .base_model import BaseModel
 from .bike_stands import BikeStands
 from .gastro_signup import GastroSignup, get_upload_path
 from .like import Like

@@ -55,7 +55,11 @@ class Report(BaseModel):
     )
     status_reason = models.TextField(_('reason for status'), blank=True, null=True)
     user = models.ForeignKey(
-        get_user_model(), blank=True, null=True, on_delete=models.SET_NULL
+        get_user_model(),
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name='user_legacy',
     )
 
     class Meta:

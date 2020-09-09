@@ -21,13 +21,13 @@ default_mapping = {
 
 
 class Command(BaseCommand):
-    help = 'Imports reports from shape file'
+    help = 'Imports reports from either a shape- or GeoJSON-file (json ending)'
 
     def add_arguments(self, parser):
         parser.add_argument(
             'file',
             type=str,
-            help='A shape file - please see README.md for expected format',
+            help='Input file - please see README.md for expected format',
         )
         parser.add_argument(
             '--show-progress',

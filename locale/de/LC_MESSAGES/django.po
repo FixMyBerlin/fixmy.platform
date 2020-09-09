@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE_VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-06 11:19+0000\n"
-"PO-Revision-Date: 2020-08-06 13:19+0200\n"
+"POT-Creation-Date: 2020-09-07 13:47+0000\n"
+"PO-Revision-Date: 2020-09-07 15:48+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -16,118 +16,118 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.4\n"
+"X-Generator: Poedit 2.4.1\n"
 
-#: fixmyapp/admin.py:48 fixmyapp/models/project.py:129
+#: fixmyapp/admin.py:49 fixmyapp/models/project.py:129
 msgid "alert date"
 msgstr "Benachrichtigungsdatum"
 
-#: fixmyapp/admin.py:59
+#: fixmyapp/admin.py:60
 msgid "exceeded"
 msgstr "erreicht"
 
-#: fixmyapp/admin.py:121 fixmyapp/admin.py:382
+#: fixmyapp/admin.py:122 fixmyapp/admin.py:383
 msgid "set status to \"verification\""
 msgstr "Status auf „in Prüfung“ setzen"
 
-#: fixmyapp/admin.py:142 fixmyapp/admin.py:146
+#: fixmyapp/admin.py:143 fixmyapp/admin.py:147
 #: fixmyapp/models/gastro_signup.py:110
 msgid "Notice sent"
 msgstr "Bescheid versandt"
 
-#: fixmyapp/admin.py:146
+#: fixmyapp/admin.py:147
 msgid "Notice not sent"
 msgstr "Bescheid noch nicht versandt"
 
-#: fixmyapp/admin.py:160 fixmyapp/admin.py:165
+#: fixmyapp/admin.py:161 fixmyapp/admin.py:166
 msgid "Permit checked"
 msgstr "Sondernutzung geprüft"
 
-#: fixmyapp/admin.py:166
+#: fixmyapp/admin.py:167
 msgid "Permit not checked"
 msgstr "Sondernutzung ungeprüft"
 
-#: fixmyapp/admin.py:181 fixmyapp/admin.py:186
+#: fixmyapp/admin.py:182 fixmyapp/admin.py:187
 msgid "Traffic order checked"
 msgstr "Verkehrsrechtliche Anordnung geprüft"
 
-#: fixmyapp/admin.py:187
+#: fixmyapp/admin.py:188
 msgid "Traffic order not checked"
 msgstr "Verkehrsrechtliche Anordnung ungeprüft"
 
-#: fixmyapp/admin.py:202
+#: fixmyapp/admin.py:203
 msgid "Kampagne"
 msgstr "Kampagne"
 
-#: fixmyapp/admin.py:217
+#: fixmyapp/admin.py:218
 msgid "Renewal offer"
 msgstr "Angebot für Folgeantrag"
 
-#: fixmyapp/admin.py:221
+#: fixmyapp/admin.py:222
 msgid "Sent"
 msgstr "Versandt"
 
-#: fixmyapp/admin.py:221
+#: fixmyapp/admin.py:222
 msgid "Not sent"
 msgstr "Nicht versandt"
 
-#: fixmyapp/admin.py:272 fixmyapp/admin.py:286 fixmyapp/admin.py:304
-#: fixmyapp/admin.py:325 fixmyapp/admin.py:342 fixmyapp/admin.py:356
+#: fixmyapp/admin.py:273 fixmyapp/admin.py:287 fixmyapp/admin.py:305
+#: fixmyapp/admin.py:326 fixmyapp/admin.py:343 fixmyapp/admin.py:357
 msgid "Permalinks are available after saving for the first time"
 msgstr "Permalinks sind nach dem ersten Speichern verfügbar"
 
-#: fixmyapp/admin.py:282
+#: fixmyapp/admin.py:283
 msgid "application form"
 msgstr "Anmeldeformular"
 
-#: fixmyapp/admin.py:289 fixmyapp/views.py:345
+#: fixmyapp/admin.py:290 fixmyapp/views.py:345
 msgid "No renewal defined for this campaign"
 msgstr "Für diese Kampagne ist noch kein Zeitraum für Verlängerungen definiert"
 
-#: fixmyapp/admin.py:300
+#: fixmyapp/admin.py:301
 msgid "renewal form"
 msgstr "Formular für Folgeantrag"
 
-#: fixmyapp/admin.py:307
+#: fixmyapp/admin.py:308
 msgid "No renewal application available"
 msgstr "Folgeantrag liegt nicht vor"
 
-#: fixmyapp/admin.py:321 fixmyapp/models/gastro_signup.py:168
+#: fixmyapp/admin.py:322 fixmyapp/models/gastro_signup.py:168
 msgid "renewal application"
 msgstr "Folgeantrag"
 
-#: fixmyapp/admin.py:330
+#: fixmyapp/admin.py:331
 msgid "This is the initial application"
 msgstr "Dies ist der Initialantrag"
 
-#: fixmyapp/admin.py:338
+#: fixmyapp/admin.py:339
 msgid "previous application link"
 msgstr "Vorgängerantrag"
 
-#: fixmyapp/admin.py:352
+#: fixmyapp/admin.py:353
 msgid "permit"
 msgstr "Genehmigung"
 
-#: fixmyapp/admin.py:366
+#: fixmyapp/admin.py:367
 msgid "traffic order"
 msgstr "Verkehrsrechtliche Anordnung"
 
-#: fixmyapp/admin.py:375
+#: fixmyapp/admin.py:376
 #, python-brace-format
 msgid "{numaffected} signup set to 'in verification'"
 msgid_plural "{numaffected} signups set to 'in verification'"
 msgstr[0] "{numaffected} Anmeldung auf ‚in Prüfung‘ gesetzt"
 msgstr[1] "{numaffected} Anmeldungen auf ‚in Prüfung‘ gesetzt"
 
-#: fixmyapp/admin.py:428
+#: fixmyapp/admin.py:429
 msgid "send registation requests"
 msgstr "Antragsformular versenden"
 
-#: fixmyapp/admin.py:481
+#: fixmyapp/admin.py:482
 msgid "send application notices"
 msgstr "Bescheide versenden"
 
-#: fixmyapp/admin.py:539
+#: fixmyapp/admin.py:537
 msgid "send renewal offer"
 msgstr "Angebot für Folgeantrag senden"
 
@@ -142,13 +142,13 @@ msgid "shop name"
 msgstr "Name des Betriebs"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:14
-#: fixmyapp/models/gastro_signup.py:134 fixmyapp/models/report.py:29
+#: fixmyapp/models/gastro_signup.py:134 fixmyapp/models/report.py:39
 msgid "address"
 msgstr "Adresse"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:15
-#: fixmyapp/models/project.py:106 fixmyapp/models/report.py:30
-#: fixmyapp/models/section.py:12 fixmyapp/tests.py:458
+#: fixmyapp/models/project.py:106 fixmyapp/models/report.py:40
+#: fixmyapp/models/section.py:12 fixmyapp/tests.py:482
 msgid "geometry"
 msgstr "Geometrie"
 
@@ -163,7 +163,7 @@ msgid "first name"
 msgstr "Vorname"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:18
-#: fixmyapp/models/gastro_signup.py:128 fixmyapp/tests.py:459
+#: fixmyapp/models/gastro_signup.py:128 fixmyapp/tests.py:483
 msgid "last name"
 msgstr "Nachname"
 
@@ -275,18 +275,18 @@ msgstr "Nummer"
 
 #: fixmyapp/models/bike_stands.py:9
 msgid "fee_acceptable"
-msgstr ""
+msgstr "Auch mit Gebühr"
 
 #: fixmyapp/models/bike_stands.py:12 fixmyapp/models/bike_stands.py:13
-#: fixmyapp/models/report.py:27
+#: fixmyapp/models/report.py:37
 msgid "bike stands"
 msgstr "Radbügel"
 
-#: fixmyapp/models/gastro_signup.py:27 fixmyapp/models/report.py:19
+#: fixmyapp/models/gastro_signup.py:27 fixmyapp/models/report.py:24
 msgid "new"
 msgstr "Neu"
 
-#: fixmyapp/models/gastro_signup.py:28 fixmyapp/models/report.py:20
+#: fixmyapp/models/gastro_signup.py:28 fixmyapp/models/report.py:25
 msgid "verification"
 msgstr "In Prüfung"
 
@@ -348,7 +348,7 @@ msgid "campaign"
 msgstr "Kampagne"
 
 #: fixmyapp/models/gastro_signup.py:99 fixmyapp/models/project.py:134
-#: fixmyapp/models/report.py:39
+#: fixmyapp/models/report.py:49
 msgid "status"
 msgstr "Status"
 
@@ -552,7 +552,7 @@ msgstr "Errichtung Begegnungszone"
 msgid "draft"
 msgstr "Konzept"
 
-#: fixmyapp/models/project.py:47
+#: fixmyapp/models/project.py:47 fixmyapp/models/report.py:29
 msgid "planning"
 msgstr "Planung"
 
@@ -560,11 +560,11 @@ msgstr "Planung"
 msgid "review"
 msgstr "Review"
 
-#: fixmyapp/models/project.py:49
+#: fixmyapp/models/project.py:49 fixmyapp/models/report.py:28
 msgid "inactive"
 msgstr "ruhend"
 
-#: fixmyapp/models/project.py:50
+#: fixmyapp/models/project.py:50 fixmyapp/models/report.py:32
 msgid "execution"
 msgstr "Ausführung"
 
@@ -636,7 +636,7 @@ msgstr "beide"
 msgid "project key"
 msgstr "Projektschlüssel"
 
-#: fixmyapp/models/project.py:98 fixmyapp/models/report.py:37
+#: fixmyapp/models/project.py:98 fixmyapp/models/report.py:47
 msgid "published"
 msgstr "veröffentlicht"
 
@@ -652,7 +652,7 @@ msgstr "Seite"
 msgid "responsible"
 msgstr "Verantwortlich"
 
-#: fixmyapp/models/project.py:102 fixmyapp/models/report.py:33
+#: fixmyapp/models/project.py:102 fixmyapp/models/report.py:43
 msgid "description"
 msgstr "Beschreibung"
 
@@ -720,31 +720,39 @@ msgstr "Frage"
 msgid "questions"
 msgstr "Fragen"
 
-#: fixmyapp/models/report.py:21
+#: fixmyapp/models/report.py:26
 msgid "accepted"
 msgstr "Angenommen"
 
-#: fixmyapp/models/report.py:22
+#: fixmyapp/models/report.py:27
 msgid "rejected"
 msgstr "Abgelehnt"
 
-#: fixmyapp/models/report.py:23
+#: fixmyapp/models/report.py:30
+msgid "tender"
+msgstr "In Ausschreibung"
+
+#: fixmyapp/models/report.py:31
+msgid "invalid"
+msgstr "Nicht umsetzbar"
+
+#: fixmyapp/models/report.py:33
 msgid "done"
 msgstr "Abgeschlossen"
 
-#: fixmyapp/models/report.py:31
+#: fixmyapp/models/report.py:41
 msgid "subject"
 msgstr "Betreff"
 
-#: fixmyapp/models/report.py:46
+#: fixmyapp/models/report.py:56
 msgid "reason for status"
 msgstr "Begründung"
 
-#: fixmyapp/models/report.py:52
+#: fixmyapp/models/report.py:62
 msgid "report"
 msgstr "Meldung"
 
-#: fixmyapp/models/report.py:53
+#: fixmyapp/models/report.py:63
 msgid "reports"
 msgstr "Meldungen"
 
@@ -816,7 +824,7 @@ msgstr "Orientierung"
 msgid "Section details"
 msgstr "Abschnittsdetails"
 
-#: fixmyapp/serializers.py:414 fixmyapp/serializers.py:418
+#: fixmyapp/serializers.py:413 fixmyapp/serializers.py:417
 msgid "Please upload a certificate"
 msgstr "Bitte einen Nachweis hochladen"
 

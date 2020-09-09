@@ -9,17 +9,27 @@ from .photo import Photo
 
 
 class Report(BaseModel):
-    STATUS_NEW = 'new'
-    STATUS_VERIFICATION = 'verification'
-    STATUS_ACCEPTED = 'accepted'
-    STATUS_REJECTED = 'rejected'
+    STATUS_REPORT_NEW = 'report_new'
+    STATUS_REPORT_VERIFICATION = 'report_verification'
+    STATUS_REPORT_ACCEPTED = 'report_accepted'
+    STATUS_REPORT_REJECTED = 'report_rejected'
+    STATUS_REPORT_INACTIVE = 'report_inactive'
+    STATUS_PLANNING = 'planning'
+    STATUS_TENDER = 'tender'
+    STATUS_INVALID = 'invalid'
+    STATUS_EXECUTION = 'execution'
     STATUS_DONE = 'done'
 
     STATUS_CHOICES = (
-        (STATUS_NEW, _('new')),
-        (STATUS_VERIFICATION, _('verification')),
-        (STATUS_ACCEPTED, _('accepted')),
-        (STATUS_REJECTED, _('rejected')),
+        (STATUS_REPORT_NEW, _('new')),
+        (STATUS_REPORT_VERIFICATION, _('verification')),
+        (STATUS_REPORT_ACCEPTED, _('accepted')),
+        (STATUS_REPORT_REJECTED, _('rejected')),
+        (STATUS_REPORT_INACTIVE, _('inactive')),
+        (STATUS_PLANNING, _('planning')),
+        (STATUS_TENDER, _('tender')),
+        (STATUS_INVALID, _('invalid')),
+        (STATUS_EXECUTION, _('execution')),
         (STATUS_DONE, _('done')),
     )
 
@@ -41,7 +51,7 @@ class Report(BaseModel):
         null=True,
         max_length=20,
         choices=STATUS_CHOICES,
-        default=STATUS_NEW,
+        default=STATUS_REPORT_NEW,
     )
     status_reason = models.TextField(_('reason for status'), blank=True, null=True)
     user = models.ForeignKey(

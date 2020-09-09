@@ -19,7 +19,6 @@ if __name__ == "__main__":
         import coverage
 
         cov = coverage.coverage(source=['fixmyapp', 'survey'], omit=['*/tests/*'])
-        cov.set_option('report:show_missing', True)
         cov.erase()
         cov.start()
 
@@ -28,3 +27,5 @@ if __name__ == "__main__":
     if is_testing:
         cov.stop()
         cov.save()
+        cov.report(skip_covered=True, skip_empty=True, show_missing=True)
+        cov.xml_report(outfile='coverage.xml')

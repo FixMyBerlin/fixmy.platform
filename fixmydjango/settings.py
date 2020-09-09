@@ -105,18 +105,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'fixmydjango.wsgi.application'
 
-# Testing
-
-TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
-
-NOSE_ARGS = [
-    '--cover-erase',
-    '--cover-package=fixmyapp,survey',
-    '--with-coverage',
-    '--cover-xml',
-    '--cover-xml-file=./coverage.xml',
-]
-
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases

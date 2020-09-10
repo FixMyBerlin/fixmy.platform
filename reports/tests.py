@@ -31,7 +31,9 @@ class ReportTest(TestCase):
 
     def test_post_report(self):
         response = self.client.post(
-            '/api/reports', data=json.dumps(self.data), content_type='application/json'
+            '/api/experimental/reports',
+            data=json.dumps(self.data),
+            content_type='application/json',
         )
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.json().get('address'), self.data['address'])
@@ -44,18 +46,20 @@ class ReportTest(TestCase):
         self.assertIn('modified_date', response.json())
 
     def test_get_reports(self):
-        response = self.client.get('/api/reports')
+        response = self.client.get('/api/experimental/reports')
         self.assertEqual(response.status_code, 200)
 
     def test_patch_report(self):
         response = self.client.post(
-            '/api/reports', data=json.dumps(self.data), content_type='application/json'
+            '/api/experimental/reports',
+            data=json.dumps(self.data),
+            content_type='application/json',
         )
         id = response.json()['id']
         report = Report.objects.get(pk=id)
         self.assertIsNone(report.user)
         response = self.client.patch(
-            '/api/reports/{}'.format(id),
+            '/api/experimental/reports/{}'.format(id),
             data=json.dumps({'user': self.user.pk}),
             content_type='application/json',
         )
@@ -64,7 +68,7 @@ class ReportTest(TestCase):
         self.assertIsNotNone(report.user)
         self.assertEqual(report.user.pk, self.user.pk)
         response = self.client.patch(
-            '/api/reports/{}'.format(id),
+            '/api/experimental/reports/{}'.format(id),
             data=json.dumps({'user': self.user.pk}),
             content_type='application/json',
         )
@@ -72,30 +76,36 @@ class ReportTest(TestCase):
 
     def test_export_reports_csv(self):
         self.client.post(
-            '/api/reports', data=json.dumps(self.data), content_type='application/json'
+            '/api/experimental/reports',
+            data=json.dumps(self.data),
+            content_type='application/json',
         )
         with tempfile.NamedTemporaryFile(mode="w+", encoding="UTF-8") as f:
-            call_command('exportreports', f.name, format='csv')
+            call_command('exportreports_experimental', f.name, format='csv')
             csv_reader = csv.DictReader(f, dialect='excel')
             self.assertIn('ID', csv_reader.fieldnames)
 
     def test_export_reports_geojson(self):
         self.client.post(
-            '/api/reports', data=json.dumps(self.data), content_type='application/json'
+            '/api/experimental/reports',
+            data=json.dumps(self.data),
+            content_type='application/json',
         )
         with tempfile.NamedTemporaryFile(mode="w+", encoding="UTF-8") as f:
-            call_command('exportreports', f.name, format='geojson')
+            call_command('exportreports_experimental', f.name, format='geojson')
             data = json.load(f)
             self.assertIn('id', data["features"][0]["properties"].keys())
 
     def test_import_reports(self):
         self.client.post(
-            '/api/reports', data=json.dumps(self.data), content_type='application/json'
+            '/api/experimental/reports',
+            data=json.dumps(self.data),
+            content_type='application/json',
         )
         with tempfile.NamedTemporaryFile(
             mode="w+", encoding="UTF-8", suffix='geojson'
         ) as f:
-            call_command('exportreports', f.name, format='geojson')
+            call_command('exportreports_experimental', f.name, format='geojson')
             data = json.load(f)
 
         data["features"][0]["properties"]["address"] = "test"
@@ -106,7 +116,7 @@ class ReportTest(TestCase):
         ) as f1:
             json.dump(data, f1)
             f1.seek(0)
-            call_command('importreports', f1.name)
+            call_command('importreports_experimental', f1.name)
 
         reports = Report.objects.all()
         self.assertEqual(len(reports), 1)
@@ -119,7 +129,7 @@ class ReportTest(TestCase):
             json.dump(data, f2)
             Report.objects.all().delete()
             f2.seek(0)
-            call_command('importreports', f2.name)
+            call_command('importreports_experimental', f2.name)
 
         reports = Report.objects.all()
         self.assertEqual(len(reports), 1)
@@ -133,7 +143,11 @@ class LikeReportTest(LikeTest, TestCase):
             description='Lorem ipsum dolor sit',
             geometry=Point(13.346_355_406_363_18, 52.525_659_903_336_57),
         )
-        self.instance_url = reverse('report-detail', kwargs={'pk': self.instance.id})
-        self.likes_url = reverse('likes-reports', kwargs={'pk': self.instance.id})
-        self.liked_by_user_url = reverse('reports-liked-by-user')
+        self.instance_url = reverse(
+            'reports:report-detail', kwargs={'pk': self.instance.id}
+        )
+        self.likes_url = reverse(
+            'reports:likes-reports', kwargs={'pk': self.instance.id}
+        )
+        self.liked_by_user_url = reverse('reports:reports-liked-by-user')
         super(LikeReportTest, self).setUp()

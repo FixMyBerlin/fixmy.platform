@@ -3,6 +3,8 @@ from .models import Report
 from .views import LikedByUserReportList, ReportDetail, ReportList
 from fixmyapp.views import LikeView
 
+app_name = 'reports'
+
 # fmt: off
 urlpatterns = [
     path(

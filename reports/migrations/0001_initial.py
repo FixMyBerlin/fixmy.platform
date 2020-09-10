@@ -47,11 +47,9 @@ def import_reports(apps, schema_editor):
         # obtained from apps.get_model, this tries to retrieve a list of likes
         # and photos through the current
         report_direct = ReportDangerousDirect.objects.get(pk=source.report_ptr.id)
-        # if report_direct.likes.count() > 0:
-        #     import pdb
 
-        #     pdb.set_trace()
         for like in report_direct.likes.all():
+            # Set id to None to `Insert` instead of `Update`
             like.id = None
             like.content_object = target
             like.content_type = ct

@@ -50,6 +50,7 @@ class ReportSerializer(serializers.HyperlinkedModelSerializer):
         required=False,
         write_only=True,
     )
+    url = serializers.HyperlinkedIdentityField(view_name="reports:report-detail")
 
     def get_likes(self, obj):
         return obj.likes.count()

@@ -12,7 +12,7 @@ def import_reports(apps, schema_editor):
         from fixmyapp.models import Report as ReportDangerousDirect
 
         ReportLegacy = apps.get_model('fixmyapp', 'BikeStands')
-        stdout.write("Success importing model")
+        stdout.write("Success loading fixmyapp.report model. ")
     except Exception:
         stdout.write("Not migrating reports data as fixmyapp.report does not exist")
         return
@@ -20,6 +20,8 @@ def import_reports(apps, schema_editor):
     # ct is the content type of the GenericRelation objects linking reports
     # to likes and photos
     ct = ContentType.objects.get_for_model(Report, for_concrete_model=False)
+
+    stdout.write(f"Migrating {ReportLegacy.objects.count()} reports...")
 
     for source in ReportLegacy.objects.all():
         data = model_to_dict(source, exclude=['user', 'likes', 'photo', 'report_ptr'])

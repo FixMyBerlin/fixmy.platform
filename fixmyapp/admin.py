@@ -1,5 +1,5 @@
 from anymail.exceptions import AnymailError
-from datetime import date, datetime, timezone, timedelta
+from datetime import date, datetime, timezone
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.admin import SimpleListFilter
@@ -20,7 +20,6 @@ from .models import (
     Profile,
     Project,
     Question,
-    Report,
     Section,
     SectionDetails,
 )
@@ -112,24 +111,6 @@ class ProfileAdmin(admin.ModelAdmin):
 
 class QuestionAdmin(admin.ModelAdmin):
     search_fields = ('text',)
-
-
-def mark_in_progress(modeladmin, request, queryset):
-    """Update report status to "in verification" for many items at once"""
-    queryset.update(status=Report.STATUS_VERIFICATION)
-
-
-mark_in_progress.short_description = _('set status to "verification"')
-
-
-class ReportAdmin(FMBGeoAdmin):
-    inlines = (PhotoInline,)
-    list_display = ('id', 'address', 'subject', 'description', 'status', 'created_date')
-    ordering = ('-created_date',)
-    actions = [mark_in_progress]
-
-    def has_add_permission(self, request):
-        return False
 
 
 class PlaystreetSignupAdmin(admin.ModelAdmin):
@@ -547,7 +528,6 @@ Ihr Bezirksamt Friedrichshain-Kreuzberg'''
 admin.site.register(Project, ProjectAdmin)
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Question, QuestionAdmin)
-admin.site.register(Report, ReportAdmin)
 admin.site.register(Section, SectionAdmin)
 admin.site.register(SectionDetails, SectionDetailsAdmin)
 admin.site.register(PlaystreetSignup, PlaystreetSignupAdmin)

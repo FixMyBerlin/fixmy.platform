@@ -65,6 +65,9 @@ def un_import_reports(apps, schema_editor):
 
 class Migration(migrations.Migration):
 
-    dependencies = [('reports', '0001_initial')]
+    dependencies = [
+        ('reports', '0001_initial'),
+        ('fixmyapp', '0083_auto_20200907_1332'),
+    ]
 
     operations = [migrations.RunPython(import_reports, un_import_reports)]

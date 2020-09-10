@@ -33,6 +33,7 @@ def activate(request, uid, token):
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('fixmyapp.urls')),
+    path('api/experimental/', include('reports.urls')),
     path('api/', include('djoser.urls')),
     path('api/', include('djoser.urls.jwt')),
     path('api/survey/', include('survey.urls')),

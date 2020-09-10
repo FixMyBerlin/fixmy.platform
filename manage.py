@@ -18,7 +18,9 @@ if __name__ == "__main__":
     if is_testing:
         import coverage
 
-        cov = coverage.coverage(source=['fixmyapp', 'survey'], omit=['*/tests/*'])
+        cov = coverage.coverage(
+            source=['fixmyapp', 'survey', 'reports'], omit=['*/tests/*']
+        )
         cov.erase()
         cov.start()
 

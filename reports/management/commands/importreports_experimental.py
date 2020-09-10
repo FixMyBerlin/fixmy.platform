@@ -1,10 +1,10 @@
 from django.contrib.gis.utils import LayerMapping
 from django.core.management.base import BaseCommand
-from fixmyapp.models import BikeStands
+from reports.models import BikeStands
 import os
 import json
 
-from . import LayerMapping as LayerMappingPatched
+from fixmyapp.management.commands import LayerMapping as LayerMappingPatched
 
 default_mapping = {
     'address': 'address',

@@ -2,11 +2,12 @@
 
 from sys import stdout
 from django.db import migrations
-from fixmyapp.models import BikeStands as ReportLegacy
 
 
 def fix_reports(apps, _):
     """Re-attach likes and photos to reports that were not migrated in 0002"""
+    from fixmyapp.models import BikeStands as ReportLegacy
+
     Report = apps.get_model('reports', 'report')
     Like = apps.get_model('fixmyapp', 'like')
     Photo = apps.get_model('fixmyapp', 'photo')
@@ -66,3 +67,4 @@ class Migration(migrations.Migration):
     dependencies = [('reports', '0003_auto_20200910_1224')]
 
     operations = [migrations.RunPython(fix_reports, un_fix_reports)]
+

@@ -17,13 +17,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-#       - name: Provide pull-only docker images
-#         run: docker-compose pull
+      #       - name: Provide pull-only docker images
+      #         run: docker-compose pull
 
-#       - name: Restore docker layer cache
-#         uses: satackey/action-docker-layer-caching@v0.0.8
-#         with:
-#           key: docker-cache-{ hash }-${{ hashFiles('./requirements.txt') }}
+      #       - name: Restore docker layer cache
+      #         uses: satackey/action-docker-layer-caching@v0.0.8
+      #         with:
+      #           key: docker-cache-{ hash }-${{ hashFiles('./requirements.txt') }}
 
       - name: Docker build step
         run: docker-compose up -d --build

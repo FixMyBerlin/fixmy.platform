@@ -6,6 +6,7 @@ from django.core.management import call_command
 from django.test import Client, TestCase
 
 from reports.models import Report
+from .commands.importreportplannings import load_reports
 
 
 class CommandTest(TestCase):
@@ -48,7 +49,7 @@ class ExportReports(CommandTest):
 
 class ImportReports(CommandTest):
     def setUp(self):
-        super(self).setUp()
+        super().setUp()
         self.client.post(
             '/api/reports', data=json.dumps(self.data), content_type='application/json'
         )
@@ -85,3 +86,26 @@ class ImportReports(CommandTest):
 
         reports = Report.objects.all()
         self.assertEqual(len(reports), 1)
+
+
+def ImportReportPlannings(CommandTest):
+    def setUp(self):
+        # set id explicitly in order to be to reference it below in `origin_ids`
+        self.data['id'] = 1
+        Report.objects.create(**self.data)
+
+    def test_load_reports(self):
+        rows = [
+            {
+                'origin_ids': '1',
+                'address': 'Vereinsstraße 19, Aachen',
+                'geometry': '6.09284, 50.76892',
+                'description': '(für Besucher)',
+                'status': 'planning',
+                'status_reason': '',
+                'number': 5,
+            }
+        ]
+        reports = load_reports(rows)
+        assert len(reports) == 1
+        assert len(reports.origin) == 1

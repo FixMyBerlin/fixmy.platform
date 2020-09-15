@@ -21,6 +21,8 @@ def fix_reports(apps, _):
     like_count = 0
     photo_count = 0
 
+    ct = ContentType.objects.get_for_model(Report, for_concrete_model=False)
+
     for source in ReportLegacy.objects.all():
         target = Report.objects.get(pk=source.id)
         if target is None:
@@ -35,11 +37,7 @@ def fix_reports(apps, _):
         )
         for like_source in likes:
             Like.objects.create(
-                content_type=ContentType.objects.get(
-                    app_label='reports', model='report'
-                ),
-                object_id=target.id,
-                user=like_source.user,
+                content_type=ct, object_id=target.id, user=like_source.user
             )
             like_count += 1
 
@@ -50,9 +48,7 @@ def fix_reports(apps, _):
         )
         for photo_source in photos:
             Photo.objects.create(
-                content_type=ContentType.objects.get(
-                    app_label='reports', model='report'
-                ),
+                content_type=ct,
                 object_id=target.id,
                 copyright=photo_source.copyright,
                 src=photo_source.src,

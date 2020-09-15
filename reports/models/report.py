@@ -55,7 +55,13 @@ class Report(BaseModel):
     user = models.ForeignKey(
         get_user_model(), blank=True, null=True, on_delete=models.SET_NULL
     )
+    origin = models.ManyToManyField(
+        'self', related_name='plannings', blank=True, symmetrical=False
+    )
 
     class Meta:
         verbose_name = _('report')
         verbose_name_plural = _('reports')
+
+    def __str__(self):
+        return f"Report {self.id} ({_(self.status)}"

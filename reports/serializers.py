@@ -98,6 +98,8 @@ class ReportSerializer(serializers.HyperlinkedModelSerializer):
             'likes',
             'liked_by_user',
             'modified_date',
+            'origin',
+            'plannings',
             'photo',
             'status',
             'status_reason',

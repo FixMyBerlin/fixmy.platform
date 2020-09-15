@@ -11,3 +11,6 @@ class BikeStands(Report):
     class Meta:
         verbose_name = _('bike stands')
         verbose_name_plural = _('bike stands')
+
+    def __str__(self):
+        return f"Bike stands report {self.id} ({self.status})"

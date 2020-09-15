@@ -4,7 +4,6 @@ import uuid
 from datetime import datetime, timezone
 from django.conf import settings
 from django.core import mail
-from django.core.exceptions import PermissionDenied
 from django.db.models import Count
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
@@ -16,15 +15,7 @@ from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import (
-    Like,
-    GastroSignup,
-    Profile,
-    Project,
-    Report,
-    Section,
-    PlaystreetSignup,
-)
+from .models import Like, GastroSignup, Profile, Project, Section, PlaystreetSignup
 from .serializers import (
     FeedbackSerializer,
     GastroSignupSerializer,
@@ -34,7 +25,6 @@ from .serializers import (
     PlaystreetSignupSerializer,
     ProfileSerializer,
     ProjectSerializer,
-    ReportSerializer,
     SectionSerializer,
 )
 from .signals import sign_up_newsletter
@@ -54,17 +44,6 @@ class LikedByUserProjectList(generics.ListAPIView):
 
     def get_queryset(self):
         return Project.objects.filter(
-            likes__in=Like.objects.filter(user=self.request.user)
-        ).order_by('id')
-
-
-class LikedByUserReportList(generics.ListAPIView):
-    permission_classes = (permissions.IsAuthenticated,)
-    pagination_class = DefaultPagination
-    serializer_class = ReportSerializer
-
-    def get_queryset(self):
-        return Report.objects.filter(
             likes__in=Like.objects.filter(user=self.request.user)
         ).order_by('id')
 
@@ -91,37 +70,6 @@ class SectionList(generics.ListAPIView):
 class SectionDetail(generics.RetrieveAPIView):
     queryset = Section.objects.all()
     serializer_class = SectionSerializer
-
-
-class ReportList(generics.ListCreateAPIView):
-    permission_classes = (permissions.AllowAny,)
-    queryset = Report.objects.filter(published=1).prefetch_related(
-        'likes', 'bikestands'
-    )
-    serializer_class = ReportSerializer
-
-    def perform_create(self, serializer):
-        if self.request.user.is_authenticated:
-            serializer.save(user=self.request.user)
-        else:
-            serializer.save()
-
-
-class ReportDetail(generics.RetrieveUpdateAPIView):
-    permission_classes = (permissions.AllowAny,)
-    queryset = Report.objects.filter(published=1)
-    serializer_class = ReportSerializer
-
-    def perform_update(self, serializer):
-        """Allows associating a user with a report instance once.
-
-        Once a user is associated with a report, no further updates are allowed
-        via the API.
-        """
-        if self.get_object().user:
-            raise PermissionDenied
-        else:
-            super(ReportDetail, self).perform_update(serializer)
 
 
 class LikeView(APIView):

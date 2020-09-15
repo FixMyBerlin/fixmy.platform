@@ -1,21 +1,18 @@
 from django.urls import path
 from django.views.decorators.cache import cache_page
-from .models import Project, Report
+from .models import Project
 from .views import (
     feedback,
     GastroCertificateView,
     GastroRenewalView,
     GastroSignupView,
     LikedByUserProjectList,
-    LikedByUserReportList,
     LikeView,
     newsletter_signup,
     PlayStreetView,
     profile,
     ProjectDetail,
     ProjectList,
-    ReportDetail,
-    ReportList,
     SectionDetail,
     SectionList,
 )
@@ -84,22 +81,6 @@ urlpatterns = [
         name='likes-projects'
     ),
     path(
-        'reports',
-        ReportList.as_view(),
-        name='report-list'
-    ),
-    path(
-        'reports/<int:pk>',
-        ReportDetail.as_view(),
-        name='report-detail'
-    ),
-    path(
-        'reports/<int:pk>/likes',
-        LikeView.as_view(),
-        {'model': Report},
-        name='likes-reports',
-    ),
-    path(
         'sections',
         SectionList.as_view(),
         name='section-list'
@@ -119,10 +100,5 @@ urlpatterns = [
         LikedByUserProjectList.as_view(),
         name='projects-liked-by-user'
     ),
-    path(
-        'users/me/liked/reports',
-        LikedByUserReportList.as_view(),
-        name='reports-liked-by-user'
-    )
 ]
 # fmt: on

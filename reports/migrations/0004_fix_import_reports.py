@@ -2,11 +2,17 @@
 
 from sys import stdout
 from django.db import migrations
-from fixmyapp.models import BikeStands as ReportLegacy
 
 
 def fix_reports(apps, _):
     """Re-attach likes and photos to reports that were not migrated in 0002"""
+    try:
+        from fixmyapp.models import BikeStands as ReportLegacy
+    except ImportError:
+        # The BikeStand model has already been removed from fixmyapp.models
+        # i.e. the db has moved past this migration
+        return
+
     Report = apps.get_model('reports', 'report')
     Like = apps.get_model('fixmyapp', 'like')
     Photo = apps.get_model('fixmyapp', 'photo')

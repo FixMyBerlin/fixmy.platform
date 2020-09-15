@@ -5,7 +5,6 @@ from django.contrib.auth import get_user_model
 from django.contrib.gis.geos import Point
 from django.core.management import call_command
 from django.test import Client, TestCase, override_settings
-from django_test_migrations.contrib.unittest_case import MigratorTestCase
 from django.urls import reverse
 
 from fixmyapp.tests import LikeTest
@@ -142,50 +141,3 @@ class LikeReportTest(LikeTest, TestCase):
         )
         self.liked_by_user_url = reverse('reports:reports-liked-by-user')
         super(LikeReportTest, self).setUp()
-
-
-class InitialMigrationTest(MigratorTestCase):
-
-    migrate_from = ('reports', None)
-    migrate_to = ('reports', '0005_report_user_reference')
-
-    def prepare(self):
-        Report = self.old_state.apps.get_model('fixmyapp', 'bikestands')
-        Like = self.old_state.apps.get_model('fixmyapp', 'like')
-        Photo = self.old_state.apps.get_model('fixmyapp', 'photo')
-        ContentType = self.old_state.apps.get_model('contenttypes', 'ContentType')
-
-        user = get_user_model().objects.create_user('foo', 'foo@example.org', 'bar')
-        report = Report(
-            address='Potsdamer Platz 1',
-            description='Lorem ipsum dolor sit',
-            geometry=Point(13.346_355_406_363_18, 52.525_659_903_336_57),
-            number=1,
-            fee_acceptable=True,
-        )
-        report.save()
-
-        reports_ct = ContentType(app_label='fixmyapp', model='report')
-        reports_ct.save()
-
-        Like.objects.create(content_type=reports_ct, object_id=report.id, user=user)
-
-        Photo.objects.create(
-            content_type=reports_ct,
-            object_id=report.id,
-            copyright='test copyright',
-            src='test.jpg',
-        )
-
-        report.refresh_from_db()
-        assert report.likes.count() == 1
-        assert report.photo.count() == 1
-
-    def test_migration(self):
-        Report = self.new_state.apps.get_model('reports', 'bikestands')
-
-        assert Report.objects.count() == 1
-        report = Report.objects.all()[0]
-
-        assert report.likes.count() == 1
-        assert report.photo.count() == 1

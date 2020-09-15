@@ -72,4 +72,3 @@ class Migration(migrations.Migration):
     dependencies = [('reports', '0003_auto_20200910_1224')]
 
     operations = [migrations.RunPython(fix_reports, un_fix_reports)]
-

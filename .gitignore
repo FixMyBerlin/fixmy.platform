@@ -3,6 +3,10 @@ fixmyapp/data
 static/
 photos/
 
+# Prevent (personal) data from being committed
+*.dump
+/*.json
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

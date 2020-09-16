@@ -1,6 +1,7 @@
 import csv
 from django.contrib.gis.geos import Point
 from django.core.management.base import BaseCommand
+from django.db import transaction
 from reports.models import BikeStands
 
 REQUIRED_COLS = [
@@ -16,14 +17,20 @@ REQUIRED_COLS = [
 STATUS_CHOICES = [x[0] for x in BikeStands.STATUS_CHOICES]
 
 
-def load_reports(rows):
-    new_reports = []
+def create_report_plannings(rows):
     for i, row in enumerate(rows):
+        assert len(row['geometry']) > 0, f"Geometry of line {i+1} is empty"
         lon, lat = [float(x) for x in row['geometry'].split(',')]
+
         assert (
             row['status'] in STATUS_CHOICES
         ), f"Status '{row['status']}' of entry in row {i+1} is not a valid status. Possible values are {', '.join(STATUS_CHOICES)}.'"
-        new_report = BikeStands(
+
+        assert (
+            ',' not in row['origin_ids']
+        ), f"Column origin_ids must contain semicolon-separated values. Found comma in line {i+1}."
+
+        entry = BikeStands(
             address=row['address'],
             geometry=Point(lon, lat),
             description=row['description'],
@@ -31,19 +38,19 @@ def load_reports(rows):
             status_reason=row['status_reason'],
             number=row['number'],
         )
-
-        assert (
-            ',' not in row['origin_ids']
-        ), f"Column origin_ids must contain semicolon-separated values. Found comma in line {i+1}."
+        entry.save()
 
         linked_entries = row['origin_ids'].split(';')
-        for entry_id in linked_entries:
-            entry = BikeStands.objects.get(ok=entry_id)
-            assert (
-                entry is not None
-            ), f'Could not find report {entry_id} found in origin_ids of line {i+1}'
-            new_report.origin.add(entry)
-    return new_reports
+        for origin_entry_id in linked_entries:
+            try:
+                origin_entry = BikeStands.objects.get(pk=origin_entry_id)
+            except BikeStands.DoesNotExist:
+                raise BikeStands.DoesNotExist(
+                    f'Could not find report {origin_entry_id} found in origin_ids of line {i+1}'
+                )
+            entry.origin.add(origin_entry)
+        entry.save()
+        yield entry
 
 
 class Command(BaseCommand):
@@ -54,6 +61,7 @@ class Command(BaseCommand):
             'file', type=str, help='CSV file with one planning per line'
         )
 
+    @transaction.atomic
     def handle(self, *args, **kwargs):
         fname = kwargs['file']
 
@@ -66,5 +74,5 @@ class Command(BaseCommand):
                 col in csv_reader.fieldnames
             ), f'The input file is missing the {col} column'
 
-        reports = load_reports(rows)
-        BikeStands.objects.bulk_create(reports)
+        entries = list(create_report_plannings(rows))
+        self.stdout.write(f"Created {len(entries)} plannings")

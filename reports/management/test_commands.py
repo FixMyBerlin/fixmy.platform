@@ -6,7 +6,7 @@ from django.core.management import call_command
 from django.test import Client, TestCase, override_settings
 
 from reports.models import Report
-from .commands.importreportplannings import load_reports
+from .commands.importreportplannings import create_report_plannings
 
 
 @override_settings(DEFAULT_FILE_STORAGE='django.core.files.storage.FileSystemStorage')
@@ -89,16 +89,20 @@ class ImportReports(CommandTest):
         self.assertEqual(len(reports), 1)
 
 
-def ImportReportPlannings(CommandTest):
+class ImportReportPlannings(CommandTest):
     def setUp(self):
+        super().setUp()
         # set id explicitly in order to be to reference it below in `origin_ids`
         self.data['id'] = 1
-        Report.objects.create(**self.data)
+        resp = self.client.post(
+            '/api/reports', data=json.dumps(self.data), content_type='application/json'
+        )
+        self.origin_id = resp.data['id']
 
     def test_load_reports(self):
         rows = [
             {
-                'origin_ids': '1',
+                'origin_ids': str(self.origin_id),
                 'address': 'Vereinsstraße 19, Aachen',
                 'geometry': '6.09284, 50.76892',
                 'description': '(für Besucher)',
@@ -107,6 +111,6 @@ def ImportReportPlannings(CommandTest):
                 'number': 5,
             }
         ]
-        reports = load_reports(rows)
+        reports = list(create_report_plannings(rows))
         assert len(reports) == 1
-        assert len(reports.origin) == 1
+        assert reports[0].origin.count() == 1

@@ -12,7 +12,7 @@ from .models import Report
 
 # Create your tests here.
 @override_settings(DEFAULT_FILE_STORAGE='django.core.files.storage.FileSystemStorage')
-class ReportTest(TestCase):
+class ApiTests(TestCase):
     def setUp(self):
         self.user = get_user_model().objects.create_user(
             'foo', 'foo@example.org', 'bar'
@@ -69,60 +69,6 @@ class ReportTest(TestCase):
             content_type='application/json',
         )
         self.assertEqual(response.status_code, 403)
-
-    def test_export_reports_csv(self):
-        self.client.post(
-            '/api/reports', data=json.dumps(self.data), content_type='application/json'
-        )
-        with tempfile.NamedTemporaryFile(mode="w+", encoding="UTF-8") as f:
-            call_command('exportreports', f.name, format='csv')
-            csv_reader = csv.DictReader(f, dialect='excel')
-            self.assertIn('ID', csv_reader.fieldnames)
-
-    def test_export_reports_geojson(self):
-        self.client.post(
-            '/api/reports', data=json.dumps(self.data), content_type='application/json'
-        )
-        with tempfile.NamedTemporaryFile(mode="w+", encoding="UTF-8") as f:
-            call_command('exportreports', f.name, format='geojson')
-            data = json.load(f)
-            self.assertIn('id', data["features"][0]["properties"].keys())
-
-    def test_import_reports(self):
-        self.client.post(
-            '/api/reports', data=json.dumps(self.data), content_type='application/json'
-        )
-        with tempfile.NamedTemporaryFile(
-            mode="w+", encoding="UTF-8", suffix='geojson'
-        ) as f:
-            call_command('exportreports', f.name, format='geojson')
-            data = json.load(f)
-
-        data["features"][0]["properties"]["address"] = "test"
-        data["features"][0]["properties"]["number"] = 1
-
-        with tempfile.NamedTemporaryFile(
-            mode="w+", encoding="UTF-8", suffix='geojson'
-        ) as f1:
-            json.dump(data, f1)
-            f1.seek(0)
-            call_command('importreports', f1.name)
-
-        reports = Report.objects.all()
-        self.assertEqual(len(reports), 1)
-        self.assertEqual(reports[0].address, 'test')
-        self.assertEqual(reports[0].bikestands.number, 1)
-
-        with tempfile.NamedTemporaryFile(
-            mode="w+", encoding="UTF-8", suffix='geojson'
-        ) as f2:
-            json.dump(data, f2)
-            Report.objects.all().delete()
-            f2.seek(0)
-            call_command('importreports', f2.name)
-
-        reports = Report.objects.all()
-        self.assertEqual(len(reports), 1)
 
 
 @override_settings(DEFAULT_FILE_STORAGE='django.core.files.storage.FileSystemStorage')

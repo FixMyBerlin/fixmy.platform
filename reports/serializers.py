@@ -38,7 +38,7 @@ class ReportDetailsField(serializers.Field):
         return data
 
 
-class ReportSerializer(serializers.HyperlinkedModelSerializer):
+class ReportBaseSerializer(serializers.HyperlinkedModelSerializer):
     details = ReportDetailsField()
     geometry = GeometryField(precision=14)
     likes = serializers.SerializerMethodField()
@@ -104,3 +104,30 @@ class ReportSerializer(serializers.HyperlinkedModelSerializer):
             'url',
             'user',
         )
+
+
+class ReportSerializer(ReportBaseSerializer):
+    origin = ReportBaseSerializer(read_only=True, many=True)
+    plannings = ReportBaseSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = Report
+        fields = (
+            'address',
+            'created_date',
+            'description',
+            'details',
+            'geometry',
+            'id',
+            'liked_by_user',
+            'likes',
+            'modified_date',
+            'origin',
+            'photo',
+            'plannings',
+            'status_reason',
+            'status',
+            'url',
+            'user',
+        )
+        read_only_fields = ['plannings']

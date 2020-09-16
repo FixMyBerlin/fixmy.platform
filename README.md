@@ -1,6 +1,6 @@
 # fixmy.platform
 
-[![Build Status](https://semaphoreci.com/api/v1/hekele/fixmy-platform/branches/master/badge.svg)](https://semaphoreci.com/hekele/fixmy-platform)
+![CI](https://github.com/FixMyBerlin/fixmy.platform/workflows/CI/badge.svg)
 
 ## Development environment
 

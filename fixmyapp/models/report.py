@@ -3,7 +3,13 @@ from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.gis.db import models
 from django.utils.translation import gettext_lazy as _
 
-from fixmyapp.models import BaseModel, Like, Photo
+from .base_model import BaseModel
+from .like import Like
+from .photo import Photo
+
+# This model is deprecated and retained in this place only for usage
+# by migrations that transfer data from this model into the replacement
+# in the `reports` django app.
 
 
 class Report(BaseModel):
@@ -53,15 +59,13 @@ class Report(BaseModel):
     )
     status_reason = models.TextField(_('reason for status'), blank=True, null=True)
     user = models.ForeignKey(
-        get_user_model(), blank=True, null=True, on_delete=models.SET_NULL
-    )
-    origin = models.ManyToManyField(
-        'self', related_name='plannings', blank=True, symmetrical=False
+        get_user_model(),
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name='reports_deprecated',
     )
 
     class Meta:
         verbose_name = _('report')
         verbose_name_plural = _('reports')
-
-    def __str__(self):
-        return f"Report {self.id} ({_(self.status)}"

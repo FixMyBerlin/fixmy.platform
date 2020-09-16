@@ -7,7 +7,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('fixmyapp', '0083_auto_20200907_1332'),
-        ('reports', '0002_import_reports'),
+        ('reports', '0004_fix_import_reports'),
     ]
 
     operations = [

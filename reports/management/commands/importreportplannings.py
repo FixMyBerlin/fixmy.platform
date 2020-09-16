@@ -18,6 +18,7 @@ STATUS_CHOICES = [x[0] for x in BikeStands.STATUS_CHOICES]
 
 
 def create_report_plannings(rows):
+    entries = []
     for i, row in enumerate(rows):
         assert len(row['geometry']) > 0, f"Geometry of line {i+1} is empty"
         lon, lat = [float(x) for x in row['geometry'].split(',')]
@@ -50,7 +51,8 @@ def create_report_plannings(rows):
                 )
             entry.origin.add(origin_entry)
         entry.save()
-        yield entry
+        entries.append(entry)
+    return entries
 
 
 class Command(BaseCommand):
@@ -74,5 +76,5 @@ class Command(BaseCommand):
                 col in csv_reader.fieldnames
             ), f'The input file is missing the {col} column'
 
-        entries = list(create_report_plannings(rows))
+        entries = create_report_plannings(rows)
         self.stdout.write(f"Created {len(entries)} plannings")

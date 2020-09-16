@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from django.core.management import call_command
 from django.test import Client, TestCase, override_settings
 
-from reports.models import Report
+from reports.models import Report, BikeStands
 from .commands.importreportplannings import create_report_plannings
 
 
@@ -114,3 +114,17 @@ class ImportReportPlannings(CommandTest):
         reports = list(create_report_plannings(rows))
         assert len(reports) == 1
         assert reports[0].origin.count() == 1
+
+    def test_load_reports_does_not_exist(self):
+        rows = [
+            {
+                'origin_ids': '9999',
+                'address': 'Vereinsstraße 19, Aachen',
+                'geometry': '6.09284, 50.76892',
+                'description': '(für Besucher)',
+                'status': 'planning',
+                'status_reason': '',
+                'number': 5,
+            }
+        ]
+        self.assertRaises(BikeStands.DoesNotExist, create_report_plannings, rows)

@@ -106,3 +106,5 @@ class ReportSerializer(serializers.HyperlinkedModelSerializer):
             'url',
             'user',
         )
+
+        read_only_fields = ['plannings']

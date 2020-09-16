@@ -3,12 +3,13 @@ import json
 import tempfile
 from django.contrib.auth import get_user_model
 from django.core.management import call_command
-from django.test import Client, TestCase
+from django.test import Client, TestCase, override_settings
 
 from reports.models import Report
 from .commands.importreportplannings import load_reports
 
 
+@override_settings(DEFAULT_FILE_STORAGE='django.core.files.storage.FileSystemStorage')
 class CommandTest(TestCase):
     def setUp(self):
         self.user = get_user_model().objects.create_user(

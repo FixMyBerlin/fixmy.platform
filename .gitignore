@@ -6,6 +6,8 @@ photos/
 # Prevent (personal) data from being committed
 *.dump
 /*.json
+/*.geojson
+/*.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

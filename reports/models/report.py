@@ -136,4 +136,3 @@ class Report(BaseModel):
             if report.user is not None and report.user not in users:
                 users.add(report.user)
                 for_user(report.user).save()
-

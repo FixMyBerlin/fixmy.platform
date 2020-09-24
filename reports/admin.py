@@ -30,4 +30,3 @@ class NotificationAdmin(admin.ModelAdmin):
 
 admin.site.register(BikeStands, BikeStandsAdmin)
 admin.site.register(StatusNotification, NotificationAdmin)
-

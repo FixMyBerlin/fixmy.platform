@@ -3,12 +3,12 @@ from django.utils.translation import gettext_lazy as _
 
 from fixmyapp.admin import FMBGeoAdmin, PhotoInline
 
-from .models import BikeStands
+from .models import BikeStands, StatusNotification
 
 
 def mark_in_progress(modeladmin, request, queryset):
     """Update report status to "in verification" for many items at once"""
-    queryset.update(status=BikeStands.STATUS_VERIFICATION)
+    queryset.update(status=BikeStands.STATUS_REPORT_VERIFICATION)
 
 
 mark_in_progress.short_description = _('set status to "verification"')
@@ -24,4 +24,10 @@ class BikeStandsAdmin(FMBGeoAdmin):
         return False
 
 
+class NotificationAdmin(admin.ModelAdmin):
+    list_display = ('id', 'status', 'report', 'user', 'sent')
+
+
 admin.site.register(BikeStands, BikeStandsAdmin)
+admin.site.register(StatusNotification, NotificationAdmin)
+

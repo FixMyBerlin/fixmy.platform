@@ -8,7 +8,7 @@ from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
 from fixmyapp.tests import LikeTest
-from .models import Report
+from .models import Report, StatusNotification
 
 # Create your tests here.
 @override_settings(DEFAULT_FILE_STORAGE='django.core.files.storage.FileSystemStorage')
@@ -87,3 +87,47 @@ class LikeReportTest(LikeTest, TestCase):
         )
         self.liked_by_user_url = reverse('reports:reports-liked-by-user')
         super(LikeReportTest, self).setUp()
+
+
+class UnitTest(TestCase):
+    def setUp(self):
+        self.user = get_user_model().objects.create_user(
+            'foo', 'foo@example.org', 'bar'
+        )
+        self.report = Report.objects.create(
+            address='Potsdamer Platz 1',
+            description='Lorem ipsum dolor sit',
+            geometry=Point(13.346_355_406_363_18, 52.525_659_903_336_57),
+            user=self.user,
+        )
+        self.planning = Report.objects.create(
+            address='Potsdamer Platz 3',
+            description='Lorem ipsum dolor sit',
+            geometry=Point(13.346_365_406_363_18, 52.525_669_903_336_57),
+            status=Report.STATUS_PLANNING,
+        )
+        self.planning.origin.add(self.report)
+
+    def test_report_notifications(self):
+        self.report.status = Report.STATUS_REPORT_ACCEPTED
+        self.report.save()
+
+        notification = StatusNotification.objects.get(report=self.report)
+        assert notification.status == self.report.status
+
+    def test_planning_notifications(self):
+        self.planning.status = Report.STATUS_EXECUTION
+        self.planning.save()
+
+        notification = StatusNotification.objects.get(report=self.planning)
+        assert notification.user == self.report.user
+
+    def test_planning_notifications_anonymous_origin(self):
+        # Test if origin is anonymous
+        self.report.user = None
+        self.report.save()
+        self.planning.status = Report.STATUS_EXECUTION
+        self.planning.save()
+
+        c = StatusNotification.objects.filter(report=self.planning).count()
+        assert c == 0

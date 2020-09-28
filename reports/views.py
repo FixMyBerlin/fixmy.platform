@@ -63,7 +63,7 @@ class ReportDetail(generics.RetrieveUpdateAPIView):
 
 
 class ReportNotificationsView(TemplateView):
-    template_name = "notifications/unsubscribe.html"
+    template_name = f"unsubscribe_{NoticeSetting.REPORT_UPDATE_KIND}.html"
 
     def get(self, request, user_id, access_key, *args, **kwargs):
         notice_setting = get_object_or_404(

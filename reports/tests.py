@@ -2,6 +2,7 @@ import csv
 import json
 import tempfile
 import uuid
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.gis.geos import Point
 from django.core.management import call_command
@@ -11,6 +12,7 @@ from django.urls import reverse
 
 from fixmyapp.tests import LikeTest
 from fixmyapp.models import NoticeSetting
+from fixmydjango.utils import get_templates_config
 from .models import Report, StatusNotice
 
 # Create your tests here.
@@ -102,7 +104,13 @@ class ApiTests(TestCase):
         self.assertTrue(report.user.notice_settings.first().send)
 
         # Test disabling notice from link sent with user notice email
-        self.client.get(f'/api/reports/unsubscribe/{user_id}/{access_key}')
+        for template_set in settings.AVAILABLE_TEMPLATE_SETS:
+            with self.settings(
+                TEMPLATES=get_templates_config(
+                    template_set, settings.BASE_DIR, settings.AVAILABLE_TEMPLATE_SETS
+                )
+            ):
+                self.client.get(f'/api/reports/unsubscribe/{user_id}/{access_key}')
 
         report.refresh_from_db()
         self.assertFalse(report.user.notice_settings.first().send)

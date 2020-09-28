@@ -15,6 +15,8 @@ import django_heroku
 import os
 from corsheaders.defaults import default_headers
 
+from .utils import get_templates_config
+
 # Logging
 
 LOGGING = {
@@ -88,25 +90,10 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'fixmydjango.urls'
 
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            os.path.join(
-                BASE_DIR, 'templates', os.getenv('TEMPLATE_SET', 'fixmyberlin')
-            )
-        ],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ]
-        },
-    }
-]
+AVAILABLE_TEMPLATE_SETS = ('fixmyberlin', 'aachen')
+TEMPLATES = get_templates_config(
+    os.getenv('TEMPLATE_SET', 'fixmyberlin'), BASE_DIR, AVAILABLE_TEMPLATE_SETS
+)
 
 WSGI_APPLICATION = 'fixmydjango.wsgi.application'
 

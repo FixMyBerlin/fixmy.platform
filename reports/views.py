@@ -62,7 +62,7 @@ class ReportDetail(generics.RetrieveUpdateAPIView):
             super(ReportDetail, self).perform_update(serializer)
 
 
-class ReportNotificationsView(TemplateView):
+class UnsubscribeView(TemplateView):
     template_name = f"unsubscribe_{NoticeSetting.REPORT_UPDATE_KIND}.html"
 
     def get(self, request, user_id, access_key, *args, **kwargs):

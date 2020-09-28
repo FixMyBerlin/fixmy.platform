@@ -91,21 +91,6 @@ class Report(BaseModel):
         kind = _('report') if self.is_report else _('planning')
         return f"{kind} {self.id} ({_(self.status)})"
 
-    @property
-    def is_planning(self):
-        return self.status in self.PLANNING_STATUSES
-
-    @property
-    def is_report(self):
-        return self.status in self.REPORT_STATUSES
-
-    def save(self, *args, **kwargs):
-        is_created = self.status is None
-        super(Report, self).save(*args, **kwargs)
-
-        if self.status != self.__prev_status:
-            self.enqueue_notifications()
-
     def enqueue_notifications(self):
         from .status_notification import StatusNotification
 
@@ -136,3 +121,18 @@ class Report(BaseModel):
             if report.user is not None and report.user not in users:
                 users.add(report.user)
                 for_user(report.user).save()
+
+    @property
+    def is_planning(self):
+        return self.status in self.PLANNING_STATUSES
+
+    @property
+    def is_report(self):
+        return self.status in self.REPORT_STATUSES
+
+    def save(self, *args, **kwargs):
+        is_created = self.status is None
+        super(Report, self).save(*args, **kwargs)
+
+        if self.status != self.__prev_status:
+            self.enqueue_notifications()

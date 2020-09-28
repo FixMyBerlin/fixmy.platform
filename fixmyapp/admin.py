@@ -5,7 +5,6 @@ from django.contrib import messages
 from django.contrib.admin import SimpleListFilter
 from django.contrib.contenttypes.admin import GenericTabularInline
 from django.contrib.gis import admin
-from django.contrib.sites.models import Site
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.urls import reverse
@@ -539,5 +538,3 @@ admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Section, SectionAdmin)
 admin.site.register(SectionDetails, SectionDetailsAdmin)
-
-admin.site.unregister(Site)

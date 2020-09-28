@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE_VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-24 16:54+0000\n"
-"PO-Revision-Date: 2020-09-24 18:58+0200\n"
+"POT-Creation-Date: 2020-09-28 14:30+0000\n"
+"PO-Revision-Date: 2020-09-28 16:32+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -143,14 +143,14 @@ msgstr "Name des Betriebs"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:14
 #: fixmyapp/models/gastro_signup.py:134 fixmyapp/models/report.py:43
-#: reports/models/report.py:53
+#: reports/models/report.py:52
 msgid "address"
 msgstr "Adresse"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:15
 #: fixmyapp/models/project.py:106 fixmyapp/models/report.py:44
 #: fixmyapp/models/section.py:12 fixmyapp/tests.py:481
-#: reports/models/report.py:54
+#: reports/models/report.py:53
 msgid "geometry"
 msgstr "Geometrie"
 
@@ -282,17 +282,17 @@ msgstr "Auch mit Gebühr"
 
 #: fixmyapp/models/bike_stands.py:16 fixmyapp/models/bike_stands.py:17
 #: fixmyapp/models/report.py:41 reports/models/bike_stands.py:12
-#: reports/models/bike_stands.py:13 reports/models/report.py:51
+#: reports/models/bike_stands.py:13 reports/models/report.py:50
 msgid "bike stands"
 msgstr "Radbügel"
 
 #: fixmyapp/models/gastro_signup.py:27 fixmyapp/models/report.py:28
-#: reports/models/report.py:23
+#: reports/models/report.py:22
 msgid "new"
 msgstr "Neu"
 
 #: fixmyapp/models/gastro_signup.py:28 fixmyapp/models/report.py:29
-#: reports/models/report.py:24
+#: reports/models/report.py:23
 msgid "verification"
 msgstr "In Prüfung"
 
@@ -354,8 +354,8 @@ msgid "campaign"
 msgstr "Kampagne"
 
 #: fixmyapp/models/gastro_signup.py:99 fixmyapp/models/project.py:134
-#: fixmyapp/models/report.py:53 reports/models/report.py:63
-#: reports/models/status_notification.py:17
+#: fixmyapp/models/report.py:53 reports/models/notice_status.py:18
+#: reports/models/report.py:62
 msgid "status"
 msgstr "Status"
 
@@ -402,6 +402,26 @@ msgstr "Antrag auf Ausnahmegenehmigung"
 #: fixmyapp/models/gastro_signup.py:178
 msgid "gastro_signups"
 msgstr "Anträge auf Ausnahmegenehmigung"
+
+#: fixmyapp/models/notice_setting.py:13
+msgid "report status update"
+msgstr "geänderter Meldungsstatus"
+
+#: fixmyapp/models/notice_setting.py:18 reports/models/notice_status.py:20
+msgid "user"
+msgstr ""
+
+#: fixmyapp/models/notice_setting.py:22
+msgid "send"
+msgstr ""
+
+#: fixmyapp/models/notice_setting.py:26
+msgid "notice setting"
+msgstr "Benachrichtigungspräferenz"
+
+#: fixmyapp/models/notice_setting.py:27
+msgid "notice settings"
+msgstr "Benachrichtigungspräferenzen"
 
 #: fixmyapp/models/photo.py:12
 msgid "copyright"
@@ -560,7 +580,7 @@ msgid "draft"
 msgstr "Konzept"
 
 #: fixmyapp/models/project.py:47 fixmyapp/models/report.py:33
-#: reports/models/report.py:28 reports/models/report.py:91
+#: reports/models/report.py:27 reports/models/report.py:90
 msgid "planning"
 msgstr "Planung"
 
@@ -569,12 +589,12 @@ msgid "review"
 msgstr "Review"
 
 #: fixmyapp/models/project.py:49 fixmyapp/models/report.py:32
-#: reports/models/report.py:27
+#: reports/models/report.py:26
 msgid "inactive"
 msgstr "ruhend"
 
 #: fixmyapp/models/project.py:50 fixmyapp/models/report.py:36
-#: reports/models/report.py:31
+#: reports/models/report.py:30
 msgid "execution"
 msgstr "Ausführung"
 
@@ -647,7 +667,7 @@ msgid "project key"
 msgstr "Projektschlüssel"
 
 #: fixmyapp/models/project.py:98 fixmyapp/models/report.py:51
-#: reports/models/report.py:61
+#: reports/models/report.py:60
 msgid "published"
 msgstr "veröffentlicht"
 
@@ -664,7 +684,7 @@ msgid "responsible"
 msgstr "Verantwortlich"
 
 #: fixmyapp/models/project.py:102 fixmyapp/models/report.py:47
-#: reports/models/report.py:57
+#: reports/models/report.py:56
 msgid "description"
 msgstr "Beschreibung"
 
@@ -732,40 +752,40 @@ msgstr "Frage"
 msgid "questions"
 msgstr "Fragen"
 
-#: fixmyapp/models/report.py:30 reports/models/report.py:25
+#: fixmyapp/models/report.py:30 reports/models/report.py:24
 msgid "accepted"
 msgstr "Angenommen"
 
-#: fixmyapp/models/report.py:31 reports/models/report.py:26
+#: fixmyapp/models/report.py:31 reports/models/report.py:25
 msgid "rejected"
 msgstr "Abgelehnt"
 
-#: fixmyapp/models/report.py:34 reports/models/report.py:29
+#: fixmyapp/models/report.py:34 reports/models/report.py:28
 msgid "tender"
 msgstr "In Ausschreibung"
 
-#: fixmyapp/models/report.py:35 reports/models/report.py:30
+#: fixmyapp/models/report.py:35 reports/models/report.py:29
 msgid "invalid"
 msgstr "Nicht umsetzbar"
 
-#: fixmyapp/models/report.py:37 reports/models/report.py:32
+#: fixmyapp/models/report.py:37 reports/models/report.py:31
 msgid "done"
 msgstr "Abgeschlossen"
 
-#: fixmyapp/models/report.py:45 reports/models/report.py:55
+#: fixmyapp/models/report.py:45 reports/models/report.py:54
 msgid "subject"
 msgstr "Betreff"
 
-#: fixmyapp/models/report.py:60 reports/models/report.py:70
+#: fixmyapp/models/report.py:60 reports/models/report.py:69
 msgid "reason for status"
 msgstr "Begründung"
 
-#: fixmyapp/models/report.py:70 reports/models/report.py:83
-#: reports/models/report.py:91
+#: fixmyapp/models/report.py:70 reports/models/notice_status.py:15
+#: reports/models/report.py:82 reports/models/report.py:90
 msgid "report"
 msgstr "Meldung"
 
-#: fixmyapp/models/report.py:71 reports/models/report.py:84
+#: fixmyapp/models/report.py:71 reports/models/report.py:83
 msgid "reports"
 msgstr "Meldungen"
 
@@ -849,29 +869,29 @@ msgstr "Ungültiger Zugangsschlüssel"
 msgid "Campaign has ended"
 msgstr "Kampagne ist abgelaufen"
 
-#: reports/apps.py:13
-msgid "Report Status Updated"
-msgstr "Meldungsstatus aktualisiert"
-
-#: reports/apps.py:14
-msgid "your watched reports have been updated"
-msgstr ""
-
-#: reports/apps.py:23
+#: reports/apps.py:7
 msgid "Reports App"
 msgstr "Meldedialog"
 
-#: reports/models/report.py:77
-msgid "origin reports"
-msgstr "eingeflossene Meldungen"
-
-#: reports/models/status_notification.py:13
+#: reports/models/notice_status.py:13
 msgid "date"
 msgstr "Datum"
 
-#: reports/models/status_notification.py:16
+#: reports/models/notice_status.py:17
 msgid "sent"
 msgstr "versandt"
+
+#: reports/models/notice_status.py:24
+msgid "status notice"
+msgstr "Benachrichtigung über Status"
+
+#: reports/models/notice_status.py:25
+msgid "status notices"
+msgstr "Benachrichtigungen über Statusse"
+
+#: reports/models/report.py:76
+msgid "origin reports"
+msgstr "eingeflossene Meldungen"
 
 #: survey/models.py:13
 msgid "cycle path"

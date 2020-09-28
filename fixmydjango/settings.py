@@ -47,9 +47,6 @@ DEBUG = bool(os.getenv('DEBUG', False))
 
 ALLOWED_HOSTS = ['localhost', 'fixmyberlin.de', '35.234.67.137']
 
-# For django sites framework
-SITE_ID = 1
-
 
 # Application definition
 
@@ -62,7 +59,6 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.gis',
     'django.contrib.messages',
-    'django.contrib.sites',
     'django.contrib.sessions',
     'django.contrib.staticfiles',
     'djoser',

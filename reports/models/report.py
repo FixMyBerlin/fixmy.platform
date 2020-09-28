@@ -31,6 +31,21 @@ class Report(BaseModel):
         (STATUS_DONE, _('done')),
     )
 
+    REPORT_STATUSES = (
+        STATUS_REPORT_ACCEPTED,
+        STATUS_REPORT_INACTIVE,
+        STATUS_REPORT_NEW,
+        STATUS_REPORT_REJECTED,
+        STATUS_REPORT_VERIFICATION,
+    )
+    PLANNING_STATUSES = (
+        STATUS_PLANNING,
+        STATUS_TENDER,
+        STATUS_INVALID,
+        STATUS_EXECUTION,
+        STATUS_DONE,
+    )
+
     SUBJECT_BIKE_STANDS = 'BIKE_STANDS'
     SUBJECT_CHOICES = ((SUBJECT_BIKE_STANDS, _('bike stands')),)
 
@@ -56,12 +71,59 @@ class Report(BaseModel):
         get_user_model(), blank=True, null=True, on_delete=models.SET_NULL
     )
     origin = models.ManyToManyField(
-        'self', related_name='plannings', blank=True, symmetrical=False
+        'self',
+        related_name='plannings',
+        verbose_name=_('origin reports'),
+        blank=True,
+        symmetrical=False,
     )
 
     class Meta:
         verbose_name = _('report')
         verbose_name_plural = _('reports')
 
+    def __init__(self, *args, **kwargs):
+        super(Report, self).__init__(*args, **kwargs)
+        self.__prev_status = self.status
+
     def __str__(self):
-        return f"Report {self.id} ({_(self.status)}"
+        kind = _('report') if self.is_report else _('planning')
+        return f"{kind} {self.id} ({_(self.status)})"
+
+    def enqueue_notifications(self):
+        from .notice_status import StatusNotice
+
+        notified_users = set()
+
+        def notify_user(user):
+            if user is not None and user not in notified_users:
+                notified_users.add(user)
+                StatusNotice.create(status=self.status, user=user, report=self)
+
+        # Remove all unsent notifications about this report to prevent
+        # duplicate notifications
+        StatusNotice.objects.filter(report=self, sent=False).delete()
+
+        if self.user is not None:
+            notify_user(self.user)
+
+        for like in self.likes.all():
+            notify_user(like.user)
+
+        for report in self.origin.all():
+            notify_user(report.user)
+
+    @property
+    def is_planning(self):
+        return self.status in self.PLANNING_STATUSES
+
+    @property
+    def is_report(self):
+        return self.status in self.REPORT_STATUSES
+
+    def save(self, *args, **kwargs):
+        is_created = self.status is None
+        super(Report, self).save(*args, **kwargs)
+
+        if self.status != self.__prev_status:
+            self.enqueue_notifications()

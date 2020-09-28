@@ -15,6 +15,7 @@ from smtplib import SMTPException
 
 from .models import (
     GastroSignup,
+    NoticeSetting,
     PlaystreetSignup,
     Photo,
     Profile,
@@ -525,10 +526,15 @@ Ihr Bezirksamt Friedrichshain-Kreuzberg'''
     ]
 
 
+class NoticeSettingAdmin(admin.ModelAdmin):
+    list_display = ('user', 'kind', 'send')
+
+
+admin.site.register(GastroSignup, GastroSignupAdmin)
+admin.site.register(NoticeSetting, NoticeSettingAdmin)
+admin.site.register(PlaystreetSignup, PlaystreetSignupAdmin)
 admin.site.register(Project, ProjectAdmin)
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Section, SectionAdmin)
 admin.site.register(SectionDetails, SectionDetailsAdmin)
-admin.site.register(PlaystreetSignup, PlaystreetSignupAdmin)
-admin.site.register(GastroSignup, GastroSignupAdmin)

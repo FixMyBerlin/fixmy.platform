@@ -30,6 +30,7 @@ services:
       FRONTEND_URL:
       GASTRO_SIGNUPS_OPEN:
       GASTRO_SIGNUPS_CLOSE:
+      TEMPLATE_SET:
     command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/code

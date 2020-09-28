@@ -1,6 +1,6 @@
 from django.urls import path
 from .models import Report
-from .views import LikedByUserReportList, ReportDetail, ReportList
+from .views import LikedByUserReportList, ReportDetail, ReportList, UnsubscribeView
 from fixmyapp.views import LikeView
 
 app_name = 'reports'
@@ -27,6 +27,11 @@ urlpatterns = [
         LikeView.as_view(),
         {'model': Report},
         name='likes-reports',
+    ),
+    path(
+        'reports/unsubscribe/<int:user_id>/<str:access_key>', 
+        UnsubscribeView.as_view(), 
+        name='unsubscribe-report-update'
     ),
 ]
 # fmt: on

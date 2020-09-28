@@ -1,11 +1,13 @@
-from django.core.management.base import BaseCommand
-from django.forms.models import model_to_dict
-from django.utils.translation import gettext_lazy as _
-from reports.models import Report
-from datetime import datetime
 import argparse
 import csv
 import json
+from datetime import datetime
+from django.contrib.auth.models import User
+from django.core.management.base import BaseCommand
+from django.forms.models import model_to_dict
+from django.utils.translation import gettext_lazy as _
+
+from reports.models import Report
 
 FIELDNAMES = [
     'id',

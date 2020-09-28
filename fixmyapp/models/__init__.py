@@ -3,6 +3,7 @@ from .base_model import BaseModel
 from .bike_stands import BikeStands
 from .gastro_signup import GastroSignup, get_upload_path
 from .like import Like
+from .notice_setting import NoticeSetting
 from .photo import Photo
 from .playstreet_signup import PlaystreetSignup
 from .profile import Profile

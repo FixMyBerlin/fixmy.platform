@@ -2,7 +2,7 @@ import csv
 from django.contrib.gis.geos import Point
 from django.core.management.base import BaseCommand
 from django.db import transaction
-from reports.models import BikeStands
+from reports.models import BikeStands, Report
 
 REQUIRED_COLS = [
     'origin_ids',
@@ -38,6 +38,7 @@ def create_report_plannings(rows):
             status=row['status'],
             status_reason=row['status_reason'],
             number=row['number'],
+            subject=Report.SUBJECT_BIKE_STANDS,
         )
         entry.save()
 

@@ -179,4 +179,3 @@ class UnitTest(TestCase):
         self.report.save()
 
         assert StatusNotice.objects.filter(report=self.report).count() == 0
-

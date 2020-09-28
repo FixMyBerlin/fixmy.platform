@@ -85,4 +85,3 @@ class ReportNotificationsView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['FRONTEND_URL'] = settings.FRONTEND_URL
         return context
-

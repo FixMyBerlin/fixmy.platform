@@ -66,8 +66,6 @@ INSTALLED_APPS = [
     'djoser',
     'fixmyapp.apps.FixmyappConfig',
     'markdownx',
-    'pinax.notifications',
-    "pinax.templates",
     'rest_framework_gis',
     'rest_framework',
     'reversion',

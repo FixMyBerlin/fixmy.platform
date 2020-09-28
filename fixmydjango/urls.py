@@ -40,8 +40,4 @@ urlpatterns = [
     path('markdownx/', include('markdownx.urls')),
     path('reset/<str:uid>/<str:token>', reset, name='reset'),
     path('activate/<str:uid>/<str:token>', activate, name='activate'),
-    path(
-        'notifications/',
-        include("pinax.notifications.urls", namespace="pinax_notifications"),
-    ),
 ]

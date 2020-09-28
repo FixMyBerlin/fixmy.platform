@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy as _
 
 from fixmyapp.admin import FMBGeoAdmin, PhotoInline
 
-from .models import BikeStands, StatusNotification
+from .models import BikeStands, StatusNotice
 
 
 def mark_in_progress(modeladmin, request, queryset):
@@ -24,9 +24,9 @@ class BikeStandsAdmin(FMBGeoAdmin):
         return False
 
 
-class NotificationAdmin(admin.ModelAdmin):
-    list_display = ('id', 'status', 'report', 'user', 'sent')
+class NoticeAdmin(admin.ModelAdmin):
+    list_display = ('user', 'status', 'report', 'sent')
 
 
 admin.site.register(BikeStands, BikeStandsAdmin)
-admin.site.register(StatusNotification, NotificationAdmin)
+admin.site.register(StatusNotice, NoticeAdmin)

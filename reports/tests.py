@@ -1,14 +1,17 @@
 import csv
 import json
 import tempfile
+import uuid
 from django.contrib.auth import get_user_model
 from django.contrib.gis.geos import Point
 from django.core.management import call_command
+from django.core.exceptions import PermissionDenied
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
 from fixmyapp.tests import LikeTest
-from .models import Report, StatusNotification
+from fixmyapp.models import NoticeSetting
+from .models import Report, StatusNotice
 
 # Create your tests here.
 @override_settings(DEFAULT_FILE_STORAGE='django.core.files.storage.FileSystemStorage')
@@ -70,6 +73,40 @@ class ApiTests(TestCase):
         )
         self.assertEqual(response.status_code, 403)
 
+    def test_report_notices(self):
+        # Create a report
+        report_resp = self.client.post(
+            '/api/reports', data=json.dumps(self.data), content_type='application/json'
+        )
+        id = report_resp.json()['id']
+        # Assign user to it, creating default notification setting for that user
+        self.client.patch(
+            '/api/reports/{}'.format(id),
+            data=json.dumps({'user': self.user.pk}),
+            content_type='application/json',
+        )
+        # Modify report status
+        report = Report.objects.get(pk=id)
+        report.status = Report.STATUS_PLANNING
+        report.save()
+
+        user_id = report.user.id
+        access_key = report.user.notice_settings.first().access_key
+
+        # Test disabling notice with invalid access key
+        response = self.client.get(f'/api/reports/unsubscribe/{user_id}/{uuid.uuid4()}')
+        self.assertEqual(response.status_code, 403)
+        response = self.client.get(f'/api/reports/unsubscribe/{user_id}/<fake_key>')
+        self.assertEqual(response.status_code, 403)
+        report.refresh_from_db()
+        self.assertTrue(report.user.notice_settings.first().send)
+
+        # Test disabling notice from link sent with user notice email
+        self.client.get(f'/api/reports/unsubscribe/{user_id}/{access_key}')
+
+        report.refresh_from_db()
+        self.assertFalse(report.user.notice_settings.first().send)
+
 
 @override_settings(DEFAULT_FILE_STORAGE='django.core.files.storage.FileSystemStorage')
 class LikeReportTest(LikeTest, TestCase):
@@ -112,14 +149,14 @@ class UnitTest(TestCase):
         self.report.status = Report.STATUS_REPORT_ACCEPTED
         self.report.save()
 
-        notification = StatusNotification.objects.get(report=self.report)
+        notification = StatusNotice.objects.get(report=self.report)
         assert notification.status == self.report.status
 
     def test_planning_notifications(self):
         self.planning.status = Report.STATUS_EXECUTION
         self.planning.save()
 
-        notification = StatusNotification.objects.get(report=self.planning)
+        notification = StatusNotice.objects.get(report=self.planning)
         assert notification.user == self.report.user
 
     def test_planning_notifications_anonymous_origin(self):
@@ -129,5 +166,17 @@ class UnitTest(TestCase):
         self.planning.status = Report.STATUS_EXECUTION
         self.planning.save()
 
-        c = StatusNotification.objects.filter(report=self.planning).count()
-        assert c == 0
+        assert StatusNotice.objects.filter(report=self.planning).count() == 0
+
+    def test_disabled_notification(self):
+        notice_setting, _created = NoticeSetting.objects.get_or_create(
+            user=self.user, kind=NoticeSetting.REPORT_UPDATE_KIND
+        )
+        notice_setting.send = False
+        notice_setting.save()
+
+        self.report.status = Report.STATUS_REPORT_ACCEPTED
+        self.report.save()
+
+        assert StatusNotice.objects.filter(report=self.report).count() == 0
+

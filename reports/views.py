@@ -1,7 +1,15 @@
+import uuid
+from django.conf import settings
+from django.contrib.auth import get_user_model
+from django.contrib.auth.hashers import check_password, make_password
 from django.core.exceptions import PermissionDenied
+from django.http import HttpResponseForbidden
+from django.views.generic import TemplateView
+from django.shortcuts import get_object_or_404
 from rest_framework import generics, permissions
 from rest_framework.pagination import PageNumberPagination
 
+from fixmyapp.models import NoticeSetting
 from .models import Like, Report
 from .serializers import ReportSerializer
 
@@ -52,3 +60,29 @@ class ReportDetail(generics.RetrieveUpdateAPIView):
             raise PermissionDenied
         else:
             super(ReportDetail, self).perform_update(serializer)
+
+
+class ReportNotificationsView(TemplateView):
+    template_name = "notifications/unsubscribe.html"
+
+    def get(self, request, user_id, access_key, *args, **kwargs):
+        notice_setting = get_object_or_404(
+            NoticeSetting, user_id=user_id, kind=NoticeSetting.REPORT_UPDATE_KIND
+        )
+
+        try:
+            if notice_setting.access_key != uuid.UUID(access_key):
+                return HttpResponseForbidden()
+        except ValueError:
+            return HttpResponseForbidden()
+
+        notice_setting.send = False
+        notice_setting.save()
+
+        return super().get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['FRONTEND_URL'] = settings.FRONTEND_URL
+        return context
+

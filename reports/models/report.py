@@ -2,7 +2,6 @@ from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.gis.db import models
 from django.utils.translation import gettext_lazy as _
-from pinax.notifications.models import NoticeType
 
 from fixmyapp.models import BaseModel, Like, Photo
 
@@ -92,35 +91,27 @@ class Report(BaseModel):
         return f"{kind} {self.id} ({_(self.status)})"
 
     def enqueue_notifications(self):
-        from .status_notification import StatusNotification
+        from .notice_status import StatusNotice
 
-        notice_kind = NoticeType.objects.get(label="reports_update")
+        notified_users = set()
 
-        def for_user(user):
-            return StatusNotification(
-                kind=notice_kind, status=self.status, user=user, report=self
-            )
+        def notify_user(user):
+            if user is not None and user not in notified_users:
+                notified_users.add(user)
+                StatusNotice.create(status=self.status, user=user, report=self)
 
         # Remove all unsent notifications about this report to prevent
         # duplicate notifications
-        StatusNotification.objects.filter(
-            kind=notice_kind, report=self, sent=False
-        ).delete()
-
-        users = set()
+        StatusNotice.objects.filter(report=self, sent=False).delete()
 
         if self.user is not None:
-            for_user(self.user).save()
+            notify_user(self.user)
 
         for like in self.likes.all():
-            if like.user not in users:
-                users.add(like.user)
-                for_user(like.user).save()
+            notify_user(like.user)
 
         for report in self.origin.all():
-            if report.user is not None and report.user not in users:
-                users.add(report.user)
-                for_user(report.user).save()
+            notify_user(report.user)
 
     @property
     def is_planning(self):

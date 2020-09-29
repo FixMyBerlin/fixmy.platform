@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.gis.db import models
@@ -127,3 +128,12 @@ class Report(BaseModel):
 
         if self.status != self.__prev_status:
             self.enqueue_notifications()
+
+    @property
+    def frontend_url(self):
+        relative_path = (
+            f"meldungen/karte/{self.id}"
+            if settings.TEMPLATE_SET == "aachen"
+            else f"meldungen/radbuegel/friedrichshain-kreuzberg/karte/{self.id}"
+        )
+        return f"{settings.FRONTEND_URL}/{relative_path}"

@@ -1,6 +1,7 @@
 from datetime import date
 from django.contrib.auth import get_user_model
 from django.contrib.gis.db import models
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from fixmyapp.models import NoticeSetting
@@ -31,3 +32,14 @@ class StatusNotice(models.Model):
         )
         if setting.send:
             return cls(*args, **kwargs).save()
+
+    @staticmethod
+    def unsubscribe_url(user):
+        userconf = user.notice_settings.get(kind=NoticeSetting.REPORT_UPDATE_KIND)
+        return reverse(
+            "reports:unsubscribe-report-update", args=[user.id, userconf.access_key]
+        )
+
+    @staticmethod
+    def user_preference(user):
+        return user.notice_settings.get(kind=NoticeSetting.REPORT_UPDATE_KIND).send

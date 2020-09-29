@@ -1,0 +1,38 @@
+Sehr geehrte Damen und Herren,
+
+Im Rahmen der Aktion Radbügel für Aachen haben Sie einen Vorschlag für Radbügel-Standorte eingereicht oder Vorschläge anderer Nutzer:innen mit einem Like markiert. Mit dieser E-Mail informieren wir Sie über Neuigkeiten zu diesen Meldungen. 
+
+{% if planning %}{% if planning.is_single %}Der Vorschlag für Radbügel am Standort {{ planning.first_address }} ist derzeit in Planung{% else %}Folgende Vorschläge sind jetzt in Planung{% endif %}. Wir bereiten aktuell detaillierte Umsetzungspläne zur Installation der Radbügel vor und werden diese in den politischen Ausschüssen vorschlagen. Sobald über Ihren Standort entschieden wird, werden wir uns umgehend bei Ihnen melden.{% if planning.count > 1 %}
+
+{% for notice in planning.notices %}- {{ notice.report.address }} - {{ notice.report.frontend_url }}
+{% endfor %}{% else %} Details finden Sie auf: {{ planning.first_url }}{% endif %}
+
+{% endif %}{% if report_rejected %}{% if report_rejected.is_single %}Leider kann der Vorschlag {{ report_rejected.first_address }} am vorgeschlagenen Standort nicht umgesetzt werden{{ report_rejected.first_reason }}. {% else %}Leider können die folgenden Vorschläge an den vorgeschlagenen Standorten nicht umgesetzt werden:{% endif %}{% if report_rejected.count > 1 %}
+
+{% for notice in report_rejected.notices %}- {{ notice.report.address }} - {{ notice.report.frontend_url }}
+{% endfor %}{% else %}Details finden Sie auf: {{ report_rejected.first_url }}{% endif %}
+
+{% endif %}{% if report_accepted %}{% if report_accepted.is_single %}Am vorgeschlagenen Standort {{ report_accepted.first_address }}{% else %}An den folgenden vorgeschlagenen Standorten{% endif %} können leider keine Radbügel platziert werden. Allerdings können in unmittelbarer Nähe Radbügel gesetzt werden. Die Ausschreibung für die Installation der Radbügel läuft bereits, allerdings kann dies etwas Zeit in Anspruch nehmen. Wir werden Sie informieren, sobald die neuen Radbügel aufgestellt sind.{% if report_accepted.count > 1 %}
+
+{% for notice in report_accepted.notices %}- Details zur Meldung {{ notice.report.address }} finden Sie unter 
+    {{ notice.report.frontend_url }}
+{% endfor %}{% else %}Details finden Sie auf: {{ report_accepted.first_url }}{% endif %}
+
+{% endif %}{% if execution %}{% if execution.is_single %}Über den Vorschlag für neue Radbügel am Standort {{ execution.first_address }} wurde zwischnzeitlich in den politischen Gremien beraten. Er befindet sich {% else %}Über die folgenden Vorschläge wurde zwischenzeitlich in den politischen Gremien beraten. Sie befinden sich {% endif %}aktuell in Umsetzung. Die Ausschreibung für die Radbügel läuft bereits, allerdings kann dies etwas Zeit in Anspruch nehmen. Wir werden Sie informieren, sobald die neuen Radbügel aufgestellt sind. {% if execution.count > 1 %}
+
+{% for notice in execution.notices %}- Details zur Meldung {{ notice.report.address }} finden Sie unter 
+    {{ notice.report.frontend_url }}
+{% endfor %}{% else %}Details finden Sie auf: {{ execution.first_url }}{% endif %}
+
+{% endif %}{% if done %}{% if done.is_single %}Der Vorschlag für neue Radbügel am Standort {{ done.first_address }} wurde erfolgreich umgesetzt. Am Standort befinden sich nun {{ done.notices.0.report.bikestands.number }} Fahrradbügel. {% else %}Die folgenden Vorschläge für neue Radbügel wurden erfolgreich umgesetzt:{% endif %}{% if done.count > 1 %}
+
+{% for notice in done.notices %}- Am Standort {{ notice.report.address }} befinden sich nun {{ notice.report.bikestands.number }} Fahrradbügel.
+    {{ notice.report.frontend_url }}
+{% endfor %}{% else %}Details finden Sie auf: {{ done.first_url }}{% endif %}
+
+{% endif %}Mit freundlichen Grüßen,
+Ihr Fachbereich Stadtentwicklung und Verkehrsanlagen
+
+---
+
+Sollten Sie keine weiteren Benachrichtigungen von Radbügel für Aachen wünschen, können Sie diese hier mit einem Klick deaktivieren: {{ unsubscribe_url }}

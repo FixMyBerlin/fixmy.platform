@@ -87,9 +87,8 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'fixmydjango.urls'
 
 AVAILABLE_TEMPLATE_SETS = ('fixmyberlin', 'aachen')
-TEMPLATES = get_templates_config(
-    os.getenv('TEMPLATE_SET', 'fixmyberlin'), BASE_DIR, AVAILABLE_TEMPLATE_SETS
-)
+TEMPLATE_SET = os.getenv('TEMPLATE_SET', 'fixmyberlin')
+TEMPLATES = get_templates_config(TEMPLATE_SET, BASE_DIR, AVAILABLE_TEMPLATE_SETS)
 
 WSGI_APPLICATION = 'fixmydjango.wsgi.application'
 

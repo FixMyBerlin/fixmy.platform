@@ -12,7 +12,7 @@ Im Rahmen der Aktion Radbügel für Aachen haben Sie einen Vorschlag für Radbü
 {% for notice in report_rejected.notices %}- {{ notice.report.address }} - {{ notice.report.frontend_url }}
 {% endfor %}{% else %}Details finden Sie auf: {{ report_rejected.first_url }}{% endif %}
 
-{% endif %}{% if report_accepted %}{% if report_accepted.is_single %}Am vorgeschlagenen Standort {{ report_accepted.first_address }}{% else %}An den folgenden vorgeschlagenen Standorten{% endif %} können leider keine Radbügel platziert werden. Allerdings können in unmittelbarer Nähe Radbügel gesetzt werden. Die Ausschreibung für die Installation der Radbügel läuft bereits, allerdings kann dies etwas Zeit in Anspruch nehmen. Wir werden Sie informieren, sobald die neuen Radbügel aufgestellt sind.{% if report_accepted.count > 1 %}
+{% endif %}{% if report_accepted %}{% if report_accepted.is_single %}Am vorgeschlagenen Standort {{ report_accepted.first_address }}{% else %}An den folgenden vorgeschlagenen Standorten{% endif %} können leider keine Radbügel platziert werden. Allerdings können in unmittelbarer Nähe Radbügel gesetzt werden. Die Ausschreibung für die Installation der Radbügel läuft bereits, allerdings kann dies etwas Zeit in Anspruch nehmen. Wir werden Sie informieren, sobald die neuen Radbügel aufgestellt sind. {% if report_accepted.count > 1 %}
 
 {% for notice in report_accepted.notices %}- Details zur Meldung {{ notice.report.address }} finden Sie unter 
     {{ notice.report.frontend_url }}

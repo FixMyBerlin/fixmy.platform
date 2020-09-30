@@ -27,6 +27,7 @@ class StatusNotice(models.Model):
 
     @classmethod
     def create(cls, *args, **kwargs):
+        """Create status notice, also creating user notification pref if neccessary"""
         setting, _created = NoticeSetting.objects.get_or_create(
             user=kwargs.get("user"), kind=NoticeSetting.REPORT_UPDATE_KIND
         )
@@ -35,6 +36,7 @@ class StatusNotice(models.Model):
 
     @staticmethod
     def unsubscribe_url(user):
+        """Return URL for unsubscribing user from report status notifications"""
         userconf = user.notice_settings.get(kind=NoticeSetting.REPORT_UPDATE_KIND)
         return reverse(
             "reports:unsubscribe-report-update", args=[user.id, userconf.access_key]
@@ -42,4 +44,5 @@ class StatusNotice(models.Model):
 
     @staticmethod
     def user_preference(user):
+        """Return true if user has not disabled report status notifications"""
         return user.notice_settings.get(kind=NoticeSetting.REPORT_UPDATE_KIND).send

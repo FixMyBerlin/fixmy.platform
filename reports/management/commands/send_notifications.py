@@ -10,28 +10,46 @@ from reports.models import StatusNotice, Report
 
 class Command(BaseCommand):
     help = 'Send queued notifications for report status updates'
-    email_data = []
     template_txt = get_template("email/report_update.txt")
 
     def handle(self, *args, **options):
-        all_notices = StatusNotice.objects.select_related().order_by('user_id').all()
+        self.email_data = []
+        notices = (
+            StatusNotice.objects.filter(sent=False)
+            .select_related()
+            .order_by('user_id')
+            .all()
+        )
+
+        if len(notices) == 0:
+            self.stdout.write("All notifications were sent already")
+            return
+
+        self.stdout.write(f"Processing {len(notices)} notices")
 
         user_notices = defaultdict(list)
-        for i, notice in enumerate(all_notices):
+        for i, notice in enumerate(notices):
             user_notices[notice.status].append(notice)
-            is_last_notice = len(all_notices) == (i + 1)
+            is_last_notice = len(notices) == (i + 1)
             is_next_user_different = (
-                is_last_notice or all_notices[i + 1].user != notice.user
+                is_last_notice or notices[i + 1].user != notice.user
             )
             if is_last_notice or is_next_user_different:
                 self.render_email(notice.user, user_notices)
                 user_notices = defaultdict(list)
         self.send_all()
+        notices.update(sent=True)
 
     def render_email(self, user, collection):
-        if len(collection) == 0 or StatusNotice.user_preference(user) is False:
-            # user disabled notifications
+        """Render a collection of notices into a single email"""
+
+        if len(collection) == 0:
             return
+
+        if StatusNotice.user_preference(user) is False:
+            # user disabled notifications since notice was enqueued, delete
+            # all notices for this user
+            StatusNotification.objects.filter(user=user).delete()
 
         unsubscribe_url = StatusNotice.unsubscribe_url(user).replace(
             "/api/", f"{settings.FRONTEND_URL}/api/v1/"
@@ -54,10 +72,11 @@ class Command(BaseCommand):
             message = EmailMultiAlternatives(subject, text, from_email, recipient)
             # message.attach_alternative(html, 'text/html')
             messages.append(message)
+        self.stdout.write(f"Sending {len(messages)} emails")
         return connection.send_messages(messages)
 
     def template_data(self, collection):
-        """Collect data needed for rendering template"""
+        """Shape data from a collection of notices so that it's ergonomic for templates"""
 
         data = {}
         for status in [

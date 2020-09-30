@@ -85,6 +85,7 @@ class Report(BaseModel):
 
     def __init__(self, *args, **kwargs):
         super(Report, self).__init__(*args, **kwargs)
+        # prev status is saved to detect status change in self.save()
         self.__prev_status = self.status
 
     def __str__(self):
@@ -92,6 +93,15 @@ class Report(BaseModel):
         return f"{kind} {self.id} ({_(self.status)})"
 
     def enqueue_notifications(self):
+        """Prepare notifications to user by creating StatusNotice objects
+
+        StatusNotice objects can be processed by calling the management command
+        `send_notifications`. 
+
+        !!! No notices are created when updating reports with the queryset
+        method `update`. Always update report status through `Report.save` unless
+        you don't want to enqueue notices!"""
+
         from .notice_status import StatusNotice
 
         notified_users = set()
@@ -123,7 +133,6 @@ class Report(BaseModel):
         return self.status in self.REPORT_STATUSES
 
     def save(self, *args, **kwargs):
-        is_created = self.status is None
         super(Report, self).save(*args, **kwargs)
 
         if self.status != self.__prev_status:

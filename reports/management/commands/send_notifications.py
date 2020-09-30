@@ -43,10 +43,11 @@ class Command(BaseCommand):
     def render_email(self, user, collection):
         """Render a collection of notices into a single email"""
 
-        if StatusNotice.user_preference(user) is False:
+        if StatusNotice.user_preference(user) == False:
             # user disabled notifications since notice was enqueued, delete
             # all notices for this user
-            StatusNotification.objects.filter(user=user).delete()
+            StatusNotice.objects.filter(user=user).delete()
+            return
 
         unsubscribe_url = StatusNotice.unsubscribe_url(user).replace(
             "/api/", f"{settings.FRONTEND_URL}/api/v1/"

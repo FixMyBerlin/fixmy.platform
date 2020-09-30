@@ -192,6 +192,10 @@ class SendNotifications(ImportReportPlannings):
             r.user = self.user
             r.save()
 
+        # Test command without something to send
+        call_command('send_notifications')
+        self.assertEqual(0, len(mail.outbox))
+
         for update_multiple in [True, False]:
             reports = [report, report2] if update_multiple else [report]
             plannings = [planning, planning2] if update_multiple else [planning]
@@ -226,3 +230,17 @@ class SendNotifications(ImportReportPlannings):
                 for p in plannings:
                     self.assertIn(p.address, mail.outbox[0].message()._payload)
                 mail.outbox = []
+
+        def test_notification_preference(self):
+            """Notifications should not be sent after user has disabled them"""
+            # Enqueue a notice
+            report = Report.objects.get(pk=self.report_id)
+            report.user = self.user
+            report.status = Report.STATUS_REPORT_ACCEPTED
+            report.save()
+            self.assertEqual(StatusNotice.user_preference(self.user), True)
+            self.client.get(StatusNotice.unsubscribe_url(self.user))
+            self.assertEqual(StatusNotice.user_preference(self.user), False)
+            call_command('send_notifications')
+            self.assertEqual(0, len(mail.outbox))
+            self.assertEqual(0, StatusNotice.objects.filter(user=self.user).count())

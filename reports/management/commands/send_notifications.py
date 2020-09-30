@@ -43,9 +43,6 @@ class Command(BaseCommand):
     def render_email(self, user, collection):
         """Render a collection of notices into a single email"""
 
-        if len(collection) == 0:
-            return
-
         if StatusNotice.user_preference(user) is False:
             # user disabled notifications since notice was enqueued, delete
             # all notices for this user

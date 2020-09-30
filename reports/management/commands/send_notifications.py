@@ -108,4 +108,3 @@ class Command(BaseCommand):
                 data[status]["notices"] = collection[status]
 
         return data
-

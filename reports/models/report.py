@@ -96,7 +96,7 @@ class Report(BaseModel):
         """Prepare notifications to user by creating StatusNotice objects
 
         StatusNotice objects can be processed by calling the management command
-        `send_notifications`. 
+        `send_notifications`.
 
         !!! No notices are created when updating reports with the queryset
         method `update`. Always update report status through `Report.save` unless

@@ -212,7 +212,8 @@ class SendNotifications(ImportReportPlannings):
                 self.assertEqual(StatusNotice.objects.filter(sent=False).count(), 0)
                 self.assertEqual(1, len(mail.outbox))
                 for r in reports:
-                    self.assertIn(r.address, mail.outbox[0].message()._payload)
+                    for variant in mail.outbox[0].message()._payload:
+                        self.assertIn(r.address, str(variant))
                 mail.outbox = []
 
             for status in [
@@ -228,7 +229,8 @@ class SendNotifications(ImportReportPlannings):
                 self.assertEqual(StatusNotice.objects.filter(sent=False).count(), 0)
                 self.assertEqual(1, len(mail.outbox))
                 for p in plannings:
-                    self.assertIn(p.address, mail.outbox[0].message()._payload)
+                    for variant in mail.outbox[0].message()._payload:
+                        self.assertIn(p.address, str(variant))
                 mail.outbox = []
 
     def test_notification_preference(self):

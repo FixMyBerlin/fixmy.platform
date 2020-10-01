@@ -96,7 +96,7 @@ class Report(BaseModel):
         """Prepare notifications to user by creating StatusNotice objects
 
         StatusNotice objects can be processed by calling the management command
-        `send_notifications`.
+        `sendnotifications`.
 
         !!! No notices are created when updating reports with the queryset
         method `update`. Always update report status through `Report.save` unless
@@ -140,9 +140,4 @@ class Report(BaseModel):
 
     @property
     def frontend_url(self):
-        relative_path = (
-            f"meldungen/karte/{self.id}"
-            if settings.TEMPLATE_SET == "aachen"
-            else f"meldungen/radbuegel/friedrichshain-kreuzberg/karte/{self.id}"
-        )
-        return f"{settings.FRONTEND_URL}/{relative_path}"
+        return f"{settings.FRONTEND_URL}/redirect-to/reports/{self.id}"

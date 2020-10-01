@@ -166,7 +166,7 @@ class SendNotifications(ImportReportPlannings):
         planning.save()
         self.assertEqual(StatusNotice.objects.count(), 1)
 
-    def test_send_notifications(self):
+    def test_sendnotifications(self):
         # Create a second report to use in testing
         resp = self.client.post(
             '/api/reports', data=json.dumps(self.data), content_type='application/json'
@@ -193,7 +193,7 @@ class SendNotifications(ImportReportPlannings):
             r.save()
 
         # Test command without something to send
-        call_command('send_notifications')
+        call_command('sendnotifications')
         self.assertEqual(0, len(mail.outbox))
 
         for update_multiple in [True, False]:
@@ -208,7 +208,7 @@ class SendNotifications(ImportReportPlannings):
                     r.status = status
                     r.save()
 
-                call_command('send_notifications')
+                call_command('sendnotifications')
                 self.assertEqual(StatusNotice.objects.filter(sent=False).count(), 0)
                 self.assertEqual(1, len(mail.outbox))
                 for r in reports:
@@ -224,7 +224,7 @@ class SendNotifications(ImportReportPlannings):
                     p.status = status
                     p.save()
 
-                call_command('send_notifications')
+                call_command('sendnotifications')
                 self.assertEqual(StatusNotice.objects.filter(sent=False).count(), 0)
                 self.assertEqual(1, len(mail.outbox))
                 for p in plannings:
@@ -242,6 +242,6 @@ class SendNotifications(ImportReportPlannings):
         resp = self.client.get(StatusNotice.unsubscribe_url(self.user))
         self.assertEqual(resp.status_code, 200)
         self.assertEqual(StatusNotice.user_preference(self.user), False)
-        call_command('send_notifications')
+        call_command('sendnotifications')
         self.assertEqual(0, len(mail.outbox))
         self.assertEqual(0, StatusNotice.objects.filter(user=self.user).count())

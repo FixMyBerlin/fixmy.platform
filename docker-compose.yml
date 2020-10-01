@@ -11,6 +11,7 @@ services:
       AWS_STORAGE_BUCKET_NAME:
       DEBUG: 1
       EMAIL_BACKEND: django.core.mail.backends.console.EmailBackend
+      EMAIL_REPLY_TO:
       MAPBOX_UPLOAD_NAME_MAIN:
       MAPBOX_UPLOAD_NAME_SIDE:
       MAPBOX_UPLOAD_NAME_SECTIONS:

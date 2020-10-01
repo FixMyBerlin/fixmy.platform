@@ -72,6 +72,8 @@ class Command(BaseCommand):
         for subject, text, html, from_email, recipient in self.email_data:
             message = EmailMultiAlternatives(subject, text, from_email, recipient)
             message.attach_alternative(html, 'text/html')
+            if settings.EMAIL_REPLY_TO:
+                message.reply_to = (settings.EMAIL_REPLY_TO,)
             messages.append(message)
         self.stdout.write(f"Sending {len(messages)} emails")
         return connection.send_messages(messages)

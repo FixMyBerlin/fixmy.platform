@@ -1,4 +1,5 @@
 import csv
+import sys
 from django.contrib.gis.geos import Point
 from django.core.management.base import BaseCommand
 from django.db import transaction
@@ -19,6 +20,7 @@ STATUS_CHOICES = [x[0] for x in BikeStands.STATUS_CHOICES]
 
 def create_report_plannings(rows):
     entries = []
+    invalid_status = set()
     for i, row in enumerate(rows):
         assert len(row['geometry']) > 0, f"Geometry of line {i+1} is empty"
         lon, lat = [float(x) for x in row['geometry'].split(',')]
@@ -43,16 +45,25 @@ def create_report_plannings(rows):
         entry.save()
 
         linked_entries = row['origin_ids'].split(';')
-        for origin_entry_id in linked_entries:
-            try:
-                origin_entry = BikeStands.objects.get(pk=origin_entry_id)
-            except BikeStands.DoesNotExist:
-                raise BikeStands.DoesNotExist(
-                    f'Could not find report {origin_entry_id} found in origin_ids of line {i+1}'
-                )
-            entry.origin.add(origin_entry)
-        entry.save()
+        if len(linked_entries) > 0:
+            for origin_entry_id in linked_entries:
+                try:
+                    origin_entry = BikeStands.objects.get(pk=origin_entry_id)
+                except BikeStands.DoesNotExist:
+                    raise BikeStands.DoesNotExist(
+                        f'Could not find report {origin_entry_id} found in origin_ids of line {i+1}'
+                    )
+                entry.origin.add(origin_entry)
+                if entry.status != BikeStands.STATUS_REPORT_ACCEPTED:
+                    invalid_status.add(origin_entry_id)
+            entry.save()
         entries.append(entry)
+
+    if len(invalid_status) > 0:
+        sys.stdout.write(
+            f"{len(invalid_status)} reports were linked to planning entries despite not having the correct status 'report_accepted'\n"
+        )
+
     return entries
 
 
@@ -78,4 +89,4 @@ class Command(BaseCommand):
             ), f'The input file is missing the {col} column'
 
         entries = create_report_plannings(rows)
-        self.stdout.write(f"Created {len(entries)} plannings")
+        self.stdout.write(f"Created {len(entries)} plannings\n")

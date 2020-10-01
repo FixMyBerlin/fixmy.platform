@@ -87,9 +87,8 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'fixmydjango.urls'
 
 AVAILABLE_TEMPLATE_SETS = ('fixmyberlin', 'aachen')
-TEMPLATES = get_templates_config(
-    os.getenv('TEMPLATE_SET', 'fixmyberlin'), BASE_DIR, AVAILABLE_TEMPLATE_SETS
-)
+TEMPLATE_SET = os.getenv('TEMPLATE_SET', 'fixmyberlin')
+TEMPLATES = get_templates_config(TEMPLATE_SET, BASE_DIR, AVAILABLE_TEMPLATE_SETS)
 
 WSGI_APPLICATION = 'fixmydjango.wsgi.application'
 
@@ -191,6 +190,8 @@ EMAIL_BACKEND = os.getenv(
 )
 
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'info@fixmyberlin.de')
+
+EMAIL_REPLY_TO = os.getenv('EMAIL_REPLY_TO')
 
 ANYMAIL = {
     'MAILJET_API_KEY': os.getenv('MAILJET_API_KEY', ''),
@@ -298,5 +299,4 @@ GASTRO_RECIPIENT = os.getenv('GASTRO_RECIPIENT', 'aufsicht.sga@ba-fk.berlin.de')
 GASTRO_SIGNUPS_OPEN = os.getenv('GASTRO_SIGNUPS_OPEN', None)
 GASTRO_SIGNUPS_CLOSE = os.getenv('GASTRO_SIGNUPS_CLOSE', None)
 
-# To enable showing absolute URLs of objects in the admin panel
 FRONTEND_URL = os.getenv('FRONTEND_URL', 'https://fixmyberlin.de')

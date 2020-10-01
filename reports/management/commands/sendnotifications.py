@@ -11,6 +11,7 @@ from reports.models import StatusNotice, Report
 class Command(BaseCommand):
     help = 'Send queued notifications for report status updates'
     template_txt = get_template("email/report_update.txt")
+    template_html = get_template("email/report_update.html")
 
     def handle(self, *args, **options):
         self.email_data = []
@@ -58,7 +59,9 @@ class Command(BaseCommand):
         body_txt = self.template_txt.render(
             context={"user": user, "unsubscribe_url": unsubscribe_url, **data}
         )
-        body_html = None
+        body_html = self.template_html.render(
+            context={"user": user, "unsubscribe_url": unsubscribe_url, **data}
+        )
         self.email_data.append(
             (subject, body_txt, body_html, settings.DEFAULT_FROM_EMAIL, [user.email])
         )
@@ -68,7 +71,7 @@ class Command(BaseCommand):
         messages = []
         for subject, text, html, from_email, recipient in self.email_data:
             message = EmailMultiAlternatives(subject, text, from_email, recipient)
-            # message.attach_alternative(html, 'text/html')
+            message.attach_alternative(html, 'text/html')
             messages.append(message)
         self.stdout.write(f"Sending {len(messages)} emails")
         return connection.send_messages(messages)

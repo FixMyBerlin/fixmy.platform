@@ -102,7 +102,7 @@ class Report(BaseModel):
         method `update`. Always update report status through `Report.save` unless
         you don't want to enqueue notices!"""
 
-        from .notice_status import StatusNotice
+        from .status_notice import StatusNotice
 
         notified_users = set()
 

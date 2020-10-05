@@ -64,7 +64,7 @@ def create_report_plannings(rows):
 
     if len(invalid_status) > 0:
         sys.stdout.write(
-            f"{len(invalid_status)} reports were linked to planning entries despite not having the correct status 'report_accepted'\n"
+            f"{len(invalid_status)} reports were linked to plannings despite not having the correct status 'report_accepted'\n"
         )
 
     return entries

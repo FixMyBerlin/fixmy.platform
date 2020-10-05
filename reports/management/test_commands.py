@@ -196,6 +196,13 @@ class SendNotifications(ImportReportPlannings):
         call_command('sendnotifications')
         self.assertEqual(0, len(mail.outbox))
 
+        # Test that no email is sent when changing the status to one that is
+        # not represented in the notification emails
+        report.status = Report.STATUS_INVALID
+        report.save()
+        call_command('sendnotifications')
+        self.assertEqual(0, len(mail.outbox))
+
         for update_multiple in [True, False]:
             reports = [report, report2] if update_multiple else [report]
             plannings = [planning, planning2] if update_multiple else [planning]
@@ -214,6 +221,7 @@ class SendNotifications(ImportReportPlannings):
                 for r in reports:
                     for variant in mail.outbox[0].message()._payload:
                         self.assertIn(r.address, str(variant))
+                        self.assertTrue(str(variant).count("http") >= 2)
                 mail.outbox = []
 
             for status in [
@@ -231,6 +239,7 @@ class SendNotifications(ImportReportPlannings):
                 for p in plannings:
                     for variant in mail.outbox[0].message()._payload:
                         self.assertIn(p.address, str(variant))
+                        self.assertTrue(str(variant).count("http") >= 2)
                 mail.outbox = []
 
     def test_notification_preference(self):

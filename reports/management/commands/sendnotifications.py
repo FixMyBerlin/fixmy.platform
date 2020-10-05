@@ -7,6 +7,15 @@ from django.template.loader import get_template
 from fixmyapp.models import NoticeSetting
 from reports.models import StatusNotice, Report
 
+# Statuses for which notifications will be sent
+NOTIFICATION_STATUSES = [
+    Report.STATUS_PLANNING,
+    Report.STATUS_REPORT_REJECTED,
+    Report.STATUS_REPORT_ACCEPTED,
+    Report.STATUS_EXECUTION,
+    Report.STATUS_DONE,
+]
+
 
 class Command(BaseCommand):
     help = 'Send queued notifications for report status updates'
@@ -54,6 +63,12 @@ class Command(BaseCommand):
             "/api/", f"{settings.FRONTEND_URL}/api/v1/"
         )
 
+        # Return early if collection contains no notices that will be included
+        # in email
+        total_in_collection = sum([len(collection[k]) for k in NOTIFICATION_STATUSES])
+        if total_in_collection == 0:
+            return
+
         data = self.template_data(collection)
         subject = "Updates"
         body_txt = self.template_txt.render(
@@ -82,13 +97,7 @@ class Command(BaseCommand):
         """Shape data from a collection of notices so that it's ergonomic for templates"""
 
         data = {}
-        for status in [
-            Report.STATUS_PLANNING,
-            Report.STATUS_REPORT_REJECTED,
-            Report.STATUS_REPORT_ACCEPTED,
-            Report.STATUS_EXECUTION,
-            Report.STATUS_DONE,
-        ]:
+        for status in NOTIFICATION_STATUSES:
             if len(collection[status]) == 0:
                 data[status] = None
             else:

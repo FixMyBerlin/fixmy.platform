@@ -25,18 +25,13 @@ jobs:
       #         with:
       #           key: docker-cache-{ hash }-${{ hashFiles('./requirements.txt') }}
 
-      - name: Docker build step
-        run: docker-compose up -d --build
-
-      - name: Wait 15 seconds for docker to boot...
-        uses: jakejarvis/wait-action@master
-        with:
-          time: "15s"
+      - name: Docker build
+        run: docker-compose build
 
       - name: Run tests
         # Use -T parameter to avoid input device not being recognized
         # https://github.com/docker/compose/issues/5696#issuecomment-425112003
-        run: docker-compose exec -T app python manage.py test
+        run: docker-compose run -T app python manage.py test
 
       - uses: codecov/codecov-action@v1
         with:

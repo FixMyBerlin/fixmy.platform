@@ -140,4 +140,4 @@ class Report(BaseModel):
 
     @property
     def frontend_url(self):
-        return f"{settings.FRONTEND_URL}redirect-to/reports/{self.id}"
+        return f"{settings.FRONTEND_URL}/redirect-to/reports/{self.id}"

@@ -45,7 +45,7 @@ def create_report_plannings(rows):
         entry.save()
 
         linked_entries = row['origin_ids'].split(';')
-        if len(linked_entries) > 0:
+        if len(linked_entries) > 0 and len(row['origin_ids']) > 0:
             for origin_entry_id in linked_entries:
                 try:
                     origin_entry = BikeStands.objects.get(pk=origin_entry_id)

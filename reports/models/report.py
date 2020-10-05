@@ -133,7 +133,7 @@ class Report(BaseModel):
         return self.status in self.REPORT_STATUSES
 
     def save(self, *args, **kwargs):
-        super(Report, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
         if self.status != self.__prev_status:
             self.enqueue_notifications()

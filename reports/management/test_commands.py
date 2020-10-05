@@ -95,8 +95,6 @@ class ImportReports(CommandTest):
 class ImportReportPlannings(CommandTest):
     def setUp(self):
         super().setUp()
-        # set id explicitly in order to be to reference it below in `origin_ids`
-        self.data['id'] = 1
         resp = self.client.post(
             '/api/reports', data=json.dumps(self.data), content_type='application/json'
         )
@@ -124,6 +122,14 @@ class ImportReportPlannings(CommandTest):
         rows = self.plannings
         rows[0]['origin_ids'] = '9999'
         self.assertRaises(BikeStands.DoesNotExist, create_report_plannings, rows)
+
+    def test_origin_author_notification(self):
+        """Test that origin authors get notices"""
+        report = Report.objects.get(pk=self.report_id)
+        report.user = self.user
+        report.save()
+        create_report_plannings(self.plannings)
+        self.assertEqual(1, StatusNotice.objects.filter(user=self.user).count())
 
     def test_repeated_execution(self):
         """Test that additional entries are created on re-run"""

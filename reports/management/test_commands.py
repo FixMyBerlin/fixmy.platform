@@ -125,6 +125,12 @@ class ImportReportPlannings(CommandTest):
         rows[0]['origin_ids'] = '9999'
         self.assertRaises(BikeStands.DoesNotExist, create_report_plannings, rows)
 
+    def test_repeated_execution(self):
+        """Test that additional entries are created on re-run"""
+        create_report_plannings(self.plannings)
+        create_report_plannings(self.plannings)
+        self.assertEqual(BikeStands.objects.count(), 3)
+
 
 class SendNotifications(ImportReportPlannings):
     # Command test is inheriting from ImportReportPlannings because it is

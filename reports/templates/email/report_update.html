@@ -23,7 +23,6 @@
   <ul>
     {% for notice in planning.notices %}
     <li>
-      -
       <a href="{{ notice.report.frontend_url }}">{{ notice.report.address }}</a>
     </li>
     {% endfor %}
@@ -39,17 +38,16 @@
     <a href="{{ report_rejected.first_url }}"
       >{{ report_rejected.first_address }}</a
     >
-    am vorgeschlagenen Standort nicht umgesetzt werden
-    {{report_rejected.first_reason }}.{% else %}Leider können die folgenden
-    Vorschläge an den vorgeschlagenen Standorten nicht umgesetzt werden:{% endif %}
+    am vorgeschlagenen Standort nicht umgesetzt werden{{report_rejected.first_reason }}.
+    {% else %}Leider können die
+    Vorschläge an den folgenden Standorten nicht umgesetzt werden:{% endif %}
   </p>
 
   {% if report_rejected.count > 1 %}
   <ul>
     {% for notice in report_rejected.notices %}
     <li>
-      <a href="{{ notice.report.frontend_url }}">{{ notice.report.address }}</a>
-      : {{ notice.report.status_reason}}
+      <a href="{{ notice.report.frontend_url }}">{{ notice.report.address }}</a>: {{ notice.report.status_reason}}
     </li>
     {% endfor %}
   </ul>

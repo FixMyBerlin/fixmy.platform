@@ -17,10 +17,10 @@ def linked_plannings(report):
         return ""
     elif num_plannings == 1:
         return mark_safe(
-            f"Informationen zum alternativen Standort finden Sie auf der Detailseite {address_link(report.plannings.first())}."
+            f"- Informationen zum alternativen Standort finden Sie auf der Detailseite {address_link(report.plannings.first())}."
         )
     else:
         listing = ", ".join([address_link(p) for p in report.plannings.all()])
         return mark_safe(
-            f"Informationen zu den alternativen Standorten finden Sie auf den folgenden Detailseiten: {listing}."
+            f"- Informationen zu den alternativen Standorten finden Sie auf den folgenden Detailseiten: {listing}."
         )

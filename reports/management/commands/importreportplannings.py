@@ -54,8 +54,12 @@ def create_report_plannings(rows):
                         f'Could not find report {origin_entry_id} found in origin_ids of line {i+1}'
                     )
                 entry.origin.add(origin_entry)
-                if entry.status != BikeStands.STATUS_REPORT_ACCEPTED:
-                    invalid_status.add(origin_entry_id)
+                assert (
+                    origin_entry.status == BikeStands.STATUS_REPORT_ACCEPTED
+                ), f"Could not link report {origin_entry_id} with status '{entry.status}' to planning in line {i+1}"
+                assert (
+                    entry.geometry != origin_entry.geometry
+                ), f"The planning in row {i+1} has the same geometry as its origin report {origin_entry_id}"
             entry.save()
         entries.append(entry)
 

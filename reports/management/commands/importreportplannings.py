@@ -54,9 +54,11 @@ def create_report_plannings(rows):
                         f'Could not find report {origin_entry_id} found in origin_ids of line {i+1}'
                     )
                 entry.origin.add(origin_entry)
-                assert (
-                    origin_entry.status == BikeStands.STATUS_REPORT_ACCEPTED
-                ), f"Could not link report {origin_entry_id} with status '{entry.status}' to planning in line {i+1}"
+                if entry.status != BikeStands.STATUS_REPORT_ACCEPTED:
+                    invalid_status.add(origin_entry_id)
+                # assert (
+                #     origin_entry.status == BikeStands.STATUS_REPORT_ACCEPTED
+                # ), f"Could not link report {origin_entry_id} with status '{entry.status}' to planning in line {i+1}"
                 assert (
                     entry.geometry != origin_entry.geometry
                 ), f"The planning in row {i+1} has the same geometry as its origin report {origin_entry_id}"
@@ -65,8 +67,10 @@ def create_report_plannings(rows):
 
     if len(invalid_status) > 0:
         sys.stdout.write(
-            f"{len(invalid_status)} reports were linked to plannings despite not having the correct status 'report_accepted'\n"
+            f"{len(invalid_status)} reports were linked to plannings despite not having the correct status 'report_accepted'\n\n - "
         )
+        sys.stdout.write("\n - ".join(sorted(invalid_status)))
+        sys.stdout.write("\n")
 
     return entries
 

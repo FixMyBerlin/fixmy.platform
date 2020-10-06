@@ -128,7 +128,9 @@ class ImportReportPlannings(CommandTest):
         report = Report.objects.get(pk=self.report_id)
         report.user = self.user
         report.save()
-        create_report_plannings(self.plannings)
+        planning = list(create_report_plannings(self.plannings))[0]
+        planning.status = Report.STATUS_EXECUTION
+        planning.save()
         self.assertEqual(1, StatusNotice.objects.filter(user=self.user).count())
 
     def test_repeated_execution(self):
@@ -223,6 +225,7 @@ class SendNotifications(ImportReportPlannings):
                 Report.STATUS_REPORT_REJECTED,
                 Report.STATUS_REPORT_ACCEPTED,
             ]:
+                self.assertEqual(0, len(mail.outbox))
                 for r in reports:
                     r.status = status
                     r.save()
@@ -234,6 +237,12 @@ class SendNotifications(ImportReportPlannings):
                     for variant in mail.outbox[0].message()._payload:
                         self.assertIn(r.address, str(variant))
                         self.assertTrue(str(variant).count("http") >= 2)
+
+                    if status == Report.STATUS_REPORT_ACCEPTED:
+                        for p in r.plannings.all():
+                            self.assertIn(
+                                p.address, str(mail.outbox[0].message()._payload[1])
+                            )
                 mail.outbox = []
 
             for status in [
@@ -268,3 +277,10 @@ class SendNotifications(ImportReportPlannings):
         call_command('sendnotifications')
         self.assertEqual(0, len(mail.outbox))
         self.assertEqual(0, StatusNotice.objects.filter(user=self.user).count())
+
+    def test_sample_email(self):
+        """Test helper option used to preview email contents"""
+
+        call_command('sendnotifications', send_samples='bar@baz.com')
+        self.assertEqual(3, len(mail.outbox))
+        mail.outbox = []

@@ -56,16 +56,21 @@ def create_report_plannings(rows):
                 entry.origin.add(origin_entry)
                 if entry.status != BikeStands.STATUS_REPORT_ACCEPTED:
                     invalid_status.add(origin_entry_id)
+                # assert (
+                #     origin_entry.status == BikeStands.STATUS_REPORT_ACCEPTED
+                # ), f"Could not link report {origin_entry_id} with status '{entry.status}' to planning in line {i+1}"
+                assert (
+                    entry.geometry != origin_entry.geometry
+                ), f"The planning in row {i+1} has the same geometry as its origin report {origin_entry_id}"
             entry.save()
-
-            # Create notifications for authors of origin reports
-            entry.enqueue_notifications()
         entries.append(entry)
 
     if len(invalid_status) > 0:
         sys.stdout.write(
-            f"{len(invalid_status)} reports were linked to plannings despite not having the correct status 'report_accepted'\n"
+            f"{len(invalid_status)} reports were linked to plannings despite not having the correct status 'report_accepted'\n\n - "
         )
+        sys.stdout.write("\n - ".join(sorted(invalid_status)))
+        sys.stdout.write("\n")
 
     return entries
 

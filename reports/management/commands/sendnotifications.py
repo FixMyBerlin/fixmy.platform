@@ -1,11 +1,13 @@
 from collections import defaultdict
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.core.mail import get_connection, EmailMultiAlternatives
 from django.core.management.base import BaseCommand
 from django.template.loader import get_template
+from django.contrib.gis.geos import Point
 
 from fixmyapp.models import NoticeSetting
-from reports.models import StatusNotice, Report
+from reports.models import StatusNotice, Report, BikeStands
 
 # Statuses for which notifications will be sent
 NOTIFICATION_STATUSES = [
@@ -21,9 +23,23 @@ class Command(BaseCommand):
     help = 'Send queued notifications for report status updates'
     template_txt = get_template("email/report_update.txt")
     template_html = get_template("email/report_update.html")
+    email_data = []
+
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--send_samples',
+            type=str,
+            default=None,
+            help='send sample emails to preview contents',
+        )
 
     def handle(self, *args, **options):
         self.email_data = []
+
+        if options['send_samples'] is not None:
+            self.sample_email(options['send_samples'])
+            return
+
         notices = (
             StatusNotice.objects.filter(sent=False)
             .select_related()
@@ -50,6 +66,81 @@ class Command(BaseCommand):
         self.send_all()
         notices.update(sent=True)
 
+    def sample_email(self, email):
+        """Return sample data to preview notification content"""
+        self.stdout.write(f"Sending sample notifications to {email}")
+
+        user = get_user_model().objects.create_user(
+            '@Testuser Sample-Emails', email, 'Test'
+        )
+        try:
+            notice_setting = NoticeSetting.objects.create(
+                user=user, kind=NoticeSetting.REPORT_UPDATE_KIND
+            )
+            report_test_data = {
+                "address": 'Testadresse 1, 22000 Hamburg',
+                'description': 'Test-Beschreibung',
+                'geometry': Point(13.346_355_406_363_18, 52.525_659_903_336_57),
+                'status_reason': 'Erklärung des Statusses',
+                'number': 1,
+                'user_id': user.id,
+            }
+
+            # Create an email with the singular variant of each block
+            singular = defaultdict(list)
+            for status in NOTIFICATION_STATUSES:
+                singular[status].append(
+                    StatusNotice.objects.create(
+                        report=BikeStands.objects.create(
+                            status=status, **report_test_data
+                        ),
+                        status=status,
+                        user=user,
+                    )
+                )
+            self.render_email(user, singular)
+
+            # Create an email for variations of linked plannings
+            plannings = defaultdict(list)
+            for num_plannings in range(1, 3):
+                plannings[Report.STATUS_REPORT_ACCEPTED].append(
+                    StatusNotice.objects.create(
+                        report=BikeStands.objects.create(
+                            status=Report.STATUS_REPORT_ACCEPTED, **report_test_data
+                        ),
+                        status=Report.STATUS_REPORT_ACCEPTED,
+                        user=user,
+                    )
+                )
+                plannings[Report.STATUS_REPORT_ACCEPTED][-1].report.plannings.set(
+                    [
+                        BikeStands.objects.create(
+                            status=Report.STATUS_PLANNING, **report_test_data
+                        )
+                        for i in range(num_plannings)
+                    ]
+                )
+            self.render_email(user, plannings)
+
+            # Create an email with the plural variant of each block
+            plural = defaultdict(list)
+            for status in NOTIFICATION_STATUSES:
+                for i in range(3):
+                    plural[status].append(
+                        StatusNotice.objects.create(
+                            report=BikeStands.objects.create(
+                                status=status, **report_test_data
+                            ),
+                            status=status,
+                            user=user,
+                        )
+                    )
+            self.render_email(user, plural)
+            self.send_all()
+        finally:
+            Report.objects.filter(user=user).delete()
+            user.delete()
+
     def render_email(self, user, collection):
         """Render a collection of notices into a single email"""
 
@@ -70,7 +161,7 @@ class Command(BaseCommand):
             return
 
         data = self.template_data(collection)
-        subject = "Updates"
+        subject = "Neuigkeiten zu Ihren Radbügeln"
         body_txt = self.template_txt.render(
             context={"user": user, "unsubscribe_url": unsubscribe_url, **data}
         )

@@ -1,3 +1,4 @@
+{% load email_utils %}
 <p>Sehr geehrte Damen und Herren,</p>
 
 <p>
@@ -12,7 +13,8 @@
   <p>
     {% if planning.is_single %}Der Vorschlag für Radbügel am Standort
     <a href="{{ planning.first_url }}">{{ planning.first_address }}</a> ist
-    derzeit in Planung{% else %}Folgende Vorschläge sind jetzt in Planung{% endif %}. Wir bereiten aktuell detaillierte Umsetzungspläne zur Installation
+    derzeit in Planung{% else %}Folgende Vorschläge sind jetzt in Planung{% endif %}. 
+    Wir bereiten aktuell detaillierte Umsetzungspläne zur Installation
     der Radbügel vor und werden diese in den politischen Ausschüssen
     vorschlagen. Sobald über Ihren Standort entschieden wird, werden wir uns
     umgehend bei Ihnen melden.
@@ -28,7 +30,9 @@
   </ul>
   {% endif %}
 </section>
-{% endif %} {% if report_rejected %}
+{% endif %} 
+
+{% if report_rejected %}
 <section>
   <p>
     {% if report_rejected.is_single %}Leider kann der Vorschlag
@@ -51,25 +55,29 @@
   </ul>
   {% endif %}
 </section>
-{% endif %} {% if report_accepted %}
+{% endif %} 
+
+{% if report_accepted %}
 <section>
   <p>
     {% if report_accepted.is_single %}Am vorgeschlagenen Standort
     <a href="{{ report_accepted.first_url }}"
       >{{ report_accepted.first_address }}</a
     >
-    {% else %}An den folgenden vorgeschlagenen Standorten{% endif %} können
+    {% else %}An den folgenden Standorten{% endif %} können
     leider keine Radbügel platziert werden. Allerdings können in unmittelbarer
-    Nähe Radbügel gesetzt werden. Die Ausschreibung für die Installation der
-    Radbügel läuft bereits, allerdings kann dies etwas Zeit in Anspruch nehmen.
-    Wir werden Sie informieren, sobald die neuen Radbügel aufgestellt sind.
+    Nähe Radbügel gesetzt werden.
+    {% if report_accepted.is_single %}{{ report_accepted.notices.0.report|linked_plannings }}{% endif %}
+    Die Ausschreibung für die Installation der Radbügel läuft bereits, allerdings 
+    kann dies etwas Zeit in Anspruch nehmen. Wir werden Sie informieren, sobald 
+    die neuen Radbügel aufgestellt sind.
   </p>
 
   {% if report_accepted.count > 1 %}
   <ul>
     {% for notice in report_accepted.notices %}
     <li>
-      <a href="{{ notice.report.frontend_url }}">{{ notice.report.address }}</a>
+      <a href="{{ notice.report.frontend_url }}">{{ notice.report.address }}</a> {{notice.report|linked_plannings}}
     </li>
     {% endfor %}
   </ul>
@@ -108,8 +116,8 @@
   <p>
     {% if done.is_single %} Der Vorschlag für neue Radbügel am Standort
     <a href="{{ done.first_url }}">{{ done.first_address }}</a> wurde
-    erfolgreich umgesetzt. Am Standort befinden sich nun {{
-    done.notices.0.report.bikestands.number }} Fahrradbügel. {% else %} Die
+    erfolgreich umgesetzt. Am Standort befinden sich nun 
+    {{ done.notices.0.report.bikestands.number }} Fahrradbügel. {% else %} Die
     folgenden Vorschläge für neue Radbügel wurden erfolgreich umgesetzt: {% endif %}
   </p>
 
@@ -117,7 +125,8 @@
   <ul>
     {% for notice in done.notices %}
     <li>
-      <a href="{{ notice.report.frontend_url }}">{{ notice.report.address }}</a>
+      Am Standort <a href="{{ notice.report.frontend_url }}">{{ notice.report.address }}</a>
+      befinden sich nun {{ notice.report.bikestands.number }} Radbügel.
     </li>
     {% endfor %}
   </ul>

@@ -34,6 +34,8 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
+        self.email_data = []
+
         if options['send_samples'] is not None:
             self.sample_email(options['send_samples'])
             return

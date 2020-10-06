@@ -69,7 +69,7 @@ class Command(BaseCommand):
         self.stdout.write(f"Sending sample notifications to {email}")
 
         user = get_user_model().objects.create_user(
-            'Testuser Sample-Emails', email, 'Test'
+            '@Testuser Sample-Emails', email, 'Test'
         )
         try:
             notice_setting = NoticeSetting.objects.create(
@@ -81,6 +81,7 @@ class Command(BaseCommand):
                 'geometry': Point(13.346_355_406_363_18, 52.525_659_903_336_57),
                 'status_reason': 'Erklärung des Statusses',
                 'number': 1,
+                'user_id': user.id,
             }
 
             # Create an email with the singular variant of each block
@@ -135,6 +136,7 @@ class Command(BaseCommand):
             self.render_email(user, plural)
             self.send_all()
         finally:
+            Report.objects.filter(user=user).delete()
             user.delete()
 
     def render_email(self, user, collection):

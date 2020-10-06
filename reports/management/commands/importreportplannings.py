@@ -57,9 +57,6 @@ def create_report_plannings(rows):
                 if entry.status != BikeStands.STATUS_REPORT_ACCEPTED:
                     invalid_status.add(origin_entry_id)
             entry.save()
-
-            # Create notifications for authors of origin reports
-            entry.enqueue_notifications()
         entries.append(entry)
 
     if len(invalid_status) > 0:

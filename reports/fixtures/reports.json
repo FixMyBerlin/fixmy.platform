@@ -1,0 +1,52 @@
+[
+  {
+    "model": "reports.report",
+    "pk": 1822,
+    "fields": {
+      "created_date": "2020-08-31T21:34:19Z",
+      "modified_date": "2020-10-06T11:40:41.913Z",
+      "address": "Augustastra\u00dfe 78, 52070 Aachen",
+      "geometry": "SRID=4326;POINT (6.101866500000003 50.77334528000001)",
+      "subject": "BIKE_STANDS",
+      "description": "Es gibt auf der ganzen Augustastrasse nur einen B\u00fcgel",
+      "published": true,
+      "status": "report_accepted",
+      "status_reason": "",
+      "user": 1,
+      "origin": []
+    }
+  },
+  {
+    "model": "reports.bikestands",
+    "pk": 1822,
+    "fields": {
+      "number": 6,
+      "fee_acceptable": false
+    }
+  },
+  {
+    "model": "reports.report",
+    "pk": 1820,
+    "fields": {
+      "created_date": "2020-08-31T20:41:24Z",
+      "modified_date": "2020-10-06T12:17:03.681Z",
+      "address": "Peterstra\u00dfe 54, 52062 Aachen",
+      "geometry": "SRID=4326;POINT (6.090828122999995 50.77694115999996)",
+      "subject": "BIKE_STANDS",
+      "description": "Keine M\u00f6glichkeit f\u00fcr den schnellen Einkauf dort das Rad abzustellen.",
+      "published": true,
+      "status": "report_accepted",
+      "status_reason": "",
+      "user": 1,
+      "origin": []
+    }
+  },
+  {
+    "model": "reports.bikestands",
+    "pk": 1820,
+    "fields": {
+      "number": 3,
+      "fee_acceptable": false
+    }
+  }
+]

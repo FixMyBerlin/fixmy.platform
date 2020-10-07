@@ -18,8 +18,53 @@ REQUIRED_COLS = [
 STATUS_CHOICES = [x[0] for x in BikeStands.STATUS_CHOICES]
 
 
+def validate_planning(row, errorfn):
+    """Validate a row of data representing a planning
+    
+    Doesn't validate linked origin reports"""
+
+    if len(row['geometry']) == 0:
+        errorfn("has empty geometry field")
+        raise ValueError
+
+    if ',' in row['origin_ids']:
+        errorfn.append(
+            ' has origin_ids separated by comma. Must be separated by semicolon.'
+        )
+        raise ValueError
+
+    if row['status'] not in STATUS_CHOICES:
+        errorfn(
+            f"has invalid status {row['status']}. Valid values are {', '.join(STATUS_CHOICES)}"
+        )
+
+
+def process_origin(entry, origin_entry_id, errorfn, force=False):
+    """Add a given report id as an origin to a given planning entry"""
+
+    try:
+        origin_entry = BikeStands.objects.get(pk=origin_entry_id)
+    except BikeStands.DoesNotExist:
+        errorfn(
+            f'links origin id {origin_entry_id:0>3} which does not exist in the database'
+        )
+        raise ValueError
+
+    if origin_entry.status != BikeStands.STATUS_REPORT_ACCEPTED:
+        errorfn(
+            f"links origin id {origin_entry_id:0>3}, which has the invalid status {origin_entry.status}"
+        )
+        if force:
+            origin_entry.status = BikeStands.STATUS_REPORT_ACCEPTED
+
+    if entry.geometry == origin_entry.geometry:
+        errorfn(f"is in the same location as its origin report {origin_entry_id:0>3}")
+
+    entry.origin.add(origin_entry)
+
+
 @transaction.atomic
-def create_report_plannings(rows, force=False):
+def create_report_plannings(rows):
     entries = []
     errors = []
     for i, row in enumerate(rows):
@@ -27,17 +72,12 @@ def create_report_plannings(rows, force=False):
         def rowerror(msg):
             errors.append(f"Row {(i+1):03} {msg}")
 
-        if len(row['geometry']) == 0:
-            rowerror("has empty geometry field")
+        try:
+            validate_planning(row, rowerror)
+        except ValueError:
             continue
 
         lon, lat = [float(x) for x in row['geometry'].split(',')]
-
-        if row['status'] not in STATUS_CHOICES:
-            rowerror(
-                f"has invalid status {row['status']}. Valid values are {', '.join(STATUS_CHOICES)}"
-            )
-
         entry = BikeStands(
             address=row['address'],
             geometry=Point(lon, lat),
@@ -49,37 +89,14 @@ def create_report_plannings(rows, force=False):
         )
         entry.save()
 
-        if ',' in row['origin_ids']:
-            rowerror.append(
-                ' has origin_ids separated by comma. Must be separated by semicolon.'
-            )
-            continue
-
         linked_entries = row['origin_ids'].split(';')
         if len(linked_entries) > 0 and len(row['origin_ids']) > 0:
             for origin_entry_id in linked_entries:
                 try:
-                    origin_entry = BikeStands.objects.get(pk=origin_entry_id)
-                except BikeStands.DoesNotExist:
-                    rowerror(
-                        f'links origin id {origin_entry_id:0>3} which does not exist in the database'
-                    )
+                    process_origin(entry, origin_entry_id, rowerror)
+                except ValueError:
                     continue
-
-                if origin_entry.status != BikeStands.STATUS_REPORT_ACCEPTED:
-                    rowerror(
-                        f"links origin id {origin_entry_id:0>3}, which has the invalid status {origin_entry.status}"
-                    )
-                    if force:
-                        origin_entry.status = BikeStands.STATUS_REPORT_ACCEPTED
-
-                if entry.geometry == origin_entry.geometry:
-                    rowerror(
-                        f"is in the same location as its origin report {origin_entry_id:0>3}"
-                    )
-
-                entry.origin.add(origin_entry)
-            entry.save()
+            # entry.save()
         entries.append(entry)
 
     if len(errors) > 0:

@@ -20,7 +20,7 @@ STATUS_CHOICES = [x[0] for x in BikeStands.STATUS_CHOICES]
 
 def validate_planning(row, errorfn):
     """Validate a row of data representing a planning
-    
+
     Doesn't validate linked origin reports"""
 
     if len(row['geometry']) == 0:

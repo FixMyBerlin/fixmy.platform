@@ -116,6 +116,12 @@ class ImportReportPlannings(TestCase):
         create_report_plannings(self.plannings)
         self.assertEqual(BikeStands.objects.count(), 4)
 
+    def test_fix_origin_status(self):
+        self.report.status = Report.STATUS_REPORT_NEW
+        self.report.save()
+        reports = list(create_report_plannings(self.plannings, force=True))
+        assert reports[0].origin.first().status == Report.STATUS_REPORT_ACCEPTED
+
 
 class SendNotifications(TestCase):
     fixtures = ['user', 'reports', 'plannings']

@@ -51,11 +51,13 @@ def process_origin(entry, origin_entry_id, errorfn, force=False):
         raise ValueError
 
     if origin_entry.status != BikeStands.STATUS_REPORT_ACCEPTED:
-        errorfn(
-            f"links origin id {origin_entry_id:0>3}, which has the invalid status {origin_entry.status}"
-        )
         if force:
             origin_entry.status = BikeStands.STATUS_REPORT_ACCEPTED
+            origin_entry.save()
+        else:
+            errorfn(
+                f"links origin id {origin_entry_id:0>3}, which has the invalid status {origin_entry.status}"
+            )
 
     if entry.geometry == origin_entry.geometry:
         errorfn(f"is in the same location as its origin report {origin_entry_id:0>3}")
@@ -64,7 +66,7 @@ def process_origin(entry, origin_entry_id, errorfn, force=False):
 
 
 @transaction.atomic
-def create_report_plannings(rows):
+def create_report_plannings(rows, force=False):
     entries = []
     errors = []
     for i, row in enumerate(rows):
@@ -93,7 +95,7 @@ def create_report_plannings(rows):
         if len(linked_entries) > 0 and len(row['origin_ids']) > 0:
             for origin_entry_id in linked_entries:
                 try:
-                    process_origin(entry, origin_entry_id, rowerror)
+                    process_origin(entry, origin_entry_id, rowerror, force=force)
                 except ValueError:
                     continue
             # entry.save()
@@ -117,6 +119,12 @@ class Command(BaseCommand):
         parser.add_argument(
             'file', type=str, help='CSV file with one planning per line'
         )
+        parser.add_argument(
+            '--fix-status',
+            action='store_true',
+            dest='force',
+            help='update origin report status to report_accepted',
+        )
 
     def handle(self, *args, **kwargs):
         fname = kwargs['file']
@@ -131,7 +139,7 @@ class Command(BaseCommand):
             ), f'The input file is missing the {col} column'
 
         try:
-            entries = create_report_plannings(rows)
+            entries = create_report_plannings(rows, force=kwargs['force'])
             self.stdout.write(f"Created {len(entries)} plannings\n")
         except ValueError:
             self.stdout.write("There were errors during import. No plannings created.")

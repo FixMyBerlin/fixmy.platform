@@ -1,0 +1,52 @@
+[
+  {
+    "model": "reports.report",
+    "pk": 1821,
+    "fields": {
+      "created_date": "2020-08-31T20:43:08Z",
+      "modified_date": "2020-10-06T11:39:58.568Z",
+      "address": "Promenadenstra\u00dfe 19, 52062 Aachen",
+      "geometry": "SRID=4326;POINT (6.093567078999994 50.77636111999998)",
+      "subject": "BIKE_STANDS",
+      "description": "ES gibt schon Radb\u00fcgel, aber einfach zu wenig",
+      "published": true,
+      "status": "planning",
+      "status_reason": "",
+      "user": null,
+      "origin": [1822]
+    }
+  },
+  {
+    "model": "reports.bikestands",
+    "pk": 1821,
+    "fields": {
+      "number": 2,
+      "fee_acceptable": false
+    }
+  },
+  {
+    "model": "reports.report",
+    "pk": 1819,
+    "fields": {
+      "created_date": "2020-08-31T20:39:27Z",
+      "modified_date": "2020-10-05T13:03:39.159Z",
+      "address": "Adalbertstra\u00dfe 95, 52062 Aachen",
+      "geometry": "SRID=4326;POINT (6.094073346 50.77506688)",
+      "subject": "BIKE_STANDS",
+      "description": "",
+      "published": true,
+      "status": "execution",
+      "status_reason": "",
+      "user": null,
+      "origin": [1820]
+    }
+  },
+  {
+    "model": "reports.bikestands",
+    "pk": 1819,
+    "fields": {
+      "number": 8,
+      "fee_acceptable": false
+    }
+  }
+]

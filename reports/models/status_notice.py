@@ -45,4 +45,10 @@ class StatusNotice(models.Model):
     @staticmethod
     def user_preference(user):
         """Return true if user has not disabled report status notifications"""
-        return user.notice_settings.get(kind=NoticeSetting.REPORT_UPDATE_KIND).send
+        try:
+            return user.notice_settings.get(kind=NoticeSetting.REPORT_UPDATE_KIND).send
+        except NoticeSetting.DoesNotExist:
+            ns, _created = NoticeSetting.objects.get_or_create(
+                user=user, kind=NoticeSetting.REPORT_UPDATE_KIND
+            )
+            return ns.send

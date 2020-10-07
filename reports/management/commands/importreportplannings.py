@@ -18,21 +18,68 @@ REQUIRED_COLS = [
 STATUS_CHOICES = [x[0] for x in BikeStands.STATUS_CHOICES]
 
 
-def create_report_plannings(rows):
+def validate_planning(row, errorfn):
+    """Validate a row of data representing a planning
+
+    Doesn't validate linked origin reports"""
+
+    if len(row['geometry']) == 0:
+        errorfn("has empty geometry field")
+        raise ValueError
+
+    if ',' in row['origin_ids']:
+        errorfn.append(
+            ' has origin_ids separated by comma. Must be separated by semicolon.'
+        )
+        raise ValueError
+
+    if row['status'] not in STATUS_CHOICES:
+        errorfn(
+            f"has invalid status {row['status']}. Valid values are {', '.join(STATUS_CHOICES)}"
+        )
+
+
+def process_origin(entry, origin_entry_id, errorfn, force=False):
+    """Add a given report id as an origin to a given planning entry"""
+
+    try:
+        origin_entry = BikeStands.objects.get(pk=origin_entry_id)
+    except BikeStands.DoesNotExist:
+        errorfn(
+            f'links origin id {origin_entry_id:0>3} which does not exist in the database'
+        )
+        raise ValueError
+
+    if origin_entry.status != BikeStands.STATUS_REPORT_ACCEPTED:
+        if force:
+            origin_entry.status = BikeStands.STATUS_REPORT_ACCEPTED
+            origin_entry.save()
+        else:
+            errorfn(
+                f"links origin id {origin_entry_id:0>3}, which has the invalid status {origin_entry.status}"
+            )
+
+    if entry.geometry == origin_entry.geometry:
+        errorfn(f"is in the same location as its origin report {origin_entry_id:0>3}")
+
+    entry.origin.add(origin_entry)
+
+
+@transaction.atomic
+def create_report_plannings(rows, force=False):
     entries = []
-    invalid_status = set()
+    errors = []
     for i, row in enumerate(rows):
-        assert len(row['geometry']) > 0, f"Geometry of line {i+1} is empty"
+
+        def rowerror(msg):
+            errors.append(f"Row {(i+1):03} {msg}")
+
+        try:
+            validate_planning(row, rowerror)
+        except ValueError:
+            continue
+
         lon, lat = [float(x) for x in row['geometry'].split(',')]
-
-        assert (
-            row['status'] in STATUS_CHOICES
-        ), f"Status '{row['status']}' of entry in row {i+1} is not a valid status. Possible values are {', '.join(STATUS_CHOICES)}.'"
-
-        assert (
-            ',' not in row['origin_ids']
-        ), f"Column origin_ids must contain semicolon-separated values. Found comma in line {i+1}."
-
         entry = BikeStands(
             address=row['address'],
             geometry=Point(lon, lat),
@@ -48,30 +95,20 @@ def create_report_plannings(rows):
         if len(linked_entries) > 0 and len(row['origin_ids']) > 0:
             for origin_entry_id in linked_entries:
                 try:
-                    origin_entry = BikeStands.objects.get(pk=origin_entry_id)
-                except BikeStands.DoesNotExist:
-                    raise BikeStands.DoesNotExist(
-                        f'Could not find report {origin_entry_id} found in origin_ids of line {i+1}'
-                    )
-                entry.origin.add(origin_entry)
-                if entry.status != BikeStands.STATUS_REPORT_ACCEPTED:
-                    invalid_status.add(origin_entry_id)
-                # assert (
-                #     origin_entry.status == BikeStands.STATUS_REPORT_ACCEPTED
-                # ), f"Could not link report {origin_entry_id} with status '{entry.status}' to planning in line {i+1}"
-                assert (
-                    entry.geometry != origin_entry.geometry
-                ), f"The planning in row {i+1} has the same geometry as its origin report {origin_entry_id}"
-            entry.save()
+                    process_origin(entry, origin_entry_id, rowerror, force=force)
+                except ValueError:
+                    continue
+            # entry.save()
         entries.append(entry)
 
-    if len(invalid_status) > 0:
-        sys.stdout.write(
-            f"{len(invalid_status)} reports were linked to plannings despite not having the correct status 'report_accepted'\n\n - "
+    if len(errors) > 0:
+        sys.stderr.write(
+            f"The import was aborted because of errors in the input data\n\n - "
         )
-        sys.stdout.write("\n - ".join(sorted(invalid_status)))
-        sys.stdout.write("\n")
-
+        formattederrors = "\n - ".join(sorted(errors))
+        sys.stderr.write(formattederrors)
+        sys.stderr.write("\n")
+        raise ValueError(f"There were errors during import:\n- {formattederrors}")
     return entries
 
 
@@ -82,8 +119,13 @@ class Command(BaseCommand):
         parser.add_argument(
             'file', type=str, help='CSV file with one planning per line'
         )
+        parser.add_argument(
+            '--fix-status',
+            action='store_true',
+            dest='force',
+            help='update origin report status to report_accepted',
+        )
 
-    @transaction.atomic
     def handle(self, *args, **kwargs):
         fname = kwargs['file']
 
@@ -96,5 +138,8 @@ class Command(BaseCommand):
                 col in csv_reader.fieldnames
             ), f'The input file is missing the {col} column'
 
-        entries = create_report_plannings(rows)
-        self.stdout.write(f"Created {len(entries)} plannings\n")
+        try:
+            entries = create_report_plannings(rows, force=kwargs['force'])
+            self.stdout.write(f"Created {len(entries)} plannings\n")
+        except ValueError:
+            self.stdout.write("There were errors during import. No plannings created.")

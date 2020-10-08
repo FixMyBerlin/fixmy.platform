@@ -267,3 +267,15 @@ class SendNotifications(TestCase):
         call_command('sendnotifications', send_samples='bar@baz.com')
         self.assertEqual(3, len(mail.outbox))
         self.assertEqual(Report.objects.count(), num_entries)
+
+    def test_staff_only(self):
+        """Test option to send notifications only for staff users"""
+        self.report.status = Report.STATUS_EXECUTION
+        self.report.save()
+        call_command('sendnotifications', '--staff-only')
+        self.assertEqual(0, len(mail.outbox))
+        self.report.user.is_staff = True
+        self.report.user.save()
+        call_command('sendnotifications', '--staff-only')
+        self.assertEqual(1, len(mail.outbox))
+

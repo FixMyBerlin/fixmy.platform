@@ -32,6 +32,13 @@ class Command(BaseCommand):
             default=None,
             help='send sample emails to preview contents',
         )
+        parser.add_argument(
+            '--staff-only',
+            action='store_true',
+            dest='staff_only',
+            default=False,
+            help='send emails only to staff users',
+        )
 
     def handle(self, *args, **options):
         self.email_data = []
@@ -40,12 +47,14 @@ class Command(BaseCommand):
             self.sample_email(options['send_samples'])
             return
 
-        notices = (
-            StatusNotice.objects.filter(sent=False)
-            .select_related()
-            .order_by('user_id')
-            .all()
+        notice_query = (
+            StatusNotice.objects.filter(sent=False).select_related().order_by('user_id')
         )
+
+        if options['staff_only']:
+            notice_query = notice_query.filter(user__is_staff=True)
+
+        notices = notice_query.all()
 
         if len(notices) == 0:
             self.stdout.write("All notifications were sent already")

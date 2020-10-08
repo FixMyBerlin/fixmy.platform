@@ -278,4 +278,3 @@ class SendNotifications(TestCase):
         self.report.user.save()
         call_command('sendnotifications', '--staff-only')
         self.assertEqual(1, len(mail.outbox))
-

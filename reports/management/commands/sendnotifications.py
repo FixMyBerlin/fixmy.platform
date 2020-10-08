@@ -71,17 +71,17 @@ class Command(BaseCommand):
         self.stdout.write(f"Sending sample notifications to {email}")
 
         user = get_user_model().objects.create_user(
-            '@Testuser Sample-Emails', email, 'Test'
+            f'Automation User', email, 'Sample Notifications'
         )
         try:
             notice_setting = NoticeSetting.objects.create(
                 user=user, kind=NoticeSetting.REPORT_UPDATE_KIND
             )
             report_test_data = {
-                "address": 'Testadresse 1, 22000 Hamburg',
+                "address": 'Augustastrasse 78, 52070 Aachen',
                 'description': 'Test-Beschreibung',
-                'geometry': Point(13.346_355_406_363_18, 52.525_659_903_336_57),
-                'status_reason': 'Erklärung des Statusses',
+                'geometry': Point(6.101_866_500_000_003, 50.773_345_280_000_01),
+                'status_reason': '<Begründung der Ablehnung>',
                 'number': 1,
                 'user_id': user.id,
             }

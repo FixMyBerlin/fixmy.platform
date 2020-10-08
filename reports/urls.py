@@ -1,4 +1,5 @@
 from django.urls import path
+from django.views.decorators.cache import cache_page
 from .models import Report
 from .views import LikedByUserReportList, ReportDetail, ReportList, UnsubscribeView
 from fixmyapp.views import LikeView
@@ -9,7 +10,7 @@ app_name = 'reports'
 urlpatterns = [
     path(
         'reports',
-        ReportList.as_view(),
+        cache_page(60 * 15)(ReportList.as_view()),
         name='report-list'
     ),
     path(

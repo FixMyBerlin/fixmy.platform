@@ -60,7 +60,10 @@ def process_origin(entry, origin_entry_id, errorfn, force=False):
             )
 
     if entry.geometry == origin_entry.geometry:
-        errorfn(f"is in the same location as its origin report {origin_entry_id:0>3}")
+        if force is False:
+            errorfn(
+                f"is in the same location as its origin report {origin_entry_id:0>3}"
+            )
 
     entry.origin.add(origin_entry)
 

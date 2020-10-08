@@ -10,7 +10,7 @@ app_name = 'reports'
 urlpatterns = [
     path(
         'reports',
-        cache_page(60 * 15)(ReportList.as_view()),
+        cache_page(60 * 5)(ReportList.as_view()),
         name='report-list'
     ),
     path(

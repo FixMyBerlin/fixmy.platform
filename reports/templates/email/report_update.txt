@@ -32,7 +32,3 @@ Im Rahmen der Aktion Radbügel für Aachen haben Sie einen Vorschlag für Radbü
 
 {% endif %}Mit freundlichen Grüßen,
 Ihr Fachbereich Stadtentwicklung und Verkehrsanlagen
-
----
-
-Sollten Sie keine weiteren Benachrichtigungen von Radbügel für Aachen wünschen, können Sie diese hier mit einem Klick deaktivieren: {{ unsubscribe_url }}

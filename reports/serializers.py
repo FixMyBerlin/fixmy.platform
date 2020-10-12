@@ -130,4 +130,4 @@ class ReportSerializer(ReportBaseSerializer):
             'url',
             'user',
         )
-        read_only_fields = ['plannings']
+        read_only_fields = ['plannings', 'status', 'status_reason']

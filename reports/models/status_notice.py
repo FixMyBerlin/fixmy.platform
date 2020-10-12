@@ -1,4 +1,5 @@
 from datetime import date
+from django.db import IntegrityError
 from django.contrib.auth import get_user_model
 from django.contrib.gis.db import models
 from django.urls import reverse
@@ -25,6 +26,11 @@ class StatusNotice(models.Model):
         verbose_name = _("status notice")
         verbose_name_plural = _("status notices")
 
+        # More than one notice about a specific status and report may not be
+        # sent to any specific user. However, another notice about the same
+        # notice may be sent on another day, if the status is reversed later.
+        unique_together = [['report_id', 'user_id', 'status', 'date']]
+
     @classmethod
     def create(cls, *args, **kwargs):
         """Create status notice, also creating user notification pref if neccessary"""
@@ -32,7 +38,17 @@ class StatusNotice(models.Model):
             user=kwargs.get("user"), kind=NoticeSetting.REPORT_UPDATE_KIND
         )
         if setting.send:
-            return cls(*args, **kwargs).save()
+            notice_exists = (
+                cls.objects.filter(
+                    report=kwargs.get('report'),
+                    user=kwargs.get('user'),
+                    status=kwargs.get('status'),
+                    date=date.today(),
+                ).count()
+                > 0
+            )
+            if not notice_exists:
+                return cls(*args, **kwargs).save()
 
     @staticmethod
     def unsubscribe_url(user):

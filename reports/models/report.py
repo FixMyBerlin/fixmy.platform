@@ -111,10 +111,6 @@ class Report(BaseModel):
                 notified_users.add(user)
                 StatusNotice.create(status=self.status, user=user, report=self)
 
-        # Remove all unsent notifications about this report to prevent
-        # duplicate notifications
-        StatusNotice.objects.filter(report=self, sent=False).delete()
-
         if self.user is not None:
             notify_user(self.user)
 

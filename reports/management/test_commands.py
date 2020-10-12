@@ -204,6 +204,7 @@ class SendNotifications(TestCase):
                 Report.STATUS_REPORT_REJECTED,
                 Report.STATUS_REPORT_ACCEPTED,
             ]:
+                StatusNotice.objects.all().delete()
                 self.assertEqual(0, len(mail.outbox))
                 for r in reports:
                     r.status = status
@@ -234,6 +235,7 @@ class SendNotifications(TestCase):
                 Report.STATUS_EXECUTION,
                 Report.STATUS_DONE,
             ]:
+                StatusNotice.objects.all().delete()
                 for p in [planning, planning2]:
                     p.status = status
                     p.save()

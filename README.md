@@ -115,7 +115,6 @@ Notes:
 
 - Likes are exported as an aggregate count
 - Report creation date is exported as an ISO 8601 formatted datetime string
-- CSV export uses some localized (German) table headers
 
 ### importreportplannings
 

@@ -89,7 +89,6 @@ class Command(BaseCommand):
                         'status': report.status,
                         "status_reason": report.status_reason,
                         "url": report.frontend_url,
-                        'subject': 'BIKE_STANDS',
                     },
                     "geometry": {
                         "type": "Point",

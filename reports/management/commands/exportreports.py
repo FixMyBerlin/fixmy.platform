@@ -11,18 +11,23 @@ from reports.models import Report
 
 FIELDNAMES = [
     'id',
-    'address',
-    'description',
-    'number',
-    'fee_acceptable',
-    'created',
+    'origin_ids',
+    'url',
     'likes',
     'status',
+    'address',
+    'description',
+    'created',
     'status_reason',
-    'position',
+    'long',
+    'lat',
+    'number',
+    'fee_acceptable',
 ]
 
-FIELDNAMES_DE = [_(entry) for entry in FIELDNAMES]
+
+def format_origin_ids(origins):
+    return ';'.join([str(o.id) for o in origins])
 
 
 class Command(BaseCommand):
@@ -46,19 +51,19 @@ class Command(BaseCommand):
             self.export_geojson(query, options['filename'])
 
     def export_csv(self, query, target_file):
-
         csv_writer = csv.DictWriter(target_file, fieldnames=FIELDNAMES, dialect='excel')
-
-        # Write table headers using German translation
-        csv_writer.writerow(dict(zip(FIELDNAMES, FIELDNAMES_DE)))
+        csv_writer.writeheader()
 
         for report in query:
             row_data = model_to_dict(report, fields=FIELDNAMES)
             row_data['created'] = report.created_date.isoformat()
-            row_data["position"] = f"{report.geometry.y},{report.geometry.x}"
+            row_data['long'] = report.geometry.x
+            row_data['lat'] = report.geometry.y
             row_data['number'] = report.bikestands.number
             row_data['fee_acceptable'] = report.bikestands.fee_acceptable is True
-
+            row_data['likes'] = report.likes.count()
+            row_data['url'] = report.frontend_url
+            row_data['origin_ids'] = format_origin_ids(report.origin.all())
             csv_writer.writerow(row_data)
 
     def export_geojson(self, query, target_file):
@@ -73,8 +78,9 @@ class Command(BaseCommand):
                 {
                     "type": "Feature",
                     "properties": {
+                        "origin_ids": format_origin_ids(report.origin.all()),
                         "address": report.address,
-                        "created_date": report.created_date.isoformat(),
+                        "created": report.created_date.isoformat(),
                         "description": report.description,
                         "fee_acceptable": report.bikestands.fee_acceptable is True,
                         "id": report.id,
@@ -82,6 +88,7 @@ class Command(BaseCommand):
                         "number": report.bikestands.number,
                         'status': report.status,
                         "status_reason": report.status_reason,
+                        "url": report.frontend_url,
                         'subject': 'BIKE_STANDS',
                     },
                     "geometry": {

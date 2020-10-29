@@ -13,19 +13,53 @@ from .commands.importreportplannings import create_report_plannings
 
 
 class ExportReports(TestCase):
-    fixtures = ['user', 'reports']
+    fixtures = ['user', 'reports', 'plannings']
+
+    cols = [
+        'id',
+        'origin_ids',
+        'status',
+        'address',
+        'description',
+        'status_reason',
+        'number',
+    ]
+
+    def _check_assertions(self, exported):
+        source = Report.objects.get(pk=exported['id'])
+        self.assertEqual(exported['origin_ids'], '1820')
+        self.assertEqual(exported['url'], source.frontend_url)
+        self.assertEqual(int(exported['likes']), 0)
+        self.assertEqual(exported['status'], source.status)
+        self.assertEqual(exported['address'], source.address)
+        self.assertEqual(exported['description'], source.description)
+        self.assertEqual(exported['created'], source.created_date.isoformat())
+        self.assertEqual(exported['status_reason'], source.status_reason)
+        self.assertEqual(int(exported['number']), source.bikestands.number)
+        self.assertTrue(exported['fee_acceptable'] in [False, 'False'])
 
     def test_export_reports_csv(self):
         with tempfile.NamedTemporaryFile(mode="w+", encoding="UTF-8") as f:
             call_command('exportreports', f.name, format='csv')
             csv_reader = csv.DictReader(f, dialect='excel')
-            self.assertIn('ID', csv_reader.fieldnames)
+            for col in self.cols + ['long', 'lat']:
+                self.assertIn(col, csv_reader.fieldnames)
+            # select a planning entry to test export of origin ids
+            exported = [r for r in csv_reader if r['id'] == '1819'][0]
+            self._check_assertions(exported)
+            self.assertTrue(50 < float(exported['lat']) < 60)
+            self.assertTrue(0 < float(exported['long']) < 10)
 
     def test_export_reports_geojson(self):
         with tempfile.NamedTemporaryFile(mode="w+", encoding="UTF-8") as f:
             call_command('exportreports', f.name, format='geojson')
             data = json.load(f)
-            self.assertIn('id', data["features"][0]["properties"].keys())
+            for col in self.cols:
+                self.assertIn(col, data["features"][0]["properties"].keys())
+            exported = [r for r in data["features"] if r['properties']['id'] == 1819][
+                0
+            ]['properties']
+            self._check_assertions(exported)
 
 
 class ImportReports(TestCase):
@@ -39,7 +73,7 @@ class ImportReports(TestCase):
             call_command('exportreports', f.name, format='geojson')
             self.data_geojson = json.load(f)
 
-    def test_update_reports(self):
+    def test_update_reports_from_geojson(self):
         with tempfile.NamedTemporaryFile(
             mode="w+", encoding="UTF-8", suffix='geojson'
         ) as f1:
@@ -52,7 +86,7 @@ class ImportReports(TestCase):
         self.assertEqual(reports[0].address, 'Test-Adresse')
         self.assertEqual(reports[0].bikestands.number, 3)
 
-    def test_insert_reports(self):
+    def test_insert_reports_from_geojson(self):
         Report.objects.all().delete()
         with tempfile.NamedTemporaryFile(
             mode="w+", encoding="UTF-8", suffix='geojson'

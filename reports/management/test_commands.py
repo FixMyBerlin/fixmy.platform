@@ -37,30 +37,27 @@ class ImportReports(TestCase):
             mode="w+", encoding="UTF-8", suffix='geojson'
         ) as f:
             call_command('exportreports', f.name, format='geojson')
-            self.export_data = json.load(f)
-
-        self.export_data["features"][0]["properties"]["address"] = "test"
-        self.export_data["features"][0]["properties"]["number"] = 1
+            self.data_geojson = json.load(f)
 
     def test_update_reports(self):
         with tempfile.NamedTemporaryFile(
             mode="w+", encoding="UTF-8", suffix='geojson'
         ) as f1:
-            json.dump(self.export_data, f1)
+            json.dump(self.data_geojson, f1)
             f1.seek(0)
             call_command('importreports', f1.name)
 
         reports = Report.objects.all()
         self.assertEqual(len(reports), 2)
-        self.assertEqual(reports[0].address, 'test')
-        self.assertEqual(reports[0].bikestands.number, 1)
+        self.assertEqual(reports[0].address, 'Test-Adresse')
+        self.assertEqual(reports[0].bikestands.number, 3)
 
     def test_insert_reports(self):
+        Report.objects.all().delete()
         with tempfile.NamedTemporaryFile(
             mode="w+", encoding="UTF-8", suffix='geojson'
         ) as f2:
-            json.dump(self.export_data, f2)
-            Report.objects.all().delete()
+            json.dump(self.data_geojson, f2)
             f2.seek(0)
             call_command('importreports', f2.name)
 

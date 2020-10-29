@@ -30,7 +30,7 @@
     "fields": {
       "created_date": "2020-08-31T20:41:24Z",
       "modified_date": "2020-10-06T12:17:03.681Z",
-      "address": "Peterstra\u00dfe 54, 52062 Aachen",
+      "address": "Test-Adresse",
       "geometry": "SRID=4326;POINT (6.090828122999995 50.77694115999996)",
       "subject": "BIKE_STANDS",
       "description": "Keine M\u00f6glichkeit f\u00fcr den schnellen Einkauf dort das Rad abzustellen.",

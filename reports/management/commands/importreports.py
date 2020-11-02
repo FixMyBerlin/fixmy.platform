@@ -8,9 +8,7 @@ from fixmyapp.management.commands import LayerMapping as LayerMappingPatched
 
 default_mapping = {
     'address': 'address',
-    'created_date': 'created_date',
     'description': 'description',
-    'fee_acceptable': 'fee_acceptable',
     'geometry': 'POINT',
     'id': 'id',
     'number': 'number',

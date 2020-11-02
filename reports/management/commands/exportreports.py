@@ -12,17 +12,20 @@ from reports.models import Report
 FIELDNAMES = [
     'id',
     'origin_ids',
-    'url',
     'likes',
     'status',
     'address',
     'description',
-    'created',
+    'number',
     'status_reason',
+    'fee_acceptable',
+    'url',
+    'geometry',
     'long',
     'lat',
-    'number',
-    'fee_acceptable',
+    'created',
+    'geometry_type',
+    'subject',
 ]
 
 
@@ -64,6 +67,10 @@ class Command(BaseCommand):
             row_data['likes'] = report.likes.count()
             row_data['url'] = report.frontend_url
             row_data['origin_ids'] = format_origin_ids(report.origin.all())
+
+            row_data['subject'] = 'BIKE_STANDS'
+            row_data['geometry_type'] = 'Point'
+            row_data['geometry'] = f"{report.geometry.x}, {report.geometry.y}"
             csv_writer.writerow(row_data)
 
     def export_geojson(self, query, target_file):
@@ -88,6 +95,7 @@ class Command(BaseCommand):
                         "number": report.bikestands.number,
                         'status': report.status,
                         "status_reason": report.status_reason,
+                        "subject": 'BIKE_STANDS',
                         "url": report.frontend_url,
                     },
                     "geometry": {

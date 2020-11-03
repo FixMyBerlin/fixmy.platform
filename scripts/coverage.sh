@@ -1,4 +1,4 @@
 #!/bin/sh -e
-coverage run --source='.' manage.py test
-coverage report --skip-covered --skip-empty -m
-coverage xml -o cov.xml
+coverage run --source=fixmyapp,survey,reports --omit='*/tests/*' manage.py test -v 3
+coverage report --skip-covered --skip-empty --show-missing
+coverage xml -o coverage.xml

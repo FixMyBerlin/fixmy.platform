@@ -269,8 +269,6 @@ class GastroRenewalView(APIView):
 
         result = get_object_or_404(GastroSignup, pk=pk)
 
-        print(type(result.access_key_renewal), type(access_key))
-
         if result.access_key_renewal != uuid.UUID(access_key):
             return Response(
                 _('Invalid access key'), status=status.HTTP_401_UNAUTHORIZED

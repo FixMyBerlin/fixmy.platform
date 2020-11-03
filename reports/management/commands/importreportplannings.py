@@ -39,8 +39,11 @@ def validate_planning(row, errorfn):
         )
 
 
-def process_origin(entry, origin_entry_id, errorfn, force=False):
+def process_origin(entry, origin_entry_id, errorfn, force=False, is_update=False):
     """Add a given report id as an origin to a given planning entry"""
+
+    if is_update and entry.origin.objects.filter(pk=origin_entry_id).count() != 0:
+        return
 
     try:
         origin_entry = BikeStands.objects.get(pk=origin_entry_id)
@@ -83,22 +86,46 @@ def create_report_plannings(rows, force=False):
             continue
 
         lon, lat = [float(x) for x in row['geometry'].split(',')]
-        entry = BikeStands(
-            address=row['address'],
-            geometry=Point(lon, lat),
-            description=row['description'],
-            status=row['status'],
-            status_reason=row['status_reason'],
-            number=row['number'],
-            subject=Report.SUBJECT_BIKE_STANDS,
-        )
-        entry.save()
+
+        is_update = row.get("id") not in [None, ""]
+
+        if is_update:
+            import pdb
+
+            pdb.set_trace()
+
+        if is_update:
+            entry = BikeStands.objects.get(pk=row.get("id"))
+            entry.address = row['address']
+            entry.geometry = Point(lon, lat)
+            entry.description = row['description']
+            entry.status = row['status']
+            entry.status_reason = row['status_reason']
+            entry.number = row['number']
+        else:
+            entry = BikeStands(
+                address=row['address'],
+                geometry=Point(lon, lat),
+                description=row['description'],
+                status=row['status'],
+                status_reason=row['status_reason'],
+                number=row['number'],
+                subject=Report.SUBJECT_BIKE_STANDS,
+            )
+            assert entry.id is None
+            entry.save()
 
         linked_entries = row['origin_ids'].split(';')
         if len(linked_entries) > 0 and len(row['origin_ids']) > 0:
             for origin_entry_id in linked_entries:
                 try:
-                    process_origin(entry, origin_entry_id, rowerror, force=force)
+                    process_origin(
+                        entry,
+                        origin_entry_id,
+                        rowerror,
+                        force=force,
+                        is_update=is_update,
+                    )
                 except ValueError:
                     continue
             # entry.save()

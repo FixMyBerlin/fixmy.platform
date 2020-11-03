@@ -3,7 +3,7 @@ import decimal
 import json
 import tempfile
 from anymail.exceptions import AnymailInvalidAddress
-from datetime import datetime, timezone, timedelta
+from datetime import date, datetime, timezone, timedelta
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import get_user_model
@@ -642,6 +642,15 @@ class GastroRenewalTest(TestCase):
         self.assertEqual(resp.status_code, 302, resp.content)
         self.assertEqual(len(mail.outbox), 0, mail.outbox)
 
+    # Campaign duration is patched so that renewal in the following test can
+    # succeed even if the real campaign has ended already
+    patched_campaign_duration = {
+        'xhain3': [date(2020, 6, 23), date.today() + timedelta(days=1)]
+    }
+
+    @patch.dict(
+        'fixmyapp.views.GastroSignup.CAMPAIGN_DURATION', patched_campaign_duration
+    )
     def test_accept_renewal(self):
         instance = GastroSignup.objects.first()
         instance.status = GastroSignup.STATUS_ACCEPTED

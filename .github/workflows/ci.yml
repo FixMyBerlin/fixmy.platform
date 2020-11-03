@@ -16,27 +16,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-
-      - name: Provide pull-only docker images
-        run: docker-compose pull
-
-      - name: Restore docker layer cache
-        uses: satackey/action-docker-layer-caching@v0.0.8
-        with:
-          key: docker-cache-{ hash }-${{ hashFiles('./requirements.txt') }}
-
       - name: Docker build
         run: docker-compose build
-
       - name: Run tests
         # Use -T parameter to avoid input device not being recognized
         # https://github.com/docker/compose/issues/5696#issuecomment-425112003
         run: docker-compose run -T app python manage.py test --parallel
-
       - name: List running containers for debugging
         if: always()
         run: docker ps -a
-
       - name: Show logs for debugging
         if: always()
         run: docker-compose logs -t
@@ -47,23 +35,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-
-      - name: Provide pull-only docker images
-        run: docker-compose pull
-
-      - name: Restore docker layer cache
-        uses: satackey/action-docker-layer-caching@v0.0.8
-        with:
-          key: docker-cache-{ hash }-${{ hashFiles('./requirements.txt') }}
-
       - name: Docker build
         run: docker-compose build
-
-      - name: Run tests
+      - name: Collect coverage
         # Use -T parameter to avoid input device not being recognized
         # https://github.com/docker/compose/issues/5696#issuecomment-425112003
         run: docker-compose run -T app scripts/coverage.sh
-
       - uses: codecov/codecov-action@v1
         with:
           file: ./coverage.xml
@@ -75,15 +52,12 @@ jobs:
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v2
-
       - name: Set up Python
         uses: actions/setup-python@v1
         with:
           python-version: 3.6
-
       - name: Install Python dependencies
         run: pip install black flake8
-
       - name: Run linters
         uses: wearerequired/lint-action@v1
         with:

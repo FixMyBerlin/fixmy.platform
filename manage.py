@@ -2,7 +2,7 @@
 import os
 import sys
 
-is_testing = 'test' in sys.argv
+# is_testing = 'test' in sys.argv
 
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "fixmydjango.settings")
@@ -15,19 +15,4 @@ if __name__ == "__main__":
             "forget to activate a virtual environment?"
         ) from exc
 
-    if is_testing:
-        import coverage
-
-        cov = coverage.coverage(
-            source=['fixmyapp', 'survey', 'reports'], omit=['*/tests/*']
-        )
-        cov.erase()
-        cov.start()
-
     execute_from_command_line(sys.argv)
-
-    if is_testing:
-        cov.stop()
-        cov.save()
-        cov.report(skip_covered=True, skip_empty=True, show_missing=True)
-        cov.xml_report(outfile='coverage.xml')

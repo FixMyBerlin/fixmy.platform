@@ -9,7 +9,6 @@ REQUIRED_COLS = [
     'origin_ids',
     'status',
     'address',
-    'geometry',
     'description',
     'status_reason',
     'number',
@@ -18,13 +17,19 @@ REQUIRED_COLS = [
 STATUS_CHOICES = [x[0] for x in BikeStands.STATUS_CHOICES]
 
 
-def validate_planning(row, errorfn):
-    """Validate a row of data representing a planning
+def get_row_geometry(row):
+    geom = row.get('geometry')
+    lon_lat = f"{row.get('long')},{row.get('lat')}"
+    return geom if geom is not None else return lon_lat
+
+
+def validate_entry(row, errorfn):
+    """Validate a row of data representing an entry
 
     Doesn't validate linked origin reports"""
 
-    if len(row['geometry']) == 0:
-        errorfn("has empty geometry field")
+    if len(get_row_geometry(row)) <= 1:
+        errorfn("has empty geometry")
         raise ValueError
 
     if ',' in row['origin_ids']:
@@ -39,8 +44,11 @@ def validate_planning(row, errorfn):
         )
 
 
-def process_origin(entry, origin_entry_id, errorfn, force=False):
+def process_origin(entry, origin_entry_id, errorfn, force=False, is_update=False):
     """Add a given report id as an origin to a given planning entry"""
+
+    if is_update and entry.origin.objects.filter(pk=origin_entry_id).count() != 0:
+        return
 
     try:
         origin_entry = BikeStands.objects.get(pk=origin_entry_id)
@@ -70,6 +78,7 @@ def process_origin(entry, origin_entry_id, errorfn, force=False):
 
 @transaction.atomic
 def create_report_plannings(rows, force=False):
+    """Create and update reports given an iterable of data objects"""
     entries = []
     errors = []
     for i, row in enumerate(rows):
@@ -78,30 +87,56 @@ def create_report_plannings(rows, force=False):
             errors.append(f"Row {(i+1):03} {msg}")
 
         try:
-            validate_planning(row, rowerror)
+            validate_entry(row, rowerror)
         except ValueError:
             continue
 
         lon, lat = [float(x) for x in row['geometry'].split(',')]
-        entry = BikeStands(
-            address=row['address'],
-            geometry=Point(lon, lat),
-            description=row['description'],
-            status=row['status'],
-            status_reason=row['status_reason'],
-            number=row['number'],
-            subject=Report.SUBJECT_BIKE_STANDS,
-        )
-        entry.save()
+
+        is_update = row.get("id") not in [None, ""]
+
+        if is_update:
+            import pdb
+
+            pdb.set_trace()
+
+        if is_update:
+            entry = BikeStands.objects.get(pk=row.get("id"))
+            entry.address = row['address']
+            entry.geometry = Point(lon, lat)
+            entry.description = row['description']
+            entry.status = row['status']
+            entry.status_reason = row['status_reason']
+            entry.number = int(row['number'])
+        else:
+            entry = BikeStands(
+                address=row['address'],
+                geometry=Point(lon, lat),
+                description=row['description'],
+                status=row['status'],
+                status_reason=row['status_reason'],
+                number=row['number'],
+                subject=Report.SUBJECT_BIKE_STANDS,
+            )
+            assert entry.id is None
+            entry.save()
 
         linked_entries = row['origin_ids'].split(';')
-        if len(linked_entries) > 0 and len(row['origin_ids']) > 0:
-            for origin_entry_id in linked_entries:
-                try:
-                    process_origin(entry, origin_entry_id, rowerror, force=force)
-                except ValueError:
-                    continue
-            # entry.save()
+        for linked_entry in entry.origin.all():
+            if linked_entry.id not in linked_entries:
+                entry.origin.remove(linked_entry) 
+        for origin_entry_id in linked_entries:
+            try:
+                process_origin(
+                    entry,
+                    origin_entry_id,
+                    rowerror,
+                    force=force,
+                    is_update=is_update,
+                )
+            except ValueError:
+                continue
+        for
         entries.append(entry)
 
     if len(errors) > 0:
@@ -116,7 +151,7 @@ def create_report_plannings(rows, force=False):
 
 
 class Command(BaseCommand):
-    help = 'Import planned bike stand constructions from a csv file'
+    help = 'Update and create bike stand reports and plannungs from a csv file'
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -129,8 +164,8 @@ class Command(BaseCommand):
             help='update origin report status to report_accepted',
         )
 
-    def handle(self, *args, **kwargs):
-        fname = kwargs['file']
+    def read_input(self, fname):
+        """Read a csv file, checking for file format"""
 
         with open(fname) as f:
             csv_reader = csv.DictReader(f, delimiter=',')
@@ -141,8 +176,29 @@ class Command(BaseCommand):
                 col in csv_reader.fieldnames
             ), f'The input file is missing the {col} column'
 
+        errmsg = 'Input file may not have both geometry and lon, lat columns'
+        if "geometry" in csv_reader.fieldnames:
+            assert "long" not in csv_reader.fieldnames, errmsg
+            assert "lat" not in csv_reader.fieldnames, errmsg
+        elif "long" in csv_reader.fieldnames:
+            assert "geometry" not in csv_reader.fieldnames, errmsg
+        elif "lat" in csv_reader.fieldnames:
+            assert "geometry" not in csv_reader.fieldnames, errmsg
+        else:
+            raise ValueError(
+                'The input file is missing entry locations defined \
+                in either a "geometry" column or in "long" and "lat" columns.'
+            )
+
+    def handle(self, *args, **kwargs):
         try:
-            entries = create_report_plannings(rows, force=kwargs['force'])
+            entry_rows = self.read_input(kwargs['file'])
+        except:
+            self.stderr.write("There was an error reading the input file")
+            raise
+
+        try:
+            entries = create_report_plannings(entry_rows, force=kwargs['force'])
             self.stdout.write(f"Created {len(entries)} plannings\n")
         except ValueError:
             self.stdout.write("There were errors during import. No plannings created.")

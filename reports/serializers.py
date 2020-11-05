@@ -23,13 +23,13 @@ class ReportDetailsField(serializers.Field):
     def get_attribute(self, instance):
         return instance
 
-    def to_representation(self, value):
-        repr = {'subject': value.subject}
-        if value.subject == Report.SUBJECT_BIKE_STANDS:
+    def to_representation(self, instance):
+        repr = {'subject': instance.subject}
+        if instance.subject == Report.SUBJECT_BIKE_STANDS:
             repr.update(
                 {
-                    'number': value.bikestands.number,
-                    'fee_acceptable': value.bikestands.fee_acceptable,
+                    'number': instance.bikestands.number,
+                    'fee_acceptable': instance.bikestands.fee_acceptable,
                 }
             )
         return repr

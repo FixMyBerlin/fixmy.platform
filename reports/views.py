@@ -1,4 +1,5 @@
 import uuid
+from django_auto_prefetching import AutoPrefetchViewSetMixin
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import check_password, make_password
@@ -31,10 +32,12 @@ class LikedByUserReportList(generics.ListAPIView):
         ).order_by('id')
 
 
-class ReportList(generics.ListCreateAPIView):
+class ReportList(AutoPrefetchViewSetMixin, generics.ListCreateAPIView):
     permission_classes = (permissions.AllowAny,)
-    queryset = Report.objects.filter(published=1).prefetch_related(
-        'likes', 'bikestands'
+    queryset = (
+        Report.objects.filter(published=1)
+        .select_related('bikestands')
+        .prefetch_related('origin', 'likes')
     )
     serializer_class = ReportSerializer
 

@@ -125,6 +125,19 @@ class ImportReportPlannings(TestCase):
             }
         ]
 
+    def test_import_export_integration(self):
+        with tempfile.NamedTemporaryFile(
+            mode="w+", encoding="UTF-8", suffix='csv'
+        ) as f:
+            call_command('exportreports', f.name, format='csv')
+            Report.objects.all().delete()
+            f.seek(0)
+            call_command('importreportplannings', f.name)
+
+        assert Report.objects.all().count() == 4
+        reports = Report.objects.all()
+        assert reports[0].origin.count() == 1
+
     def test_load_reports(self):
         reports = list(create_report_plannings(self.plannings))
         assert len(reports) == 1

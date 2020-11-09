@@ -1,7 +1,7 @@
 [
   {
     "model": "reports.report",
-    "pk": 1821,
+    "pk": 4,
     "fields": {
       "created_date": "2020-08-31T20:43:08Z",
       "modified_date": "2020-10-06T11:39:58.568Z",
@@ -13,12 +13,12 @@
       "status": "planning",
       "status_reason": "",
       "user": null,
-      "origin": [1822]
+      "origin": [2]
     }
   },
   {
     "model": "reports.bikestands",
-    "pk": 1821,
+    "pk": 4,
     "fields": {
       "number": 2,
       "fee_acceptable": false
@@ -26,7 +26,7 @@
   },
   {
     "model": "reports.report",
-    "pk": 1819,
+    "pk": 3,
     "fields": {
       "created_date": "2020-08-31T20:39:27Z",
       "modified_date": "2020-10-05T13:03:39.159Z",
@@ -38,12 +38,12 @@
       "status": "execution",
       "status_reason": "",
       "user": null,
-      "origin": [1820]
+      "origin": [1]
     }
   },
   {
     "model": "reports.bikestands",
-    "pk": 1819,
+    "pk": 3,
     "fields": {
       "number": 8,
       "fee_acceptable": false

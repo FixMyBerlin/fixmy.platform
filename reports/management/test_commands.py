@@ -28,7 +28,7 @@ class ExportReports(TestCase):
 
     def _check_assertions(self, exported):
         source = Report.objects.get(pk=exported['id'])
-        self.assertEqual(exported['origin_ids'], '1820')
+        self.assertEqual(exported['origin_ids'], '1')
         self.assertEqual(exported['url'], source.frontend_url)
         self.assertEqual(int(exported['likes']), 0)
         self.assertEqual(exported['status'], source.status)
@@ -47,7 +47,7 @@ class ExportReports(TestCase):
             for col in self.cols + ['long', 'lat']:
                 self.assertIn(col, csv_reader.fieldnames)
             # select a planning entry to test export of origin ids
-            exported = [r for r in csv_reader if r['id'] == '1819'][0]
+            exported = [r for r in csv_reader if r['id'] == '3'][0]
             self._check_assertions(exported)
             self.assertTrue(50 < float(exported['lat']) < 60)
             self.assertTrue(0 < float(exported['long']) < 10)
@@ -60,9 +60,9 @@ class ExportReports(TestCase):
             data = json.load(f)
             for col in self.cols:
                 self.assertIn(col, data["features"][0]["properties"].keys())
-            exported = [r for r in data["features"] if r['properties']['id'] == 1819][
-                0
-            ]['properties']
+            exported = [r for r in data["features"] if r['properties']['id'] == 3][0][
+                'properties'
+            ]
             self._check_assertions(exported)
 
 
@@ -176,9 +176,9 @@ class SendNotifications(TestCase):
 
     def setUp(self):
         super().setUp()
-        self.planning = Report.objects.get(pk=1821)
+        self.planning = Report.objects.get(pk=4)
         self.assertTrue(self.planning.user is None)
-        self.report = Report.objects.get(pk=1822)
+        self.report = Report.objects.get(pk=2)
         self.assertTrue(self.report.user is not None)
 
     def test_notice_anonymous_report(self):

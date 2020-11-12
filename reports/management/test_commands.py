@@ -104,7 +104,7 @@ class ImportReports(TestCase):
 
 
 class ImportReportPlannings(TestCase):
-    fixtures = ['user', 'reports']
+    fixtures = ['user', 'reports', 'plannings']
 
     def setUp(self):
         # Make sure that report has a status that is valid for linking to
@@ -125,18 +125,35 @@ class ImportReportPlannings(TestCase):
             }
         ]
 
-    def test_import_export_integration(self):
+    def test_import_export_integration_for_inserting(self):
+        """Test exporting as CSV and then filling empty db from exported file"""
         with tempfile.NamedTemporaryFile(
             mode="w+", encoding="UTF-8", suffix='csv'
         ) as f:
             call_command('exportreports', f.name, format='csv')
             Report.objects.all().delete()
             f.seek(0)
+            call_command('importreportplannings', f.name, force_insert=True)
+
+        assert Report.objects.all().count() == 4, f"Got {Report.objects.all()}"
+        report = Report.objects.get(pk=3)
+        assert report.origin.count() == 1, report.origin.all()
+
+    def test_import_export_integration_for_updating(self):
+        """Text exporting as CSV and then updating entries from exported file"""
+        with tempfile.NamedTemporaryFile(
+            mode="w+", encoding="UTF-8", suffix='csv'
+        ) as f:
+            call_command('exportreports', f.name, format='csv')
+            report = BikeStands.objects.get(pk=3)
+            report.address = 'Test'
+            report.origin.clear()
+            report.save()
             call_command('importreportplannings', f.name)
 
-        assert Report.objects.all().count() == 4
-        reports = Report.objects.all()
-        assert reports[0].origin.count() == 1
+        report.refresh_from_db()
+        assert report.address != 'Test'
+        assert report.origin.count() == 1, report.origin.all()
 
     def test_load_reports(self):
         reports = list(create_report_plannings(self.plannings))

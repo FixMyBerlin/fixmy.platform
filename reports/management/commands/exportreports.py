@@ -20,7 +20,6 @@ FIELDNAMES = [
     'status_reason',
     'fee_acceptable',
     'url',
-    'geometry',
     'long',
     'lat',
     'created',
@@ -70,7 +69,7 @@ class Command(BaseCommand):
 
             row_data['subject'] = 'BIKE_STANDS'
             row_data['geometry_type'] = 'Point'
-            row_data['geometry'] = f"{report.geometry.x}, {report.geometry.y}"
+            # row_data['geometry'] = f"{report.geometry.x}, {report.geometry.y}"
             csv_writer.writerow(row_data)
 
     def export_geojson(self, query, target_file):

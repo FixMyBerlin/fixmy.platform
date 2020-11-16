@@ -52,7 +52,6 @@ class ExportReports(TestCase):
             self.assertTrue(50 < float(exported['lat']) < 60)
             self.assertTrue(0 < float(exported['long']) < 10)
             self.assertEqual(exported['geometry_type'], 'Point')
-            self.assertTrue('geometry' in exported.keys())
 
     def test_export_reports_geojson(self):
         with tempfile.NamedTemporaryFile(mode="w+", encoding="UTF-8") as f:
@@ -184,7 +183,7 @@ class ImportReportPlannings(TestCase):
     def test_fix_origin_status(self):
         self.report.status = Report.STATUS_REPORT_NEW
         self.report.save()
-        reports = list(create_report_plannings(self.plannings, force=True))
+        reports = list(create_report_plannings(self.plannings))
         assert reports[0].origin.first().status == Report.STATUS_REPORT_ACCEPTED
 
 

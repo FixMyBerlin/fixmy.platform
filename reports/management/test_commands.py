@@ -9,7 +9,7 @@ from django.test import Client, TestCase, override_settings
 
 from fixmyapp.models import Like
 from reports.models import Report, BikeStands, StatusNotice
-from .commands.importreportplannings import create_report_plannings
+from .commands.importreportplannings import create_report_plannings, link_report_origins
 
 
 class ExportReports(TestCase):
@@ -105,25 +105,6 @@ class ImportReports(TestCase):
 class ImportReportPlannings(TestCase):
     fixtures = ['user', 'reports', 'plannings']
 
-    def setUp(self):
-        # Make sure that report has a status that is valid for linking to
-        # a planning
-        self.report = Report.objects.first()
-        self.report.status = Report.STATUS_REPORT_ACCEPTED
-        self.report.save()
-
-        self.plannings = [
-            {
-                'origin_ids': str(self.report.id),
-                'address': 'Vereinsstrasse 19, Aachen',
-                'geometry': '6.09284, 50.76892',
-                'description': '(für Besucher)',
-                'status': 'planning',
-                'status_reason': '',
-                'number': 5,
-            }
-        ]
-
     def test_import_export_integration_for_inserting(self):
         """Test exporting as CSV and then filling empty db from exported file"""
         with tempfile.NamedTemporaryFile(
@@ -154,37 +135,44 @@ class ImportReportPlannings(TestCase):
         assert report.address != 'Test'
         assert report.origin.count() == 1, report.origin.all()
 
-    def test_load_reports(self):
-        reports = list(create_report_plannings(self.plannings))
-        assert len(reports) == 1
-        assert reports[0].origin.count() == 1
-
     def test_load_reports_does_not_exist(self):
         """Try linking to nonexistent origin id"""
-
-        rows = self.plannings
+        reports = Report.objects.all()
+        rows = [
+            {'id': r.id, 'origin_ids': ';'.join([str(o.id) for o in r.origin.all()])}
+            for r in reports
+        ]
         rows[0]['origin_ids'] = '9999'
-        self.assertRaises(ValueError, create_report_plannings, rows)
+        self.assertRaises(ValueError, link_report_origins, rows)
 
     def test_origin_author_notification(self):
         """Test that origin authors get notices"""
-        planning = list(create_report_plannings(self.plannings))[0]
+        planning = Report.objects.get(pk=3)
         planning.status = Report.STATUS_DONE
         planning.save()
-        self.assertTrue(planning.user is None)
-        self.assertEqual(1, StatusNotice.objects.filter(user=self.report.user).count())
 
-    def test_repeated_execution(self):
-        """Test that additional entries are created on re-run"""
-        create_report_plannings(self.plannings)
-        create_report_plannings(self.plannings)
-        self.assertEqual(BikeStands.objects.count(), 4)
+        # Make sure that the notice is not created for the author but for the
+        # origin author
+        self.assertTrue(planning.user is None)
+
+        origin_user = planning.origin.first().user
+        self.assertEqual(1, StatusNotice.objects.filter(user=origin_user).count())
 
     def test_fix_origin_status(self):
-        self.report.status = Report.STATUS_REPORT_NEW
-        self.report.save()
-        reports = list(create_report_plannings(self.plannings))
-        assert reports[0].origin.first().status == Report.STATUS_REPORT_ACCEPTED
+        """Test check for valid origin status when linking origin"""
+        test_report = Report.objects.get(pk=1)
+        test_report.status = Report.STATUS_REPORT_NEW
+        test_report.save()
+
+        rows = [
+            {'id': r.id, 'origin_ids': ';'.join([str(o.id) for o in r.origin.all()])}
+            for r in Report.objects.all()
+        ]
+        self.assertRaises(ValueError, link_report_origins, rows)
+        try:
+            link_report_origins(rows, fix_status=True)
+        except ValueError:
+            self.fail('Raised ValueError despite `fix_status` param')
 
 
 class SendNotifications(TestCase):

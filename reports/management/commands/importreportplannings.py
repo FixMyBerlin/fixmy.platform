@@ -20,10 +20,6 @@ STATUS_CHOICES = [x[0] for x in BikeStands.STATUS_CHOICES]
 class IntegrityException(Exception):
     """Raised when imported data has errors that prevent importing it"""
 
-    def __init__(self, row_number, row_content, message):
-        self.message = f"Row {row_number:03} {msg}"
-        self.row = row_content
-
 
 def get_row_geometry(row):
     geom = row.get('geometry')
@@ -65,7 +61,10 @@ def process_origin(entry, origin_entry_id, errorfn, fix_status=False):
         errorfn(
             f'links origin id {origin_entry_id:0>3} which does not exist in the database'
         )
-        raise IntegrityException
+        raise IntegrityException()
+    except ValueError:
+        errorfn(f'has invalid origin id ({str(origin_entry_id)})')
+        raise IntegrityException()
 
     if origin_entry.status != BikeStands.STATUS_REPORT_ACCEPTED:
         if fix_status:
@@ -153,7 +152,7 @@ def link_report_origins(entry_rows, fix_status=False):
     """Update existing entries with origin information from an iterable of entries"""
     errors = []
 
-    for row in entry_rows:
+    for i, row in enumerate(entry_rows):
 
         def rowerror(msg):
             errors.append(f"Row {(i+1):03} {msg}")
@@ -167,6 +166,9 @@ def link_report_origins(entry_rows, fix_status=False):
             if linked_entry.id not in linked_entries:
                 entry.origin.remove(linked_entry)
         for origin_entry_id in linked_entries:
+            if origin_entry_id == '':
+                continue
+
             if origin_entry_id not in prev_linked_entries:
                 try:
                     process_origin(
@@ -239,8 +241,6 @@ class Command(BaseCommand):
             self.stderr.write("There was an error reading the input file")
             raise
 
-        assert len(entry_rows) > 0, "File contains no data"
-
         try:
             with transaction.atomic():
                 entries = create_report_plannings(
@@ -249,5 +249,5 @@ class Command(BaseCommand):
                 link_report_origins(entry_rows, fix_status=kwargs['fix_status'])
                 self.stdout.write(f"Created {len(entries)} plannings\n")
         except ValueError:
-            self.stdout.write(f"There were errors during import. No plannings created")
+            self.stderr.write(f"There were errors during import. No plannings created")
 

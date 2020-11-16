@@ -65,7 +65,7 @@ def process_origin(entry, origin_entry_id, errorfn, fix_status=False):
         errorfn(
             f'links origin id {origin_entry_id:0>3} which does not exist in the database'
         )
-        raise ValueError
+        raise IntegrityException
 
     if origin_entry.status != BikeStands.STATUS_REPORT_ACCEPTED:
         if fix_status:
@@ -172,7 +172,7 @@ def link_report_origins(entry_rows, fix_status=False):
                     process_origin(
                         entry, origin_entry_id, rowerror, fix_status=fix_status
                     )
-                except ValueError:
+                except IntegrityException:
                     continue
 
     if len(errors) > 0:

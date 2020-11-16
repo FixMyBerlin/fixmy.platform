@@ -23,8 +23,6 @@ FIELDNAMES = [
     'long',
     'lat',
     'created',
-    'geometry_type',
-    'subject',
 ]
 
 
@@ -67,8 +65,6 @@ class Command(BaseCommand):
             row_data['url'] = report.frontend_url
             row_data['origin_ids'] = format_origin_ids(report.origin.all())
 
-            row_data['subject'] = 'BIKE_STANDS'
-            row_data['geometry_type'] = 'Point'
             csv_writer.writerow(row_data)
 
     def export_geojson(self, query, target_file):
@@ -93,7 +89,6 @@ class Command(BaseCommand):
                         "number": report.bikestands.number,
                         'status': report.status,
                         "status_reason": report.status_reason,
-                        "subject": 'BIKE_STANDS',
                         "url": report.frontend_url,
                     },
                     "geometry": {

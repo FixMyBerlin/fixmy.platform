@@ -23,7 +23,6 @@ class ExportReports(TestCase):
         'description',
         'status_reason',
         'number',
-        'subject',
     ]
 
     def _check_assertions(self, exported):
@@ -38,7 +37,6 @@ class ExportReports(TestCase):
         self.assertEqual(exported['status_reason'], source.status_reason)
         self.assertEqual(int(exported['number']), source.bikestands.number)
         self.assertTrue(exported['fee_acceptable'] in [False, 'False'])
-        self.assertEqual(exported['subject'], 'BIKE_STANDS')
 
     def test_export_reports_csv(self):
         with tempfile.NamedTemporaryFile(mode="w+", encoding="UTF-8") as f:
@@ -51,7 +49,6 @@ class ExportReports(TestCase):
             self._check_assertions(exported)
             self.assertTrue(50 < float(exported['lat']) < 60)
             self.assertTrue(0 < float(exported['long']) < 10)
-            self.assertEqual(exported['geometry_type'], 'Point')
 
     def test_export_reports_geojson(self):
         with tempfile.NamedTemporaryFile(mode="w+", encoding="UTF-8") as f:

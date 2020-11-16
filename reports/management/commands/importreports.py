@@ -71,6 +71,47 @@ def process_origin(entry, origin_entry_id, errorfn, fix_status=False):
     entry.origin.add(origin_entry)
 
 
+def process_entry(row, rowerror, force_insert=False):
+    entry = None
+    entry_id = None
+    geometry = Point(float(row.get('long')), float(row.get('lat')))
+    is_update = row.get("id") not in [None, ""]
+
+    if is_update:
+        entry_id = int(row.get("id"))
+        try:
+            entry = BikeStands.objects.get(pk=entry_id)
+        except BikeStands.DoesNotExist:
+            if force_insert:
+                is_update = False
+            else:
+                rowerror(
+                    f"specifies entry ID to update but entry {entry_id:03} not found in database"
+                )
+                raise IntegrityException
+
+    if is_update:
+        entry.address = row['address']
+        entry.geometry = geometry
+        entry.description = row['description']
+        entry.status = row['status']
+        entry.status_reason = row['status_reason']
+        entry.number = int(row['number'])
+    else:
+        entry = BikeStands(
+            address=row['address'],
+            geometry=geometry,
+            description=row['description'],
+            status=row['status'],
+            status_reason=row['status_reason'],
+            number=row['number'],
+            subject=Report.SUBJECT_BIKE_STANDS,
+        )
+        if force_insert and entry_id is not None:
+            entry.id = entry_id
+    return entry
+
+
 def create_report_plannings(rows, force_insert=False):
     """Create and update reports given an iterable of data objects"""
     entries = []
@@ -81,47 +122,11 @@ def create_report_plannings(rows, force_insert=False):
             errors.append(f"Row {(i+1):03} {msg}")
 
         validate_entry(row, rowerror)
-
-        entry = None
-        entry_id = None
-        geometry = Point(float(row.get('long')), float(row.get('lat')))
-        is_update = row.get("id") not in [None, ""]
-
-        if is_update:
-            entry_id = int(row.get("id"))
-            try:
-                entry = BikeStands.objects.get(pk=entry_id)
-            except BikeStands.DoesNotExist:
-                if force_insert:
-                    is_update = False
-                else:
-                    rowerror(
-                        f"specifies entry ID to update but entry {entry_id:03} not found in database"
-                    )
-                    continue
-
-        if is_update:
-            entry.address = row['address']
-            entry.geometry = geometry
-            entry.description = row['description']
-            entry.status = row['status']
-            entry.status_reason = row['status_reason']
-            entry.number = int(row['number'])
-            entry.save()
-        else:
-            entry = BikeStands(
-                address=row['address'],
-                geometry=geometry,
-                description=row['description'],
-                status=row['status'],
-                status_reason=row['status_reason'],
-                number=row['number'],
-                subject=Report.SUBJECT_BIKE_STANDS,
-            )
-            if force_insert and entry_id is not None:
-                entry.id = entry_id
-            entry.save()
-
+        try:
+            entry = process_entry(row, rowerror, force_insert=force_insert)
+        except IntegrityException:
+            continue
+        entry.save()
         entries.append(entry)
 
     if len(errors) > 0:

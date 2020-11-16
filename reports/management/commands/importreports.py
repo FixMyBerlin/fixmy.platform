@@ -21,12 +21,6 @@ class IntegrityException(Exception):
     """Raised when imported data has errors that prevent importing it"""
 
 
-def get_row_geometry(row):
-    geom = row.get('geometry')
-    lon_lat = f"{row.get('long')},{row.get('lat')}"
-    return geom if (geom is not None) else lon_lat
-
-
 def get_row_lon_lat(row):
     geom = row.get('geometry')
     lon = row.get('long')
@@ -39,8 +33,9 @@ def validate_entry(row, errorfn):
 
     Doesn't validate linked origin reports"""
 
-    if len(get_row_geometry(row)) <= 1:
-        errorfn("has empty geometry")
+    lon, lat = get_row_lon_lat(row)
+    assert lon > 0
+    assert lat > 0
 
     if ',' in row['origin_ids']:
         errorfn.append(

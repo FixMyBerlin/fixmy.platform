@@ -9,7 +9,7 @@ from django.test import Client, TestCase, override_settings
 
 from fixmyapp.models import Like
 from reports.models import Report, BikeStands, StatusNotice
-from .commands.importreportplannings import create_report_plannings, link_report_origins
+from .commands.importreports import create_report_plannings, link_report_origins
 
 
 class ExportReports(TestCase):
@@ -66,43 +66,6 @@ class ExportReports(TestCase):
 
 
 class ImportReports(TestCase):
-    fixtures = ['user', 'reports']
-
-    def setUp(self):
-        super().setUp()
-        with tempfile.NamedTemporaryFile(
-            mode="w+", encoding="UTF-8", suffix='geojson'
-        ) as f:
-            call_command('exportreports', f.name, format='geojson')
-            self.data_geojson = json.load(f)
-
-    def test_update_reports_from_geojson(self):
-        with tempfile.NamedTemporaryFile(
-            mode="w+", encoding="UTF-8", suffix='geojson'
-        ) as f1:
-            json.dump(self.data_geojson, f1)
-            f1.seek(0)
-            call_command('importreports', f1.name)
-
-        reports = Report.objects.all()
-        self.assertEqual(len(reports), 2)
-        self.assertEqual(reports[0].address, 'Test-Adresse')
-        self.assertEqual(reports[0].bikestands.number, 3)
-
-    def test_insert_reports_from_geojson(self):
-        Report.objects.all().delete()
-        with tempfile.NamedTemporaryFile(
-            mode="w+", encoding="UTF-8", suffix='geojson'
-        ) as f2:
-            json.dump(self.data_geojson, f2)
-            f2.seek(0)
-            call_command('importreports', f2.name)
-
-        reports = Report.objects.all()
-        self.assertEqual(len(reports), 2)
-
-
-class ImportReportPlannings(TestCase):
     fixtures = ['user', 'reports', 'plannings']
 
     def test_import_export_integration_for_inserting(self):
@@ -113,7 +76,7 @@ class ImportReportPlannings(TestCase):
             call_command('exportreports', f.name, format='csv')
             Report.objects.all().delete()
             f.seek(0)
-            call_command('importreportplannings', f.name, force_insert=True)
+            call_command('importreports', f.name, force_insert=True)
 
         assert Report.objects.all().count() == 4, f"Got {Report.objects.all()}"
         report = Report.objects.get(pk=3)
@@ -129,7 +92,7 @@ class ImportReportPlannings(TestCase):
             report.address = 'Test'
             report.origin.clear()
             report.save()
-            call_command('importreportplannings', f.name)
+            call_command('importreports', f.name)
 
         report.refresh_from_db()
         assert report.address != 'Test'

@@ -21,21 +21,13 @@ class IntegrityException(Exception):
     """Raised when imported data has errors that prevent importing it"""
 
 
-def get_row_lon_lat(row):
-    geom = row.get('geometry')
-    lon = row.get('long')
-    lat = row.get('lat')
-    return [float(x) for x in (geom.split(",") if geom is not None else [lon, lat])]
-
-
 def validate_entry(row, errorfn):
     """Validate a row of data representing an entry
 
     Doesn't validate linked origin reports"""
 
-    lon, lat = get_row_lon_lat(row)
-    assert lon > 0
-    assert lat > 0
+    assert float(row.get('long')) > 0
+    assert float(row.get('lat')) > 0
 
     if ',' in row['origin_ids']:
         errorfn.append(
@@ -92,7 +84,7 @@ def create_report_plannings(rows, force_insert=False):
 
         entry = None
         entry_id = None
-        lon, lat = get_row_lon_lat(row)
+        geometry = Point(float(row.get('long')), float(row.get('lat')))
         is_update = row.get("id") not in [None, ""]
 
         if is_update:
@@ -110,7 +102,7 @@ def create_report_plannings(rows, force_insert=False):
 
         if is_update:
             entry.address = row['address']
-            entry.geometry = Point(lon, lat)
+            entry.geometry = geometry
             entry.description = row['description']
             entry.status = row['status']
             entry.status_reason = row['status_reason']
@@ -119,7 +111,7 @@ def create_report_plannings(rows, force_insert=False):
         else:
             entry = BikeStands(
                 address=row['address'],
-                geometry=Point(lon, lat),
+                geometry=geometry,
                 description=row['description'],
                 status=row['status'],
                 status_reason=row['status_reason'],
@@ -183,7 +175,9 @@ def link_report_origins(entry_rows, fix_status=False):
 
 
 class Command(BaseCommand):
-    help = 'Update and create bike stand reports and plannungs from a csv file'
+    help = '''Update and create bike stand reports and plannings from a CSV file.
+    Entries are inserted when no id is defined in the input file and updated
+    when an id is specified and found in the database.'''
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -199,7 +193,7 @@ class Command(BaseCommand):
             '--force-insert',
             action='store_true',
             dest='force_insert',
-            help='Create new entries when ID to update is specified but not found in database',
+            help='create new entries when ID to update is specified but not found in database',
         )
 
     def read_input(self, fname):

@@ -85,7 +85,6 @@ def process_origin(entry, origin_entry_id, errorfn, fix_status=False):
     entry.origin.add(origin_entry)
 
 
-@transaction.atomic
 def create_report_plannings(rows, force_insert=False):
     """Create and update reports given an iterable of data objects"""
     entries = []
@@ -243,11 +242,12 @@ class Command(BaseCommand):
         assert len(entry_rows) > 0, "File contains no data"
 
         try:
-            entries = create_report_plannings(
-                entry_rows, force_insert=kwargs['force_insert']
-            )
-            link_report_origins(entry_rows, fix_status=kwargs['fix_status'])
-            self.stdout.write(f"Created {len(entries)} plannings\n")
+            with transaction.atomic():
+                entries = create_report_plannings(
+                    entry_rows, force_insert=kwargs['force_insert']
+                )
+                link_report_origins(entry_rows, fix_status=kwargs['fix_status'])
+                self.stdout.write(f"Created {len(entries)} plannings\n")
         except ValueError:
             self.stdout.write(f"There were errors during import. No plannings created")
 

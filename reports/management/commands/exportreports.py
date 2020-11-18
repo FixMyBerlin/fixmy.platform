@@ -65,6 +65,7 @@ class Command(BaseCommand):
             row_data['likes'] = report.likes.count()
             row_data['url'] = report.frontend_url
             row_data['origin_ids'] = format_origin_ids(report.origin.all())
+            row_data['photo'] = report.photo_url
 
             csv_writer.writerow(row_data)
 
@@ -91,6 +92,7 @@ class Command(BaseCommand):
                         'status': report.status,
                         "status_reason": report.status_reason,
                         "url": report.frontend_url,
+                        "photo": report.photo_url,
                     },
                     "geometry": {
                         "type": "Point",

@@ -250,3 +250,4 @@ class Command(BaseCommand):
                 self.stdout.write(f"Created {len(entries)} plannings\n")
         except ValueError:
             self.stderr.write(f"There were errors during import. No plannings created")
+            sys.exit(1)

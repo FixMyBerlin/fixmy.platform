@@ -6,6 +6,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.core import mail
 from django.core.management import call_command
 from django.test import Client, TestCase, override_settings
+from unittest.mock import patch
 
 from fixmyapp.models import Like
 from reports.models import Report, BikeStands, StatusNotice
@@ -73,11 +74,19 @@ class ImportReports(TestCase):
             call_command('exportreports', f.name, format='csv')
             Report.objects.all().delete()
             f.seek(0)
+
+            # the export contains id values for each row so importing should
+            # not work without `force_insert`
+            with patch('sys.exit') as mock_sys_exit:
+                call_command('importreports', f.name)
+                mock_sys_exit.assert_called_with(1)
+            
             call_command('importreports', f.name, force_insert=True)
 
-        assert Report.objects.all().count() == 4, f"Got {Report.objects.all()}"
+        self.assertEqual(Report.objects.all().count(), 4, f"Got {Report.objects.all()}")
         report = Report.objects.get(pk=3)
-        assert report.origin.count() == 1, report.origin.all()
+        self.assertEqual(report.origin.count(), 1, report.origin.all())
+        
 
     def test_import_export_integration_for_updating(self):
         """Text exporting as CSV and then updating entries from exported file"""
@@ -133,7 +142,6 @@ class ImportReports(TestCase):
             link_report_origins(rows, fix_status=True)
         except ValueError:
             self.fail('Raised ValueError despite `fix_status` param')
-
 
 class SendNotifications(TestCase):
     fixtures = ['user', 'reports', 'plannings']

@@ -72,6 +72,12 @@ def process_origin(entry, origin_entry_id, errorfn, fix_status=False):
 
 
 def process_entry(row, rowerror, force_insert=False):
+    """Create or update an entry corresponding to a given row.
+
+    New entries are created when `row` contains no value in the `id` key. If the
+    `force_insert` parameter is set, a new entry is created if `id` contains a 
+    value but no corresponding entry to update is found in the local db. In this
+    case, the new entry is created with the given id."""
     entry = None
     entry_id = None
     geometry = Point(float(row.get('long')), float(row.get('lat')))

@@ -75,7 +75,7 @@ def process_entry(row, rowerror, force_insert=False):
     """Create or update an entry corresponding to a given row.
 
     New entries are created when `row` contains no value in the `id` key. If the
-    `force_insert` parameter is set, a new entry is created if `id` contains a 
+    `force_insert` parameter is set, a new entry is created if `id` contains a
     value but no corresponding entry to update is found in the local db. In this
     case, the new entry is created with the given id."""
     entry = None

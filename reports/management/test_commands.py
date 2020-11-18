@@ -80,13 +80,12 @@ class ImportReports(TestCase):
             with patch('sys.exit') as mock_sys_exit:
                 call_command('importreports', f.name)
                 mock_sys_exit.assert_called_with(1)
-            
+
             call_command('importreports', f.name, force_insert=True)
 
         self.assertEqual(Report.objects.all().count(), 4, f"Got {Report.objects.all()}")
         report = Report.objects.get(pk=3)
         self.assertEqual(report.origin.count(), 1, report.origin.all())
-        
 
     def test_import_export_integration_for_updating(self):
         """Text exporting as CSV and then updating entries from exported file"""
@@ -142,6 +141,7 @@ class ImportReports(TestCase):
             link_report_origins(rows, fix_status=True)
         except ValueError:
             self.fail('Raised ValueError despite `fix_status` param')
+
 
 class SendNotifications(TestCase):
     fixtures = ['user', 'reports', 'plannings']

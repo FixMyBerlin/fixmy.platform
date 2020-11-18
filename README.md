@@ -109,66 +109,29 @@ Uploads GeoJSON export of projects or sections (see `exportprojects` and `export
 
 Export reports about bike stands in either CSV or GeoJSON format
 
-    $ python manage.py exportreports --format geojson /tmp/reports.json
+    $ python manage.py exportreports --format csv /tmp/reports.csv
 
 Notes:
 
 - Likes are exported as an aggregate count
 - Report creation date is exported as an ISO 8601 formatted datetime string
 
-### importreportplannings
+### importreports
 
-Import plannings for bike stands that may point at bike stand reports from CSV.
-
-This command is separate from the `importreports` command because it does not use
-the `LayerMapping` tool on which that command relies.
+Import or update entries in the reports app from a CSV file.
 
 The imported CSV file is required to have the columns;
 
 - origin_ids: semicolon-separated list of reports that are implemented by this planning
 - status: one of the report statuses as can be found in `reports.models.report`
 - address: address including post code
-- geometry: long, lat pair e.g. "6.09284, 50.76892"
+- lat
+- long
 - description: a description of the planning
 - status_reason: a reason if the planning's status is 'invalid'
 - number: number of bike stands built in this planning
 
-  \$ python manage.py importreportplannings plannings.csv
-
-### importreports
-
-Imports reports about bike stands.
-
-    $ python manage.py importreports /tmp/reports.json
-
-This command requires a shape file in a format that allows GeoDjango to detect
-the geometry type. GeoJSON is such a format, KML is not. All geometries must be Points.
-
-For json file endings, field names available are guessed from the first feature
-in the source file. Only these properties are then imported. If the property `id`
-is available, existing reports with matching IDs are updated, if that property
-is not available, new reports are created.
-
-Caveats:
-
-- The `fee_acceptable` field can currently not be imported.
-- User likes can not be imported
-
-Imported properties:
-
-- address (text)
-- created_date (ISO 8601 with time zone)
-- description (text, limited to 1000 characters)
-- id (integer)
-- number (integer)
-- subject (text, currently only BIKE_STANDS)
-- status_reason (text)
-- status (text)
-  - new
-  - verification
-  - accepted
-  - rejected
-  - done
+  \$ python manage.py importreports reports.csv
 
 ### sendnotifications
 

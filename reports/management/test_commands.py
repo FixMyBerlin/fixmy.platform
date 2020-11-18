@@ -6,10 +6,11 @@ from django.contrib.contenttypes.models import ContentType
 from django.core import mail
 from django.core.management import call_command
 from django.test import Client, TestCase, override_settings
+from unittest.mock import patch
 
 from fixmyapp.models import Like
 from reports.models import Report, BikeStands, StatusNotice
-from .commands.importreportplannings import create_report_plannings
+from .commands.importreports import create_report_plannings, link_report_origins
 
 
 class ExportReports(TestCase):
@@ -23,12 +24,11 @@ class ExportReports(TestCase):
         'description',
         'status_reason',
         'number',
-        'subject',
     ]
 
     def _check_assertions(self, exported):
         source = Report.objects.get(pk=exported['id'])
-        self.assertEqual(exported['origin_ids'], '1820')
+        self.assertEqual(exported['origin_ids'], '1')
         self.assertEqual(exported['url'], source.frontend_url)
         self.assertEqual(int(exported['likes']), 0)
         self.assertEqual(exported['status'], source.status)
@@ -38,7 +38,6 @@ class ExportReports(TestCase):
         self.assertEqual(exported['status_reason'], source.status_reason)
         self.assertEqual(int(exported['number']), source.bikestands.number)
         self.assertTrue(exported['fee_acceptable'] in [False, 'False'])
-        self.assertEqual(exported['subject'], 'BIKE_STANDS')
 
     def test_export_reports_csv(self):
         with tempfile.NamedTemporaryFile(mode="w+", encoding="UTF-8") as f:
@@ -47,12 +46,10 @@ class ExportReports(TestCase):
             for col in self.cols + ['long', 'lat']:
                 self.assertIn(col, csv_reader.fieldnames)
             # select a planning entry to test export of origin ids
-            exported = [r for r in csv_reader if r['id'] == '1819'][0]
+            exported = [r for r in csv_reader if r['id'] == '3'][0]
             self._check_assertions(exported)
             self.assertTrue(50 < float(exported['lat']) < 60)
             self.assertTrue(0 < float(exported['long']) < 10)
-            self.assertEqual(exported['geometry_type'], 'Point')
-            self.assertTrue('geometry' in exported.keys())
 
     def test_export_reports_geojson(self):
         with tempfile.NamedTemporaryFile(mode="w+", encoding="UTF-8") as f:
@@ -60,102 +57,90 @@ class ExportReports(TestCase):
             data = json.load(f)
             for col in self.cols:
                 self.assertIn(col, data["features"][0]["properties"].keys())
-            exported = [r for r in data["features"] if r['properties']['id'] == 1819][
-                0
-            ]['properties']
+            exported = [r for r in data["features"] if r['properties']['id'] == 3][0][
+                'properties'
+            ]
             self._check_assertions(exported)
 
 
 class ImportReports(TestCase):
-    fixtures = ['user', 'reports']
+    fixtures = ['user', 'reports', 'plannings']
 
-    def setUp(self):
-        super().setUp()
+    def test_import_export_integration_for_inserting(self):
+        """Test exporting as CSV and then filling empty db from exported file"""
         with tempfile.NamedTemporaryFile(
-            mode="w+", encoding="UTF-8", suffix='geojson'
+            mode="w+", encoding="UTF-8", suffix='csv'
         ) as f:
-            call_command('exportreports', f.name, format='geojson')
-            self.data_geojson = json.load(f)
+            call_command('exportreports', f.name, format='csv')
+            Report.objects.all().delete()
+            f.seek(0)
 
-    def test_update_reports_from_geojson(self):
+            # the export contains id values for each row so importing should
+            # not work without `force_insert`
+            with patch('sys.exit') as mock_sys_exit:
+                call_command('importreports', f.name)
+                mock_sys_exit.assert_called_with(1)
+
+            call_command('importreports', f.name, force_insert=True)
+
+        self.assertEqual(Report.objects.all().count(), 4, f"Got {Report.objects.all()}")
+        report = Report.objects.get(pk=3)
+        self.assertEqual(report.origin.count(), 1, report.origin.all())
+
+    def test_import_export_integration_for_updating(self):
+        """Text exporting as CSV and then updating entries from exported file"""
         with tempfile.NamedTemporaryFile(
-            mode="w+", encoding="UTF-8", suffix='geojson'
-        ) as f1:
-            json.dump(self.data_geojson, f1)
-            f1.seek(0)
-            call_command('importreports', f1.name)
+            mode="w+", encoding="UTF-8", suffix='csv'
+        ) as f:
+            call_command('exportreports', f.name, format='csv')
+            report = BikeStands.objects.get(pk=3)
+            report.address = 'Test'
+            report.origin.clear()
+            report.save()
+            call_command('importreports', f.name)
 
-        reports = Report.objects.all()
-        self.assertEqual(len(reports), 2)
-        self.assertEqual(reports[0].address, 'Test-Adresse')
-        self.assertEqual(reports[0].bikestands.number, 3)
-
-    def test_insert_reports_from_geojson(self):
-        Report.objects.all().delete()
-        with tempfile.NamedTemporaryFile(
-            mode="w+", encoding="UTF-8", suffix='geojson'
-        ) as f2:
-            json.dump(self.data_geojson, f2)
-            f2.seek(0)
-            call_command('importreports', f2.name)
-
-        reports = Report.objects.all()
-        self.assertEqual(len(reports), 2)
-
-
-class ImportReportPlannings(TestCase):
-    fixtures = ['user', 'reports']
-
-    def setUp(self):
-        # Make sure that report has a status that is valid for linking to
-        # a planning
-        self.report = Report.objects.first()
-        self.report.status = Report.STATUS_REPORT_ACCEPTED
-        self.report.save()
-
-        self.plannings = [
-            {
-                'origin_ids': str(self.report.id),
-                'address': 'Vereinsstrasse 19, Aachen',
-                'geometry': '6.09284, 50.76892',
-                'description': '(für Besucher)',
-                'status': 'planning',
-                'status_reason': '',
-                'number': 5,
-            }
-        ]
-
-    def test_load_reports(self):
-        reports = list(create_report_plannings(self.plannings))
-        assert len(reports) == 1
-        assert reports[0].origin.count() == 1
+        report.refresh_from_db()
+        self.assertTrue(report.address != 'Test')
+        self.assertEqual(report.origin.count(), 1, report.origin.all())
 
     def test_load_reports_does_not_exist(self):
         """Try linking to nonexistent origin id"""
-
-        rows = self.plannings
+        reports = Report.objects.all()
+        rows = [
+            {'id': r.id, 'origin_ids': ';'.join([str(o.id) for o in r.origin.all()])}
+            for r in reports
+        ]
         rows[0]['origin_ids'] = '9999'
-        self.assertRaises(ValueError, create_report_plannings, rows)
+        self.assertRaises(ValueError, link_report_origins, rows)
 
     def test_origin_author_notification(self):
         """Test that origin authors get notices"""
-        planning = list(create_report_plannings(self.plannings))[0]
+        planning = Report.objects.get(pk=3)
         planning.status = Report.STATUS_DONE
         planning.save()
-        self.assertTrue(planning.user is None)
-        self.assertEqual(1, StatusNotice.objects.filter(user=self.report.user).count())
 
-    def test_repeated_execution(self):
-        """Test that additional entries are created on re-run"""
-        create_report_plannings(self.plannings)
-        create_report_plannings(self.plannings)
-        self.assertEqual(BikeStands.objects.count(), 4)
+        # Make sure that the notice is not created for the author but for the
+        # origin author
+        self.assertTrue(planning.user is None)
+
+        origin_user = planning.origin.first().user
+        self.assertEqual(1, StatusNotice.objects.filter(user=origin_user).count())
 
     def test_fix_origin_status(self):
-        self.report.status = Report.STATUS_REPORT_NEW
-        self.report.save()
-        reports = list(create_report_plannings(self.plannings, force=True))
-        assert reports[0].origin.first().status == Report.STATUS_REPORT_ACCEPTED
+        """Test check for valid origin status when linking origin"""
+        test_report = Report.objects.get(pk=1)
+        test_report.status = Report.STATUS_REPORT_NEW
+        test_report.save()
+
+        rows = [
+            {'id': r.id, 'origin_ids': ';'.join([str(o.id) for o in r.origin.all()])}
+            for r in Report.objects.all()
+        ]
+        self.assertRaises(ValueError, link_report_origins, rows)
+        try:
+            link_report_origins(rows, fix_status=True)
+        except ValueError:
+            self.fail('Raised ValueError despite `fix_status` param')
 
 
 class SendNotifications(TestCase):
@@ -163,9 +148,9 @@ class SendNotifications(TestCase):
 
     def setUp(self):
         super().setUp()
-        self.planning = Report.objects.get(pk=1821)
+        self.planning = Report.objects.get(pk=4)
         self.assertTrue(self.planning.user is None)
-        self.report = Report.objects.get(pk=1822)
+        self.report = Report.objects.get(pk=2)
         self.assertTrue(self.report.user is not None)
 
     def test_notice_anonymous_report(self):

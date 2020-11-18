@@ -137,3 +137,10 @@ class Report(BaseModel):
     @property
     def frontend_url(self):
         return f"{settings.FRONTEND_URL}/redirect-to/reports/{self.id}"
+
+    @property
+    def photo_url(self):
+        photo_obj = self.photo.first()
+        if photo_obj:
+            return photo_obj.src.url
+        return None

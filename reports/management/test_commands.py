@@ -92,8 +92,8 @@ class ImportReports(TestCase):
             call_command('importreports', f.name)
 
         report.refresh_from_db()
-        assert report.address != 'Test'
-        assert report.origin.count() == 1, report.origin.all()
+        self.assertTrue(report.address != 'Test')
+        self.assertEqual(report.origin.count(), 1, report.origin.all())
 
     def test_load_reports_does_not_exist(self):
         """Try linking to nonexistent origin id"""

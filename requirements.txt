@@ -12,9 +12,9 @@ django-nose==1.4.6
 django-reversion==3.0.8
 django-storages==1.10.1
 Django==3.0.7
-djangorestframework-gis==0.15
+djangorestframework-gis==0.16
 djangorestframework-simplejwt==4.3.0
-djangorestframework==3.10.3
+djangorestframework==3.12.2
 djoser==2.0.3
 flake8==3.7.8
 gunicorn==19.7.0

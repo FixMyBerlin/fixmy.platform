@@ -2,10 +2,27 @@
 import os
 import sys
 
-# is_testing = 'test' in sys.argv
+from django.conf import settings
+
+DEBUGPY_PORT = 3000
 
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "fixmydjango.settings")
+
+    if settings.DEBUG and os.environ.get("RUN_MAIN") != "true":
+        import debugpy
+
+        try:
+            debugpy.listen(("0.0.0.0", DEBUGPY_PORT))
+            # debugpy.wait_for_client()
+            sys.stdout.write(f'debugpy attached on {DEBUGPY_PORT}!\n')
+        except RuntimeError:
+            # debugpy cannot attach again when dev server is restarted
+            pass
+
+    else:
+        sys.stdout.write("debugpy not enabled\n")
+
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

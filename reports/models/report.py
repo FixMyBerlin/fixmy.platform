@@ -121,10 +121,6 @@ class Report(BaseModel):
             notify_user(report.user)
 
     @property
-    def is_planning(self):
-        return self.status in self.PLANNING_STATUSES
-
-    @property
     def is_report(self):
         return self.status in self.REPORT_STATUSES
 

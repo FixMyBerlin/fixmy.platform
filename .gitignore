@@ -114,3 +114,6 @@ ENV/
 .vscode
 
 .DS_Store
+.devcontainer/devcontainer.json
+.devcontainer/docker-compose.extend.yml
+fmc.code-workspace

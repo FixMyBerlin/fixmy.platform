@@ -69,9 +69,7 @@ class ReportBaseSerializer(serializers.HyperlinkedModelSerializer):
             validated_data.update(details)
             report = BikeStands.objects.create(**validated_data).report_ptr
         else:
-            report = Report.objects.create(
-                subject=validated_data['details']['subject'], **validated_data
-            )
+            raise NotImplementedError('Only bike stands reports are currently supported')
         for photo_data in photos_data:
             Photo.objects.create(content_object=report, **photo_data)
         return report

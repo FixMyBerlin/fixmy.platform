@@ -20,6 +20,8 @@ Use the command
 
 to access the console of the Docker container running the backend app. Here you can use the following Django commands to manage the app.
 
+You can enable interactive debugging through [debugpy](https://github.com/microsoft/debugpy) by setting the environment variable `DEBUGPY=1` (e.g. through a `.env` file).
+
 ## Django commands
 
 Use

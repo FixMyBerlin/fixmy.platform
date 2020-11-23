@@ -9,7 +9,7 @@ DEBUGPY_PORT = 3000
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "fixmydjango.settings")
 
-    if settings.DEBUG and os.environ.get("RUN_MAIN") != "true":
+    if settings.DEBUG and os.environ.get("DEBUGPY") == "1":
         import debugpy
 
         try:
@@ -19,9 +19,6 @@ if __name__ == "__main__":
         except RuntimeError:
             # debugpy cannot attach again when dev server is restarted
             pass
-
-    else:
-        sys.stdout.write("debugpy not enabled\n")
 
     try:
         from django.core.management import execute_from_command_line

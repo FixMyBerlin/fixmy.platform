@@ -24,4 +24,4 @@ numpy==1.17.4
 psycopg2==2.7.3.2
 pytz==2020.1
 requests==2.20.0
-roman==3.2
+roman==3.3

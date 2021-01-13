@@ -141,6 +141,12 @@ Batch send notifications, which are enqueued when a reports status is changed
 
     $ python manage.py sendnotifications
 
+This command requires the environment variables `REPORTS_NOTIFICATION_CAMPAIGN`
+and `REPORTS_NOTIFICATION_SENDER` to be set. You can send sample emails 
+containing all variations of the text templates using
+
+    $ python manage.py sendnotifications --send-samples your@email.org
+
 ## Other scripts
 
 ### fetch_database

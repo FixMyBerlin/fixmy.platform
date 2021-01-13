@@ -27,7 +27,7 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            '--send_samples',
+            '--send-samples',
             type=str,
             default=None,
             help='send sample emails to preview contents',
@@ -83,7 +83,7 @@ class Command(BaseCommand):
             f'Automation User', email, 'Sample Notifications'
         )
         try:
-            notice_setting = NoticeSetting.objects.create(
+            NoticeSetting.objects.create(
                 user=user, kind=NoticeSetting.REPORT_UPDATE_KIND
             )
             report_test_data = {
@@ -153,7 +153,7 @@ class Command(BaseCommand):
     def render_email(self, user, collection):
         """Render a collection of notices into a single email"""
 
-        if StatusNotice.user_preference(user) == False:
+        if StatusNotice.user_preference(user) is False:
             # user disabled notifications since notice was enqueued, delete
             # all notices for this user
             StatusNotice.objects.filter(user=user).delete()
@@ -197,6 +197,12 @@ class Command(BaseCommand):
         """Shape data from a collection of notices so that it's ergonomic for templates"""
 
         data = {}
+
+        if settings.REPORTS_NOTIFICATION_CAMPAIGN is None or settings.REPORTS_NOTIFICATION_SENDER is None:
+            raise AttributeError("Configure `REPORTS_NOTIFICATION_CAMPAIGN` and `REPORTS_NOTIFICATION_SENDER` env vars bevore sending notifications")
+        data["campaign_name"] = settings.REPORTS_NOTIFICATION_CAMPAIGN
+        data["sender_name"] = settings.REPORTS_NOTIFICATION_SENDER
+
         for status in NOTIFICATION_STATUSES:
             if len(collection[status]) == 0:
                 data[status] = None

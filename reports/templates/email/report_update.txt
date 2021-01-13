@@ -1,6 +1,6 @@
 Sehr geehrte Damen und Herren,
 
-Im Rahmen der Aktion Radbügel für Aachen haben Sie einen Vorschlag für Radbügel-Standorte eingereicht oder Vorschläge anderer Nutzer:innen mit einem Like markiert. Mit dieser E-Mail informieren wir Sie über Neuigkeiten zu diesen Meldungen. 
+Im Rahmen {{ campaign_name }} haben Sie einen Vorschlag für Radbügel-Standorte eingereicht oder Vorschläge anderer Nutzer:innen mit einem Like markiert. Mit dieser E-Mail informieren wir Sie über Neuigkeiten zu diesen Meldungen. 
 
 {% if planning %}{% if planning.is_single %}Der Vorschlag für Radbügel am Standort {{ planning.first_address }} ist derzeit in Planung{% else %}Folgende Vorschläge sind jetzt in Planung{% endif %}. Wir bereiten aktuell detaillierte Umsetzungspläne zur Installation der Radbügel vor und werden diese in den politischen Ausschüssen vorschlagen. Sobald über Ihren Standort entschieden wird, werden wir uns umgehend bei Ihnen melden.{% if planning.count > 1 %}
 
@@ -31,4 +31,4 @@ Im Rahmen der Aktion Radbügel für Aachen haben Sie einen Vorschlag für Radbü
 {% endfor %}{% else %}Details finden Sie auf: {{ done.first_url }}{% endif %}
 
 {% endif %}Mit freundlichen Grüßen,
-Ihr Fachbereich Stadtentwicklung und Verkehrsanlagen
+{{ sender_name }}

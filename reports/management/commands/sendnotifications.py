@@ -205,8 +205,13 @@ class Command(BaseCommand):
 
         data = {}
 
-        if settings.REPORTS_NOTIFICATION_CAMPAIGN is None or settings.REPORTS_NOTIFICATION_SENDER is None:
-            raise AttributeError("Configure `REPORTS_NOTIFICATION_CAMPAIGN` and `REPORTS_NOTIFICATION_SENDER` env vars bevore sending notifications")
+        if (
+            settings.REPORTS_NOTIFICATION_CAMPAIGN is None
+            or settings.REPORTS_NOTIFICATION_SENDER is None
+        ):
+            raise AttributeError(
+                "Configure `REPORTS_NOTIFICATION_CAMPAIGN` and `REPORTS_NOTIFICATION_SENDER` env vars bevore sending notifications"
+            )
         data["campaign_name"] = settings.REPORTS_NOTIFICATION_CAMPAIGN
         data["sender_name"] = settings.REPORTS_NOTIFICATION_SENDER
 

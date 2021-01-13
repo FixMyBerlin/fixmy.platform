@@ -143,7 +143,10 @@ class ImportReports(TestCase):
             self.fail('Raised ValueError despite `fix_status` param')
 
 
-@override_settings(REPORTS_NOTIFICATION_CAMPAIGN='Meldedialog', REPORTS_NOTIFICATION_SENDER='Ihr FixMyCity-Team')
+@override_settings(
+    REPORTS_NOTIFICATION_CAMPAIGN='Meldedialog',
+    REPORTS_NOTIFICATION_SENDER='Ihr FixMyCity-Team',
+)
 class SendNotifications(TestCase):
     fixtures = ['user', 'reports', 'plannings']
 
@@ -165,9 +168,7 @@ class SendNotifications(TestCase):
         """A notice is created for liked reports"""
         user = self.report.user
         ct = ContentType.objects.get_for_model(Report)
-        Like.objects.create(
-            content_type=ct, object_id=self.planning.id, user=user
-        )
+        Like.objects.create(content_type=ct, object_id=self.planning.id, user=user)
         self.planning.status = Report.STATUS_REPORT_VERIFICATION
         self.planning.save()
         self.assertEqual(StatusNotice.objects.filter(user=user).count(), 1)
@@ -302,7 +303,9 @@ class SendNotifications(TestCase):
         call_command('sendnotifications', '--staff-only')
         self.assertEqual(1, len(mail.outbox))
 
-    @override_settings(REPORTS_NOTIFICATION_CAMPAIGN=None, REPORTS_NOTIFICATION_SENDER=None)
+    @override_settings(
+        REPORTS_NOTIFICATION_CAMPAIGN=None, REPORTS_NOTIFICATION_SENDER=None
+    )
     def test_not_configured(self):
         """Test sending notifications without having configured env vars"""
         self.report.status = Report.STATUS_EXECUTION

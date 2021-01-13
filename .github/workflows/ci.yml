@@ -48,6 +48,7 @@ jobs:
   run-linters:
     name: Run linters
     runs-on: ubuntu-latest
+    if: github.repository == 'FixMyBerlin/fixmy.platform'
 
     steps:
       - name: Check out Git repository
@@ -64,4 +65,23 @@ jobs:
           github_token: ${{ secrets.github_token }}
           # Enable linters
           black: true
-          # flake8: true
+          flake8: true
+
+  run-linters-forks:
+    name: Run linters (fork version)
+    runs-on: ubuntu-latest
+    if: github.repository != 'FixMyBerlin/fixmy.platform'
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.6
+      - name: Install Python dependencies
+        run: python -m pip install black flake8
+      - name: Run black
+        run: python -m black .
+      - name: Run flake8
+        run: python -m flake8 .

@@ -1,6 +1,7 @@
 from collections import defaultdict
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import get_connection, EmailMultiAlternatives
 from django.core.management.base import BaseCommand
 from django.template.loader import get_template
@@ -78,6 +79,12 @@ class Command(BaseCommand):
     def sample_email(self, email):
         """Return sample data to preview notification content"""
         self.stdout.write(f"Sending sample notifications to {email}")
+
+        try:
+            user_relic = get_user_model().objects.get(username='Automation User')
+            user_relic.delete()
+        except ObjectDoesNotExist:
+            pass
 
         user = get_user_model().objects.create_user(
             f'Automation User', email, 'Sample Notifications'

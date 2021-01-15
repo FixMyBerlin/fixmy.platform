@@ -299,4 +299,9 @@ GASTRO_RECIPIENT = os.getenv('GASTRO_RECIPIENT', 'aufsicht.sga@ba-fk.berlin.de')
 GASTRO_SIGNUPS_OPEN = os.getenv('GASTRO_SIGNUPS_OPEN', None)
 GASTRO_SIGNUPS_CLOSE = os.getenv('GASTRO_SIGNUPS_CLOSE', None)
 
+# Configuration for reports app
+
+REPORTS_NOTIFICATION_CAMPAIGN = os.getenv('REPORTS_NOTIFICATION_CAMPAIGN', None)
+REPORTS_NOTIFICATION_SENDER = os.getenv('REPORTS_NOTIFICATION_SENDER', None)
+
 FRONTEND_URL = os.getenv('FRONTEND_URL', 'https://fixmyberlin.de')

@@ -1,7 +1,7 @@
 import csv
 import json
 import tempfile
-from django.contrib.auth import get_user_model
+from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.core import mail
 from django.core.management import call_command
@@ -10,7 +10,7 @@ from unittest.mock import patch
 
 from fixmyapp.models import Like
 from reports.models import Report, BikeStands, StatusNotice
-from .commands.importreports import create_report_plannings, link_report_origins
+from .commands.importreports import link_report_origins
 
 
 class ExportReports(TestCase):
@@ -143,6 +143,10 @@ class ImportReports(TestCase):
             self.fail('Raised ValueError despite `fix_status` param')
 
 
+@override_settings(
+    REPORTS_NOTIFICATION_CAMPAIGN='Meldedialog',
+    REPORTS_NOTIFICATION_SENDER='Ihr FixMyCity-Team',
+)
 class SendNotifications(TestCase):
     fixtures = ['user', 'reports', 'plannings']
 
@@ -164,9 +168,7 @@ class SendNotifications(TestCase):
         """A notice is created for liked reports"""
         user = self.report.user
         ct = ContentType.objects.get_for_model(Report)
-        like = Like.objects.create(
-            content_type=ct, object_id=self.planning.id, user=user
-        )
+        Like.objects.create(content_type=ct, object_id=self.planning.id, user=user)
         self.planning.status = Report.STATUS_REPORT_VERIFICATION
         self.planning.save()
         self.assertEqual(StatusNotice.objects.filter(user=user).count(), 1)
@@ -300,3 +302,12 @@ class SendNotifications(TestCase):
         self.report.user.save()
         call_command('sendnotifications', '--staff-only')
         self.assertEqual(1, len(mail.outbox))
+
+    @override_settings(
+        REPORTS_NOTIFICATION_CAMPAIGN=None, REPORTS_NOTIFICATION_SENDER=None
+    )
+    def test_not_configured(self):
+        """Test sending notifications without having configured env vars"""
+        self.report.status = Report.STATUS_EXECUTION
+        self.report.save()
+        self.assertRaises(AttributeError, call_command, 'sendnotifications')

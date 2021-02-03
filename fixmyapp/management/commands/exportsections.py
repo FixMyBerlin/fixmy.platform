@@ -31,6 +31,7 @@ class Command(BaseCommand):
                     'street_category': s.street_category,
                     'velocity': float(round(s.velocity_index(), 3)),
                     'safety': float(round(s.safety_index(), 3)),
+                    'is_road': s.is_road,
                 },
             }
 

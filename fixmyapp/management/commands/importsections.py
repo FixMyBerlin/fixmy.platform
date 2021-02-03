@@ -10,6 +10,7 @@ mapping = {
     'suffix': 'suffix',
     'borough': 'borough',
     'geometry': 'MULTILINESTRING',
+    'is_road': 'is_road',
 }
 
 

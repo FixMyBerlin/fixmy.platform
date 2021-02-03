@@ -16,7 +16,7 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from mailjet_rest.client import Endpoint
 from unittest.mock import patch
-from .models import Project, Section, SectionDetails, GastroSignup
+from .models import Project, Section, SectionAccidents, SectionDetails, GastroSignup
 
 
 class FailingMockEmailBackend(BaseEmailBackend):
@@ -213,6 +213,49 @@ class SectionDetailsTest(TestCase):
         )
         self.assertAlmostEqual(
             self.sections[1].safety_index(), self.details[2].safety_index(), 1
+        )
+
+
+class SectionAccidentsTest(TestCase):
+    def setUp(self):
+        self.sections = [
+            Section.objects.create(street_name='Foo'),
+            Section.objects.create(street_name='Bar', is_road=False),
+        ]
+
+        self.section_accidents = [
+            SectionAccidents.objects.create(
+                section=self.sections[0],
+                killed=0,
+                severely_injured=5,
+                slightly_injured=10,
+                risk_level=1,
+            ),
+            SectionAccidents.objects.create(
+                section=self.sections[1],
+                killed=0,
+                severely_injured=0,
+                slightly_injured=5,
+                risk_level=0,
+            ),
+        ]
+
+    def test_str(self):
+        self.assertTrue(
+            re.match(
+                'Unfall-Datensatz Streckenabschnitt Foo \(\d+\)',
+                str(self.section_accidents[0]),
+            )
+            != None,
+            str(self.section_accidents[0]),
+        )
+        self.assertTrue(
+            re.match(
+                'Unfall-Datensatz Kreuzungsabschnitt Bar \(\d+\)',
+                str(self.section_accidents[1]),
+            )
+            != None,
+            str(self.section_accidents[1]),
         )
 
 

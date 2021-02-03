@@ -5,8 +5,10 @@ import argparse
 import csv
 import sys
 
-mapping = {
-    'MetaID': 'section_id',
+# Mapping CSV col name -> model field name
+# the `exist` column is handled separately below
+mapping = { 
+    'section_id': 'section_id',
     'side': 'side',
     'tempolimit': 'speed_limit',
     'dailytraffic': 'daily_traffic',
@@ -58,7 +60,7 @@ class Command(BaseCommand):
                     photo.save()
             except IntegrityError as e:
                 self.stderr.write(
-                    'Referenced section with MetaID {} does not exist.'.format(
-                        row['MetaID']
+                    'Referenced section with id {} does not exist.'.format(
+                        row['section_id']
                     )
                 )

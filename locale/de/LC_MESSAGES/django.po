@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE_VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-28 14:30+0000\n"
-"PO-Revision-Date: 2020-09-28 16:32+0200\n"
+"POT-Creation-Date: 2021-02-03 13:46+0000\n"
+"PO-Revision-Date: 2021-02-03 14:49+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.4.1\n"
+"X-Generator: Poedit 2.4.2\n"
 
 #: fixmyapp/admin.py:49 fixmyapp/models/project.py:129
 msgid "alert date"
@@ -76,7 +76,7 @@ msgstr "Permalinks sind nach dem ersten Speichern verfügbar"
 msgid "application form"
 msgstr "Anmeldeformular"
 
-#: fixmyapp/admin.py:272 fixmyapp/views.py:290
+#: fixmyapp/admin.py:272 fixmyapp/views.py:288
 msgid "No renewal defined for this campaign"
 msgstr "Für diese Kampagne ist noch kein Zeitraum für Verlängerungen definiert"
 
@@ -143,14 +143,14 @@ msgstr "Name des Betriebs"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:14
 #: fixmyapp/models/gastro_signup.py:134 fixmyapp/models/report.py:43
-#: reports/models/report.py:52
+#: reports/models/report.py:53
 msgid "address"
 msgstr "Adresse"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:15
 #: fixmyapp/models/project.py:106 fixmyapp/models/report.py:44
 #: fixmyapp/models/section.py:12 fixmyapp/tests.py:481
-#: reports/models/report.py:53
+#: reports/models/report.py:54
 msgid "geometry"
 msgstr "Geometrie"
 
@@ -282,17 +282,17 @@ msgstr "Auch mit Gebühr"
 
 #: fixmyapp/models/bike_stands.py:16 fixmyapp/models/bike_stands.py:17
 #: fixmyapp/models/report.py:41 reports/models/bike_stands.py:12
-#: reports/models/bike_stands.py:13 reports/models/report.py:50
+#: reports/models/bike_stands.py:13 reports/models/report.py:51
 msgid "bike stands"
 msgstr "Radbügel"
 
 #: fixmyapp/models/gastro_signup.py:27 fixmyapp/models/report.py:28
-#: reports/models/report.py:22
+#: reports/models/report.py:23
 msgid "new"
 msgstr "Neu"
 
 #: fixmyapp/models/gastro_signup.py:28 fixmyapp/models/report.py:29
-#: reports/models/report.py:23
+#: reports/models/report.py:24
 msgid "verification"
 msgstr "In Prüfung"
 
@@ -354,8 +354,8 @@ msgid "campaign"
 msgstr "Kampagne"
 
 #: fixmyapp/models/gastro_signup.py:99 fixmyapp/models/project.py:134
-#: fixmyapp/models/report.py:53 reports/models/notice_status.py:18
-#: reports/models/report.py:62
+#: fixmyapp/models/report.py:53 reports/models/report.py:63
+#: reports/models/status_notice.py:20
 msgid "status"
 msgstr "Status"
 
@@ -407,7 +407,7 @@ msgstr "Anträge auf Ausnahmegenehmigung"
 msgid "report status update"
 msgstr "geänderter Meldungsstatus"
 
-#: fixmyapp/models/notice_setting.py:18 reports/models/notice_status.py:20
+#: fixmyapp/models/notice_setting.py:18 reports/models/status_notice.py:22
 msgid "user"
 msgstr ""
 
@@ -580,7 +580,7 @@ msgid "draft"
 msgstr "Konzept"
 
 #: fixmyapp/models/project.py:47 fixmyapp/models/report.py:33
-#: reports/models/report.py:27 reports/models/report.py:90
+#: reports/models/report.py:28 reports/models/report.py:92
 msgid "planning"
 msgstr "Planung"
 
@@ -589,12 +589,12 @@ msgid "review"
 msgstr "Review"
 
 #: fixmyapp/models/project.py:49 fixmyapp/models/report.py:32
-#: reports/models/report.py:26
+#: reports/models/report.py:27
 msgid "inactive"
 msgstr "ruhend"
 
 #: fixmyapp/models/project.py:50 fixmyapp/models/report.py:36
-#: reports/models/report.py:30
+#: reports/models/report.py:31
 msgid "execution"
 msgstr "Ausführung"
 
@@ -667,7 +667,7 @@ msgid "project key"
 msgstr "Projektschlüssel"
 
 #: fixmyapp/models/project.py:98 fixmyapp/models/report.py:51
-#: reports/models/report.py:60
+#: reports/models/report.py:61
 msgid "published"
 msgstr "veröffentlicht"
 
@@ -684,7 +684,7 @@ msgid "responsible"
 msgstr "Verantwortlich"
 
 #: fixmyapp/models/project.py:102 fixmyapp/models/report.py:47
-#: reports/models/report.py:56
+#: reports/models/report.py:57
 msgid "description"
 msgstr "Beschreibung"
 
@@ -752,40 +752,40 @@ msgstr "Frage"
 msgid "questions"
 msgstr "Fragen"
 
-#: fixmyapp/models/report.py:30 reports/models/report.py:24
+#: fixmyapp/models/report.py:30 reports/models/report.py:25
 msgid "accepted"
 msgstr "Angenommen"
 
-#: fixmyapp/models/report.py:31 reports/models/report.py:25
+#: fixmyapp/models/report.py:31 reports/models/report.py:26
 msgid "rejected"
 msgstr "Abgelehnt"
 
-#: fixmyapp/models/report.py:34 reports/models/report.py:28
+#: fixmyapp/models/report.py:34 reports/models/report.py:29
 msgid "tender"
 msgstr "In Ausschreibung"
 
-#: fixmyapp/models/report.py:35 reports/models/report.py:29
+#: fixmyapp/models/report.py:35 reports/models/report.py:30
 msgid "invalid"
 msgstr "Nicht umsetzbar"
 
-#: fixmyapp/models/report.py:37 reports/models/report.py:31
+#: fixmyapp/models/report.py:37 reports/models/report.py:32
 msgid "done"
 msgstr "Abgeschlossen"
 
-#: fixmyapp/models/report.py:45 reports/models/report.py:54
+#: fixmyapp/models/report.py:45 reports/models/report.py:55
 msgid "subject"
 msgstr "Betreff"
 
-#: fixmyapp/models/report.py:60 reports/models/report.py:69
+#: fixmyapp/models/report.py:60 reports/models/report.py:70
 msgid "reason for status"
 msgstr "Begründung"
 
-#: fixmyapp/models/report.py:70 reports/models/notice_status.py:15
-#: reports/models/report.py:82 reports/models/report.py:90
+#: fixmyapp/models/report.py:70 reports/models/report.py:83
+#: reports/models/report.py:92 reports/models/status_notice.py:17
 msgid "report"
 msgstr "Meldung"
 
-#: fixmyapp/models/report.py:71 reports/models/report.py:83
+#: fixmyapp/models/report.py:71 reports/models/report.py:84
 msgid "reports"
 msgstr "Meldungen"
 
@@ -797,13 +797,25 @@ msgstr "Zusatz"
 msgid "street category"
 msgstr "Straßenkategorie"
 
-#: fixmyapp/models/section.py:15
+#: fixmyapp/models/section.py:13
+msgid "is road section"
+msgstr "ist ein Streckenabschnitt"
+
+#: fixmyapp/models/section.py:16
 msgid "section"
 msgstr "Abschnitt"
 
-#: fixmyapp/models/section.py:16
+#: fixmyapp/models/section.py:17
 msgid "sections"
 msgstr "Abschnitte"
+
+#: fixmyapp/models/section.py:36
+msgid "road section"
+msgstr "Streckenabschnitt"
+
+#: fixmyapp/models/section.py:36
+msgid "intersection"
+msgstr "Kreuzungsabschnitt"
 
 #: fixmyapp/models/section_details.py:20
 msgid "north"
@@ -861,11 +873,11 @@ msgstr "Abschnittsdetails"
 msgid "Please upload a certificate"
 msgstr "Bitte einen Nachweis hochladen"
 
-#: fixmyapp/views.py:276 fixmyapp/views.py:297 fixmyapp/views.py:301
+#: fixmyapp/views.py:274 fixmyapp/views.py:295 fixmyapp/views.py:299
 msgid "Invalid access key"
 msgstr "Ungültiger Zugangsschlüssel"
 
-#: fixmyapp/views.py:308
+#: fixmyapp/views.py:306
 msgid "Campaign has ended"
 msgstr "Kampagne ist abgelaufen"
 
@@ -873,25 +885,25 @@ msgstr "Kampagne ist abgelaufen"
 msgid "Reports App"
 msgstr "Meldedialog"
 
-#: reports/models/notice_status.py:13
+#: reports/models/report.py:77
+msgid "origin reports"
+msgstr "eingeflossene Meldungen"
+
+#: reports/models/status_notice.py:15
 msgid "date"
 msgstr "Datum"
 
-#: reports/models/notice_status.py:17
+#: reports/models/status_notice.py:19
 msgid "sent"
 msgstr "versandt"
 
-#: reports/models/notice_status.py:24
+#: reports/models/status_notice.py:26
 msgid "status notice"
 msgstr "Benachrichtigung über Status"
 
-#: reports/models/notice_status.py:25
+#: reports/models/status_notice.py:27
 msgid "status notices"
 msgstr "Benachrichtigungen über Statusse"
-
-#: reports/models/report.py:76
-msgid "origin reports"
-msgstr "eingeflossene Meldungen"
 
 #: survey/models.py:13
 msgid "cycle path"

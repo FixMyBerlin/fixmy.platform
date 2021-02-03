@@ -1,6 +1,7 @@
 import csv
 import decimal
 import json
+import re
 import tempfile
 from anymail.exceptions import AnymailInvalidAddress
 from datetime import date, datetime, timezone, timedelta
@@ -24,6 +25,24 @@ class FailingMockEmailBackend(BaseEmailBackend):
 
     def send_messages(self, email_messages):
         raise AnymailInvalidAddress(email_message=email_messages[0])
+
+
+class SectionTest(TestCase):
+    def setUp(self):
+        self.sections = [
+            Section.objects.create(street_name='Foo'),
+            Section.objects.create(street_name='Bar', is_road=False),
+        ]
+
+    def test_str(self):
+        self.assertTrue(
+            re.match('Streckenabschnitt Foo \(\d+\)', str(self.sections[0])) != None,
+            str(self.sections[0]),
+        )
+        self.assertTrue(
+            re.match('Kreuzungsabschnitt Bar \(\d+\)', str(self.sections[1])) != None,
+            str(self.sections[1]),
+        )
 
 
 class SectionDetailsTest(TestCase):
@@ -148,6 +167,15 @@ class SectionDetailsTest(TestCase):
             self.details[2].velocity_index(), decimal.Decimal('0.7'), 1
         )
 
+        # access through section instance
+        self.assertAlmostEqual(
+            self.details[0].section.velocity_index(), decimal.Decimal('1.0'), 1
+        )
+
+        self.assertAlmostEqual(
+            self.details[2].section.velocity_index(), decimal.Decimal('0.7'), 1
+        )
+
     def test_safety_index(self):
         self.assertAlmostEqual(
             self.details[0].safety_index(), decimal.Decimal('5.3'), 1
@@ -157,6 +185,14 @@ class SectionDetailsTest(TestCase):
         )
         self.assertAlmostEqual(
             self.details[2].safety_index(), decimal.Decimal('7.7'), 1
+        )
+
+        # access through section instance
+        self.assertAlmostEqual(
+            self.details[0].section.safety_index(), decimal.Decimal('5.3'), 1
+        )
+        self.assertAlmostEqual(
+            self.details[2].section.safety_index(), decimal.Decimal('7.7'), 1
         )
 
     def test_velocity_index_average(self):

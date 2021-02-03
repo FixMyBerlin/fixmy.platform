@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE_VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-03 13:46+0000\n"
-"PO-Revision-Date: 2021-02-03 14:49+0100\n"
+"POT-Creation-Date: 2021-02-03 15:07+0000\n"
+"PO-Revision-Date: 2021-02-03 16:10+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -149,7 +149,7 @@ msgstr "Adresse"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:15
 #: fixmyapp/models/project.py:106 fixmyapp/models/report.py:44
-#: fixmyapp/models/section.py:12 fixmyapp/tests.py:481
+#: fixmyapp/models/section.py:12 fixmyapp/tests.py:517
 #: reports/models/report.py:54
 msgid "geometry"
 msgstr "Geometrie"
@@ -165,7 +165,7 @@ msgid "first name"
 msgstr "Vorname"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:18
-#: fixmyapp/models/gastro_signup.py:128 fixmyapp/tests.py:482
+#: fixmyapp/models/gastro_signup.py:128 fixmyapp/tests.py:518
 msgid "last name"
 msgstr "Nachname"
 
@@ -816,6 +816,46 @@ msgstr "Streckenabschnitt"
 #: fixmyapp/models/section.py:36
 msgid "intersection"
 msgstr "Kreuzungsabschnitt"
+
+#: fixmyapp/models/section_accidents.py:15
+msgid "killed"
+msgstr "Getötete"
+
+#: fixmyapp/models/section_accidents.py:16
+msgid "severely injured"
+msgstr "Schwerverletzte"
+
+#: fixmyapp/models/section_accidents.py:17
+msgid "slightly injured"
+msgstr "Leichtverletzte"
+
+#: fixmyapp/models/section_accidents.py:18
+msgid "source"
+msgstr "Quelle"
+
+#: fixmyapp/models/section_accidents.py:21
+msgid "accident blackspot"
+msgstr "Unfallhäufungsstelle"
+
+#: fixmyapp/models/section_accidents.py:22
+msgid "some accidents"
+msgstr "Es gibt Unfälle"
+
+#: fixmyapp/models/section_accidents.py:23
+msgid "no accidents"
+msgstr "Keine Unfälle"
+
+#: fixmyapp/models/section_accidents.py:26
+msgid "risk level"
+msgstr "Gefahrenstufe"
+
+#: fixmyapp/models/section_accidents.py:30
+msgid "Section accident data"
+msgstr "Unfall-Datensatz"
+
+#: fixmyapp/models/section_accidents.py:31
+msgid "Section accident datasets"
+msgstr "Unfall-Datensätze"
 
 #: fixmyapp/models/section_details.py:20
 msgid "north"

@@ -12,6 +12,12 @@ class SectionAccidents(BaseModel):
         Section, related_name='accidents', on_delete=models.CASCADE
     )
 
+    RIGHT = 0
+    LEFT = 1
+    BOTH = 2
+    SIDE_CHOICES = ((RIGHT, _('right')), (LEFT, _('left')), (BOTH, _('both sides')))
+    side = models.PositiveSmallIntegerField(_('side'), choices=SIDE_CHOICES)
+
     killed = models.IntegerField(_('killed'))
     severely_injured = models.IntegerField(_('severely injured'))
     slightly_injured = models.IntegerField(_('slightly injured'))

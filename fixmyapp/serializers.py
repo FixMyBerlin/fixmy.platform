@@ -110,6 +110,7 @@ class SectionAccidentsSerializer(serializers.ModelSerializer):
             'killed',
             'severely_injured',
             'slightly_injured',
+            'side',
             'source',
             'risk_level',
         ]

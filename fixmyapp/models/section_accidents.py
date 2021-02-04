@@ -18,8 +18,9 @@ class SectionAccidents(BaseModel):
     source = models.TextField(_('source'), blank=True, null=True)
 
     RISK_LEVEL_CHOICES = (
-        (2, _('accident blackspot')),
-        (1, _('some accidents')),
+        (3, _('accident blackspot')),
+        (2, _('some accidents')),
+        (1, _('one accident')),
         (0, _('no accidents')),
     )
     risk_level = models.PositiveSmallIntegerField(

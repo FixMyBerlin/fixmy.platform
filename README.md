@@ -81,17 +81,23 @@ In order to export the requested usage areas in GeoJSON format into a file `gast
 
     $ python manage.py exportgastrosignups --format geojson --area gastrosignup_area.geojson
 
+### importsections
+
+Imports sections from shape file. The file is usually downloaded from S3 with `downloadfiles`.
+
+    $ python manage.py importsections /tmp/sections.shp
+
 ### importsectiondetails
 
 Imports section details including pictures and traffic information from CSV file. The file is usually downloaded from S3 with `downloadfiles`.
 
     $ python manage.py importsectiondetails /tmp/section_details.csv
 
-### importsections
+### importsectionaccidents
 
-Imports sections from shape file. The file is usually downloaded from S3 with `downloadfiles`.
+Import section accident data set, which references previously imported sections.
 
-    $ python manage.py importsections /tmp/sections.shp
+    $ python manage.py importsectionaccidents /tmp/section_accidents.csv
 
 ### updateprojectgeometries
 

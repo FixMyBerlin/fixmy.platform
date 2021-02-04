@@ -42,12 +42,12 @@ class Command(BaseCommand):
         data = list(csv.DictReader(options['file']))
 
         prompt = f'Delete all accident data sets and import {len(data)} new data sets?'
-        if options['skip_confirmation'] is False:            
+        if options['skip_confirmation'] is False:
             if input(prompt) != '':
                 self.stdout.write('Import cancelled')
                 return
         else:
-            self.stdout.write(f"Importing {len(data)} accident datasets" )
+            self.stdout.write(f"Importing {len(data)} accident datasets")
 
         SectionAccidents.objects.all().delete()
         for row in data:

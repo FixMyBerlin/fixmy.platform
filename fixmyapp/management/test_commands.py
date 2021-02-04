@@ -5,6 +5,7 @@ from unittest.mock import patch
 
 from fixmyapp.models import Section, SectionAccidents
 
+
 class ImportSectionAccidents(TestCase):
     fixtures = ['sections']
 

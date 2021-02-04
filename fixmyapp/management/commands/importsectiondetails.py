@@ -7,7 +7,7 @@ import sys
 
 # Mapping CSV col name -> model field name
 # the `exist` column is handled separately below
-mapping = { 
+mapping = {
     'section_id': 'section_id',
     'side': 'side',
     'tempolimit': 'speed_limit',

@@ -227,6 +227,7 @@ class SectionAccidentsTest(TestCase):
         self.section_accidents = [
             SectionAccidents.objects.create(
                 section=self.sections[0],
+                side=0,
                 killed=0,
                 severely_injured=5,
                 slightly_injured=10,
@@ -234,6 +235,7 @@ class SectionAccidentsTest(TestCase):
             ),
             SectionAccidents.objects.create(
                 section=self.sections[1],
+                side=2,
                 killed=0,
                 severely_injured=0,
                 slightly_injured=5,

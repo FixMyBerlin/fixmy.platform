@@ -268,6 +268,7 @@ class SectionAccidentsTest(TestCase):
             {
                 'killed': 0,
                 'risk_level': 1,
+                'side': 0,
                 'severely_injured': 5,
                 'slightly_injured': 10,
                 'source': None,

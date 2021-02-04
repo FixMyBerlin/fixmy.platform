@@ -87,7 +87,14 @@ class ProjectAdmin(FMBGeoAdmin, VersionAdmin):
 
 
 class SectionAccidentsAdmin(admin.ModelAdmin):
-    list_display = ('section', 'side', 'killed', 'severely_injured', 'slightly_injured', 'risk_level')
+    list_display = (
+        'section',
+        'side',
+        'killed',
+        'severely_injured',
+        'slightly_injured',
+        'risk_level',
+    )
     ordering = ('section',)
     search_fields = ('section__name', 'section__id')
 

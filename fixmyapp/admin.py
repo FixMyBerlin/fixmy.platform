@@ -22,6 +22,7 @@ from .models import (
     Project,
     Question,
     Section,
+    SectionAccidents,
     SectionDetails,
 )
 
@@ -83,6 +84,15 @@ class ProjectAdmin(FMBGeoAdmin, VersionAdmin):
     )
     list_filter = (AlertDateFilter, 'category', 'phase', 'responsible')
     search_fields = ('project_key', 'street_name')
+
+
+class SectionAccidentsAdmin(admin.ModelAdmin):
+    list_display = ('section', 'side', 'killed', 'severely_injured', 'slightly_injured', 'risk_level')
+    ordering = ('section',)
+    search_fields = ('section__name', 'section__id')
+
+    def has_add_permission(self, request):
+        return False
 
 
 class SectionDetailsAdmin(admin.ModelAdmin):
@@ -537,4 +547,5 @@ admin.site.register(Project, ProjectAdmin)
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Section, SectionAdmin)
+admin.site.register(SectionAccidents, SectionAccidentsAdmin)
 admin.site.register(SectionDetails, SectionDetailsAdmin)

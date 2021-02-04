@@ -61,48 +61,6 @@ class PhotoSerializer(serializers.ModelSerializer):
         list_serializer_class = ListWithDefaultSerializer
 
 
-class NestedSectionDetailsSerializer(serializers.ModelSerializer):
-    advisory_bike_lane_ratio = serializers.DecimalField(None, 3)
-    bike_lane_ratio = serializers.DecimalField(None, 3)
-    bike_path_ratio = serializers.DecimalField(None, 3)
-    cycling_infrastructure_ratio = serializers.DecimalField(None, 3)
-    cycling_infrastructure_safety = serializers.DecimalField(None, 1)
-    happy_bike_index = serializers.DecimalField(None, 1)
-    length = serializers.DecimalField(None, 2)
-    protected_bike_lane_ratio = serializers.DecimalField(None, 3)
-    road_type = serializers.DecimalField(None, 1)
-    safety_index = serializers.DecimalField(None, 1)
-    shared_use_path_ratio = serializers.DecimalField(None, 3)
-    velocity_index = serializers.DecimalField(None, 1)
-
-    class Meta:
-        model = SectionDetails
-        fields = (
-            'advisory_bike_lane_ratio',
-            'bike_lane_ratio',
-            'bike_path_ratio',
-            'cycling_infrastructure_ratio',
-            'cycling_infrastructure_safety',
-            'happy_bike_index',
-            'length',
-            'orientation',
-            'protected_bike_lane_ratio',
-            'road_type',
-            'safety_index',
-            'shared_use_path_ratio',
-            'side',
-            'velocity_index',
-        )
-
-
-class NestedSectionSerializer(serializers.ModelSerializer):
-    details = NestedSectionDetailsSerializer(many=True)
-
-    class Meta:
-        model = Section
-        fields = ('url', 'street_name', 'suffix', 'borough', 'details')
-
-
 class ProjectSerializer(serializers.HyperlinkedModelSerializer):
     faq = QuestionSerializer(many=True)
     photos = PhotoSerializer(many=True, default=[Photo(**PLACEHOLDER_PHOTO)])

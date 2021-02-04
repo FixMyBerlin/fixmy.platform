@@ -1,22 +1,23 @@
-import botocore
 import boto3
+import botocore
 from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from drf_extra_fields.fields import HybridImageField
 from rest_framework import serializers
 from rest_framework_gis.fields import GeometryField
+
 from .models import (
     GastroSignup,
-    PlaystreetSignup,
     Photo,
+    PlaystreetSignup,
     Profile,
     Project,
     Question,
     Section,
+    SectionAccidents,
     SectionDetails,
 )
-
 
 PLACEHOLDER_PHOTO = {
     'copyright': 'Photo by Anthony Ginsbrook',
@@ -144,6 +145,18 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
         )
 
 
+class SectionAccidentsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SectionAccidents
+        fields = [
+            'killed',
+            'severely_injured',
+            'slightly_injured',
+            'source',
+            'risk_level',
+        ]
+
+
 class SectionDetailsSerializer(serializers.ModelSerializer):
     advisory_bike_lane_ratio = serializers.DecimalField(None, 3)
     bike_lane_ratio = serializers.DecimalField(None, 3)
@@ -202,17 +215,20 @@ class SectionDetailsSerializer(serializers.ModelSerializer):
 class SectionSerializer(serializers.HyperlinkedModelSerializer):
     geometry = GeometryField(precision=14)
     details = SectionDetailsSerializer(many=True)
+    accidents = SectionAccidentsSerializer(many=True)
 
     class Meta:
         model = Section
         fields = (
-            'url',
+            'accidents',
+            'borough',
+            'details',
+            'geometry',
+            'is_road',
+            'street_category',
             'street_name',
             'suffix',
-            'borough',
-            'street_category',
-            'geometry',
-            'details',
+            'url',
         )
 
 

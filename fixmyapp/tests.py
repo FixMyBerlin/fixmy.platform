@@ -17,6 +17,7 @@ from django.utils.translation import gettext_lazy as _
 from mailjet_rest.client import Endpoint
 from unittest.mock import patch
 from .models import Project, Section, SectionAccidents, SectionDetails, GastroSignup
+from .serializers import SectionAccidentsSerializer
 
 
 class FailingMockEmailBackend(BaseEmailBackend):
@@ -256,6 +257,19 @@ class SectionAccidentsTest(TestCase):
             )
             != None,
             str(self.section_accidents[1]),
+        )
+
+    def test_serializer(self):
+        serializer = SectionAccidentsSerializer(self.section_accidents[0])
+        self.assertDictEqual(
+            serializer.data,
+            {
+                'killed': 0,
+                'risk_level': 1,
+                'severely_injured': 5,
+                'slightly_injured': 10,
+                'source': None,
+            },
         )
 
 

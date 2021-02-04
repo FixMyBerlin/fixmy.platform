@@ -7,6 +7,7 @@ from django.core.management.base import BaseCommand
 BUCKET_NAME = 'Data/'
 FPATH_SECTIONS = '/tmp/planning_sections.shp'
 FPATH_SECTION_DETAILS = '/tmp/planning_section_details.csv'
+FPATH_SECTION_ACCIDENTS = '/tmp/planning_section_accidents.csv'
 
 logging.basicConfig(level=logging.INFO)
 
@@ -21,6 +22,7 @@ class Command(BaseCommand):
     - downloadfiles
     - importsections
     - importsectiondetails
+    - importsectionaccidents
 
     in this order. Command parameters are specified using the constants
     defined at the top of this file. If one of the files does not exist in S3, an
@@ -67,6 +69,9 @@ class Command(BaseCommand):
 
             logging.info('Importing section details...')
             management.call_command('importsectiondetails', FPATH_SECTION_DETAILS)
+
+            logging.info('Importing section accident dataset...')
+            management.call_command('importsectionaccidents', FPATH_SECTION_ACCIDENTS)
 
         except Exception as e:
             logging.error('Failed importing updated dataset')

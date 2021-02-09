@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE_VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-02-04 13:24+0000\n"
-"PO-Revision-Date: 2021-02-04 14:26+0100\n"
+"PO-Revision-Date: 2021-02-09 13:19+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -862,11 +862,11 @@ msgstr "Gefahrenstufe"
 
 #: fixmyapp/models/section_accidents.py:37
 msgid "Section accident data"
-msgstr "Unfall-Datensatz"
+msgstr "Unfalldaten-Eintrag"
 
 #: fixmyapp/models/section_accidents.py:38
 msgid "Section accident datasets"
-msgstr "Unfall-Datensätze"
+msgstr "Unfalldaten"
 
 #: fixmyapp/models/section_details.py:20
 msgid "north"

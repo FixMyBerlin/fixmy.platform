@@ -275,6 +275,25 @@ class SectionAccidentsTest(TestCase):
             },
         )
 
+    def test_views(self):
+        client = Client()
+
+        # Test response when section accidents exist
+        response = client.get(f'/api/sections/{self.sections[0].id}')
+        self.assertEqual(response.status_code, 200)
+        rv = response.json()
+        accidents_serialized = SectionAccidentsSerializer(
+            self.section_accidents[0]
+        ).data
+        self.assertEqual([accidents_serialized], rv['accidents'])
+
+        # Test response when no section accidents exist
+        section = Section.objects.create(street_name='Baz')
+        response = client.get(f'/api/sections/{section.id}')
+        self.assertEqual(response.status_code, 200)
+        rv = response.json()
+        self.assertEqual([], rv['accidents'])
+
 
 class FeedbackTest(TestCase):
     def setUp(self):

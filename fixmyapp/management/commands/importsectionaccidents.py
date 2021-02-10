@@ -2,6 +2,7 @@ import json
 import logging
 from django.core.management.base import BaseCommand
 from django.db.utils import IntegrityError
+from fixmyapp.manangement.csv_tools import MissingFieldError, validate_reader
 from fixmyapp.models import SectionAccidents
 import argparse
 import csv
@@ -19,10 +20,6 @@ MAPPING = {
     'source': 'source',
     'risk_level': 'risk_level',
 }
-
-
-class MissingFieldError(Exception):
-    pass
 
 
 class Command(BaseCommand):
@@ -43,17 +40,6 @@ class Command(BaseCommand):
             dest='skip_confirmation',
             help='skip confirmation before overwriting data',
         )
-
-    def validate_reader(self, csv_reader):
-        """Check that all required fields are contained in the csv file."""
-        missing_fields = [
-            field for field in MAPPING.keys() if field not in csv_reader.fieldnames
-        ]
-        if len(missing_fields) > 0:
-            raise MissingFieldError(
-                f"Input file is missing column: {', '.join(missing_fields)}"
-            )
-        return True
 
     def user_confirm_import(self, data, skip_confirmation=False):
         """Ask user to confirm potentially destructive action."""
@@ -76,7 +62,7 @@ class Command(BaseCommand):
             sys.exit(1)
 
         try:
-            self.validate_reader(reader)
+            validate_reader(reader)
         except MissingFieldError as err:
             logger.error(err)
             sys.exit(1)

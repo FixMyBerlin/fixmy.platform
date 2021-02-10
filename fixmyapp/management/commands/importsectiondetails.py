@@ -6,6 +6,7 @@ import sys
 from django.core.management.base import BaseCommand
 from django.db.utils import IntegrityError
 from fixmyapp.models import Photo, SectionDetails
+from fixmyapp.manangement.csv_tools import MissingFieldError, validate_reader
 from psycopg2.errors import ForeignKeyViolation
 
 logger = logging.getLogger(__name__)
@@ -39,10 +40,6 @@ mapping = {
 }
 
 
-class MissingFieldError(Exception):
-    pass
-
-
 class Command(BaseCommand):
     help = 'Imports section details'
 
@@ -50,17 +47,6 @@ class Command(BaseCommand):
         parser.add_argument(
             'file', type=argparse.FileType('r'), default=sys.stdin, help='A CSV file'
         )
-
-    def validate_reader(self, csv_reader):
-        """Check that all required fields are contained in the csv file."""
-        missing_fields = [
-            field for field in mapping.keys() if field not in csv_reader.fieldnames
-        ]
-        if len(missing_fields) > 0:
-            raise MissingFieldError(
-                f"Input file is missing column: {', '.join(missing_fields)}"
-            )
-        return True
 
     def import_from_reader(self, reader):
         """Import data."""
@@ -93,7 +79,7 @@ class Command(BaseCommand):
         reader = csv.DictReader(options['file'])
 
         try:
-            self.validate_reader(reader)
+            validate_reader(reader)
         except MissingFieldError as err:
             logger.error(err)
             sys.exit(1)

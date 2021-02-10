@@ -34,6 +34,11 @@ class SectionAccidents(BaseModel):
     )
 
     class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['section', 'side'], name='unique_accident_dataset'
+            )
+        ]
         verbose_name = _('Section accident data')
         verbose_name_plural = _('Section accident datasets')
 

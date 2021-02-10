@@ -8,7 +8,7 @@ from django.core.management.base import BaseCommand
 from django.db.utils import IntegrityError
 from fixmyapp.management.csv_tools import MissingFieldError, validate_reader
 from fixmyapp.models import SectionAccidents
-from psycopg2.errors import ForeignKeyViolation
+from psycopg2.errors import ForeignKeyViolation, UniqueViolation
 
 logger = logging.getLogger(__name__)
 
@@ -83,6 +83,11 @@ class Command(BaseCommand):
                 if type(e.__cause__) == ForeignKeyViolation:
                     logger.warning(
                         f"Skipped importing section accidents for missing section {row['section_id']}"
+                    )
+                elif type(e.__cause__) == UniqueViolation:
+                    logger.warning(
+                        "Skipped importing duplicate section accidents for side "
+                        f"{row['side']} of section {row['section_id']}"
                     )
                 else:
                     raise

@@ -38,7 +38,8 @@ class Command(BaseCommand):
                 unique=('id',),
             )
         except LayerMapError as e:
-            self.stderr.write(f"Error importing sections: {e}")
+            self.stderr.write(f"Error importing sections from {options['file']}: {e}")
+            sys.exit(1)
         else:
             lm.save(
                 verbose=True if options['verbosity'] > 2 else False,

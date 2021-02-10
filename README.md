@@ -81,6 +81,13 @@ In order to export the requested usage areas in GeoJSON format into a file `gast
 
     $ python manage.py exportgastrosignups --format geojson --area gastrosignup_area.geojson
 
+
+### updatehbi
+
+Bootstrap the database for HBI. Downloads and imports road and intersection data, section details and section accidents, also applying migrations.
+
+    $ python manage.py updatehbi
+
 ### importsections
 
 Imports sections from shape file. The file is usually downloaded from S3 with `downloadfiles`.

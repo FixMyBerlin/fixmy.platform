@@ -246,7 +246,7 @@ class SectionAccidentsTest(TestCase):
     def test_str(self):
         self.assertTrue(
             re.match(
-                'Unfall-Datensatz Streckenabschnitt Foo \(\d+\)',
+                'Unfalldaten-Eintrag Streckenabschnitt Foo \(\d+\)',
                 str(self.section_accidents[0]),
             )
             != None,
@@ -254,7 +254,7 @@ class SectionAccidentsTest(TestCase):
         )
         self.assertTrue(
             re.match(
-                'Unfall-Datensatz Kreuzungsabschnitt Bar \(\d+\)',
+                'Unfalldaten-Eintrag Kreuzungsabschnitt Bar \(\d+\)',
                 str(self.section_accidents[1]),
             )
             != None,

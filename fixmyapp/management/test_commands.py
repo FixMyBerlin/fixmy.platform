@@ -51,7 +51,7 @@ class ImportSectionDetails(TestCase):
         """Test importing a valid section details dataset."""
 
         section = Section.objects.all().first()
-        raw_section_details = f"""section_id,side,exist,tempolimit,dailytraffic,dailytraffic_heavy,daily_traffic_transporter,dailiy_traffic_bus,length,no_crossing,card_pt,RVA1,RVA2,RVA3,RVA4,RVA5,RVA6,RVA7,RVA8,RVA9,RVA10,RVA11,RVA12,RVA13,hilfs,rva_pics
+        raw_section_details = f"""section_id,side,exist,tempolimit,dailytraffic,dailytraffic_heavy,daily_traffic_transporter,dailiy_traffic_bus,length,crossings,orientation,RVA1,RVA2,RVA3,RVA4,RVA5,RVA6,RVA7,RVA8,RVA9,RVA10,RVA11,RVA12,RVA13,hilfs,rva_pics
 {section.id},0,1,30,5110.15,40.98,521.55,4.85,874.77,1,S,0,0.00,0,0,0,0,0,0,0,0,21.94964056,0,0,1_0,/fb_daten/fotos/radverkehrsanlagen/Dokumente/00000C00/0x000E2C/doci75639A09.jpg /fb_daten/fotos/radverkehrsanlagen/Dokumente/00000C00/0x000E2C/doci4AB36C34.jpg
 """
 

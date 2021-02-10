@@ -11,8 +11,10 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import datetime
-import django_heroku
+import logging
 import os
+
+import django_heroku
 from corsheaders.defaults import default_headers
 
 from .utils import get_templates_config
@@ -26,8 +28,12 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['console'],
-            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
-        }
+            'level': os.getenv('DJANGO_LOG_LEVEL', logging.INFO),
+        },
+        '': {
+            'handlers': ['console'],
+            'level': os.getenv('LOG_LEVEL', logging.WARNING),
+        },
     },
 }
 

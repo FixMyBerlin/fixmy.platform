@@ -35,8 +35,11 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         try:
-            logger.info('Creating initial revisions...')
-            management.call_command('createinitialrevisions')
+            # The creation of initial revisions has been disabled because they
+            # don't seem to complete and are not actively used in our projects.
+
+            # logger.info('Creating initial revisions...')
+            # management.call_command('createinitialrevisions')
 
             logger.info('Migrating database...')
             management.call_command('migrate')

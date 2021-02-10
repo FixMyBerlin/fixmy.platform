@@ -15,7 +15,7 @@ class MissingFieldError(Exception):
     pass
 
 
-def validate_reader(self, csv_reader, mapping):
+def validate_reader(csv_reader, mapping):
     """Check that all required fields are contained in the csv file.
 
     Parameters:

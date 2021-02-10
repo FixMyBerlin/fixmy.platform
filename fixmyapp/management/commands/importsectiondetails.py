@@ -6,14 +6,14 @@ import sys
 from django.core.management.base import BaseCommand
 from django.db.utils import IntegrityError
 from fixmyapp.models import Photo, SectionDetails
-from fixmyapp.manangement.csv_tools import MissingFieldError, validate_reader
+from fixmyapp.management.csv_tools import MissingFieldError, validate_reader
 from psycopg2.errors import ForeignKeyViolation
 
 logger = logging.getLogger(__name__)
 
 # Mapping CSV col name -> model field name
 # the `exist` column is handled separately below
-mapping = {
+MAPPING = {
     'section_id': 'section_id',
     'side': 'side',
     'tempolimit': 'speed_limit',
@@ -53,7 +53,7 @@ class Command(BaseCommand):
 
         for row in (row for row in reader if row['exist'] == '1'):
             # Marshall CSV key names and formatting to Model format
-            kwargs = {mapping[key]: row[key].replace(',', '.') for key in mapping}
+            kwargs = {MAPPING[key]: row[key].replace(',', '.') for key in MAPPING}
 
             try:
                 obj, created = SectionDetails.objects.update_or_create(**kwargs)
@@ -79,7 +79,7 @@ class Command(BaseCommand):
         reader = csv.DictReader(options['file'])
 
         try:
-            validate_reader(reader)
+            validate_reader(reader, MAPPING)
         except MissingFieldError as err:
             logger.error(err)
             sys.exit(1)

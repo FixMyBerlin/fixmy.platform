@@ -97,7 +97,9 @@ class Command(BaseCommand):
             management.call_command('importsectiondetails', FPATH_SECTION_DETAILS)
 
             logger.info('Importing section accident dataset...')
-            management.call_command('importsectionaccidents', FPATH_SECTION_ACCIDENTS)
+            management.call_command(
+                'importsectionaccidents', FPATH_SECTION_ACCIDENTS, '--confirm'
+            )
 
         except Exception as e:
             logger.error('Failed importing updated dataset')

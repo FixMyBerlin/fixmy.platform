@@ -1,12 +1,14 @@
-import json
-import logging
-from django.core.management.base import BaseCommand
-from django.db.utils import IntegrityError
-from fixmyapp.manangement.csv_tools import MissingFieldError, validate_reader
-from fixmyapp.models import SectionAccidents
 import argparse
 import csv
+import json
+import logging
 import sys
+
+from django.core.management.base import BaseCommand
+from django.db.utils import IntegrityError
+from fixmyapp.management.csv_tools import MissingFieldError, validate_reader
+from fixmyapp.models import SectionAccidents
+from psycopg2.errors import ForeignKeyViolation
 
 logger = logging.getLogger(__name__)
 
@@ -62,7 +64,7 @@ class Command(BaseCommand):
             sys.exit(1)
 
         try:
-            validate_reader(reader)
+            validate_reader(reader, MAPPING)
         except MissingFieldError as err:
             logger.error(err)
             sys.exit(1)
@@ -76,6 +78,11 @@ class Command(BaseCommand):
             try:
                 SectionAccidents.objects.create(**data)
             except IntegrityError as e:
-                logger.warning("Error during import:")
-                logger.warning(str(e))
-                logger.warning(f"CSV: {json.dumps(row).trim()}")
+                # Django stores the original db-level exception on `__cause__`
+                # when wrapping it in a Django error type
+                if type(e.__cause__) == ForeignKeyViolation:
+                    logger.warning(
+                        f"Skipped importing section accidents for missing section {row['section_id']}"
+                    )
+                else:
+                    raise

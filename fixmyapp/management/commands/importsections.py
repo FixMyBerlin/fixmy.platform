@@ -4,10 +4,13 @@ from django.contrib.gis.utils import LayerMapping
 from fixmyapp.models import Section
 import os
 
+# The `category` field is not read beacuse it's formatted as a roman numeral,
+# which LayerMapping can not read. If we want to use a street's actual category
+# we need to work around that.
+
 mapping = {
     'id': 'id',
     'street_name': 'name',
-    'street_category': 'category',
     'suffix': 'suffix',
     'borough': 'borough',
     'geometry': 'MULTILINESTRING',

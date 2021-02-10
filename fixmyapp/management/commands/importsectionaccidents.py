@@ -1,4 +1,5 @@
 import json
+import logging
 from django.core.management.base import BaseCommand
 from django.db.utils import IntegrityError
 from fixmyapp.models import SectionAccidents
@@ -6,6 +7,7 @@ import argparse
 import csv
 import sys
 
+logger = logging.getLogger(__name__)
 
 # CSV col name -> model field name
 MAPPING = {
@@ -17,6 +19,10 @@ MAPPING = {
     'source': 'source',
     'risk_level': 'risk_level',
 }
+
+
+class MissingFieldError(Exception):
+    pass
 
 
 class Command(BaseCommand):
@@ -38,16 +44,44 @@ class Command(BaseCommand):
             help='skip confirmation before overwriting data',
         )
 
-    def handle(self, *args, **options):
-        data = list(csv.DictReader(options['file']))
+    def validate_reader(self, csv_reader):
+        """Check that all required fields are contained in the csv file."""
+        missing_fields = [
+            field for field in MAPPING.keys() if field not in csv_reader.fieldnames
+        ]
+        if len(missing_fields) > 0:
+            raise MissingFieldError(
+                f"Input file is missing column: {', '.join(missing_fields)}"
+            )
+        return True
 
-        prompt = f'Delete all accident data sets and import {len(data)} new data sets?'
-        if options['skip_confirmation'] is False:
+    def user_confirm_import(self, data, skip_confirmation=False):
+        """Ask user to confirm potentially destructive action."""
+        prompt = f'Delete existing data and import {len(data)} new data sets?'
+        if skip_confirmation is False:
             if input(prompt) != '':
-                self.stdout.write('Import cancelled')
-                return
+                logger.info('Import cancelled')
+                sys.exit(0)
         else:
-            self.stdout.write(f"Importing {len(data)} accident datasets")
+            logger.info(f"Importing {len(data)} datasets")
+
+    def handle(self, *args, **options):
+        reader = csv.DictReader(options['file'])
+
+        try:
+            data = list(reader)
+        except UnicodeDecodeError:
+            logger.exception('')
+            self.stderr.write(f"Error reading {options['file']} using UTF-8 codec.")
+            sys.exit(1)
+
+        try:
+            self.validate_reader(reader)
+        except MissingFieldError as err:
+            logger.error(err)
+            sys.exit(1)
+
+        self.user_confirm_import(data, skip_confirmation=options['skip_confirmation'])
 
         SectionAccidents.objects.all().delete()
         for row in data:
@@ -56,6 +90,6 @@ class Command(BaseCommand):
             try:
                 SectionAccidents.objects.create(**data)
             except IntegrityError as e:
-                self.stderr.write("Error during import:")
-                self.stderr.write(str(e))
-                self.stderr.write(f"CSV: {json.dumps(row)}")
+                logger.warning("Error during import:")
+                logger.warning(str(e))
+                logger.warning(f"CSV: {json.dumps(row).trim()}")

@@ -7,11 +7,11 @@ from django.core.management.base import BaseCommand
 BUCKET_NAME = 'Data/'
 FPATH_ROAD_SECTIONS = '/tmp/road_sections_v11.shp'
 FPATH_INTERSECTIONS = '/tmp/intersections_v11.shp'
-FPATH_SECTION_DETAILS = '/tmp/planning_section_details.csv'
-FPATH_SECTION_ACCIDENTS = '/tmp/planning_section_accidents.csv'
+FPATH_SECTION_DETAILS = '/tmp/section_details_v11.csv'
+FPATH_SECTION_ACCIDENTS = '/tmp/section_accidents_v11.csv'
 
-logger = logging.getLogger('updatehbi')
-logger.setLevel(logging.INFO)
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
 
 
 class Command(BaseCommand):
@@ -83,7 +83,8 @@ class Command(BaseCommand):
 
                 logger.info('Importing intersections...')
                 management.call_command('importsections', FPATH_INTERSECTIONS)
-            except Exception:
+            except Exception as e:
+                logger.exception('')
                 self.stderr.write(
                     "Error importing sections, cannot proceed with update."
                 )

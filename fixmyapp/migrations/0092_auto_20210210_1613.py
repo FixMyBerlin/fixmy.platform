@@ -12,10 +12,14 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AddConstraint(
             model_name='sectionaccidents',
-            constraint=models.UniqueConstraint(fields=('section', 'side'), name='unique_accident_dataset'),
+            constraint=models.UniqueConstraint(
+                fields=('section', 'side'), name='unique_accident_dataset'
+            ),
         ),
         migrations.AddConstraint(
             model_name='sectiondetails',
-            constraint=models.UniqueConstraint(fields=('section', 'side'), name='unique_section_details_dataset'),
+            constraint=models.UniqueConstraint(
+                fields=('section', 'side'), name='unique_section_details_dataset'
+            ),
         ),
     ]

@@ -10,6 +10,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.translation import ngettext, gettext_lazy as _
+from django.utils.safestring import mark_safe
 from reversion.admin import VersionAdmin
 from smtplib import SMTPException
 
@@ -22,6 +23,7 @@ from .models import (
     Project,
     Question,
     Section,
+    SectionAccidents,
     SectionDetails,
 )
 
@@ -85,20 +87,66 @@ class ProjectAdmin(FMBGeoAdmin, VersionAdmin):
     search_fields = ('project_key', 'street_name')
 
 
+class SectionAccidentsAdmin(admin.ModelAdmin):
+    list_display = (
+        'short_section',
+        'side',
+        'killed',
+        'severely_injured',
+        'slightly_injured',
+        'risk_level',
+    )
+    ordering = ('section',)
+    search_fields = ('section__street_name', 'section__id')
+    readonly_fields = ('section_link',)
+
+    def has_add_permission(self, request):
+        return False
+
+    def section_link(self, obj):
+        return format_html(
+            f"<a href='{reverse('admin:fixmyapp_section_change', args=(obj.section_id, ))}'>{obj.section}</a>"
+        )
+
+    section_link.short_description = _('section')
+
+
 class SectionDetailsAdmin(admin.ModelAdmin):
     inlines = (PhotoInline,)
     list_display = ('section', 'side', 'orientation', 'length')
     ordering = ('section',)
-    search_fields = ('section__name', 'section__id')
+    search_fields = ('section__street_name', 'section__id')
+    readonly_fields = ('section_link',)
 
     def has_add_permission(self, request):
         return False
+
+    def section_link(self, obj):
+        return format_html(
+            f"<a href='{reverse('admin:fixmyapp_section_change', args=(obj.section_id, ))}'>{obj.section}</a>"
+        )
+
+    section_link.short_description = _('section')
+
+
+class SectionDetailsInline(admin.TabularInline):
+    model = SectionDetails
+    max_num = 2
+    show_change_link = True
+    fields = ['side', 'orientation', 'length', 'speed_limit', 'crossings']
+
+
+class SectionAccidentsInline(admin.TabularInline):
+    model = SectionAccidents
+    max_num = 2
+    show_change_link = True
 
 
 class SectionAdmin(FMBGeoAdmin):
     list_display = ('street_name', 'suffix', 'borough')
     ordering = ('id',)
     search_fields = ('street_name', 'id')
+    inlines = [SectionDetailsInline, SectionAccidentsInline]
 
     def has_add_permission(self, request):
         return False
@@ -537,4 +585,5 @@ admin.site.register(Project, ProjectAdmin)
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Section, SectionAdmin)
+admin.site.register(SectionAccidents, SectionAccidentsAdmin)
 admin.site.register(SectionDetails, SectionDetailsAdmin)

@@ -1,22 +1,23 @@
-import botocore
 import boto3
+import botocore
 from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from drf_extra_fields.fields import HybridImageField
 from rest_framework import serializers
 from rest_framework_gis.fields import GeometryField
+
 from .models import (
     GastroSignup,
-    PlaystreetSignup,
     Photo,
+    PlaystreetSignup,
     Profile,
     Project,
     Question,
     Section,
+    SectionAccidents,
     SectionDetails,
 )
-
 
 PLACEHOLDER_PHOTO = {
     'copyright': 'Photo by Anthony Ginsbrook',
@@ -60,48 +61,6 @@ class PhotoSerializer(serializers.ModelSerializer):
         list_serializer_class = ListWithDefaultSerializer
 
 
-class NestedSectionDetailsSerializer(serializers.ModelSerializer):
-    advisory_bike_lane_ratio = serializers.DecimalField(None, 3)
-    bike_lane_ratio = serializers.DecimalField(None, 3)
-    bike_path_ratio = serializers.DecimalField(None, 3)
-    cycling_infrastructure_ratio = serializers.DecimalField(None, 3)
-    cycling_infrastructure_safety = serializers.DecimalField(None, 1)
-    happy_bike_index = serializers.DecimalField(None, 1)
-    length = serializers.DecimalField(None, 2)
-    protected_bike_lane_ratio = serializers.DecimalField(None, 3)
-    road_type = serializers.DecimalField(None, 1)
-    safety_index = serializers.DecimalField(None, 1)
-    shared_use_path_ratio = serializers.DecimalField(None, 3)
-    velocity_index = serializers.DecimalField(None, 1)
-
-    class Meta:
-        model = SectionDetails
-        fields = (
-            'advisory_bike_lane_ratio',
-            'bike_lane_ratio',
-            'bike_path_ratio',
-            'cycling_infrastructure_ratio',
-            'cycling_infrastructure_safety',
-            'happy_bike_index',
-            'length',
-            'orientation',
-            'protected_bike_lane_ratio',
-            'road_type',
-            'safety_index',
-            'shared_use_path_ratio',
-            'side',
-            'velocity_index',
-        )
-
-
-class NestedSectionSerializer(serializers.ModelSerializer):
-    details = NestedSectionDetailsSerializer(many=True)
-
-    class Meta:
-        model = Section
-        fields = ('url', 'street_name', 'suffix', 'borough', 'details')
-
-
 class ProjectSerializer(serializers.HyperlinkedModelSerializer):
     faq = QuestionSerializer(many=True)
     photos = PhotoSerializer(many=True, default=[Photo(**PLACEHOLDER_PHOTO)])
@@ -142,6 +101,19 @@ class ProjectSerializer(serializers.HyperlinkedModelSerializer):
             'photos',
             'likes',
         )
+
+
+class SectionAccidentsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SectionAccidents
+        fields = [
+            'killed',
+            'severely_injured',
+            'slightly_injured',
+            'side',
+            'source',
+            'risk_level',
+        ]
 
 
 class SectionDetailsSerializer(serializers.ModelSerializer):
@@ -202,17 +174,20 @@ class SectionDetailsSerializer(serializers.ModelSerializer):
 class SectionSerializer(serializers.HyperlinkedModelSerializer):
     geometry = GeometryField(precision=14)
     details = SectionDetailsSerializer(many=True)
+    accidents = SectionAccidentsSerializer(many=True)
 
     class Meta:
         model = Section
         fields = (
-            'url',
+            'accidents',
+            'borough',
+            'details',
+            'geometry',
+            'is_road',
+            'street_category',
             'street_name',
             'suffix',
-            'borough',
-            'street_category',
-            'geometry',
-            'details',
+            'url',
         )
 
 

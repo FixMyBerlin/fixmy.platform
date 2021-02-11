@@ -5,11 +5,12 @@ from .base_model import BaseModel
 
 
 class Section(BaseModel):
-    street_name = models.CharField(_('street name'), max_length=100)
+    street_name = models.CharField(_('street name'), max_length=255)
     suffix = models.CharField(_('suffix'), blank=True, null=True, max_length=3)
     borough = models.CharField(_('borough'), blank=True, null=True, max_length=255)
     street_category = models.PositiveSmallIntegerField(_('street category'), null=True)
     geometry = models.MultiLineStringField(_('geometry'), srid=4326, null=True)
+    is_road = models.BooleanField(_('is road section'), default=True)
 
     class Meta:
         verbose_name = _('section')
@@ -32,4 +33,5 @@ class Section(BaseModel):
             return 0
 
     def __str__(self):
-        return '{} ({})'.format(self.street_name, self.id)
+        section_type = _('road section') if self.is_road else _('intersection')
+        return '{} {} ({})'.format(section_type, self.street_name, self.id)

@@ -63,6 +63,11 @@ class SectionDetails(BaseModel):
     photos = GenericRelation(Photo)
 
     class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['section', 'side'], name='unique_section_details_dataset'
+            )
+        ]
         verbose_name = _('Section details')
         verbose_name_plural = _('Section details')
 

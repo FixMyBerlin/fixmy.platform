@@ -1,6 +1,7 @@
 import csv
 import decimal
 import json
+import re
 import tempfile
 from anymail.exceptions import AnymailInvalidAddress
 from datetime import date, datetime, timezone, timedelta
@@ -15,7 +16,8 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from mailjet_rest.client import Endpoint
 from unittest.mock import patch
-from .models import Project, Section, SectionDetails, GastroSignup
+from .models import Project, Section, SectionAccidents, SectionDetails, GastroSignup
+from .serializers import SectionAccidentsSerializer
 
 
 class FailingMockEmailBackend(BaseEmailBackend):
@@ -24,6 +26,24 @@ class FailingMockEmailBackend(BaseEmailBackend):
 
     def send_messages(self, email_messages):
         raise AnymailInvalidAddress(email_message=email_messages[0])
+
+
+class SectionTest(TestCase):
+    def setUp(self):
+        self.sections = [
+            Section.objects.create(street_name='Foo'),
+            Section.objects.create(street_name='Bar', is_road=False),
+        ]
+
+    def test_str(self):
+        self.assertTrue(
+            re.match('Streckenabschnitt Foo \(\d+\)', str(self.sections[0])) != None,
+            str(self.sections[0]),
+        )
+        self.assertTrue(
+            re.match('Kreuzungsabschnitt Bar \(\d+\)', str(self.sections[1])) != None,
+            str(self.sections[1]),
+        )
 
 
 class SectionDetailsTest(TestCase):
@@ -148,6 +168,15 @@ class SectionDetailsTest(TestCase):
             self.details[2].velocity_index(), decimal.Decimal('0.7'), 1
         )
 
+        # access through section instance
+        self.assertAlmostEqual(
+            self.details[0].section.velocity_index(), decimal.Decimal('1.0'), 1
+        )
+
+        self.assertAlmostEqual(
+            self.details[2].section.velocity_index(), decimal.Decimal('0.7'), 1
+        )
+
     def test_safety_index(self):
         self.assertAlmostEqual(
             self.details[0].safety_index(), decimal.Decimal('5.3'), 1
@@ -157,6 +186,14 @@ class SectionDetailsTest(TestCase):
         )
         self.assertAlmostEqual(
             self.details[2].safety_index(), decimal.Decimal('7.7'), 1
+        )
+
+        # access through section instance
+        self.assertAlmostEqual(
+            self.details[0].section.safety_index(), decimal.Decimal('5.3'), 1
+        )
+        self.assertAlmostEqual(
+            self.details[2].section.safety_index(), decimal.Decimal('7.7'), 1
         )
 
     def test_velocity_index_average(self):
@@ -178,6 +215,84 @@ class SectionDetailsTest(TestCase):
         self.assertAlmostEqual(
             self.sections[1].safety_index(), self.details[2].safety_index(), 1
         )
+
+
+class SectionAccidentsTest(TestCase):
+    def setUp(self):
+        self.sections = [
+            Section.objects.create(street_name='Foo'),
+            Section.objects.create(street_name='Bar', is_road=False),
+        ]
+
+        self.section_accidents = [
+            SectionAccidents.objects.create(
+                section=self.sections[0],
+                side=0,
+                killed=0,
+                severely_injured=5,
+                slightly_injured=10,
+                risk_level=1,
+            ),
+            SectionAccidents.objects.create(
+                section=self.sections[1],
+                side=2,
+                killed=0,
+                severely_injured=0,
+                slightly_injured=5,
+                risk_level=0,
+            ),
+        ]
+
+    def test_str(self):
+        self.assertTrue(
+            re.match(
+                'Unfalldaten-Eintrag Streckenabschnitt Foo \(\d+\)',
+                str(self.section_accidents[0]),
+            )
+            != None,
+            str(self.section_accidents[0]),
+        )
+        self.assertTrue(
+            re.match(
+                'Unfalldaten-Eintrag Kreuzungsabschnitt Bar \(\d+\)',
+                str(self.section_accidents[1]),
+            )
+            != None,
+            str(self.section_accidents[1]),
+        )
+
+    def test_serializer(self):
+        serializer = SectionAccidentsSerializer(self.section_accidents[0])
+        self.assertDictEqual(
+            serializer.data,
+            {
+                'killed': 0,
+                'risk_level': 1,
+                'side': 0,
+                'severely_injured': 5,
+                'slightly_injured': 10,
+                'source': None,
+            },
+        )
+
+    def test_views(self):
+        client = Client()
+
+        # Test response when section accidents exist
+        response = client.get(f'/api/sections/{self.sections[0].id}')
+        self.assertEqual(response.status_code, 200)
+        rv = response.json()
+        accidents_serialized = SectionAccidentsSerializer(
+            self.section_accidents[0]
+        ).data
+        self.assertEqual([accidents_serialized], rv['accidents'])
+
+        # Test response when no section accidents exist
+        section = Section.objects.create(street_name='Baz')
+        response = client.get(f'/api/sections/{section.id}')
+        self.assertEqual(response.status_code, 200)
+        rv = response.json()
+        self.assertEqual([], rv['accidents'])
 
 
 class FeedbackTest(TestCase):
@@ -833,7 +948,7 @@ class ViewsTest(TestCase):
         response = self.client.get('/api/sections')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.get('Content-Type'), 'application/json')
-        self.assertEqual(response.json().get('count'), 5)
+        self.assertEqual(response.json().get('count'), 10)
 
     def test_section_detail(self):
         response = self.client.get('/api/sections/2725')
@@ -841,15 +956,3 @@ class ViewsTest(TestCase):
         self.assertEqual(response.get('Content-Type'), 'application/json')
         self.assertIn('geometry', response.json())
         self.assertIn('details', response.json())
-
-
-class CommandTestCase(TestCase):
-    fixtures = ['sections', 'sectiondetails']
-
-    def test_exportsections(self):
-        with tempfile.NamedTemporaryFile() as f:
-            call_command('exportsections', f.name)
-            export = json.load(f)
-            self.assertEqual(export.get('type'), 'FeatureCollection')
-            self.assertEqual(type(export.get('features')), list)
-            self.assertEqual(len(export.get('features')), 5)

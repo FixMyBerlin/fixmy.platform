@@ -12,4 +12,5 @@ from .question import Question
 from .report import Report
 from .section import Section
 from .section_details import SectionDetails
+from .section_accidents import SectionAccidents
 # fmt: on

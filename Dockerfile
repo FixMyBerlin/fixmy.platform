@@ -12,7 +12,9 @@ RUN apt-get update; apt-get --assume-yes --auto-remove install \
     libproj-dev \
     locales \
     postgresql-client \
-    unzip
+    unzip \
+    less \
+    vim
 
 RUN rm -rf /var/lib/apt/lists/*
 RUN mkdir /code

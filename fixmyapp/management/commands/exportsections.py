@@ -33,6 +33,10 @@ class Command(BaseCommand):
                 },
             }
 
+            # the HBI methods are not configured to handle the fake data that
+            # we have for intersections at the moment, so these fields are only
+            # populated when `section.is_road`
+
             if s.is_road is True:
                 feature['properties']['velocity'] = float(round(s.velocity_index(), 3))
                 feature['properties']['safety'] = float(round(s.safety_index(), 3))

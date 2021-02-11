@@ -4,11 +4,10 @@ import logging
 from django.core import management
 from django.core.management.base import BaseCommand
 
-BUCKET_NAME = 'Data/'
-FPATH_ROAD_SECTIONS = '/tmp/road_sections_v11.shp'
-FPATH_INTERSECTIONS = '/tmp/intersections_v11.shp'
-FPATH_SECTION_DETAILS = '/tmp/section_details_v11.csv'
-FPATH_SECTION_ACCIDENTS = '/tmp/section_accidents_v11.csv'
+FPATH_ROAD_SECTIONS = '/tmp/road_sections-v1.1.shp'
+FPATH_INTERSECTIONS = '/tmp/intersections-v1.1.shp'
+FPATH_SECTION_DETAILS = '/tmp/section_details-v1.1.csv'
+FPATH_SECTION_ACCIDENTS = '/tmp/section_accidents-v1.1.csv'
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -44,7 +43,7 @@ class Command(BaseCommand):
             logger.info('Migrating database...')
             management.call_command('migrate')
 
-            logger.info('Downloading from S3 bucket Data/...')
+            logger.info('Downloading from S3 Data/ directory...')
             management.call_command('downloadfiles', 'Data/')
 
             try:
@@ -76,6 +75,17 @@ class Command(BaseCommand):
                     (
                         'Section details were not downloaded to '
                         f'{FPATH_SECTION_DETAILS}, update canceled'
+                    )
+                )
+                sys.exit()
+
+            try:
+                os.stat(FPATH_SECTION_ACCIDENTS)
+            except FileNotFoundError:
+                logger.error(
+                    (
+                        'Section accident data was not downloaded to '
+                        f'{FPATH_SECTION_ACCIDENTS}, update canceled'
                     )
                 )
                 sys.exit()

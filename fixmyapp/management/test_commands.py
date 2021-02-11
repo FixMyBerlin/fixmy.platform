@@ -2,7 +2,7 @@ import json
 import tempfile
 from django.core.management import call_command
 from django.test import TestCase
-from unittest.mock import patch
+from unittest.mock import patch, call
 from decimal import Decimal
 from collections import OrderedDict
 
@@ -88,17 +88,13 @@ class ImportSectionDetails(TestCase):
     def test_import_valid_data(self):
         """Test importing a valid section details dataset."""
 
-        # This test case is incomplete without also linking photos from S3
-        # storage. However, testing that they are imported correctly requires
-        # either letting the test case hit S3, which I would rather avoid, or
-        # mocking boto3, which I don't have time for right now. If you do, please
-        # add this value to the `rva_pics` column in the following sample csv
-        # and update `section_details_excepted` accordingly below.
-        #
-        #     /fb_daten/fotos/radverkehrsanlagen/Dokumente/00000C00/0x000E2C/doci75639A09.jpg /fb_daten/fotos/radverkehrsanlagen/Dokumente/00000C00/0x000E2C/doci4AB36C34.jpg
+        # Location of pictures in S3 bucket subdirectory `rva_pics`
+        s3_pic_1 = '/test1.jpg'
+        s3_pic_2 = '/test2.jpg'
 
+        # CSV to be imported
         raw_section_details = f"""section_id,side,exist,tempolimit,dailytraffic,dailytraffic_heavy,daily_traffic_transporter,dailiy_traffic_bus,length,crossings,orientation,RVA1,RVA2,RVA3,RVA4,RVA5,RVA6,RVA7,RVA8,RVA9,RVA10,RVA11,RVA12,RVA13,hilfs,rva_pics
-{self.section.id},0,1,30,5110.15,40.98,521.55,4.85,874.77,1,S,0,0.00,0,0,0,0,0,0,0,0,21.94964056,0,0,1_0,
+{self.section.id},0,1,30,5110.15,40.98,521.55,4.85,874.77,1,S,0,0.00,0,0,0,0,0,0,0,0,21.94964056,0,0,1_0,{s3_pic_1} {s3_pic_2}
 """
 
         with tempfile.NamedTemporaryFile(
@@ -110,9 +106,18 @@ class ImportSectionDetails(TestCase):
 
         self.assertEqual(self.section.details.count(), 1)
 
-        section_details_serialized = SectionDetailsSerializer(
-            self.section.details.first()
-        ).data
+        # Mocking calls to S3 to keep this test light
+        with patch('storages.backends.s3boto3.S3Boto3Storage.url') as mock_s3_url:
+            mock_s3_url.return_value = 's3-url.jpg'
+            section_details_serialized = SectionDetailsSerializer(
+                self.section.details.first()
+            ).data
+            mock_s3_url.assert_has_calls(
+                [
+                    call(f"rva_pics{s3_pic_2}"),
+                    call(f"rva_pics{s3_pic_1}"),
+                ]
+            )
 
         section_details_expected = {
             'advisory_bike_lane_ratio': Decimal('0.000'),
@@ -131,13 +136,22 @@ class ImportSectionDetails(TestCase):
             'photos': [
                 OrderedDict(
                     [
-                        ('copyright', 'Photo by Emil Bruckner'),
+                        ('copyright', 'Geoportal Berlin / Radverkehrsanlagen'),
                         (
                             'src',
-                            'https://fmb-aws-bucket.s3.amazonaws.com/photos/emil-bruckner-532523-unsplash.jpg',
+                            's3-url.jpg',
                         ),
                     ]
-                )
+                ),
+                OrderedDict(
+                    [
+                        ('copyright', 'Geoportal Berlin / Radverkehrsanlagen'),
+                        (
+                            'src',
+                            's3-url.jpg',
+                        ),
+                    ]
+                ),
             ],
             'protected_bike_lane_ratio': Decimal('0.000'),
             'road_type': Decimal('0.6'),

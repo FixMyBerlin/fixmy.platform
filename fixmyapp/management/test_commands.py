@@ -175,3 +175,19 @@ class ImportSectionDetails(TestCase):
             f.seek(0)
             with self.assertRaises(SystemExit):
                 call_command('importsectiondetails', f.name)
+
+
+class ExportSectionTest(TestCase):
+    fixtures = ['sections', 'sectionaccidents', 'sectiondetails']
+
+    def test_command(self):
+        """Test running the export command."""
+
+        with tempfile.NamedTemporaryFile(
+            mode="w+", encoding="UTF-8", suffix='.geojson'
+        ) as f:
+            call_command('exportsections', f.name)
+            export = json.load(f)
+            self.assertEqual(export.get('type'), 'FeatureCollection')
+            self.assertEqual(type(export.get('features')), list)
+            self.assertEqual(len(export.get('features')), 10)

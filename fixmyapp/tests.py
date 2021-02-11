@@ -948,7 +948,7 @@ class ViewsTest(TestCase):
         response = self.client.get('/api/sections')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.get('Content-Type'), 'application/json')
-        self.assertEqual(response.json().get('count'), 5)
+        self.assertEqual(response.json().get('count'), 10)
 
     def test_section_detail(self):
         response = self.client.get('/api/sections/2725')
@@ -956,15 +956,3 @@ class ViewsTest(TestCase):
         self.assertEqual(response.get('Content-Type'), 'application/json')
         self.assertIn('geometry', response.json())
         self.assertIn('details', response.json())
-
-
-class CommandTestCase(TestCase):
-    fixtures = ['sections', 'sectiondetails']
-
-    def test_exportsections(self):
-        with tempfile.NamedTemporaryFile() as f:
-            call_command('exportsections', f.name)
-            export = json.load(f)
-            self.assertEqual(export.get('type'), 'FeatureCollection')
-            self.assertEqual(type(export.get('features')), list)
-            self.assertEqual(len(export.get('features')), 5)

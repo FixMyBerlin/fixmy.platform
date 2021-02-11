@@ -44,3 +44,7 @@ class SectionAccidents(BaseModel):
 
     def __str__(self):
         return f"{_('Section accident data')} {str(self.section)}"
+
+    def short_section(self):
+        name = str(self.section)
+        return f"{name[:80]}..." if len(name) > 50 else name

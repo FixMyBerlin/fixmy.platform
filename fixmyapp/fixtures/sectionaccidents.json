@@ -1,0 +1,77 @@
+[
+{
+    "model": "fixmyapp.sectionaccidents",
+    "pk": 1,
+    "fields": {
+        "created_date": "2021-02-10T16:45:59.594Z",
+        "modified_date": "2021-02-10T16:45:59.594Z",
+        "section": 46520027,
+        "side": 2,
+        "killed": 0,
+        "severely_injured": 2,
+        "slightly_injured": 5,
+        "source": "Bundesministerium für Verkehr und digitale Infrastruktur (2017 - 2018).\nUnfallatlas, Statistische Ämter des Bundes und der Länder (2019).",
+        "risk_level": 2
+    }
+},
+{
+    "model": "fixmyapp.sectionaccidents",
+    "pk": 2,
+    "fields": {
+        "created_date": "2021-02-10T16:45:59.596Z",
+        "modified_date": "2021-02-10T16:45:59.597Z",
+        "section": 57470003,
+        "side": 2,
+        "killed": 0,
+        "severely_injured": 3,
+        "slightly_injured": 6,
+        "source": "Bundesministerium für Verkehr und digitale Infrastruktur (2017 - 2018).\nUnfallatlas, Statistische Ämter des Bundes und der Länder (2019).",
+        "risk_level": 2
+    }
+},
+{
+    "model": "fixmyapp.sectionaccidents",
+    "pk": 3,
+    "fields": {
+        "created_date": "2021-02-10T16:45:59.598Z",
+        "modified_date": "2021-02-10T16:45:59.598Z",
+        "section": 48550064,
+        "side": 2,
+        "killed": 0,
+        "severely_injured": 0,
+        "slightly_injured": 1,
+        "source": "Bundesministerium für Verkehr und digitale Infrastruktur (2017 - 2018).\nUnfallatlas, Statistische Ämter des Bundes und der Länder (2019).",
+        "risk_level": 2
+    }
+},
+{
+    "model": "fixmyapp.sectionaccidents",
+    "pk": 4,
+    "fields": {
+        "created_date": "2021-02-10T16:45:59.600Z",
+        "modified_date": "2021-02-10T16:45:59.600Z",
+        "section": 43520018,
+        "side": 2,
+        "killed": 0,
+        "severely_injured": 0,
+        "slightly_injured": 4,
+        "source": "Bundesministerium für Verkehr und digitale Infrastruktur (2017 - 2018).\nUnfallatlas, Statistische Ämter des Bundes und der Länder (2019).",
+        "risk_level": 2
+    }
+},
+{
+    "model": "fixmyapp.sectionaccidents",
+    "pk": 5,
+    "fields": {
+        "created_date": "2021-02-10T16:45:59.602Z",
+        "modified_date": "2021-02-10T16:45:59.602Z",
+        "section": 42450040,
+        "side": 2,
+        "killed": 0,
+        "severely_injured": 0,
+        "slightly_injured": 2,
+        "source": "Bundesministerium für Verkehr und digitale Infrastruktur (2017 - 2018).\nUnfallatlas, Statistische Ämter des Bundes und der Länder (2019).",
+        "risk_level": 2
+    }
+}
+]

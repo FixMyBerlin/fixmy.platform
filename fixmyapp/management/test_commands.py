@@ -1,3 +1,4 @@
+import json
 import tempfile
 from django.core.management import call_command
 from django.test import TestCase
@@ -12,12 +13,14 @@ from fixmyapp.serializers import SectionAccidentsSerializer, SectionDetailsSeria
 class ImportSectionAccidents(TestCase):
     fixtures = ['sections']
 
+    def setUp(self):
+        self.section = Section.objects.all().first()
+
     def test_import_valid_data(self):
         """Test importing a valid accident dataset."""
 
-        section = Section.objects.all().first()
         raw_section_accidents = f"""section_id,killed,severely_injured,slightly_injured,source,risk_level,side
-{section.id},0,1,0,"Bundesministerium für Verkehr und digitale Infrastruktur (2017 - 2018).
+{self.section.id},0,1,0,"Bundesministerium für Verkehr und digitale Infrastruktur (2017 - 2018).
 Unfallatlas, Statistische Ämter des Bundes und der Länder (2019).",1,2
 """
 
@@ -28,10 +31,10 @@ Unfallatlas, Statistische Ämter des Bundes und der Länder (2019).",1,2
             f.seek(0)
             call_command('importsectionaccidents', f.name, skip_confirmation=True)
 
-        self.assertEqual(section.accidents.count(), 1)
+        self.assertEqual(self.section.accidents.count(), 1)
 
         section_accidents_serialized = SectionAccidentsSerializer(
-            section.accidents.first()
+            self.section.accidents.first()
         ).data
         section_accidents_expected = {
             'killed': 0,
@@ -43,16 +46,50 @@ Unfallatlas, Statistische Ämter des Bundes und der Länder (2019).",1,2
         }
         self.assertDictEqual(section_accidents_serialized, section_accidents_expected)
 
+    def test_missing_column(self):
+        """Test importing dataset with a missing column."""
+
+        raw_section_accidents = f"""section_id,killed,severely_injured,slightly_injured,source,risk_level
+{self.section.id},0,1,0,"Bundesministerium für Verkehr und digitale Infrastruktur (2017 - 2018).
+Unfallatlas, Statistische Ämter des Bundes und der Länder (2019).",1
+"""
+
+        with tempfile.NamedTemporaryFile(
+            mode="w+", encoding="UTF-8", suffix='.csv'
+        ) as f:
+            f.write(raw_section_accidents)
+            f.seek(0)
+            with self.assertRaises(SystemExit):
+                call_command('importsectionaccidents', f.name, skip_confirmation=True)
+
+    def test_encoding_error(self):
+        """Test importing dataset with a wrong file encoding."""
+
+        raw_section_accidents = f"""section_id,killed,severely_injured,slightly_injured,source,risk_level,side
+{self.section.id},0,1,0,"Bundesministerium für Verkehr und digitale Infrastruktur (2017 - 2018).
+Unfallatlas, Statistische Ämter des Bundes und der Länder (2019).",1,2
+"""
+
+        with tempfile.NamedTemporaryFile(
+            mode="w+", encoding="ISO-8859-1", suffix='.csv'
+        ) as f:
+            f.write(raw_section_accidents)
+            f.seek(0)
+            with self.assertRaises(SystemExit):
+                call_command('importsectionaccidents', f.name, skip_confirmation=True)
+
 
 class ImportSectionDetails(TestCase):
     fixtures = ['sections']
 
+    def setUp(self):
+        self.section = Section.objects.all().first()
+
     def test_import_valid_data(self):
         """Test importing a valid section details dataset."""
 
-        section = Section.objects.all().first()
         raw_section_details = f"""section_id,side,exist,tempolimit,dailytraffic,dailytraffic_heavy,daily_traffic_transporter,dailiy_traffic_bus,length,crossings,orientation,RVA1,RVA2,RVA3,RVA4,RVA5,RVA6,RVA7,RVA8,RVA9,RVA10,RVA11,RVA12,RVA13,hilfs,rva_pics
-{section.id},0,1,30,5110.15,40.98,521.55,4.85,874.77,1,S,0,0.00,0,0,0,0,0,0,0,0,21.94964056,0,0,1_0,/fb_daten/fotos/radverkehrsanlagen/Dokumente/00000C00/0x000E2C/doci75639A09.jpg /fb_daten/fotos/radverkehrsanlagen/Dokumente/00000C00/0x000E2C/doci4AB36C34.jpg
+{self.section.id},0,1,30,5110.15,40.98,521.55,4.85,874.77,1,S,0,0.00,0,0,0,0,0,0,0,0,21.94964056,0,0,1_0,/fb_daten/fotos/radverkehrsanlagen/Dokumente/00000C00/0x000E2C/doci75639A09.jpg /fb_daten/fotos/radverkehrsanlagen/Dokumente/00000C00/0x000E2C/doci4AB36C34.jpg
 """
 
         with tempfile.NamedTemporaryFile(
@@ -62,10 +99,10 @@ class ImportSectionDetails(TestCase):
             f.seek(0)
             call_command('importsectiondetails', f.name)
 
-        self.assertEqual(section.details.count(), 1)
+        self.assertEqual(self.section.details.count(), 1)
 
         section_details_serialized = SectionDetailsSerializer(
-            section.details.first()
+            self.section.details.first()
         ).data
         section_details_expected = {
             'advisory_bike_lane_ratio': Decimal('0.000'),
@@ -123,3 +160,18 @@ class ImportSectionDetails(TestCase):
             'velocity_index': Decimal('1.0'),
         }
         self.assertDictEqual(section_details_serialized, section_details_expected)
+
+    def test_missing_column(self):
+        """Test importing dataset with a missing column."""
+
+        raw_section_details = f"""section_id,side,exist,tempolimit,dailytraffic,dailytraffic_heavy,daily_traffic_transporter,dailiy_traffic_bus,length,crossings,orientation,RVA1,RVA2,RVA3,RVA4,RVA5,RVA6,RVA7,RVA8,RVA9,RVA10,RVA11,RVA12,RVA13,hilfs
+{self.section.id},0,1,30,5110.15,40.98,521.55,4.85,874.77,1,S,0,0.00,0,0,0,0,0,0,0,0,21.94964056,0,0,1_0
+"""
+
+        with tempfile.NamedTemporaryFile(
+            mode="w+", encoding="UTF-8", suffix='.csv'
+        ) as f:
+            f.write(raw_section_details)
+            f.seek(0)
+            with self.assertRaises(SystemExit):
+                call_command('importsectiondetails', f.name)

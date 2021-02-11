@@ -84,8 +84,9 @@ class Command(BaseCommand):
         SectionDetails.objects.all().delete()
         reader = csv.DictReader(options['file'])
 
+        expected_fields = [k for k in MAPPING.keys()] + ['rva_pics']
         try:
-            validate_reader(reader, MAPPING)
+            validate_reader(reader, expected_fields)
         except MissingFieldError as err:
             logger.error(err)
             sys.exit(1)

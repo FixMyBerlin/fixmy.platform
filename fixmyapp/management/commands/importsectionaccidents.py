@@ -59,12 +59,11 @@ class Command(BaseCommand):
         try:
             data = list(reader)
         except UnicodeDecodeError:
-            logger.exception('')
             self.stderr.write(f"Error reading {options['file']} using UTF-8 codec.")
             sys.exit(1)
 
         try:
-            validate_reader(reader, MAPPING)
+            validate_reader(reader, [k for k in MAPPING.keys()])
         except MissingFieldError as err:
             logger.error(err)
             sys.exit(1)

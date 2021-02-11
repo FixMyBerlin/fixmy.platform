@@ -15,7 +15,7 @@ class MissingFieldError(Exception):
     pass
 
 
-def validate_reader(csv_reader, mapping):
+def validate_reader(csv_reader, expected_fields):
     """Check that all required fields are contained in the csv file.
 
     Parameters:
@@ -26,7 +26,7 @@ def validate_reader(csv_reader, mapping):
         MissingFieldError: if a missing field is encountered
     """
     missing_fields = [
-        field for field in mapping.keys() if field not in csv_reader.fieldnames
+        field for field in expected_fields if field not in csv_reader.fieldnames
     ]
     if len(missing_fields) > 0:
         raise MissingFieldError(

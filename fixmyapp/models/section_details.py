@@ -256,10 +256,7 @@ class SectionDetails(BaseModel):
         return safety
 
     def _ci_category_ratio(self, category_sum):
-        if (
-            self.cycling_infrastructure_ratio() < 0.1
-            or self.length_without_crossings == 0
-        ):
+        if self.cycling_infrastructure_ratio() < 0.1:
             ratio = 0.0
         else:
             ratio = category_sum / self.length_without_crossings()

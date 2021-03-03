@@ -189,7 +189,7 @@ class SectionDetails(BaseModel):
         rv = decimal.Decimal('0.00')
         try:
             rv = self.cycling_infrastructure_sum() / self.length_without_crossings()
-        except decimal.DivisionByZero:
+        except Exception:
             pass
         return rv
 

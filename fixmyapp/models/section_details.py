@@ -186,7 +186,12 @@ class SectionDetails(BaseModel):
         return sum([self.rva11, self.rva12, self.rva13])
 
     def cycling_infrastructure_ratio(self):
-        return self.cycling_infrastructure_sum() / self.length_without_crossings()
+        rv = decimal.Decimal('0.00')
+        try:
+            rv = self.cycling_infrastructure_sum() / self.length_without_crossings()
+        except decimal.DivisionByZero:
+            pass
+        return rv
 
     def bike_path_ratio(self):
         return self._ci_category_ratio(self.bike_path_sum())

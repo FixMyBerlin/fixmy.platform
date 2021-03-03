@@ -216,6 +216,14 @@ class SectionDetailsTest(TestCase):
             self.sections[1].safety_index(), self.details[2].safety_index(), 1
         )
 
+    def test_zero_length(self):
+        self.details[2].length = decimal.Decimal('0.00')
+        self.details[2].crossings = 0
+
+        self.assertEqual(
+            self.details[2].cycling_infrastructure_ratio(), decimal.Decimal('0.00')
+        )
+
 
 class SectionAccidentsTest(TestCase):
     def setUp(self):

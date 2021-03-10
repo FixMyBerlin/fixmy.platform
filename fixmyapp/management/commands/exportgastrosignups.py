@@ -31,6 +31,7 @@ FIELDNAMES = {
     'traffic_order_checked': _('traffic order checked'),
     'traffic_order_check_note': _('traffic order check notes'),
     'tos_accepted': _('tos_accepted'),
+    'followup_accepted': _('follow-up accepted'),
     'agreement_accepted': _('agreement accepted'),
 }
 
@@ -80,6 +81,7 @@ class Command(BaseCommand):
 
             # Translate values
             row_data['tos_accepted'] = 'Ja' if report.tos_accepted else 'Nein'
+            row_data['followup_accepted'] = 'Ja' if report.tos_accepted else 'Nein'
             row_data['agreement_accepted'] = (
                 'Ja' if report.agreement_accepted else 'Nein'
             )

@@ -345,6 +345,7 @@ class GastroSignupTest(TestCase):
             'shopfront_length': 480,
             'opening_hours': 'weekend',
             'tos_accepted': True,
+            'followup_accepted': True,
         }
 
         self.registration_data = {

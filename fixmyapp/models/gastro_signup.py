@@ -148,6 +148,7 @@ class GastroSignup(BaseModel):
 
     tos_accepted = models.BooleanField(_('tos_accepted'), default=False)
     agreement_accepted = models.BooleanField(_('agreement accepted'), default=False)
+    followup_accepted = models.BooleanField(_('follow-up accepted'), default=False)
 
     # Access key for using approved signup data to send in a proper
     # application

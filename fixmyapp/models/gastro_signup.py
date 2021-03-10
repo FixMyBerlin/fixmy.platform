@@ -73,6 +73,7 @@ class GastroSignup(BaseModel):
         ('xhain', 'XHain Mai 2020'),
         ('xhain2', 'XHain Juli 2020'),
         ('xhain3', 'XHain Verlängerungen ab Sep 2020'),
+        ('xhain2021', 'XHain 2021'),
         ('tempelberg', 'Tempelhof-Schöneberg 2020'),
     ]
 
@@ -80,6 +81,7 @@ class GastroSignup(BaseModel):
         'xhain': 'friedrichshain-kreuzberg',
         'xhain2': 'friedrichshain-kreuzberg',
         'xhain3': 'friedrichshain-kreuzberg',
+        'xhain2021': 'friedrichshain-kreuzberg',
         'tempelberg': 'tempelhof-schoeneberg',
     }
 
@@ -87,12 +89,18 @@ class GastroSignup(BaseModel):
         'xhain': [date(2020, 6, 23), date(2020, 8, 31)],
         'xhain2': [date(2020, 7, 16), date(2020, 10, 31)],
         'xhain3': [date(2020, 8, 31), date(2020, 10, 31)],
+        'xhain2021': [date(2021, 2, 1), date(2021, 9, 1)],
         'tempelberg': None,
     }
 
     # Maps campaigns to the campaign that a renewal will be created in.
     # Maps to None if renewal is not possible.
-    RENEWAL_CAMPAIGN = {'xhain': 'xhain3', 'xhain2': None, 'xhain3': None}
+    RENEWAL_CAMPAIGN = {
+        'xhain': 'xhain3',
+        'xhain2': None,
+        'xhain3': None,
+        'xhain2021': None,
+    }
 
     campaign = models.CharField(_('campaign'), choices=CAMPAIGN_CHOICES, max_length=32)
     status = models.CharField(

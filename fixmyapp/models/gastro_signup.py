@@ -85,11 +85,12 @@ class GastroSignup(BaseModel):
         'tempelberg': 'tempelhof-schoeneberg',
     }
 
+    # date constructor uses 1-based month number, i.e. january is 1
     CAMPAIGN_DURATION = {
         'xhain': [date(2020, 6, 23), date(2020, 8, 31)],
         'xhain2': [date(2020, 7, 16), date(2020, 10, 31)],
         'xhain3': [date(2020, 8, 31), date(2020, 10, 31)],
-        'xhain2021': [date(2021, 2, 1), date(2021, 9, 1)],
+        'xhain2021': [date(2021, 3, 1), date(2021, 10, 1)],
         'tempelberg': None,
     }
 

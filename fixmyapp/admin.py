@@ -416,7 +416,7 @@ class GastroSignupAdmin(FMBGastroAdmin):
         """Send registration requests to registrants"""
         numsent = 0
         for signup in queryset:
-            subject = 'Ihre Interessensbekundung bei Offene Terrassen für Friedrichshain-Kreuzberg'
+            subject = 'Ihre Interessensbekundung bei XHain-Terrassen'
             registration_url = f"https://fixmyberlin.de/friedrichshain-kreuzberg/terrassen/registrierung/{signup.id}/{signup.access_key}"
             body = f'''Sehr geehrte Damen und Herren,
 

@@ -70,10 +70,10 @@ class GastroSignup(BaseModel):
     )
 
     CAMPAIGN_CHOICES = [
-        ('xhain', 'XHain Mai 2020'),
-        ('xhain2', 'XHain Juli 2020'),
-        ('xhain3', 'XHain Verlängerungen ab Sep 2020'),
-        ('xhain2021', 'XHain 2021'),
+        ('xhain', 'Xhain Mai 2020'),
+        ('xhain2', 'Xhain Juli 2020'),
+        ('xhain3', 'Xhain Verlängerungen ab Sep 2020'),
+        ('xhain2021', 'Xhain 2021'),
         ('tempelberg', 'Tempelhof-Schöneberg 2020'),
     ]
 
@@ -229,7 +229,7 @@ class GastroSignup(BaseModel):
                 "link_permit": self.permit_url,
                 "link_traffic_order": self.traffic_order_url,
             }
-            subject = "Ihre Sondergenehmigung - XHain-Terrassen"
+            subject = "Ihre Sondergenehmigung - Xhain-Terrassen"
             body = render_to_string("gastro/notice_accepted.txt", context=context)
         elif self.status == GastroSignup.STATUS_REJECTED:
             try:
@@ -248,7 +248,7 @@ class GastroSignup(BaseModel):
             if self.note is None or len(self.note) == 0:
                 raise AttributeError("Missing note")
 
-            subject = "Ihr Antrag auf eine Sondernutzungsfläche XHain-Terrassen"
+            subject = "Ihr Antrag auf eine Sondernutzungsfläche Xhain-Terrassen"
             body = render_to_string("gastro/notice_rejected.txt", context=context)
         else:
             raise ValueError("Invalid status for sending notice email")

@@ -70,9 +70,10 @@ class GastroSignup(BaseModel):
     )
 
     CAMPAIGN_CHOICES = [
-        ('xhain', 'XHain Mai 2020'),
-        ('xhain2', 'XHain Juli 2020'),
-        ('xhain3', 'XHain Verlängerungen ab Sep 2020'),
+        ('xhain', 'Xhain Mai 2020'),
+        ('xhain2', 'Xhain Juli 2020'),
+        ('xhain3', 'Xhain Verlängerungen ab Sep 2020'),
+        ('xhain2021', 'Xhain 2021'),
         ('tempelberg', 'Tempelhof-Schöneberg 2020'),
     ]
 
@@ -80,19 +81,27 @@ class GastroSignup(BaseModel):
         'xhain': 'friedrichshain-kreuzberg',
         'xhain2': 'friedrichshain-kreuzberg',
         'xhain3': 'friedrichshain-kreuzberg',
+        'xhain2021': 'friedrichshain-kreuzberg',
         'tempelberg': 'tempelhof-schoeneberg',
     }
 
+    # date constructor uses 1-based month number, i.e. january is 1
     CAMPAIGN_DURATION = {
         'xhain': [date(2020, 6, 23), date(2020, 8, 31)],
         'xhain2': [date(2020, 7, 16), date(2020, 10, 31)],
         'xhain3': [date(2020, 8, 31), date(2020, 10, 31)],
+        'xhain2021': [date(2021, 3, 1), date(2021, 10, 1)],
         'tempelberg': None,
     }
 
     # Maps campaigns to the campaign that a renewal will be created in.
     # Maps to None if renewal is not possible.
-    RENEWAL_CAMPAIGN = {'xhain': 'xhain3', 'xhain2': None, 'xhain3': None}
+    RENEWAL_CAMPAIGN = {
+        'xhain': 'xhain3',
+        'xhain2': None,
+        'xhain3': None,
+        'xhain2021': None,
+    }
 
     campaign = models.CharField(_('campaign'), choices=CAMPAIGN_CHOICES, max_length=32)
     status = models.CharField(
@@ -148,6 +157,7 @@ class GastroSignup(BaseModel):
 
     tos_accepted = models.BooleanField(_('tos_accepted'), default=False)
     agreement_accepted = models.BooleanField(_('agreement accepted'), default=False)
+    followup_accepted = models.BooleanField(_('follow-up accepted'), default=False)
 
     # Access key for using approved signup data to send in a proper
     # application
@@ -219,7 +229,7 @@ class GastroSignup(BaseModel):
                 "link_permit": self.permit_url,
                 "link_traffic_order": self.traffic_order_url,
             }
-            subject = "Ihre Sondergenehmigung - XHain-Terrassen"
+            subject = "Ihre Sondergenehmigung - Xhain-Terrassen"
             body = render_to_string("gastro/notice_accepted.txt", context=context)
         elif self.status == GastroSignup.STATUS_REJECTED:
             try:
@@ -238,7 +248,7 @@ class GastroSignup(BaseModel):
             if self.note is None or len(self.note) == 0:
                 raise AttributeError("Missing note")
 
-            subject = "Ihr Antrag auf eine Sondernutzungsfläche XHain-Terrassen"
+            subject = "Ihr Antrag auf eine Sondernutzungsfläche Xhain-Terrassen"
             body = render_to_string("gastro/notice_rejected.txt", context=context)
         else:
             raise ValueError("Invalid status for sending notice email")

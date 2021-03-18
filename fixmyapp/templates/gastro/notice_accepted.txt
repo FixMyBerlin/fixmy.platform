@@ -16,10 +16,10 @@ Als weitere Anlagen erhalten Sie:
 
 - Allgemeine Nebenbestimmungen
   https://fixmyberlin.de/uploads/offene-terrassen/Allgemeine_Nebenbestimmungen.pdf{% if is_restaurant %}
-- Spezielle Nebenbestimmungen für Schankvorgärten
+- Nebenbestimmungen für Schankvorgärten
   https://fixmyberlin.de/uploads/offene-terrassen/Nebenbestimmungen_Schankvorgaerten.pdf{% endif %}{% if not is_restaurant %}
-- Spezielle Nebenbestimmungen für das Herausstellen von Waren
-  https://fixmyberlin.de/uploads/offene-terrassen/Nebenbestimmungen_Herausstellen_von_Waren.pdf{% endif %}{% if not is_boardwalk %}
+- Nebenbestimmungen für sonstige Sondernutzungen
+  https://fixmyberlin.de/uploads/offene-terrassen/Nebenbestimmungen_sonstige_Sondernutzungen.pdf{% endif %}{% if not is_boardwalk %}
 - Regelpläne Straßenraum
   https://fixmyberlin.de/uploads/offene-terrassen/Regelplaene_Strassenraum.pdf{% endif %}
 

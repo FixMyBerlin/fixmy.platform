@@ -238,6 +238,7 @@ class GastroSignupSerializer(serializers.ModelSerializer):
             'shopfront_length',
             'opening_hours',
             'tos_accepted',
+            'followup_accepted',
             'status',
         ]
 
@@ -263,6 +264,7 @@ class GastroRegistrationSerializer(serializers.ModelSerializer):
             'shopfront_length',
             'opening_hours',
             'tos_accepted',
+            'followup_accepted',
             'agreement_accepted',
             'status',
             'regulation',

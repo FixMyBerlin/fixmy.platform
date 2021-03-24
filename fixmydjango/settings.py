@@ -75,6 +75,7 @@ INSTALLED_APPS = [
     'reversion',
     'survey',
     'reports',
+    'permits',
 ]
 
 MIDDLEWARE = [

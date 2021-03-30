@@ -90,7 +90,7 @@ class GastroSignup(BaseModel):
         'xhain': [date(2020, 6, 23), date(2020, 8, 31)],
         'xhain2': [date(2020, 7, 16), date(2020, 10, 31)],
         'xhain3': [date(2020, 8, 31), date(2020, 10, 31)],
-        'xhain2021': [date(2021, 3, 1), date(2021, 10, 1)],
+        'xhain2021': [date(2021, 3, 1), date(2021, 12, 31)],
         'tempelberg': None,
     }
 

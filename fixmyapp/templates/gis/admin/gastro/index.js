@@ -11,13 +11,7 @@
     
 {{ module }}.map.addLayer(new OpenLayers.Layer.XYZ(
     'Anträge',
-    ['https://api.mapbox.com/styles/v1/hejco/ckb92ue8b0m3h1iphwk9flh6e/tiles/256/${z}/${x}/${y}?access_token=pk.eyJ1IjoiaGVqY28iLCJhIjoiY2piZjd2bzk2MnVsMjJybGxwOWhkbWxpNCJ9.L1UNUPutVJHWjSmqoN4h7Q'],
-    { isBaseLayer: true }
-));
-
-{{ module }}.map.addLayer(new OpenLayers.Layer.XYZ(
-    'Mapbox Streets',
-    ['https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/256/${z}/${x}/${y}?access_token=pk.eyJ1IjoiaGVqY10iLCJhIjoiY2piZjd2bzk2MnVsMjJybGxwOWhkbWxpNCJ9.L1UNUPutVJHWjSmqoN4h7Q'],
+    ['https://api.mapbox.com/styles/v1/hejco/ckm3lgekg9jky17rznm5kn8bd/tiles/256/${z}/${x}/${y}?access_token=pk.eyJ1IjoiaGVqY28iLCJhIjoiY2piZjd2bzk2MnVsMjJybGxwOWhkbWxpNCJ9.L1UNUPutVJHWjSmqoN4h7Q'],
     { isBaseLayer: true }
 ));
     

@@ -9,7 +9,23 @@ class FMBPermitsAdmin(FMBGeoAdmin):
 
 
 class EventPermitAdmin(FMBPermitsAdmin):
-    pass
+    list_display = (
+        'id',
+        'org_name',
+        'category',
+        'status',
+        'created_date',
+        'modified_date',
+    )
+
+    order = ['-created_date']
+    readonly_fields = (
+        'created_date',
+        'application_received',
+        'application_decided',
+        'permit_start',
+        'permit_end',
+    )
 
 
 admin.site.register(EventPermit, EventPermitAdmin)

@@ -1,6 +1,7 @@
 import dateutil.parser
 import boto3
 import uuid
+import requests
 from datetime import datetime, timezone
 from django.conf import settings
 from django.core import mail
@@ -28,7 +29,6 @@ from .serializers import (
     SectionSerializer,
 )
 from .signals import sign_up_newsletter
-import requests
 
 
 class DefaultPagination(PageNumberPagination):

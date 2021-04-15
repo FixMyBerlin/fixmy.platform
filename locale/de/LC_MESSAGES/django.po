@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE_VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-10 15:52+0000\n"
-"PO-Revision-Date: 2021-03-10 16:53+0100\n"
+"POT-Creation-Date: 2021-03-31 13:09+0000\n"
+"PO-Revision-Date: 2021-03-24 16:49+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -31,7 +31,7 @@ msgid "section"
 msgstr "Abschnitt"
 
 #: fixmyapp/admin.py:173 fixmyapp/admin.py:177
-#: fixmyapp/models/gastro_signup.py:111
+#: fixmyapp/models/gastro_signup.py:119 permits/models.py:51
 msgid "Notice sent"
 msgstr "Bescheid versandt"
 
@@ -92,7 +92,7 @@ msgstr "Formular für Folgeantrag"
 msgid "No renewal application available"
 msgstr "Folgeantrag liegt nicht vor"
 
-#: fixmyapp/admin.py:352 fixmyapp/models/gastro_signup.py:170
+#: fixmyapp/admin.py:352 fixmyapp/models/gastro_signup.py:178
 msgid "renewal application"
 msgstr "Folgeantrag"
 
@@ -141,15 +141,15 @@ msgid "Kennziffer"
 msgstr ""
 
 #: fixmyapp/management/commands/exportgastrosignups.py:13
-#: fixmyapp/models/gastro_signup.py:127
+#: fixmyapp/models/gastro_signup.py:135
 msgid "shop name"
 msgstr "Name des Betriebs"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:14
-#: fixmyapp/models/gastro_signup.py:135 fixmyapp/models/report.py:43
-#: reports/models/report.py:53
+#: fixmyapp/models/gastro_signup.py:143 fixmyapp/models/report.py:43
+#: permits/models.py:117 reports/models/report.py:53
 msgid "address"
-msgstr "Adresse"
+msgstr "Anschrift"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:15
 #: fixmyapp/models/project.py:106 fixmyapp/models/report.py:44
@@ -159,23 +159,25 @@ msgid "geometry"
 msgstr "Geometrie"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:16
-#: fixmyapp/models/gastro_signup.py:136
+#: fixmyapp/models/gastro_signup.py:144
 msgid "shopfront length"
 msgstr "Länge der Ladenfront"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:17
-#: fixmyapp/models/gastro_signup.py:128
+#: fixmyapp/models/gastro_signup.py:136 permits/models.py:112
 msgid "first name"
 msgstr "Vorname"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:18
-#: fixmyapp/models/gastro_signup.py:129 fixmyapp/tests.py:606
+#: fixmyapp/models/gastro_signup.py:137 fixmyapp/tests.py:606
+#: permits/models.py:113
 msgid "last name"
 msgstr "Nachname"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:19
 #: fixmyapp/management/commands/exportplaystreets.py:14
-#: fixmyapp/models/gastro_signup.py:130 fixmyapp/models/playstreet_signup.py:12
+#: fixmyapp/models/gastro_signup.py:138 fixmyapp/models/playstreet_signup.py:12
+#: permits/models.py:48
 msgid "email"
 msgstr "E-Mail"
 
@@ -184,22 +186,23 @@ msgid "phone"
 msgstr "Telefonnummer"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:21
-#: fixmyapp/models/gastro_signup.py:134 fixmyapp/models/profile.py:56
+#: fixmyapp/models/gastro_signup.py:142 fixmyapp/models/profile.py:56
 msgid "usage"
 msgstr "Nutzung"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:22
-#: fixmyapp/models/gastro_signup.py:108 fixmyapp/models/project.py:108
+#: fixmyapp/models/gastro_signup.py:116 fixmyapp/models/project.py:108
+#: permits/models.py:98
 msgid "category"
 msgstr "Kategorie"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:23
-#: fixmyapp/models/gastro_signup.py:103
+#: fixmyapp/models/gastro_signup.py:111
 msgid "regulation"
 msgstr "Regulation"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:24
-#: fixmyapp/models/gastro_signup.py:106
+#: fixmyapp/models/gastro_signup.py:114
 msgid "opening hours"
 msgstr "Öffnungszeiten"
 
@@ -208,7 +211,7 @@ msgid "note"
 msgstr "Anmerkung"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:27
-#: fixmyapp/models/gastro_signup.py:159
+#: fixmyapp/models/gastro_signup.py:167
 msgid "internal note"
 msgstr "Interne Anmerkung"
 
@@ -217,38 +220,39 @@ msgid "Status"
 msgstr "Status"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:29
-#: fixmyapp/models/gastro_signup.py:116
+#: fixmyapp/models/gastro_signup.py:124 permits/models.py:100
 msgid "permit checked"
 msgstr "Sondernutzung geprüft"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:30
-#: fixmyapp/models/gastro_signup.py:118
+#: fixmyapp/models/gastro_signup.py:126 permits/models.py:102
 msgid "permit check notes"
 msgstr "Bearbeitungsvermerk zur Sondernutzung"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:31
-#: fixmyapp/models/gastro_signup.py:121
+#: fixmyapp/models/gastro_signup.py:129 permits/models.py:105
 msgid "traffic order checked"
 msgstr "Verkehrsrechtliche Anordnung geprüft"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:32
-#: fixmyapp/models/gastro_signup.py:124
+#: fixmyapp/models/gastro_signup.py:132 permits/models.py:108
 msgid "traffic order check notes"
 msgstr "Bearbeitungsvermerk zur verkehrsrechtlichen Anordnung"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:33
 #: fixmyapp/management/commands/exportplaystreets.py:17
-#: fixmyapp/models/gastro_signup.py:150 fixmyapp/models/playstreet_signup.py:13
+#: fixmyapp/models/gastro_signup.py:158 fixmyapp/models/playstreet_signup.py:13
+#: permits/models.py:56
 msgid "tos_accepted"
 msgstr "Bedingungen akzeptiert"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:34
-#: fixmyapp/models/gastro_signup.py:152
+#: fixmyapp/models/gastro_signup.py:160 permits/models.py:58
 msgid "follow-up accepted"
 msgstr "Benachrichtigung bei Möglichkeit Folgeantrag gewünscht"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:35
-#: fixmyapp/models/gastro_signup.py:151
+#: fixmyapp/models/gastro_signup.py:159 permits/models.py:57
 msgid "agreement accepted"
 msgstr "Vereinbarung angenommen"
 
@@ -296,53 +300,53 @@ msgid "bike stands"
 msgstr "Radbügel"
 
 #: fixmyapp/models/gastro_signup.py:27 fixmyapp/models/report.py:28
-#: permits/models.py:17 reports/models/report.py:23
+#: reports/models/report.py:23
 msgid "new"
 msgstr "Neu"
 
 #: fixmyapp/models/gastro_signup.py:28 fixmyapp/models/report.py:29
-#: permits/models.py:18 reports/models/report.py:24
+#: reports/models/report.py:24
 msgid "verification"
 msgstr "In Prüfung"
 
-#: fixmyapp/models/gastro_signup.py:29 permits/models.py:19
+#: fixmyapp/models/gastro_signup.py:29 permits/models.py:37
 msgid "waiting for application"
 msgstr "Wartet auf Antrag"
 
-#: fixmyapp/models/gastro_signup.py:30 permits/models.py:20
+#: fixmyapp/models/gastro_signup.py:30 permits/models.py:38
 msgid "application received"
 msgstr "Antrag liegt vor"
 
-#: fixmyapp/models/gastro_signup.py:31 permits/models.py:21
+#: fixmyapp/models/gastro_signup.py:31 permits/models.py:39
 msgid "application verification"
 msgstr "Antrag in Bearbeitung"
 
-#: fixmyapp/models/gastro_signup.py:32 permits/models.py:22
+#: fixmyapp/models/gastro_signup.py:32 permits/models.py:40
 msgid "application accepted"
 msgstr "Antrag angenommen"
 
-#: fixmyapp/models/gastro_signup.py:33 permits/models.py:23
+#: fixmyapp/models/gastro_signup.py:33 permits/models.py:41
 msgid "application rejected"
 msgstr "Antrag abgelehnt"
 
-#: fixmyapp/models/gastro_signup.py:37 permits/models.py:27
+#: fixmyapp/models/gastro_signup.py:37 permits/models.py:68
 msgid "restaurant"
 msgstr "Restaurant"
 
-#: fixmyapp/models/gastro_signup.py:38 permits/models.py:28
+#: fixmyapp/models/gastro_signup.py:38 permits/models.py:69
 msgid "retail"
 msgstr "Einzelhandel"
 
-#: fixmyapp/models/gastro_signup.py:39 permits/models.py:29
+#: fixmyapp/models/gastro_signup.py:39 permits/models.py:70
 msgid "workshop"
 msgstr "Werkstatt"
 
-#: fixmyapp/models/gastro_signup.py:40 permits/models.py:30
+#: fixmyapp/models/gastro_signup.py:40 permits/models.py:71
 msgid "social"
 msgstr "Soziales Projekt"
 
 #: fixmyapp/models/gastro_signup.py:41 fixmyapp/models/project.py:34
-#: fixmyapp/models/project.py:52 permits/models.py:31
+#: fixmyapp/models/project.py:52 permits/models.py:72
 msgid "miscellaneous"
 msgstr "Sonstiges"
 
@@ -358,57 +362,58 @@ msgstr "Wochentage"
 msgid "whole week"
 msgstr "Ganze Woche"
 
-#: fixmyapp/models/gastro_signup.py:98 fixmyapp/models/playstreet_signup.py:8
+#: fixmyapp/models/gastro_signup.py:106 fixmyapp/models/playstreet_signup.py:8
+#: permits/models.py:97
 msgid "campaign"
 msgstr "Kampagne"
 
-#: fixmyapp/models/gastro_signup.py:100 fixmyapp/models/project.py:134
-#: fixmyapp/models/report.py:53 reports/models/report.py:63
-#: reports/models/status_notice.py:20
+#: fixmyapp/models/gastro_signup.py:108 fixmyapp/models/project.py:134
+#: fixmyapp/models/report.py:53 permits/models.py:45
+#: reports/models/report.py:63 reports/models/status_notice.py:20
 msgid "status"
 msgstr "Status"
 
-#: fixmyapp/models/gastro_signup.py:110
+#: fixmyapp/models/gastro_signup.py:118 permits/models.py:50
 msgid "Application received"
 msgstr "Antragseingang"
 
-#: fixmyapp/models/gastro_signup.py:113
+#: fixmyapp/models/gastro_signup.py:121 permits/models.py:53
 msgid "Permit valid from"
 msgstr "Genehmigung gültig ab"
 
-#: fixmyapp/models/gastro_signup.py:114
+#: fixmyapp/models/gastro_signup.py:122 permits/models.py:54
 msgid "Permit valid until"
 msgstr "Genehmigung gültig bis"
 
-#: fixmyapp/models/gastro_signup.py:132
+#: fixmyapp/models/gastro_signup.py:140 permits/models.py:115
 msgid "telephone number"
 msgstr "Telefonnummer"
 
-#: fixmyapp/models/gastro_signup.py:137
+#: fixmyapp/models/gastro_signup.py:145
 msgid "location"
 msgstr "Standort"
 
-#: fixmyapp/models/gastro_signup.py:140
+#: fixmyapp/models/gastro_signup.py:148 permits/models.py:145
 msgid "installation area"
 msgstr "Aufstellfläche"
 
-#: fixmyapp/models/gastro_signup.py:145
+#: fixmyapp/models/gastro_signup.py:153
 msgid "registration certificate"
 msgstr "Gewerbeanmeldung / Vereinsregister"
 
-#: fixmyapp/models/gastro_signup.py:158
+#: fixmyapp/models/gastro_signup.py:166
 msgid "note for the registrant"
 msgstr "Anmerkung an Antragsteller:in"
 
-#: fixmyapp/models/gastro_signup.py:166
+#: fixmyapp/models/gastro_signup.py:174
 msgid "offer to apply for renewal sent on"
 msgstr "Angebot für Folgeantrag versandt am"
 
-#: fixmyapp/models/gastro_signup.py:179
+#: fixmyapp/models/gastro_signup.py:187
 msgid "gastro_signup"
 msgstr "Antrag auf Ausnahmegenehmigung"
 
-#: fixmyapp/models/gastro_signup.py:180
+#: fixmyapp/models/gastro_signup.py:188
 msgid "gastro_signups"
 msgstr "Anträge auf Ausnahmegenehmigung"
 
@@ -422,7 +427,7 @@ msgstr "Benutzer"
 
 #: fixmyapp/models/notice_setting.py:22
 msgid "send"
-msgstr ""
+msgstr "Zu versenden"
 
 #: fixmyapp/models/notice_setting.py:26
 msgid "notice setting"
@@ -936,6 +941,102 @@ msgstr "Ungültiger Zugangsschlüssel"
 #: fixmyapp/views.py:306
 msgid "Campaign has ended"
 msgstr "Kampagne ist abgelaufen"
+
+#: permits/apps.py:6
+msgid "Permits App"
+msgstr "Genehmigungen"
+
+#: permits/models.py:35
+msgid "expression of interest"
+msgstr "Interessensbekundung"
+
+#: permits/models.py:36
+msgid "preapproval pending"
+msgstr "Wartet auf Vorprüfung"
+
+#: permits/models.py:111
+msgid "organisation name"
+msgstr "Name der Organisation"
+
+#: permits/models.py:119
+msgid "event date"
+msgstr "Datum der Veranstaltung"
+
+#: permits/models.py:120
+msgid "setup start time"
+msgstr "Beginn des Aufbaus"
+
+#: permits/models.py:121
+msgid "event start time"
+msgstr "Beginn der Veranstaltung"
+
+#: permits/models.py:122
+msgid "event end time"
+msgstr "Ende der Veranstaltung"
+
+#: permits/models.py:123
+msgid "teardown end time"
+msgstr "Ende des Abbaus"
+
+#: permits/models.py:126
+msgid "less than 50"
+msgstr "Unter 50"
+
+#: permits/models.py:127
+msgid "50 - 200"
+msgstr "50 -200"
+
+#: permits/models.py:128
+msgid "201 - 500"
+msgstr "201 - 500"
+
+#: permits/models.py:131
+msgid "number of participants"
+msgstr "Maximale Teilnehmerzahl"
+
+#: permits/models.py:137
+msgid "park"
+msgstr "Grünanlage"
+
+#: permits/models.py:138
+msgid "parking"
+msgstr "Ruhender Verkehr"
+
+#: permits/models.py:141
+msgid "location category"
+msgstr "Art der Fläche"
+
+#: permits/models.py:170
+msgid "location park name"
+msgstr "Name des Grünanlagen-Bereichs"
+
+#: permits/models.py:178
+msgid "setup sketch"
+msgstr "Skizze der Aufbauten"
+
+#: permits/models.py:183
+msgid "event title"
+msgstr "Titel"
+
+#: permits/models.py:184
+msgid "event announcement"
+msgstr "Ankündigungstext"
+
+#: permits/models.py:185
+msgid "event details"
+msgstr "Veranstaltungskonzept"
+
+#: permits/models.py:192
+msgid "proof of insurance"
+msgstr "Versicherungsbestätigung"
+
+#: permits/models.py:200
+msgid "event agreement"
+msgstr "Veranstaltererklärung"
+
+#: permits/models.py:208
+msgid "proof of public benefit"
+msgstr "Nachweis der Gemeinnützigkeit"
 
 #: reports/apps.py:7
 msgid "Reports App"

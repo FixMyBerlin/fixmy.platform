@@ -75,6 +75,7 @@ INSTALLED_APPS = [
     'reversion',
     'survey',
     'reports',
+    'permits',
 ]
 
 MIDDLEWARE = [
@@ -304,6 +305,13 @@ TOGGLE_GASTRO_DIRECT_SIGNUP = bool(os.getenv('TOGGLE_GASTRO_DIRECT_SIGNUP', Fals
 GASTRO_RECIPIENT = os.getenv('GASTRO_RECIPIENT', 'aufsicht.sga@ba-fk.berlin.de')
 GASTRO_SIGNUPS_OPEN = os.getenv('GASTRO_SIGNUPS_OPEN', None)
 GASTRO_SIGNUPS_CLOSE = os.getenv('GASTRO_SIGNUPS_CLOSE', None)
+
+# Configuration for Permits app
+
+TOGGLE_EVENT_SIGNUPS = bool(os.getenv('TOGGLE_EVENT_SIGNUPS', False))
+EVENT_RECIPIENT = os.getenv('EVENT_RECIPIENT', 'aufsicht.sga@ba-fk.berlin.de')
+EVENT_SIGNUPS_OPEN = os.getenv('EVENT_SIGNUPS_OPEN', None)
+EVENT_SIGNUPS_CLOSE = os.getenv('EVENT_SIGNUPS_CLOSE', None)
 
 # Configuration for reports app
 

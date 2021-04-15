@@ -53,6 +53,9 @@ class Permit(BaseModel):
     permit_start = models.DateField(_('Permit valid from'), null=True)
     permit_end = models.DateField(_('Permit valid until'), null=True)
 
+    note = models.TextField(_('note for the registrant'), blank=True)
+    note_internal = models.TextField(_('internal note'), blank=True)
+
     tos_accepted = models.BooleanField(_('tos_accepted'), default=False)
     agreement_accepted = models.BooleanField(_('agreement accepted'), default=False)
     followup_accepted = models.BooleanField(_('follow-up accepted'), default=False)
@@ -95,7 +98,9 @@ class EventPermit(Permit):
     }
 
     campaign = models.CharField(_('campaign'), choices=CAMPAIGN_CHOICES, max_length=32)
-    category = models.CharField(_('category'), choices=CATEGORY_CHOICES, max_length=255)
+    category = models.CharField(
+        _('category'), choices=CATEGORY_CHOICES, max_length=255, blank=True, null=True
+    )
 
     permit_checked = models.BooleanField(_('permit checked'), default=False)
     permit_check_note = models.CharField(
@@ -108,7 +113,7 @@ class EventPermit(Permit):
         _('traffic order check notes'), max_length=255, blank=True, null=True
     )
 
-    org_name = models.CharField(_('organisation name'), max_length=255)
+    org_name = models.CharField(_('organisation name'), max_length=255, blank=True)
     first_name = models.CharField(_('first name'), max_length=255)
     last_name = models.CharField(_('last name'), max_length=255)
     phone = models.CharField(
@@ -206,4 +211,6 @@ class EventPermit(Permit):
     public_benefit = models.FileField(
         upload_to=public_benefit_upload_to,
         verbose_name=_("proof of public benefit"),
+        null=True,
+        blank=True,
     )

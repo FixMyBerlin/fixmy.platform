@@ -2,8 +2,10 @@ import dateutil.parser
 import boto3
 from datetime import datetime, timezone
 from django.conf import settings
+from django.core import mail
 from django.shortcuts import render
-from rest_framework import permissions
+from django.template.loader import render_to_string
+from rest_framework import permissions, status
 from rest_framework.views import APIView
 from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
@@ -14,6 +16,14 @@ from .serializers import EventPermitSerializer, EventPermitDocumentSerializer
 
 class EventPermitView(APIView):
     permission_classes = (permissions.AllowAny,)
+
+    def _send_registration_confirmation(self, recipient, request):
+        """Send a registration confirmation email notice"""
+        subject = 'Ihr Antrag bei Xhain-Terrassen'
+        body = render_to_string('permits/notice_registered.txt', request=request)
+        mail.send_mail(
+            subject, body, settings.DEFAULT_FROM_EMAIL, [recipient], fail_silently=True
+        )
 
     def get(self, request, campaign, pk, access_key=None):
         """Request existing permit data"""
@@ -42,13 +52,17 @@ class EventPermitView(APIView):
             )
 
         serializer = EventPermitSerializer(data=request.data)
+
         if serializer.is_valid():
             instance = serializer.save(
                 status=EventPermit.STATUS_REGISTERED,
-                certificate=request.data.get('certificateS3'),
+                insurance=request.data.get('insuranceS3'),
+                agreement=request.data.get('agreementS3'),
+                setup_sketch=request.data.get('setup_sketchS3'),
+                public_benefit=request.data.get('public_benefitS3'),
                 application_received=datetime.now(tz=timezone.utc),
             )
-            # self._send_registration_confirmation(instance.email, request)
+            self._send_registration_confirmation(instance.email, request)
             return Response(request.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

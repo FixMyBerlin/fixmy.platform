@@ -5,7 +5,7 @@ Sehr geehrte Damen und Herren,
 hiermit erhalten Sie gemäß Ihres Antrags:
 
 {% if is_park_zone %}- Eine Sondernutzungserlaubnis für ihre Veranstaltung in Grünananlagen
-  {{ link_permit}}{% endif %}{% if is_parking_zone %}- eine Ausnahmegenehmigung nach der Straßenverkehrsordnung:
+  {{ link_permit}}{% endif %}{% if is_parking_zone %}- eine Sondergenehmigung nach der Straßenverkehrsordnung:
   {{ link_permit }}
 - eine Straßenverkehrsrechtliche Anordnung:
   {{ link_traffic_order}}{% endif %}
@@ -23,15 +23,12 @@ Als weitere Anlagen erhalten Sie:
   https://fixmyberlin.de/uploads/event-terrassen/Merkblatt Sanitätsdienst bei Veranstaltungen, Berliner Feuerwehr, Stand 12.03.2020, Version 1.4.pdf
 - Merkblatt "Berliner Feuerwehr" u. Muster-Richtlinien über Flächen für die Feuerwehr
   https://fixmyberlin.de/uploads/event-terrassen/Richtlinien_Berliner_Feuerwehr.pdf
-- ggf. Weitere Anlagen zur Durchführung der Veranstaltung
-  [link]
+- Beachten Sie ggf. weitere Anhänge dieser E-Mail
 
 
 {% if is_park_zone %}Um die Straßenverkehrsrechtliche Anordnung durchzuführen, müssen Sie 
 selbständig eine Beschilderungsfirma mit der Aufstellung der Verkehrszeichen 
-oder Absperrungen beauftragen, weitere Hinweise finden Sie hier:
-
-https://fixmyberlin.de/uploads/event-terrassen/Regelplan_BAFK_RP_Sondernutzung_Parkstreifen.pdf
+oder Absperrungen beauftragen, oder diese Schilder eigenständig beschaffen und entsprechend des Regelplans aufstellen. 
 
 {% endif %}Wenn Sie von ihrem Antrag zurücktreten möchten, können Sie dies über eine 
 formlose Email an terrassen.sga@ba-fk.berlin.de tun.

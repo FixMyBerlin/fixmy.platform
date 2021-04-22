@@ -229,14 +229,14 @@ class EventPermit(Permit):
     def permit_url(self):
         """Return URL of this application's permit"""
         if self.area_category == self.LOCATION_PARK:
-            return f"{settings.FRONTEND_URL}/{self.CAMPAIGN_PATHS.get(self.campaign)}/veranstaltungen/{self.id}/gruenflaechen-genehmigung"
+            return f"{settings.FRONTEND_URL}/{self.CAMPAIGN_PATHS.get(self.campaign)}/terrassen/veranstaltungen/{self.id}/gruenflaechen-genehmigung"
         else:
-            return f"{settings.FRONTEND_URL}/{self.CAMPAIGN_PATHS.get(self.campaign)}/veranstaltungen/{self.id}/genehmigung"
+            return f"{settings.FRONTEND_URL}/{self.CAMPAIGN_PATHS.get(self.campaign)}/terrassen/veranstaltungen/{self.id}/genehmigung"
 
     @property
     def traffic_order_url(self):
         """Return URL of this application's traffic order"""
-        return f"{settings.FRONTEND_URL}/{self.CAMPAIGN_PATHS.get(self.campaign)}/veranstaltungen/{self.id}/anordnung"
+        return f"{settings.FRONTEND_URL}/{self.CAMPAIGN_PATHS.get(self.campaign)}/terrassen/veranstaltungen/{self.id}/anordnung"
 
     def send_notice(self):
         """Send notice informing the applicant about being accepted/rejected

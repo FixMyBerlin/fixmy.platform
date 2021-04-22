@@ -4,6 +4,7 @@ from fixmyapp.admin import FMBGeoAdmin
 from django.contrib import messages
 from django.contrib.admin import SimpleListFilter
 from django.utils.translation import gettext_lazy as _
+from django.utils.html import format_html
 from smtplib import SMTPException
 
 from .models import EventPermit
@@ -101,6 +102,8 @@ class EventPermitAdmin(FMBPermitsAdmin):
         'application_decided',
         'permit_start',
         'permit_end',
+        'permit',
+        'traffic_order'
     )
 
     def permit(self, obj):

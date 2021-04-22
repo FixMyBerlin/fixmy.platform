@@ -204,7 +204,7 @@ class EventPermit(Permit):
         upload_to=agreement_upload_to,
         verbose_name=_("event agreement"),
     )
- 
+
     def public_benefit_upload_to(instance, filename):
         return f"{instance.campaign}/gastro/{instance.id}/public_benefit"
 

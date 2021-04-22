@@ -204,7 +204,7 @@ class EventPermit(Permit):
         upload_to=agreement_upload_to,
         verbose_name=_("event agreement"),
     )
-
+ 
     def public_benefit_upload_to(instance, filename):
         return f"{instance.campaign}/gastro/{instance.id}/public_benefit"
 
@@ -228,10 +228,7 @@ class EventPermit(Permit):
     @property
     def permit_url(self):
         """Return URL of this application's permit"""
-        if self.area_category == self.LOCATION_PARK:
-            return f"{settings.FRONTEND_URL}/{self.CAMPAIGN_PATHS.get(self.campaign)}/terrassen/veranstaltungen/{self.id}/gruenflaechen-genehmigung"
-        else:
-            return f"{settings.FRONTEND_URL}/{self.CAMPAIGN_PATHS.get(self.campaign)}/terrassen/veranstaltungen/{self.id}/genehmigung"
+        return f"{settings.FRONTEND_URL}/{self.CAMPAIGN_PATHS.get(self.campaign)}/terrassen/veranstaltungen/{self.id}/genehmigung"
 
     @property
     def traffic_order_url(self):

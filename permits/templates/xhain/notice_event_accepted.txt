@@ -26,7 +26,7 @@ Als weitere Anlagen erhalten Sie:
 - Beachten Sie ggf. weitere Anhänge dieser E-Mail
 
 
-{% if is_park_zone %}Um die Straßenverkehrsrechtliche Anordnung durchzuführen, müssen Sie 
+{% if is_parking_zone %}Um die Straßenverkehrsrechtliche Anordnung durchzuführen, müssen Sie 
 selbständig eine Beschilderungsfirma mit der Aufstellung der Verkehrszeichen 
 oder Absperrungen beauftragen, oder diese Schilder eigenständig beschaffen und entsprechend des Regelplans aufstellen. 
 

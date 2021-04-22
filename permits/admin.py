@@ -103,7 +103,7 @@ class EventPermitAdmin(FMBPermitsAdmin):
         'permit_start',
         'permit_end',
         'permit',
-        'traffic_order'
+        'traffic_order',
     )
 
     def permit(self, obj):
@@ -170,6 +170,13 @@ class EventPermitAdmin(FMBPermitsAdmin):
                         f"Der Antrag für {application.title} ist Teil der Kampagne {_(application.campaign)}, für die noch keine Regelzeiträume für die Genehmigungen festgelegt wurden.",
                         messages.ERROR,
                     )
+                elif str(err) == "Park zone permit missing park zone selection":
+                    self.message_user(
+                        request,
+                        f"Im Antrag {application.pk} wurde noch kein Grünanlagen-Bereich ausgewählt.",
+                        messages.ERROR,
+                    )
+                    continue
                 else:
                     raise
             except (SMTPException, AnymailError) as e:

@@ -246,6 +246,14 @@ class EventPermit(Permit):
         """
 
         if self.status == EventPermit.STATUS_ACCEPTED:
+            # Areas in a park area need to have a specific park area set for a
+            # permit to be sent
+            if (
+                self.area_category == EventPermit.LOCATION_PARK
+                and self.area_park_name == None
+            ):
+                raise AttributeError("Park zone permit missing park zone selection")
+
             context = {
                 "is_park_zone": self.area_category == EventPermit.LOCATION_PARK,
                 "is_parking_zone": self.area_category == EventPermit.LOCATION_PARKING,

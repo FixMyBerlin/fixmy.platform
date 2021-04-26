@@ -122,10 +122,10 @@ class EventPermit(Permit):
     address = models.TextField(_('address'))
 
     date = models.DateField(_('event date'))
-    setup_start = models.DateTimeField(_('setup start time'))
-    event_start = models.DateTimeField(_('event start time'))
-    event_end = models.DateTimeField(_('event end time'))
-    teardown_end = models.DateTimeField(_('teardown end time'))
+    setup_start = models.TimeField(_('setup start time'))
+    event_start = models.TimeField(_('event start time'))
+    event_end = models.TimeField(_('event end time'))
+    teardown_end = models.TimeField(_('teardown end time'))
 
     NUM_PARTICIPANTS_CHOICES = (
         (0, _("less than 50")),
@@ -214,3 +214,92 @@ class EventPermit(Permit):
         null=True,
         blank=True,
     )
+
+    class Meta:
+        verbose_name = _('event permit')
+        verbose_name_plural = _('event permits')
+        ordering = ['campaign', 'title']
+
+    def __str__(self):
+        if self.title is not None and len(self.title) > 0:
+            return f"{self.id}: {self.title[:16]}"
+        return f"{self.id}: Kein Titel"
+
+    @property
+    def permit_url(self):
+        """Return URL of this application's permit"""
+        return f"{settings.FRONTEND_URL}/{self.CAMPAIGN_PATHS.get(self.campaign)}/terrassen/veranstaltungen/{self.id}/genehmigung"
+
+    @property
+    def traffic_order_url(self):
+        """Return URL of this application's traffic order"""
+        return f"{settings.FRONTEND_URL}/{self.CAMPAIGN_PATHS.get(self.campaign)}/terrassen/veranstaltungen/{self.id}/anordnung"
+
+    def send_notice(self):
+        """Send notice informing the applicant about being accepted/rejected
+
+        Make sure to save the instance after calling this method as the date of
+        the decision is recorded on call.
+        """
+
+        if self.status == EventPermit.STATUS_ACCEPTED:
+            # Areas in a park area need to have a specific park area set for a
+            # permit to be sent
+            if (
+                self.area_category == EventPermit.LOCATION_PARK
+                and self.area_park_name == None
+            ):
+                raise AttributeError("Park zone permit missing park zone selection")
+
+            context = {
+                "is_park_zone": self.area_category == EventPermit.LOCATION_PARK,
+                "is_parking_zone": self.area_category == EventPermit.LOCATION_PARKING,
+                "applicant_email": self.email,
+                "link_permit": self.permit_url,
+                "link_traffic_order": self.traffic_order_url,
+            }
+            subject = "Ihr Antrag auf eine Sondernutzung für eine Veranstaltung – Xhain-Terrassen"
+            body = render_to_string("xhain/notice_event_accepted.txt", context=context)
+        elif self.status == EventPermit.STATUS_REJECTED:
+            try:
+                context = {
+                    "applicant_email": self.email,
+                    "application_created": self.created_date.date(),
+                    "application_received": self.application_received.date(),
+                    "legal_deadline": date.today() + timedelta(days=14),
+                    "title": self.title,
+                    "full_name": f"{self.first_name} {self.last_name}",
+                    "rejection_reason": self.note,
+                }
+                pass
+            except AttributeError:
+                raise AttributeError("Missing data")
+
+            if self.note is None or len(self.note) == 0:
+                raise AttributeError("Missing note")
+
+            subject = "Ihr Antrag auf eine Sondernutzungserlaubnis Xhain-Terrassen "
+            body = render_to_string("xhain/notice_event_rejected.txt", context=context)
+        else:
+            raise ValueError("Invalid status for sending notice email")
+
+        send_mail(
+            subject, body, settings.DEFAULT_FROM_EMAIL, [settings.GASTRO_RECIPIENT]
+        )
+
+        try:
+            self.set_application_decided()
+        except KeyError:
+            raise AttributeError("Campaign missing permit date range")
+
+    def set_application_decided(self):
+        """Save dates relative to time of application decision"""
+        self.application_decided = datetime.now(tz=timezone.utc)
+        if self.status == self.STATUS_ACCEPTED:
+            campaign_start = self.CAMPAIGN_DURATION[self.campaign][0]
+            campaign_end = self.CAMPAIGN_DURATION[self.campaign][1]
+
+            today = datetime.now(tz=timezone.utc).date()
+
+            self.permit_start = today if today > campaign_start else campaign_start
+            self.permit_end = campaign_end

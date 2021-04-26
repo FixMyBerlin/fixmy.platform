@@ -6,13 +6,13 @@ Antrag gestellt von: {{ full_name }}
 
 Sehr geehrte Damen und Herren,
 
-Sie haben mit Antrag vom {{ application_created }}, eingegangen am {{ application_received }}, eine Ausnahmegenehmigung und Sondernutzung öffentlichen Straßenlandes für {{ shop_name }} in Berlin, Friedrichshain-Kreuzberg, beantragt.
+Sie haben mit Antrag vom {{ application_created }}, eingegangen am {{ application_received }}, eine Ausnahmegenehmigung zur Sondernutzung öffentlichen Straßenlandes / einer Grünlage für die Veranstaltung "{{ title }}" in Berlin, Friedrichshain-Kreuzberg, beantragt.
 
 Nach Prüfung der Sache kann ich Ihnen eine Ausnahmegenehmigung nicht in Aussicht stellen.
 
 Begründung:  
 
-{{ rejection_reason}}
+{{ rejection_reason }}
 
 Diese Mitteilung ist gebührenfrei. Sollten Sie einen rechtsmittelfähigen Bescheid wünschen (gebührenpflichtig), bitte ich um Ihre schriftliche oder elektronische Mitteilung bis zum {{ legal_deadline }}.
 
@@ -21,7 +21,7 @@ Andernfalls gehe ich davon aus, dass sich Ihr Anliegen mit meinem Schreiben erle
 Mit freundlichen Grüßen
 
 Ihr Bezirksamt Friedrichshain-Kreuzberg
-Straßenverkehrsbehörde
+Straßen- und Grünflächenamt
  
 ---
  

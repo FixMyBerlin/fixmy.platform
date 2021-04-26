@@ -10,6 +10,22 @@ from .models import EventPermit
 
 class EventPermitSerializer(serializers.ModelSerializer):
     area = GeometryField(precision=14, required=False, allow_null=True, default=None)
+    is_public_benefit = serializers.SerializerMethodField()
+    area_park_name_long = serializers.SerializerMethodField()
+
+    """Returns true if a public benefit attachment is set on the permit"""
+
+    def get_is_public_benefit(self, obj):
+        return bool(obj.public_benefit)
+
+    """Returns the spelled-out name of the park area"""
+
+    def get_area_park_name_long(self, obj):
+        return (
+            EventPermit.AREA_PARK_NAMES[obj.area_park_name][1]
+            if obj.area_park_name is not None
+            else None
+        )
 
     class Meta:
         model = EventPermit
@@ -42,6 +58,8 @@ class EventPermitSerializer(serializers.ModelSerializer):
             'permit_end',
             'note',
             'area_park_name',
+            'is_public_benefit',
+            'area_park_name_long',
         ]
 
         read_only_fields = [
@@ -56,6 +74,8 @@ class EventPermitSerializer(serializers.ModelSerializer):
             'insurance',
             'agreement',
             'public_benefit',
+            'is_public_benefit',
+            'area_park_name_long',
         ]
 
     def validate(self, values):

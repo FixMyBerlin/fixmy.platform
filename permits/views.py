@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 from django.conf import settings
 from django.core import mail
 from django.shortcuts import render
+from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
 from rest_framework import permissions, status
 from rest_framework.views import APIView
@@ -20,7 +21,7 @@ class EventPermitView(APIView):
     def _send_registration_confirmation(self, recipient, request):
         """Send a registration confirmation email notice"""
         subject = 'Ihr Antrag bei Xhain-Terrassen'
-        body = render_to_string('permits/notice_registered.txt', request=request)
+        body = render_to_string('xhain/notice_event_registered.txt', request=request)
         mail.send_mail(
             subject, body, settings.DEFAULT_FROM_EMAIL, [recipient], fail_silently=True
         )
@@ -55,6 +56,7 @@ class EventPermitView(APIView):
 
         if serializer.is_valid():
             instance = serializer.save(
+                campaign=campaign,
                 status=EventPermit.STATUS_REGISTERED,
                 insurance=request.data.get('insuranceS3'),
                 agreement=request.data.get('agreementS3'),

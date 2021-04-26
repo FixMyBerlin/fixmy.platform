@@ -99,7 +99,7 @@ class EventPermitAdmin(FMBPermitsAdmin):
     list_display = (
         'id',
         'title',
-        'category',
+        'area_category',
         'status',
         'created_date',
         'application_decided',
@@ -113,6 +113,8 @@ class EventPermitAdmin(FMBPermitsAdmin):
         TrafficOrderCheckFilter,
         'category',
     )
+
+    exclude = ('category',)
 
     save_on_top = True
     search_fields = ('email', 'org_name', 'last_name', 'title')

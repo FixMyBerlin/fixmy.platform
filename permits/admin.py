@@ -53,6 +53,27 @@ class PermitCheckFilter(SimpleListFilter):
             return queryset
 
 
+class AreaCategoryFilter(SimpleListFilter):
+    """Filter entries with a specific kind of area"""
+
+    title = _('Area category')
+    parameter_name = 'area_category'
+
+    def lookups(self, request, model_admin):
+        return (
+            ('park', _('park')),
+            ('parking', _('parking')),
+        )
+
+    def queryset(self, request, queryset):
+        if self.value() == 'park':
+            return queryset.filter(area_category="park")
+        elif self.value() == 'parking':
+            return queryset.filter(area_category="parking")
+        else:
+            return queryset
+
+
 class TrafficOrderCheckFilter(SimpleListFilter):
     """Filter entries where traffic order conditions have been checked"""
 
@@ -87,6 +108,7 @@ class EventPermitAdmin(FMBPermitsAdmin):
     list_filter = (
         'status',
         NoticeSentFilter,
+        AreaCategoryFilter,
         PermitCheckFilter,
         TrafficOrderCheckFilter,
         'category',

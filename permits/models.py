@@ -94,7 +94,7 @@ class EventPermit(Permit):
 
     # date constructor uses 1-based month number, i.e. january is 1
     CAMPAIGN_DURATION = {
-        'xhain2021': [date(2021, 3, 1), date(2021, 10, 1)],
+        'xhain2021': [date(2021, 5, 1), date(2021, 12, 31)],
     }
 
     campaign = models.CharField(_('campaign'), choices=CAMPAIGN_CHOICES, max_length=32)
@@ -121,6 +121,10 @@ class EventPermit(Permit):
     )
     address = models.TextField(_('address'))
 
+    title = models.CharField(_("event title"), max_length=80)
+    description = models.TextField(_("event announcement"), max_length=200)
+    details = models.TextField(_("event details"), max_length=2000)
+
     date = models.DateField(_('event date'))
     setup_start = models.TimeField(_('setup start time'))
     event_start = models.TimeField(_('event start time'))
@@ -146,11 +150,6 @@ class EventPermit(Permit):
         _("location category"), choices=LOCATION_CATEGORY_CHOICES, max_length=255
     )
 
-    area = models.GeometryField(
-        _('installation area'),
-        srid=4326,
-    )
-
     AREA_PARK_NAMES = (
         (0, "Mehringdamm 90"),
         (1, "Heilig-Kreuz-Kirche"),
@@ -171,8 +170,14 @@ class EventPermit(Permit):
         (16, "Görlitzer Ufer"),
         (17, "Ratiborstr. 14 b, Studentenbad"),
     )
+
     area_park_name = models.IntegerField(
         _("location park name"), choices=AREA_PARK_NAMES, null=True, blank=True
+    )
+
+    area = models.GeometryField(
+        _('installation area'),
+        srid=4326,
     )
 
     def setup_sketch_upload_to(instance, filename):
@@ -184,10 +189,6 @@ class EventPermit(Permit):
         null=True,
         blank=True,
     )
-
-    title = models.CharField(_("event title"), max_length=80)
-    description = models.TextField(_("event announcement"), max_length=200)
-    details = models.TextField(_("event details"), max_length=2000)
 
     def insurance_upload_to(instance, filename):
         return f"{instance.campaign}/gastro/{instance.id}/insurance"

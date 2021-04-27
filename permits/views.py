@@ -6,13 +6,33 @@ from django.core import mail
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
-from rest_framework import permissions, status
+from rest_framework import permissions, status, generics
 from rest_framework.views import APIView
 from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
+from urllib.parse import unquote
 
 from .models import EventPermit
-from .serializers import EventPermitSerializer, EventPermitDocumentSerializer
+from .serializers import (
+    EventPermitSerializer,
+    EventPermitDocumentSerializer,
+    EventListingSerializer,
+)
+
+
+#
+class EventListing(generics.ListAPIView):
+    serializer_class = EventListingSerializer
+    model = serializer_class.Meta.model
+
+    def get_queryset(self):
+        campaign = self.kwargs.get('campaign')
+        queryset = (
+            EventPermit.objects.filter(status=EventPermit.STATUS_ACCEPTED)
+            .filter(campaign=campaign)
+            .order_by('date')
+        )
+        return queryset
 
 
 class EventPermitView(APIView):
@@ -86,9 +106,14 @@ class EventPermitDocumentView(APIView):
         if doc_name not in ['insurance', 'agreement', 'public_benefit', 'setup_sketch']:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
+        try:
+            fname_decoded = unquote(fname)
+        except Exception:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
         s3_client = boto3.client('s3')
         sort_path = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-        s3_key = f"{campaign}/events/{doc_name}/{sort_path}/{fname}"
+        s3_key = f"{campaign}/events/{doc_name}/{sort_path}/{fname_decoded}"
 
         try:
             s3_client.upload_fileobj(

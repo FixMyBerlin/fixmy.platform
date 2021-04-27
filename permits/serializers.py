@@ -8,6 +8,21 @@ from rest_framework_gis.fields import GeometryField
 from .models import EventPermit
 
 
+# Listing of events that only includes essential information
+class EventListingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EventPermit
+        fields = [
+            'id',
+            'title',
+            'description',
+            'event_start',
+            'event_end',
+            'date',
+            'area',
+        ]
+
+
 class EventPermitSerializer(serializers.ModelSerializer):
     area = GeometryField(precision=14, required=False, allow_null=True, default=None)
     is_public_benefit = serializers.SerializerMethodField()

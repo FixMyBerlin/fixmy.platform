@@ -6,13 +6,32 @@ from django.core import mail
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
-from rest_framework import permissions, status
+from rest_framework import permissions, status, generics
 from rest_framework.views import APIView
 from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 
 from .models import EventPermit
-from .serializers import EventPermitSerializer, EventPermitDocumentSerializer
+from .serializers import (
+    EventPermitSerializer,
+    EventPermitDocumentSerializer,
+    EventListingSerializer,
+)
+
+
+#
+class EventListing(generics.ListAPIView):
+    serializer_class = EventListingSerializer
+    model = serializer_class.Meta.model
+
+    def get_queryset(self):
+        campaign = self.kwargs.get('campaign')
+        queryset = (
+            EventPermit.objects.filter(status=EventPermit.STATUS_ACCEPTED)
+            .filter(campaign=campaign)
+            .order_by('date')
+        )
+        return queryset
 
 
 class EventPermitView(APIView):

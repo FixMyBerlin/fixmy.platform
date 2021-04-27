@@ -1,14 +1,13 @@
 from django.urls import path
-from .views import EventPermitView, EventPermitDocumentView
+from .views import EventPermitView, EventPermitDocumentView, EventListing
 
 app_name = 'permits'
 
 # fmt: off
-urlpatterns = [
+urlpatterns = [ 
     path(
         'permits/events/<str:campaign>',
-        EventPermitView.as_view(),
-        name='permits-events'
+        EventListing.as_view()
     ),
     path(
         'permits/events/<str:campaign>/<int:pk>',

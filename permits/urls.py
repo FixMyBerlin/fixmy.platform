@@ -7,7 +7,13 @@ app_name = 'permits'
 urlpatterns = [ 
     path(
         'permits/events/<str:campaign>',
-        EventListing.as_view()
+        EventPermitView.as_view(),
+        name='permits-events'
+    ),
+    path(
+        'permits/events/<str:campaign>/listing',
+        EventListing.as_view(),
+        name='permits-events-listing'
     ),
     path(
         'permits/events/<str:campaign>/<int:pk>',

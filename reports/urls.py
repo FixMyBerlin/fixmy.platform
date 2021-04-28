@@ -1,7 +1,13 @@
 from django.urls import path
 from django.views.decorators.cache import cache_page
 from .models import Report
-from .views import LikedByUserReportList, ReportDetail, ReportList, UnsubscribeView
+from .views import (
+    LikedByUserReportList,
+    ReportDetail,
+    ReportList,
+    UnsubscribeView,
+    report_stats,
+)
 from fixmyapp.views import LikeView
 
 app_name = 'reports'
@@ -34,5 +40,9 @@ urlpatterns = [
         UnsubscribeView.as_view(), 
         name='unsubscribe-report-update'
     ),
+    path(
+        'reports/stats',
+        report_stats
+    )
 ]
 # fmt: on

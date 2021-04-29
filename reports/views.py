@@ -11,6 +11,7 @@ from rest_framework import generics, permissions
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.pagination import PageNumberPagination
+from collections import defaultdict
 
 from fixmyapp.models import NoticeSetting
 from .models import Like, Report, BikeStands
@@ -113,12 +114,19 @@ def report_stats(request):
     ]
 
     report_bike_stands = [r.number for r in reports if r.status in REPORT_STATUSES]
-    planning_bike_stands = [r.number for r in reports if r.status in PLANNINGS_STATUSES]
+
+    planning_bike_stands = []
+    plannings_by_status = defaultdict(int)
+    for r in reports:
+        if r.status in PLANNINGS_STATUSES:
+            planning_bike_stands.append(r.number)
+            plannings_by_status[r.status] += r.number
 
     rv = {
         'reports': len(report_bike_stands),
-        'reportsStands': sum(report_bike_stands),
+        'reportsBikeStands': sum(report_bike_stands),
         'plannings': len(planning_bike_stands),
-        'planningsStands': sum(planning_bike_stands),
+        'planningsBikeStands': sum(planning_bike_stands),
+        'planningsByStatus': plannings_by_status
     }
     return Response(rv)

@@ -8,10 +8,13 @@ from django.http import HttpResponseForbidden
 from django.views.generic import TemplateView
 from django.shortcuts import get_object_or_404
 from rest_framework import generics, permissions
+from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.pagination import PageNumberPagination
+from collections import defaultdict
 
 from fixmyapp.models import NoticeSetting
-from .models import Like, Report
+from .models import Like, Report, BikeStands
 from .serializers import ReportSerializer
 
 
@@ -88,3 +91,42 @@ class UnsubscribeView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['FRONTEND_URL'] = settings.FRONTEND_URL
         return context
+
+
+@api_view(['GET'])
+@permission_classes((permissions.AllowAny,))
+def report_stats(request):
+    reports = BikeStands.objects.all()
+
+    REPORT_STATUSES = [
+        Report.STATUS_REPORT_NEW,
+        Report.STATUS_REPORT_VERIFICATION,
+        Report.STATUS_REPORT_ACCEPTED,
+        Report.STATUS_REPORT_REJECTED,
+        Report.STATUS_REPORT_INACTIVE,
+    ]
+
+    PLANNINGS_STATUSES = [
+        Report.STATUS_PLANNING,
+        Report.STATUS_TENDER,
+        Report.STATUS_EXECUTION,
+        Report.STATUS_DONE,
+    ]
+
+    report_bike_stands = [r.number for r in reports if r.status in REPORT_STATUSES]
+
+    planning_bike_stands = []
+    plannings_by_status = defaultdict(int)
+    for r in reports:
+        if r.status in PLANNINGS_STATUSES:
+            planning_bike_stands.append(r.number)
+            plannings_by_status[r.status] += r.number
+
+    rv = {
+        'reports': len(report_bike_stands),
+        'reportsBikeStands': sum(report_bike_stands),
+        'plannings': len(planning_bike_stands),
+        'planningsBikeStands': sum(planning_bike_stands),
+        'planningsByStatus': plannings_by_status,
+    }
+    return Response(rv)

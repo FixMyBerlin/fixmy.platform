@@ -127,6 +127,6 @@ def report_stats(request):
         'reportsBikeStands': sum(report_bike_stands),
         'plannings': len(planning_bike_stands),
         'planningsBikeStands': sum(planning_bike_stands),
-        'planningsByStatus': plannings_by_status
+        'planningsByStatus': plannings_by_status,
     }
     return Response(rv)

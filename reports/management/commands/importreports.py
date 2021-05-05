@@ -247,7 +247,9 @@ class Command(BaseCommand):
                     entry_rows, force_insert=kwargs['force_insert']
                 )
                 link_report_origins(entry_rows, fix_status=kwargs['fix_status'])
-                self.stdout.write(f"Created {len(entries)} plannings\n")
+                self.stdout.write(f"Created or updated {len(entries)} plannings\n")
         except ValueError:
-            self.stderr.write(f"There were errors during import. No plannings created")
+            self.stderr.write(
+                f"There were errors during import. No plannings created or modified."
+            )
             sys.exit(1)

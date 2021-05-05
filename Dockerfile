@@ -1,4 +1,4 @@
-FROM python:3.6
+FROM python:3.9
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV PYTHONUNBUFFERED 1

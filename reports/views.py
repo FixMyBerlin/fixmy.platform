@@ -96,16 +96,6 @@ class UnsubscribeView(TemplateView):
 @api_view(['GET'])
 @permission_classes((permissions.AllowAny,))
 def report_stats(request):
-    reports = BikeStands.objects.all()
-
-    REPORT_STATUSES = [
-        Report.STATUS_REPORT_NEW,
-        Report.STATUS_REPORT_VERIFICATION,
-        Report.STATUS_REPORT_ACCEPTED,
-        Report.STATUS_REPORT_REJECTED,
-        Report.STATUS_REPORT_INACTIVE,
-    ]
-
     PLANNINGS_STATUSES = [
         Report.STATUS_PLANNING,
         Report.STATUS_TENDER,
@@ -113,14 +103,17 @@ def report_stats(request):
         Report.STATUS_DONE,
     ]
 
-    report_bike_stands = [r.number for r in reports if r.status in REPORT_STATUSES]
-
     planning_bike_stands = []
+    report_bike_stands = []
     plannings_by_status = defaultdict(int)
-    for r in reports:
+
+    for r in BikeStands.objects.all():
         if r.status in PLANNINGS_STATUSES:
             planning_bike_stands.append(r.number)
             plannings_by_status[r.status] += r.number
+        else:
+            report_bike_stands.append(r.number)
+
 
     rv = {
         'reports': len(report_bike_stands),

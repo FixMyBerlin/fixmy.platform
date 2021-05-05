@@ -13,7 +13,7 @@ from django.urls import reverse
 from fixmyapp.tests import LikeTest
 from fixmyapp.models import NoticeSetting
 from fixmydjango.utils import get_templates_config
-from .models import Report, StatusNotice
+from .models import Report, StatusNotice, BikeStands
 
 # Create your tests here.
 @override_settings(DEFAULT_FILE_STORAGE='django.core.files.storage.FileSystemStorage')
@@ -139,17 +139,21 @@ class UnitTest(TestCase):
         self.user = get_user_model().objects.create_user(
             'foo', 'foo@example.org', 'bar'
         )
-        self.report = Report.objects.create(
+        self.report = BikeStands.objects.create(
             address='Potsdamer Platz 1',
             description='Lorem ipsum dolor sit',
             geometry=Point(13.346_355_406_363_18, 52.525_659_903_336_57),
             user=self.user,
+            number=4,
+            fee_acceptable=True
         )
-        self.planning = Report.objects.create(
+        self.planning = BikeStands.objects.create(
             address='Potsdamer Platz 3',
             description='Lorem ipsum dolor sit',
             geometry=Point(13.346_365_406_363_18, 52.525_669_903_336_57),
             status=Report.STATUS_PLANNING,
+            number=8,
+            fee_acceptable=False
         )
         self.planning.origin.add(self.report)
 
@@ -187,3 +191,14 @@ class UnitTest(TestCase):
         self.report.save()
 
         assert StatusNotice.objects.filter(report=self.report).count() == 0
+
+    def test_stats(self):
+        response = self.client.get(reverse('reports:stats'), content_type='application/json')
+        stats = response.json()
+
+        assert stats['reports'] == 1
+        assert stats['reportsBikeStands'] == 4
+        assert stats['plannings'] == 1
+        assert stats['planningsBikeStands'] == 8
+        assert stats['planningsByStatus']['planning'] == 8
+        assert len(stats['planningsByStatus'].keys()) == 1

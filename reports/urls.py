@@ -42,7 +42,8 @@ urlpatterns = [
     ),
     path(
         'reports/stats',
-        cache_page(15)(report_stats)
+        cache_page(15)(report_stats),
+        name='stats'
     )
 ]
 # fmt: on

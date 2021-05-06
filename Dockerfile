@@ -2,7 +2,10 @@ FROM python:3.9
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV PYTHONUNBUFFERED 1
+
 ENV LANG en_US.utf8
+ENV LANGUAGE en_US.utf8
+ENV LC_ALL en_US.utf8
 
 # Add PostgreSQL repository to be able to install `postgresql-client-13`
 # c.f https://wiki.postgresql.org/wiki/Apt

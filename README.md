@@ -137,6 +137,7 @@ Import or update entries in the reports app from a CSV file.
 
 The imported CSV file is required to have the columns;
 
+- id: entry id that should be updated by this row. Leave empty to create new entries.
 - origin_ids: semicolon-separated list of reports that are implemented by this planning
 - status: one of the report statuses as can be found in `reports.models.report`
 - address: address including post code

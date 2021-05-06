@@ -135,6 +135,11 @@ def create_report_plannings(rows, force_insert=False):
         entry.save()
         entries.append(entry)
 
+        # Save back newly created entry ids on the row so that
+        # `link_report_origins` can access them
+        if row.get('id') in [None, ""]:
+            row['id'] = entry.id
+
     if len(errors) > 0:
         sys.stderr.write(
             f"The import was aborted because of errors in the input data\n\n - "

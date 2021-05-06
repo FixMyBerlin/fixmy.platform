@@ -50,10 +50,10 @@ def process_origin(entry, origin_entry_id, errorfn, fix_status=False):
         errorfn(
             f'links origin id {origin_entry_id:0>3} which does not exist in the database'
         )
-        raise IntegrityException()
-    except IntegrityError:
+        raise IntegrityError
+    except ValueError:
         errorfn(f'has invalid origin id ({str(origin_entry_id)})')
-        raise IntegrityException()
+        raise IntegrityError
 
     if origin_entry.status != BikeStands.STATUS_REPORT_ACCEPTED:
         if fix_status:
@@ -133,7 +133,7 @@ def create_report_plannings(rows, force_insert=False):
         validate_entry(row, rowerror)
         try:
             entry = process_entry(row, rowerror, force_insert=force_insert)
-        except IntegrityException:
+        except IntegrityError:
             continue
         entry.save()
         entries.append(entry)

@@ -1,0 +1,14 @@
+Anmeldungsdaten zur Unterstützung einer Spielstraße:
+
+Spielstraße: {{ street }}
+
+Vorname: {{ first_name }}
+Nachname: {{ last_name }}
+E-Mail: {{ email }}
+
+Auch als Teamkapitän:in: {{ captain_text }}
+
+Nachricht an das Bezirksamt: {{ message }}
+
+Die Person hat der Übermittlung dieser Daten zum Zwecke der Terminabspache und 
+der Vernetzung mit anderen Bürger:innen zugestimmt.

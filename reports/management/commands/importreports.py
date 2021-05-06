@@ -17,8 +17,10 @@ REQUIRED_COLS = [
 STATUS_CHOICES = [x[0] for x in BikeStands.STATUS_CHOICES]
 
 
-class IntegrityException(Exception):
+class IntegrityError(ValueError):
     """Raised when imported data has errors that prevent importing it"""
+
+    pass
 
 
 def validate_entry(row, errorfn):
@@ -49,7 +51,7 @@ def process_origin(entry, origin_entry_id, errorfn, fix_status=False):
             f'links origin id {origin_entry_id:0>3} which does not exist in the database'
         )
         raise IntegrityException()
-    except ValueError:
+    except IntegrityError:
         errorfn(f'has invalid origin id ({str(origin_entry_id)})')
         raise IntegrityException()
 
@@ -94,7 +96,7 @@ def process_entry(row, rowerror, force_insert=False):
                 rowerror(
                     f"specifies entry ID to update but entry {entry_id:03} not found in database"
                 )
-                raise IntegrityException
+                raise IntegrityError
 
     if is_update:
         entry.address = row['address']
@@ -114,6 +116,7 @@ def process_entry(row, rowerror, force_insert=False):
             subject=Report.SUBJECT_BIKE_STANDS,
         )
         if force_insert and entry_id is not None:
+            self.stdout.write(f"Set id {entry_id} on row {i}\n")
             entry.id = entry_id
     return entry
 
@@ -147,7 +150,7 @@ def create_report_plannings(rows, force_insert=False):
         formattederrors = "\n - ".join(sorted(errors))
         sys.stderr.write(formattederrors)
         sys.stderr.write("\n")
-        raise ValueError
+        raise IntegrityError
     return entries
 
 
@@ -158,7 +161,8 @@ def link_report_origins(entry_rows, fix_status=False):
     for i, row in enumerate(entry_rows):
 
         def rowerror(msg):
-            errors.append(f"Row {(i+1):03} {msg}")
+            # +1 because of 0-indexing and +1 because of the header row
+            errors.append(f"Row {(i+2):03} {msg}")
 
         entry_id = int(row.get("id"))
         entry = BikeStands.objects.get(pk=entry_id)
@@ -177,7 +181,7 @@ def link_report_origins(entry_rows, fix_status=False):
                     process_origin(
                         entry, origin_entry_id, rowerror, fix_status=fix_status
                     )
-                except IntegrityException:
+                except IntegrityError:
                     continue
 
     if len(errors) > 0:
@@ -187,7 +191,7 @@ def link_report_origins(entry_rows, fix_status=False):
         formattederrors = "\n - ".join(sorted(errors))
         sys.stderr.write(formattederrors)
         sys.stderr.write("\n")
-        raise ValueError
+        raise IntegrityError
 
 
 class Command(BaseCommand):
@@ -233,7 +237,7 @@ class Command(BaseCommand):
         elif "lat" in csv_reader.fieldnames:
             assert "geometry" not in csv_reader.fieldnames, errmsg
         else:
-            raise ValueError(
+            raise IntegrityError(
                 'The input file is missing entry locations defined \
                 in either a "geometry" column or in "long" and "lat" columns.'
             )
@@ -253,7 +257,7 @@ class Command(BaseCommand):
                 )
                 link_report_origins(entry_rows, fix_status=kwargs['fix_status'])
                 self.stdout.write(f"Created or updated {len(entries)} plannings\n")
-        except ValueError:
+        except IntegrityError:
             self.stderr.write(
                 f"There were errors during import. No plannings created or modified."
             )

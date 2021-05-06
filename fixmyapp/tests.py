@@ -824,6 +824,11 @@ class PlaystreetTest(TestCase):
             content_type='application/json',
         )
         self.assertEqual(response.status_code, 201)
+        self.assertEqual(len(mail.outbox), 1, mail.outbox)
+        self.assertIn(
+            self.data['email'],
+            mail.outbox[0].message()._payload,
+        )
 
     def test_listing(self):
         self.client.put(

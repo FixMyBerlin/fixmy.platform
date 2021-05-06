@@ -116,7 +116,6 @@ def process_entry(row, rowerror, force_insert=False):
             subject=Report.SUBJECT_BIKE_STANDS,
         )
         if force_insert and entry_id is not None:
-            self.stdout.write(f"Set id {entry_id} on row {i}\n")
             entry.id = entry_id
     return entry
 

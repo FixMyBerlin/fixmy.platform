@@ -86,6 +86,7 @@ class EventPermitSerializer(serializers.ModelSerializer):
             'permit_end',
             'note',
             'area_park_name',
+            'event_address',
             'setup_sketch',
             'insurance',
             'agreement',

@@ -66,6 +66,7 @@ class EventPermitSerializer(serializers.ModelSerializer):
             'title',
             'description',
             'details',
+            'event_address',
             'status',
             'application_received',
             'application_decided',

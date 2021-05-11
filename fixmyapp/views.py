@@ -124,7 +124,8 @@ class PlayStreetView(APIView):
         """Adds new signups."""
         serializer = PlaystreetSignupSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            entry = serializer.save()
+            PlaystreetSignup.send_notification(serializer)
             return Response(self.make_listing(campaign), status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

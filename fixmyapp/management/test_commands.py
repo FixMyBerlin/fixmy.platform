@@ -114,8 +114,8 @@ class ImportSectionDetails(TestCase):
             ).data
             mock_s3_url.assert_has_calls(
                 [
-                    call(f"rva_pics{s3_pic_2}"),
                     call(f"rva_pics{s3_pic_1}"),
+                    call(f"rva_pics{s3_pic_2}"),
                 ]
             )
 

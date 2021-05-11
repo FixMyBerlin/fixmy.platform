@@ -1,4 +1,3 @@
-from django.contrib.postgres.fields import JSONField
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from fixmyapp.models.base_model import BaseModel
@@ -62,7 +61,7 @@ class Scene(BaseModel):
 
 class Session(BaseModel):
     id = models.UUIDField(_('id'), primary_key=True)
-    profile = JSONField(_('profile'))
+    profile = models.JSONField(_('profile'))
     project = models.PositiveSmallIntegerField(_('project'))
 
     class Meta:

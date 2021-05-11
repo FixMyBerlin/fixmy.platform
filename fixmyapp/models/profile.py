@@ -42,7 +42,7 @@ class Profile(BaseModel):
         max_length=20,
         choices=CATEGORY_OF_BIKE_CHOICES,
     )
-    has_trailer = models.NullBooleanField(_('has trailer'), blank=True, null=True)
+    has_trailer = models.BooleanField(_('has trailer'), blank=True, null=True)
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     postal_code = models.CharField(
         _('postal code'), blank=True, null=True, max_length=5

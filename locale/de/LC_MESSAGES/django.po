@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE_VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-26 12:40+0000\n"
-"PO-Revision-Date: 2021-04-26 14:43+0200\n"
+"POT-Creation-Date: 2021-05-11 12:36+0000\n"
+"PO-Revision-Date: 2021-05-11 14:37+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -76,7 +76,7 @@ msgstr "Nicht versandt"
 
 #: fixmyapp/admin.py:303 fixmyapp/admin.py:317 fixmyapp/admin.py:335
 #: fixmyapp/admin.py:356 fixmyapp/admin.py:373 fixmyapp/admin.py:387
-#: permits/admin.py:133 permits/admin.py:147
+#: permits/admin.py:135 permits/admin.py:149
 msgid "Permalinks are available after saving for the first time"
 msgstr "Permalinks sind nach dem ersten Speichern verfügbar"
 
@@ -84,7 +84,7 @@ msgstr "Permalinks sind nach dem ersten Speichern verfügbar"
 msgid "application form"
 msgstr "Anmeldeformular"
 
-#: fixmyapp/admin.py:320 fixmyapp/views.py:288
+#: fixmyapp/admin.py:320 fixmyapp/views.py:289
 msgid "No renewal defined for this campaign"
 msgstr "Für diese Kampagne ist noch kein Zeitraum für Verlängerungen definiert"
 
@@ -108,11 +108,11 @@ msgstr "Dies ist der Initialantrag"
 msgid "previous application link"
 msgstr "Vorgängerantrag"
 
-#: fixmyapp/admin.py:383 permits/admin.py:143
+#: fixmyapp/admin.py:383 permits/admin.py:145
 msgid "permit"
 msgstr "Genehmigung / Erlaubnis"
 
-#: fixmyapp/admin.py:397 permits/admin.py:157
+#: fixmyapp/admin.py:397 permits/admin.py:159
 msgid "traffic order"
 msgstr "Verkehrsrechtliche Anordnung"
 
@@ -131,7 +131,7 @@ msgstr "Status auf „in Prüfung“ setzen"
 msgid "send registation requests"
 msgstr "Antragsformular versenden"
 
-#: fixmyapp/admin.py:512 permits/admin.py:217
+#: fixmyapp/admin.py:512 permits/admin.py:219
 msgid "send application notices"
 msgstr "Bescheide versenden"
 
@@ -151,7 +151,7 @@ msgstr "Name des Betriebs"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:14
 #: fixmyapp/models/gastro_signup.py:143 fixmyapp/models/report.py:43
-#: permits/models.py:122 reports/models/report.py:53
+#: permits/models.py:124 reports/models/report.py:53
 msgid "address"
 msgstr "Anschrift"
 
@@ -180,7 +180,7 @@ msgstr "Nachname"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:19
 #: fixmyapp/management/commands/exportplaystreets.py:14
-#: fixmyapp/models/gastro_signup.py:138 fixmyapp/models/playstreet_signup.py:12
+#: fixmyapp/models/gastro_signup.py:138 fixmyapp/models/playstreet_signup.py:17
 #: permits/models.py:48
 msgid "email"
 msgstr "E-Mail"
@@ -245,7 +245,7 @@ msgstr "Bearbeitungsvermerk zur verkehrsrechtlichen Anordnung"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:33
 #: fixmyapp/management/commands/exportplaystreets.py:17
-#: fixmyapp/models/gastro_signup.py:158 fixmyapp/models/playstreet_signup.py:13
+#: fixmyapp/models/gastro_signup.py:158 fixmyapp/models/playstreet_signup.py:18
 #: permits/models.py:59
 msgid "tos_accepted"
 msgstr "Bedingungen akzeptiert"
@@ -261,22 +261,22 @@ msgid "agreement accepted"
 msgstr "Vereinbarung angenommen"
 
 #: fixmyapp/management/commands/exportplaystreets.py:11
-#: fixmyapp/models/playstreet_signup.py:14
+#: fixmyapp/models/playstreet_signup.py:19
 msgid "captain"
 msgstr "Meldung Kapitän:in"
 
 #: fixmyapp/management/commands/exportplaystreets.py:12
-#: fixmyapp/models/playstreet_signup.py:10
+#: fixmyapp/models/playstreet_signup.py:15
 msgid "first_name"
 msgstr "Vorname"
 
 #: fixmyapp/management/commands/exportplaystreets.py:13
-#: fixmyapp/models/playstreet_signup.py:11
+#: fixmyapp/models/playstreet_signup.py:16
 msgid "last_name"
 msgstr "Nachname"
 
 #: fixmyapp/management/commands/exportplaystreets.py:15
-#: fixmyapp/models/playstreet_signup.py:15
+#: fixmyapp/models/playstreet_signup.py:20
 msgid "message"
 msgstr "Nachricht"
 
@@ -289,7 +289,7 @@ msgid "Modified date"
 msgstr "Letzte Änderung"
 
 #: fixmyapp/models/bike_stands.py:12 reports/models/bike_stands.py:8
-#: survey/models.py:34
+#: survey/models.py:33
 msgid "number"
 msgstr "Nummer"
 
@@ -366,7 +366,7 @@ msgstr "Wochentage"
 msgid "whole week"
 msgstr "Ganze Woche"
 
-#: fixmyapp/models/gastro_signup.py:106 fixmyapp/models/playstreet_signup.py:8
+#: fixmyapp/models/gastro_signup.py:106 fixmyapp/models/playstreet_signup.py:13
 #: permits/models.py:100
 msgid "campaign"
 msgstr "Kampagne"
@@ -397,7 +397,7 @@ msgstr "Telefonnummer"
 msgid "location"
 msgstr "Standort"
 
-#: fixmyapp/models/gastro_signup.py:148 permits/models.py:150
+#: fixmyapp/models/gastro_signup.py:148 permits/models.py:189
 msgid "installation area"
 msgstr "Aufstellfläche"
 
@@ -457,15 +457,15 @@ msgstr "Foto"
 msgid "photos"
 msgstr "Fotos"
 
-#: fixmyapp/models/playstreet_signup.py:9
+#: fixmyapp/models/playstreet_signup.py:14
 msgid "play_street"
 msgstr "Spielstraße"
 
-#: fixmyapp/models/playstreet_signup.py:18
+#: fixmyapp/models/playstreet_signup.py:23
 msgid "playstreet_signup"
 msgstr "Spielstraßen-Anmeldung"
 
-#: fixmyapp/models/playstreet_signup.py:19
+#: fixmyapp/models/playstreet_signup.py:24
 msgid "playstreet_signups"
 msgstr "Spielstraßen-Anmeldungen"
 
@@ -549,7 +549,7 @@ msgstr "Geschwindigkeit"
 msgid "security"
 msgstr "Sicherheit"
 
-#: fixmyapp/models/profile.py:60 survey/models.py:65
+#: fixmyapp/models/profile.py:60 survey/models.py:64
 msgid "profile"
 msgstr "Profil"
 
@@ -757,7 +757,7 @@ msgstr "Querschnitt"
 msgid "faq"
 msgstr "Häufige Fragen"
 
-#: fixmyapp/models/project.py:145 survey/models.py:27 survey/models.py:66
+#: fixmyapp/models/project.py:145 survey/models.py:26 survey/models.py:65
 msgid "project"
 msgstr "Projekt"
 
@@ -938,11 +938,11 @@ msgstr "Abschnittsdetails"
 msgid "Please upload a certificate"
 msgstr "Bitte einen Nachweis hochladen"
 
-#: fixmyapp/views.py:274 fixmyapp/views.py:295 fixmyapp/views.py:299
+#: fixmyapp/views.py:275 fixmyapp/views.py:296 fixmyapp/views.py:300
 msgid "Invalid access key"
 msgstr "Ungültiger Zugangsschlüssel"
 
-#: fixmyapp/views.py:306
+#: fixmyapp/views.py:307
 msgid "Campaign has ended"
 msgstr "Kampagne ist abgelaufen"
 
@@ -950,11 +950,11 @@ msgstr "Kampagne ist abgelaufen"
 msgid "Area category"
 msgstr "Flächenart"
 
-#: permits/admin.py:64 permits/models.py:142
+#: permits/admin.py:64 permits/models.py:156
 msgid "park"
 msgstr "Grünanlage"
 
-#: permits/admin.py:65 permits/models.py:143
+#: permits/admin.py:65 permits/models.py:157
 msgid "parking"
 msgstr "Ruhender Verkehr"
 
@@ -975,82 +975,94 @@ msgid "organisation name"
 msgstr "Name der Organisation"
 
 #: permits/models.py:124
-msgid "event date"
-msgstr "Datum der Veranstaltung"
-
-#: permits/models.py:125
-msgid "setup start time"
-msgstr "Beginn des Aufbaus"
-
-#: permits/models.py:126
-msgid "event start time"
-msgstr "Beginn der Veranstaltung"
+msgid "postal address of the applicant"
+msgstr "Postadresse Antragsteller"
 
 #: permits/models.py:127
-msgid "event end time"
-msgstr "Ende der Veranstaltung"
-
-#: permits/models.py:128
-msgid "teardown end time"
-msgstr "Ende des Abbaus"
-
-#: permits/models.py:131
-msgid "less than 50"
-msgstr "Unter 50"
-
-#: permits/models.py:132
-msgid "50 - 200"
-msgstr "50 -200"
-
-#: permits/models.py:133
-msgid "201 - 500"
-msgstr "201 - 500"
-
-#: permits/models.py:136
-msgid "number of participants"
-msgstr "Maximale Teilnehmerzahl"
-
-#: permits/models.py:146
-msgid "location category"
-msgstr "Art der Fläche"
-
-#: permits/models.py:175
-msgid "location park name"
-msgstr "Name des Grünanlagen-Bereichs"
-
-#: permits/models.py:183
-msgid "setup sketch"
-msgstr "Skizze der Aufbauten"
-
-#: permits/models.py:188
 msgid "event title"
 msgstr "Titel"
 
-#: permits/models.py:189
+#: permits/models.py:128
 msgid "event announcement"
 msgstr "Ankündigungstext"
 
-#: permits/models.py:190
+#: permits/models.py:129
 msgid "event details"
 msgstr "Veranstaltungskonzept"
 
-#: permits/models.py:197
+#: permits/models.py:131
+msgid "event address"
+msgstr "Adresse Veranstaltungsort"
+
+#: permits/models.py:134
+msgid "street address of the event location"
+msgstr "Adresse der Veranstaltung für die VR-Anordnung"
+
+#: permits/models.py:138
+msgid "event date"
+msgstr "Datum der Veranstaltung"
+
+#: permits/models.py:139
+msgid "setup start time"
+msgstr "Beginn des Aufbaus"
+
+#: permits/models.py:140
+msgid "event start time"
+msgstr "Beginn der Veranstaltung"
+
+#: permits/models.py:141
+msgid "event end time"
+msgstr "Ende der Veranstaltung"
+
+#: permits/models.py:142
+msgid "teardown end time"
+msgstr "Ende des Abbaus"
+
+#: permits/models.py:145
+msgid "less than 50"
+msgstr "Unter 50"
+
+#: permits/models.py:146
+msgid "50 - 200"
+msgstr "50 -200"
+
+#: permits/models.py:147
+msgid "201 - 500"
+msgstr "201 - 500"
+
+#: permits/models.py:150
+msgid "number of participants"
+msgstr "Maximale Teilnehmerzahl"
+
+#: permits/models.py:160
+msgid "location category"
+msgstr "Art der Fläche"
+
+#: permits/models.py:185
+msgid "location park name"
+msgstr "Name des Grünanlagen-Bereichs"
+
+#: permits/models.py:198
+msgid "setup sketch"
+msgstr "Skizze der Aufbauten"
+
+#: permits/models.py:208
 msgid "proof of insurance"
 msgstr "Versicherungsbestätigung"
 
-#: permits/models.py:205
+#: permits/models.py:216
 msgid "event agreement"
 msgstr "Veranstaltererklärung"
 
-#: permits/models.py:213
+#: permits/models.py:224
 msgid "proof of public benefit"
 msgstr "Nachweis der Gemeinnützigkeit"
 
-#: permits/models.py:219
+#: permits/models.py:230
 msgid "event permit"
 msgstr "Antrag für Veranstaltung"
 
-#: permits/models.py:220
+#: permits/models.py:231
 msgid "event permits"
 msgstr "Anträge für Veranstaltungen"
 
@@ -1078,75 +1090,75 @@ msgstr "Benachrichtigung über Status"
 msgid "status notices"
 msgstr "Benachrichtigungen über Statusse"
 
-#: survey/models.py:13
+#: survey/models.py:12
 msgid "cycle path"
 msgstr "Radweg"
 
-#: survey/models.py:14
+#: survey/models.py:13
 msgid "main street"
 msgstr "Hauptstraße"
 
-#: survey/models.py:15
+#: survey/models.py:14
 msgid "side street"
 msgstr "Nebenstraße"
 
-#: survey/models.py:22
+#: survey/models.py:21
 msgid "car"
 msgstr "Auto"
 
-#: survey/models.py:23
+#: survey/models.py:22
 msgid "bicycle"
 msgstr "Fahrrad"
 
-#: survey/models.py:24
+#: survey/models.py:23
 msgid "pedestrian"
 msgstr "Fußgänger"
 
-#: survey/models.py:29
+#: survey/models.py:28
 msgid "experiment"
 msgstr "Experiment"
 
-#: survey/models.py:32
+#: survey/models.py:31
 msgid "perspective"
 msgstr "Perspektive"
 
-#: survey/models.py:35
+#: survey/models.py:34
 msgid "weight"
 msgstr "Gewicht"
 
-#: survey/models.py:36
+#: survey/models.py:35
 msgid "image"
 msgstr "Bild"
 
-#: survey/models.py:40
+#: survey/models.py:39
 msgid "scene"
 msgstr "Szene"
 
-#: survey/models.py:41
+#: survey/models.py:40
 msgid "scenes"
 msgstr "Szenen"
 
-#: survey/models.py:64
+#: survey/models.py:63
 msgid "id"
 msgstr "ID"
 
-#: survey/models.py:69
+#: survey/models.py:68
 msgid "session"
 msgstr "Sitzung"
 
-#: survey/models.py:70
+#: survey/models.py:69
 msgid "sessions"
 msgstr "Sitzungen"
 
-#: survey/models.py:74
+#: survey/models.py:73
 msgid "duration"
 msgstr "Dauer"
 
-#: survey/models.py:75 survey/models.py:82
+#: survey/models.py:74 survey/models.py:81
 msgid "rating"
 msgstr "Bewertung"
 
-#: survey/models.py:83
+#: survey/models.py:82
 msgid "ratings"
 msgstr "Bewertungen"
 

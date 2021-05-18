@@ -120,6 +120,41 @@ class EventPermitAdmin(FMBPermitsAdmin):
     search_fields = ('email', 'org_name', 'last_name', 'title')
 
     order = ['-created_date']
+
+    fields = [
+        'status',
+        'org_name',
+        'first_name',
+        'last_name',
+        'email',
+        'phone',
+        'address',
+        'title',
+        'num_participants',
+        'description',
+        'details',
+        'area_category',
+        'event_address',
+        'area_park_name',
+        'date',
+        'setup_start',
+        'event_start',
+        'event_end',
+        'teardown_end',
+        'area',
+        'setup_sketch',
+        'insurance',
+        'agreement',
+        'public_benefit',
+        'campaign',
+        'created_date',
+        'application_received',
+        'application_decided',
+        'permit_start',
+        'permit_end',
+        'permit',
+        'traffic_order',
+    ]
     readonly_fields = (
         'created_date',
         'application_received',

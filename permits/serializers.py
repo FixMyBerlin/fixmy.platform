@@ -10,6 +10,19 @@ from .models import EventPermit
 
 # Listing of events that only includes essential information
 class EventListingSerializer(serializers.ModelSerializer):
+    location = serializers.SerializerMethodField()
+
+    """Returns the spelled-out name of the park area"""
+
+    def get_location(self, obj):
+        try:
+            if obj.area_category == 'parking':
+                return obj.address
+            else:
+                return EventPermit.AREA_PARK_NAMES[obj.area_park_name][1]
+        except:
+            return 'Keine Ortsangabe'
+
     class Meta:
         model = EventPermit
         fields = [
@@ -20,6 +33,8 @@ class EventListingSerializer(serializers.ModelSerializer):
             'event_end',
             'date',
             'area',
+            'area_category',
+            'location',
         ]
 
 
@@ -66,6 +81,7 @@ class EventPermitSerializer(serializers.ModelSerializer):
             'title',
             'description',
             'details',
+            'event_address',
             'status',
             'application_received',
             'application_decided',
@@ -85,6 +101,7 @@ class EventPermitSerializer(serializers.ModelSerializer):
             'permit_end',
             'note',
             'area_park_name',
+            'event_address',
             'setup_sketch',
             'insurance',
             'agreement',

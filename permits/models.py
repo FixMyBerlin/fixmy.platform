@@ -119,11 +119,21 @@ class EventPermit(Permit):
     phone = models.CharField(
         _('telephone number'), max_length=32, null=True, blank=True
     )
-    address = models.TextField(_('address'))
+    # postal address of the event organizer
+    address = models.TextField(
+        _('address'), help_text=_('postal address of the applicant')
+    )
 
     title = models.CharField(_("event title"), max_length=80)
     description = models.TextField(_("event announcement"), max_length=200)
     details = models.TextField(_("event details"), max_length=2000)
+    event_address = models.CharField(
+        _('event address'),
+        null=True,
+        blank=True,
+        help_text=_('street address of the event location'),
+        max_length=255,
+    )
 
     date = models.DateField(_('event date'))
     setup_start = models.TimeField(_('setup start time'))

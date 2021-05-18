@@ -10,7 +10,7 @@ hiermit erhalten Sie gemäß Ihres Antrags:
 - eine Straßenverkehrsrechtliche Anordnung:
   {{ link_traffic_order}}{% endif %}
 
-{% if is_park_zone %}Dieses Dokument ist{% endif %}{% if is_parking_zone %}Beide Dokumente sind{% endif %} auszudrucken und sichtbar straßenseitig an der 
+{% if is_park_zone %}Dieses Dokument ist{% endif %}{% if is_parking_zone %}Beide Dokumente sind{% endif %} auszudrucken und sichtbar {% if is_parking_zone %}straßenseitig {% endif %}an der 
 Sondernutzungsfläche anzubringen!
 
 Als weitere Anlagen erhalten Sie:
@@ -18,7 +18,7 @@ Als weitere Anlagen erhalten Sie:
 {% if is_parking_zone %}- Regelpläne Straßenraum
   https://fixmyberlin.de/uploads/event-terrassen/Regelplan_BAFK_RP_Sondernutzung_Parkstreifen.pdf
 - Hinweise zur Durchführung der Straßenverkehrsrechtlichen Anordnung
-  [link]
+  https://fixmyberlin.de/uploads/event-terrassen/Hinweise-SV-Anordnung.pdf
 {% endif %}- Merkblatt “Sanitätsdienst”
   https://fixmyberlin.de/uploads/event-terrassen/Merkblatt Sanitätsdienst bei Veranstaltungen, Berliner Feuerwehr, Stand 12.03.2020, Version 1.4.pdf
 - Merkblatt "Berliner Feuerwehr" u. Muster-Richtlinien über Flächen für die Feuerwehr

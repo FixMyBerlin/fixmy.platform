@@ -1,3 +1,4 @@
+from fixmyapp.utils import gastro_signups_open
 import dateutil.parser
 import boto3
 import uuid
@@ -150,22 +151,7 @@ class GastroSignupView(APIView):
 
     def post(self, request, campaign):
         """Adds new signups."""
-
-        def gastro_signups_open():
-            try:
-                start = dateutil.parser.parse(settings.GASTRO_SIGNUPS_OPEN).replace(
-                    tzinfo=timezone.utc
-                )
-                end = dateutil.parser.parse(settings.GASTRO_SIGNUPS_CLOSE).replace(
-                    tzinfo=timezone.utc
-                )
-            except TypeError:
-                # No explicit start and end times defined
-                return True
-            rv = start < datetime.now(tz=timezone.utc) < end
-            return rv
-
-        if not settings.TOGGLE_GASTRO_SIGNUPS or not gastro_signups_open():
+        if not gastro_signups_open():
             return Response(
                 'Signups are currently not open',
                 status=status.HTTP_405_METHOD_NOT_ALLOWED,

@@ -405,7 +405,7 @@ class GastroSignupTest(TestCase):
             self.assertEqual(response.status_code, 405)
 
         with self.settings(
-            TOGGLE_GASTRO_SIGNUPS=True,
+            TOGGLE_GASTRO_SIGNUPS=None,
             TOGGLE_GASTRO_DIRECT_SIGNUP=False,
             GASTRO_SIGNUPS_OPEN=(
                 datetime.now(tz=timezone.utc) - timedelta(seconds=30)

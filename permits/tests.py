@@ -49,7 +49,11 @@ class EventPermitsTest(TestCase):
         self.client = Client()
 
     def test_application(self):
-        with self.settings(TOGGLE_EVENT_SIGNUPS=True):
+        with self.settings(
+            TOGGLE_EVENT_SIGNUPS=True,
+            EVENT_SIGNUPS_OPEN=None,
+            EVENT_SIGNUPS_CLOSE=None,
+        ):
             response = self.client.post(
                 '/api/permits/events/xhain2021',
                 data=json.dumps(self.registration_data),
@@ -57,7 +61,11 @@ class EventPermitsTest(TestCase):
             )
             self.assertEqual(response.status_code, 201, response.content)
 
-        with self.settings(TOGGLE_EVENT_SIGNUPS=False):
+        with self.settings(
+            TOGGLE_EVENT_SIGNUPS=False,
+            EVENT_SIGNUPS_OPEN=None,
+            EVENT_SIGNUPS_CLOSE=None,
+        ):
             response = self.client.post(
                 '/api/permits/events/xhain2021',
                 data=json.dumps(self.registration_data),
@@ -74,19 +82,36 @@ class EventPermitsTest(TestCase):
         )
 
         params = [
-            (date_past, date_future, 201),
-            (date_past, date_past, 405),
-            (date_future, date_future, 405),
+            # If toggle is undefined, signup only when between date ranges
+            (date_past, date_future, None, 201),
+            (date_past, date_past, None, 405),
+            (date_future, date_future, None, 405),
+            # When toggle is on, signup is always possible
+            (date_past, date_future, True, 201),
+            (date_past, date_past, True, 201),
+            (date_future, date_future, True, 201),
+            # When toggle is on, signup is never possible
+            (date_past, date_future, False, 405),
+            (date_past, date_past, False, 405),
+            (date_future, date_future, False, 405),
         ]
 
-        for d1, d2, status_code in params:
-            with self.settings(EVENT_SIGNUPS_OPEN=d1, EVENT_SIGNUPS_CLOSE=d2):
+        for date_1, date_2, is_toggled, status_code in params:
+            with self.settings(
+                EVENT_SIGNUPS_OPEN=date_1,
+                EVENT_SIGNUPS_CLOSE=date_2,
+                TOGGLE_EVENT_SIGNUPS=is_toggled,
+            ):
                 response = self.client.post(
                     '/api/permits/events/xhain2021',
                     data=json.dumps(self.registration_data),
                     content_type="application/json",
                 )
-                self.assertEqual(response.status_code, status_code, response.content)
+                self.assertEqual(
+                    response.status_code,
+                    status_code,
+                    f"Unexpected status {response.status_code} with TOGGLE_EVENT_SIGNUPS {'on' if is_toggled else 'off'} opening between {date_1} and {date_2}",
+                )
 
 
 class EventPermitsAdminTest(TestCase):

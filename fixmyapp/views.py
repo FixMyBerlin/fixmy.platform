@@ -1,8 +1,8 @@
 from fixmyapp.utils import gastro_signups_open
-import dateutil.parser
 import boto3
 import uuid
 import requests
+import sys
 from datetime import datetime, timezone
 from django.conf import settings
 from django.core import mail
@@ -227,6 +227,7 @@ class GastroCertificateView(APIView):
                 request.data['file'], settings.AWS_STORAGE_BUCKET_NAME, s3_key
             )
         except Exception:
+            sys.stderr.write(str(err))
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         return Response({'path': s3_key})
@@ -246,7 +247,8 @@ class GastroCertificateView(APIView):
         try:
             instance.certificate = request.data['file']
             instance.save()
-        except Exception:
+        except Exception as err:
+            sys.stderr.write(str(err))
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         return Response(status=status.HTTP_204_NO_CONTENT)

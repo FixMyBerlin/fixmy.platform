@@ -58,8 +58,12 @@ class EventPermitView(APIView):
 
         def event_permit_signups_open():
             try:
-                start = dateutil.parser.parse(settings.EVENT_SIGNUPS_OPEN)
-                end = dateutil.parser.parse(settings.EVENT_SIGNUPS_CLOSE)
+                start = dateutil.parser.parse(settings.EVENT_SIGNUPS_OPEN).replace(
+                    tzinfo=timezone.utc
+                )
+                end = dateutil.parser.parse(settings.EVENT_SIGNUPS_CLOSE).replace(
+                    tzinfo=timezone.utc
+                )
             except TypeError:
                 # No explicit start and end times defined
                 return True

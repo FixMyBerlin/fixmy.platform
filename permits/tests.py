@@ -65,3 +65,29 @@ class EventPermitsTest(TestCase):
             )
             self.assertEqual(response.status_code, 405, response.content)
 
+    def test_campaign_open_close_time(self):
+        date_past = (datetime.now(tz=timezone.utc) - timedelta(days=3)).strftime(
+            "%Y-%m-%d"
+        )
+        date_future = (datetime.now(tz=timezone.utc) + timedelta(days=3)).strftime(
+            "%Y-%m-%d"
+        )
+
+        params = [
+            (date_past, date_future, 201),
+            (date_past, date_past, 405),
+            (date_future, date_future, 405),
+        ]
+
+        for d1, d2, status_code in params:
+            with self.settings(EVENT_SIGNUPS_OPEN=d1, EVENT_SIGNUPS_CLOSE=d2):
+                response = self.client.post(
+                    '/api/permits/events/xhain2021',
+                    data=json.dumps(self.registration_data),
+                    content_type="application/json",
+                )
+                self.assertEqual(response.status_code, status_code, response.content)
+
+
+class EventPermitsAdminTest(TestCase):
+    pass

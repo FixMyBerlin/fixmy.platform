@@ -1,6 +1,7 @@
 import json
 from datetime import datetime, timedelta, timezone
-from unittest.mock import patch
+from unittest.mock import call, patch
+from django.conf import settings
 from django.test import TestCase
 from django.test.client import Client
 from rest_framework import serializers
@@ -54,11 +55,30 @@ class EventPermitsTest(TestCase):
             EVENT_SIGNUPS_OPEN=None,
             EVENT_SIGNUPS_CLOSE=None,
         ):
-            response = self.client.post(
-                '/api/permits/events/xhain2021',
-                data=json.dumps(self.registration_data),
-                content_type="application/json",
-            )
+            with patch("permits.serializers.boto3") as boto3:
+                response = self.client.post(
+                    '/api/permits/events/xhain2021',
+                    data=json.dumps(self.registration_data),
+                    content_type="application/json",
+                )
+
+                # Test that S3 objects are accessed
+                s3 = boto3.resource.return_value
+                s3.Object.assert_has_calls(
+                    [
+                        call(
+                            settings.AWS_STORAGE_BUCKET_NAME,
+                            self.registration_data.get(field_name_s3),
+                        )
+                        for field_name_s3 in [
+                            'insuranceS3',
+                            'agreementS3',
+                            'public_benefitS3',
+                        ]
+                    ],
+                    any_order=True,
+                )
+
             self.assertEqual(response.status_code, 201, response.content)
 
         with self.settings(
@@ -102,11 +122,12 @@ class EventPermitsTest(TestCase):
                 EVENT_SIGNUPS_CLOSE=date_2,
                 TOGGLE_EVENT_SIGNUPS=is_toggled,
             ):
-                response = self.client.post(
-                    '/api/permits/events/xhain2021',
-                    data=json.dumps(self.registration_data),
-                    content_type="application/json",
-                )
+                with patch("permits.serializers.boto3") as boto3:
+                    response = self.client.post(
+                        '/api/permits/events/xhain2021',
+                        data=json.dumps(self.registration_data),
+                        content_type="application/json",
+                    )
                 self.assertEqual(
                     response.status_code,
                     status_code,

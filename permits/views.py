@@ -1,5 +1,6 @@
 import dateutil.parser
 import boto3
+import sys
 from datetime import datetime, timezone
 from django.conf import settings
 from django.core import mail
@@ -13,6 +14,7 @@ from rest_framework.response import Response
 from urllib.parse import unquote
 
 from .models import EventPermit
+from .utils import event_signups_open
 from .serializers import (
     EventPermitSerializer,
     EventPermitDocumentSerializer,
@@ -20,7 +22,6 @@ from .serializers import (
 )
 
 
-#
 class EventListing(generics.ListAPIView):
     serializer_class = EventListingSerializer
     model = serializer_class.Meta.model
@@ -56,17 +57,7 @@ class EventPermitView(APIView):
     def post(self, request, campaign):
         """Adds new event permit application."""
 
-        def event_permit_signups_open():
-            try:
-                start = dateutil.parser.parse(settings.EVENT_SIGNUPS_OPEN)
-                end = dateutil.parser.parse(settings.EVENT_SIGNUPS_CLOSE)
-            except TypeError:
-                # No explicit start and end times defined
-                return True
-            rv = start < datetime.now(tz=timezone.utc) < end
-            return rv
-
-        if not settings.TOGGLE_EVENT_SIGNUPS or not event_permit_signups_open():
+        if not event_signups_open():
             return Response(
                 'Signups are currently not open',
                 status=status.HTTP_405_METHOD_NOT_ALLOWED,
@@ -97,7 +88,7 @@ class EventPermitDocumentView(APIView):
 
     def post(self, request, campaign, doc_name, fname):
         """Upload a document for an application"""
-        if not settings.TOGGLE_EVENT_SIGNUPS:
+        if not event_signups_open():
             return Response(
                 'Registration is currently not open',
                 status=status.HTTP_405_METHOD_NOT_ALLOWED,
@@ -119,7 +110,8 @@ class EventPermitDocumentView(APIView):
             s3_client.upload_fileobj(
                 request.data['file'], settings.AWS_STORAGE_BUCKET_NAME, s3_key
             )
-        except Exception:
+        except Exception as e:
+            sys.stderr.write(str(e))
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         return Response({'path': s3_key})

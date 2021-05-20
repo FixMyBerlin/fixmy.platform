@@ -1,0 +1,13 @@
+version: 2
+updates:
+- package-ecosystem: pip
+  directory: "/"
+  schedule:
+    day: "monday"
+    interval: weekly
+    time: "04:00"
+  target-branch: master
+  reviewers:
+  - cafca
+  labels:
+  - dependencies

@@ -3,6 +3,7 @@ updates:
 - package-ecosystem: pip
   directory: "/"
   schedule:
+    day: "monday"
     interval: weekly
     time: "04:00"
   target-branch: master
@@ -10,32 +11,3 @@ updates:
   - cafca
   labels:
   - dependencies
-  ignore:
-  - dependency-name: boto3
-    versions:
-    - 1.16.59
-    - 1.16.63
-    - 1.17.12
-    - 1.17.17
-    - 1.17.22
-    - 1.17.27
-    - 1.17.3
-    - 1.17.30
-    - 1.17.33
-    - 1.17.39
-    - 1.17.44
-    - 1.17.49
-    - 1.17.5
-    - 1.17.52
-    - 1.17.53
-    - 1.17.7
-  - dependency-name: gunicorn
-    versions:
-    - 20.0.4
-  - dependency-name: django
-    versions:
-    - 3.1.5
-    - 3.1.6
-  - dependency-name: django-cors-headers
-    versions:
-    - 3.6.0

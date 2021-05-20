@@ -196,6 +196,7 @@ class EventPermit(Permit):
     setup_sketch = models.FileField(
         upload_to=setup_sketch_upload_to,
         verbose_name=_("setup sketch"),
+        max_length=255,
         null=True,
         blank=True,
     )
@@ -206,6 +207,7 @@ class EventPermit(Permit):
     insurance = models.FileField(
         upload_to=insurance_upload_to,
         verbose_name=_("proof of insurance"),
+        max_length=255,
     )
 
     def agreement_upload_to(instance, filename):
@@ -214,6 +216,7 @@ class EventPermit(Permit):
     agreement = models.FileField(
         upload_to=agreement_upload_to,
         verbose_name=_("event agreement"),
+        max_length=255,
     )
 
     def public_benefit_upload_to(instance, filename):
@@ -222,6 +225,7 @@ class EventPermit(Permit):
     public_benefit = models.FileField(
         upload_to=public_benefit_upload_to,
         verbose_name=_("proof of public benefit"),
+        max_length=255,
         null=True,
         blank=True,
     )

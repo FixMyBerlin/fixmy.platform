@@ -296,7 +296,6 @@ DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
 # Feature-Toggles
 
 TOGGLE_NEWSLETTER = bool(os.getenv('TOGGLE_NEWSLETTER', False))
-TOGGLE_GASTRO_SIGNUPS = bool(os.getenv('TOGGLE_GASTRO_SIGNUPS', False))
 TOGGLE_GASTRO_REGISTRATIONS = bool(os.getenv('TOGGLE_GASTRO_REGISTRATIONS', True))
 TOGGLE_GASTRO_DIRECT_SIGNUP = bool(os.getenv('TOGGLE_GASTRO_DIRECT_SIGNUP', False))
 
@@ -308,7 +307,6 @@ GASTRO_SIGNUPS_CLOSE = os.getenv('GASTRO_SIGNUPS_CLOSE', None)
 
 # Configuration for Permits app
 
-TOGGLE_EVENT_SIGNUPS = bool(os.getenv('TOGGLE_EVENT_SIGNUPS', False))
 EVENT_RECIPIENT = os.getenv('EVENT_RECIPIENT', 'aufsicht.sga@ba-fk.berlin.de')
 EVENT_SIGNUPS_OPEN = os.getenv('EVENT_SIGNUPS_OPEN', None)
 EVENT_SIGNUPS_CLOSE = os.getenv('EVENT_SIGNUPS_CLOSE', None)

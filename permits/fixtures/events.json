@@ -85,7 +85,7 @@
     "teardown_end": "20:00:00",
     "num_participants": 1,
     "area_category": "park",
-    "area_park_name": 6,
+    "area_park_name": 60,
     "area": "SRID=4326;POLYGON ((13.41053548494074 52.49072668774555, 13.41057765764731 52.4906924496898, 13.4102262184243 52.49052981855974, 13.41018638864608 52.49056548333263, 13.41053548494074 52.49072668774555))",
     "setup_sketch": "",
     "insurance": "xhain2021/events/insurance/2021-04-15_16-03-37/test.pdf",

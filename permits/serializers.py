@@ -8,6 +8,17 @@ from rest_framework_gis.fields import GeometryField
 from .models import EventPermit
 
 
+def resolve_area_name(obj):
+    """Return address for parking-space events and park name for park events."""
+    try:
+        if obj.area_category == 'parking':
+            return obj.address
+        else:
+            return EventPermit.AREA_PARK_NAMES[obj.area_park_name][1]
+    except IndexError:
+        return 'Keine Ortsangabe'
+
+
 # Listing of events that only includes essential information
 class EventListingSerializer(serializers.ModelSerializer):
     location = serializers.SerializerMethodField()
@@ -15,13 +26,7 @@ class EventListingSerializer(serializers.ModelSerializer):
     """Returns the spelled-out name of the park area"""
 
     def get_location(self, obj):
-        try:
-            if obj.area_category == 'parking':
-                return obj.address
-            else:
-                return EventPermit.AREA_PARK_NAMES[obj.area_park_name][1]
-        except:
-            return 'Keine Ortsangabe'
+        return resolve_area_name(obj)
 
     class Meta:
         model = EventPermit
@@ -51,11 +56,7 @@ class EventPermitSerializer(serializers.ModelSerializer):
     """Returns the spelled-out name of the park area"""
 
     def get_area_park_name_long(self, obj):
-        return (
-            EventPermit.AREA_PARK_NAMES[obj.area_park_name][1]
-            if obj.area_park_name is not None
-            else None
-        )
+        return resolve_area_name(obj)
 
     class Meta:
         model = EventPermit

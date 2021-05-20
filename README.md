@@ -22,6 +22,40 @@ to access the console of the Docker container running the backend app. Here you 
 
 You can enable interactive debugging through [debugpy](https://github.com/microsoft/debugpy) by setting the environment variable `DEBUGPY=1` (e.g. through a `.env` file).
 
+## Configuration
+
+Configuration options are set through environment variables, all of which are listed in `docker-compose.yml`.
+
+### AWS Backend
+
+### General Debugging
+
+### E-Mail Service
+
+### Mapbox service
+
+### Newsletter service
+
+
+### Reports app
+
+### Gastro app
+
+### Permits app
+
+`EVENT_RECIPIENT` (string): An email address to which email notifications for
+accepted or rejected applications are sent be forwarded to the actual recipients.
+
+`EVENT_SIGNUPS_OPEN` (string): An iso 8601 formatted datetime which defines the
+beginning of the event permit application signup timeframe. 
+
+If undefined, applications are always open. If the value can not be parsed, sign
+ups are always closed.
+
+`EVENT_SIGNUPS_CLOSE` (string): Equivalent for closing date and time.
+
+### Playstreets app
+
 ## Django commands
 
 Use

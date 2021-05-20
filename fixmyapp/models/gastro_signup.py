@@ -151,6 +151,7 @@ class GastroSignup(BaseModel):
     certificate = models.FileField(
         upload_to=get_upload_path,
         verbose_name=_('registration certificate'),
+        max_length=255,
         null=True,
         blank=True,
     )

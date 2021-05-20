@@ -1,7 +1,8 @@
-import dateutil.parser
+from fixmyapp.utils import gastro_signups_open
 import boto3
 import uuid
 import requests
+import sys
 from datetime import datetime, timezone
 from django.conf import settings
 from django.core import mail
@@ -150,18 +151,7 @@ class GastroSignupView(APIView):
 
     def post(self, request, campaign):
         """Adds new signups."""
-
-        def gastro_signups_open():
-            try:
-                start = dateutil.parser.parse(settings.GASTRO_SIGNUPS_OPEN)
-                end = dateutil.parser.parse(settings.GASTRO_SIGNUPS_CLOSE)
-            except TypeError:
-                # No explicit start and end times defined
-                return True
-            rv = start < datetime.now(tz=timezone.utc) < end
-            return rv
-
-        if not settings.TOGGLE_GASTRO_SIGNUPS or not gastro_signups_open():
+        if not gastro_signups_open():
             return Response(
                 'Signups are currently not open',
                 status=status.HTTP_405_METHOD_NOT_ALLOWED,
@@ -237,6 +227,7 @@ class GastroCertificateView(APIView):
                 request.data['file'], settings.AWS_STORAGE_BUCKET_NAME, s3_key
             )
         except Exception:
+            sys.stderr.write(str(err))
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         return Response({'path': s3_key})
@@ -256,7 +247,8 @@ class GastroCertificateView(APIView):
         try:
             instance.certificate = request.data['file']
             instance.save()
-        except Exception:
+        except Exception as err:
+            sys.stderr.write(str(err))
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         return Response(status=status.HTTP_204_NO_CONTENT)

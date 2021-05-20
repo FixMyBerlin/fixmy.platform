@@ -376,13 +376,10 @@ class GastroSignupTest(TestCase):
         """
         Test conditions for opening signups
 
-        It should only be possible to sign-up when TOGGLE_GASTRO_SIGNUPS is
-        set and either no start and end date are defined or the current datetime
-        is in that time window.
+        It should only be possible to sign-up when start and end times surround
+        the current datetime.
         """
-        with self.settings(
-            TOGGLE_GASTRO_SIGNUPS=True, TOGGLE_GASTRO_DIRECT_SIGNUP=False
-        ):
+        with self.settings(TOGGLE_GASTRO_DIRECT_SIGNUP=False):
             response = self.client.post(
                 '/api/gastro/xhain',
                 data=json.dumps(self.signup_data),
@@ -395,17 +392,6 @@ class GastroSignupTest(TestCase):
             self.assertEqual(response2.status_code, 200)
 
         with self.settings(
-            TOGGLE_GASTRO_SIGNUPS=False, TOGGLE_GASTRO_DIRECT_SIGNUP=False
-        ):
-            response = self.client.post(
-                '/api/gastro/xhain',
-                data=json.dumps(self.signup_data),
-                content_type='application/json',
-            )
-            self.assertEqual(response.status_code, 405)
-
-        with self.settings(
-            TOGGLE_GASTRO_SIGNUPS=True,
             TOGGLE_GASTRO_DIRECT_SIGNUP=False,
             GASTRO_SIGNUPS_OPEN=(
                 datetime.now(tz=timezone.utc) - timedelta(seconds=30)
@@ -425,9 +411,7 @@ class GastroSignupTest(TestCase):
         """Test that changing read-only fields is not possible"""
 
         # Create a new signup
-        with self.settings(
-            TOGGLE_GASTRO_SIGNUPS=True, TOGGLE_GASTRO_DIRECT_SIGNUP=False
-        ):
+        with self.settings(TOGGLE_GASTRO_DIRECT_SIGNUP=False):
             self.client.post(
                 '/api/gastro/xhain',
                 data=json.dumps(self.signup_data),
@@ -463,9 +447,7 @@ class GastroSignupTest(TestCase):
     def test_signups_closed(self):
         """Test that changing a submission is only possible if it has the right status"""
 
-        with self.settings(
-            TOGGLE_GASTRO_SIGNUPS=True, TOGGLE_GASTRO_DIRECT_SIGNUP=False
-        ):
+        with self.settings(TOGGLE_GASTRO_DIRECT_SIGNUP=False):
             self.client.post(
                 '/api/gastro/xhain',
                 data=json.dumps(self.signup_data),
@@ -505,9 +487,7 @@ class GastroSignupTest(TestCase):
         """Test that the date of signups is recorded on update"""
 
         # Create a new signup
-        with self.settings(
-            TOGGLE_GASTRO_SIGNUPS=True, TOGGLE_GASTRO_DIRECT_SIGNUP=False
-        ):
+        with self.settings(TOGGLE_GASTRO_DIRECT_SIGNUP=False):
             self.client.post(
                 '/api/gastro/xhain',
                 data=json.dumps(self.signup_data),
@@ -543,9 +523,7 @@ class GastroSignupTest(TestCase):
         """Test direct registration"""
         from rest_framework import serializers
 
-        with self.settings(
-            TOGGLE_GASTRO_SIGNUPS=True, TOGGLE_GASTRO_DIRECT_SIGNUP=True
-        ):
+        with self.settings(TOGGLE_GASTRO_DIRECT_SIGNUP=True):
             with patch("fixmyapp.serializers.boto3") as boto3:
                 boto3.resource.return_value.Object.side_effect = (
                     serializers.ValidationError()
@@ -557,9 +535,7 @@ class GastroSignupTest(TestCase):
                 )
         self.assertEqual(response.status_code, 400, response.data)
 
-        with self.settings(
-            TOGGLE_GASTRO_SIGNUPS=True, TOGGLE_GASTRO_DIRECT_SIGNUP=True
-        ):
+        with self.settings(TOGGLE_GASTRO_DIRECT_SIGNUP=True):
             with patch("fixmyapp.serializers.boto3") as boto3:
                 response = self.client.post(
                     '/api/gastro/xhain',

@@ -2,9 +2,14 @@ import json
 from datetime import datetime, timedelta, timezone
 from unittest.mock import call, patch
 from django.conf import settings
+from django.contrib.auth import get_user_model
+from django.core import mail
+from django.db.models import Q
 from django.test import TestCase
 from django.test.client import Client
+from django.urls.base import reverse
 from rest_framework import serializers
+from .models import EventPermit
 
 
 class EventPermitsTest(TestCase):
@@ -140,4 +145,58 @@ class EventPermitsTest(TestCase):
 
 
 class EventPermitsAdminTest(TestCase):
-    pass
+    username = 'test_user'
+    password = 'test_password'
+
+    fixtures = ['events']
+
+    def setUp(self):
+        self.user = get_user_model().objects.create_superuser(
+            self.username, 'test@example.com', self.password
+        )
+
+        self.client.login(username=self.username, password=self.password)
+
+    def test_send_notices(self):
+        """Test sending notices to applicants"""
+
+        # Both of theses statuses should trigger sending emails
+        instances = EventPermit.objects.filter(Q(pk=1) | Q(pk=2))
+        statuses = [EventPermit.STATUS_ACCEPTED, EventPermit.STATUS_REJECTED]
+        for i, inst in enumerate(instances):
+            inst.status = statuses[i]
+            inst.save()
+            self.assertEqual(inst.status, statuses[i])
+
+        # Trigger the admin action by posting this request
+        data = {
+            'action': 'send_notices',
+            '_selected_action': [inst.pk for inst in instances],
+        }
+        resp = self.client.post(
+            reverse('admin:permits_eventpermit_changelist'), data=data
+        )
+
+        # Sending notice should update the application_decided field
+        instances[0].refresh_from_db()
+        self.assertTrue(
+            (instances[0].application_decided - datetime.now(tz=timezone.utc))
+            < timedelta(seconds=5),
+            instances[0].application_decided,
+        )
+
+        self.assertTrue(
+            (instances[0].permit_start == datetime.now(tz=timezone.utc).date()),
+            instances[0].permit_start,
+        )
+
+        self.assertTrue(
+            (
+                instances[0].permit_end
+                == EventPermit.CAMPAIGN_DURATION[instances[0].campaign][1]
+            ),
+            instances[0].permit_end,
+        )
+
+        self.assertEqual(resp.status_code, 302, resp.content)
+        self.assertEqual(len(mail.outbox), 2, mail.outbox)

@@ -130,6 +130,14 @@ class EventPermitsTest(TestCase):
         self.assertEqual(response.status_code, 200, response.content)
         self.assertEqual(len(response.json()), 2)
 
+    def test_details(self):
+        """Test requesting details for an application."""
+
+        response = self.client.get(
+            '/api/permits/events/xhain2021/2', content_type="application/json"
+        )
+        self.assertEqual(response.status_code, 200, response.content)
+
 
 class EventPermitsAdminTest(TestCase):
     pass

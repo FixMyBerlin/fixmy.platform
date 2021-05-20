@@ -9,6 +9,8 @@ from rest_framework import serializers
 
 class EventPermitsTest(TestCase):
 
+    fixtures = ['events']
+
     registration_data = {
         "org_name": "",
         "first_name": "Marty",
@@ -119,6 +121,14 @@ class EventPermitsTest(TestCase):
                     status_code,
                     f"Unexpected status {response.status_code} opening between {date_1} and {date_2}",
                 )
+
+    def test_listing(self):
+        """Test endpoint for listing future accepted applications."""
+        response = self.client.get(
+            '/api/permits/events/xhain2021/listing', content_type="application/json"
+        )
+        self.assertEqual(response.status_code, 200, response.content)
+        self.assertEqual(len(response.json()), 2)
 
 
 class EventPermitsAdminTest(TestCase):

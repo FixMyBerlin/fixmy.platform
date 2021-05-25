@@ -31,7 +31,7 @@ selbständig eine Beschilderungsfirma mit der Aufstellung der Verkehrszeichen
 oder Absperrungen beauftragen, oder diese Schilder eigenständig beschaffen und entsprechend des Regelplans aufstellen. 
 
 {% endif %}Wenn Sie von ihrem Antrag zurücktreten möchten, können Sie dies über eine 
-formlose Email an terrassen.sga@ba-fk.berlin.de tun.
+formlose Email an aufsicht.sga@ba-fk.berlin.de tun.
 
 Mit freundlichen Grüßen,
 Ihr Bezirksamt Friedrichshain-Kreuzberg

@@ -14,8 +14,10 @@ def resolve_area_name(obj):
         if obj.area_category == 'parking':
             return obj.address
         else:
+            if obj.area_park_name is None:
+                raise ValueError()
             return EventPermit.AREA_PARK_NAMES[obj.area_park_name][1]
-    except IndexError:
+    except (IndexError, ValueError):
         return 'Keine Ortsangabe'
 
 

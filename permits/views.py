@@ -31,6 +31,8 @@ class EventListing(generics.ListAPIView):
         queryset = (
             EventPermit.objects.filter(status=EventPermit.STATUS_ACCEPTED)
             .filter(campaign=campaign)
+            .filter(permit_start__isnull=False)
+            .filter(permit_end__isnull=False)
             .order_by('date')
         )
         return queryset

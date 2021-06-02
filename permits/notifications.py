@@ -67,7 +67,7 @@ def send_decision_notice(application):
         raise AttributeError("Campaign missing permit date range")
 
 
-def send_registration_confirmation(self, recipient, request):
+def send_registration_confirmation(recipient, request):
     """Send a registration confirmation email notice"""
     subject = 'Ihr Antrag bei Xhain-Terrassen'
     body = render_to_string('xhain/notice_event_registered.txt', request=request)

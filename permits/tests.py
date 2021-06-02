@@ -58,11 +58,12 @@ class EventPermitsTest(TestCase):
 
     def test_application(self):
         with patch("permits.serializers.boto3") as boto3:
-            response = self.client.post(
-                '/api/permits/events/xhain2021',
-                data=json.dumps(self.registration_data),
-                content_type="application/json",
-            )
+            with self.settings(EVENT_REPLY_TO='test@mail.com'):
+                response = self.client.post(
+                    '/api/permits/events/xhain2021',
+                    data=json.dumps(self.registration_data),
+                    content_type="application/json",
+                )
 
             # Test that S3 objects are accessed
             s3 = boto3.resource.return_value

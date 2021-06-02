@@ -71,6 +71,9 @@ def send_registration_confirmation(recipient, request):
     """Send a registration confirmation email notice"""
     subject = 'Ihr Antrag bei Xhain-Terrassen'
     body = render_to_string('xhain/notice_event_registered.txt', request=request)
-    mail.send_mail(
-        subject, body, settings.DEFAULT_FROM_EMAIL, [recipient], fail_silently=True
-    )
+    email = mail.EmailMessage(subject, body, settings.DEFAULT_FROM_EMAIL, [recipient])
+
+    if settings.EVENT_REPLY_TO is not None:
+        email.reply_to = [settings.EVENT_REPLY_TO]
+
+    email.send(fail_silently=True)

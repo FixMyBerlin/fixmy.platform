@@ -310,6 +310,7 @@ GASTRO_SIGNUPS_CLOSE = os.getenv('GASTRO_SIGNUPS_CLOSE', None)
 EVENT_RECIPIENT = os.getenv('EVENT_RECIPIENT', 'aufsicht.sga@ba-fk.berlin.de')
 EVENT_SIGNUPS_OPEN = os.getenv('EVENT_SIGNUPS_OPEN', None)
 EVENT_SIGNUPS_CLOSE = os.getenv('EVENT_SIGNUPS_CLOSE', None)
+EVENT_REPLY_TO = os.getenv('EVENT_REPLY_TO', None)
 
 # Configuration for reports app
 

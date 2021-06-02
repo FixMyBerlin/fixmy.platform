@@ -307,9 +307,17 @@ GASTRO_SIGNUPS_CLOSE = os.getenv('GASTRO_SIGNUPS_CLOSE', None)
 
 # Configuration for Permits app
 
+# Configures the recipient of event application decision notices
 EVENT_RECIPIENT = os.getenv('EVENT_RECIPIENT', 'aufsicht.sga@ba-fk.berlin.de')
+
+# (optional) set these values to something that can be parsed by datetime
+# (e.g. iso 8601 date) to configure a time frame outside of which requests to
+# the signup endpoint will fail
 EVENT_SIGNUPS_OPEN = os.getenv('EVENT_SIGNUPS_OPEN', None)
 EVENT_SIGNUPS_CLOSE = os.getenv('EVENT_SIGNUPS_CLOSE', None)
+
+# (optional) set to an email address to add a reply-to header to emails sent
+# from the event app
 EVENT_REPLY_TO = os.getenv('EVENT_REPLY_TO', None)
 
 # Configuration for reports app

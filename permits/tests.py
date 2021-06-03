@@ -129,11 +129,34 @@ class EventPermitsTest(TestCase):
 
     def test_listing(self):
         """Test endpoint for listing future accepted applications."""
+        # Place events in the future so they are included in the response
+        events = EventPermit.objects.filter(status=EventPermit.STATUS_ACCEPTED)
+        for event in events:
+            event.date = datetime.today() + timedelta(days=1)
+            event.save()
+
         response = self.client.get(
             '/api/permits/events/xhain2021/listing', content_type="application/json"
         )
         self.assertEqual(response.status_code, 200, response.content)
         self.assertEqual(len(response.json()), 2)
+
+    def test_listing_accepted_only(self):
+        """Test that event listings only include accepted applications."""
+        # Place events in the future so they are included in the response
+        events = EventPermit.objects.filter(status=EventPermit.STATUS_ACCEPTED)
+        for event in events:
+            event.date = datetime.today() + timedelta(days=1)
+            event.save()
+
+        events[0].permit_start = None
+        events[0].permit_end = None
+        events[0].save()
+
+        response = self.client.get(
+            '/api/permits/events/xhain2021/listing', content_type="application/json"
+        )
+        self.assertEqual(len(response.json()), 1)
 
     def test_details(self):
         """Test requesting details for an application."""

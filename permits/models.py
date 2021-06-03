@@ -250,63 +250,6 @@ class EventPermit(Permit):
         """Return URL of this application's traffic order"""
         return f"{settings.FRONTEND_URL}/{self.CAMPAIGN_PATHS.get(self.campaign)}/terrassen/veranstaltungen/{self.id}/anordnung"
 
-    def send_notice(self):
-        """Send notice informing the applicant about being accepted/rejected
-
-        Make sure to save the instance after calling this method as the date of
-        the decision is recorded on call.
-        """
-
-        if self.status == EventPermit.STATUS_ACCEPTED:
-            # Areas in a park area need to have a specific park area set for a
-            # permit to be sent
-            if (
-                self.area_category == EventPermit.LOCATION_PARK
-                and self.area_park_name == None
-            ):
-                raise AttributeError("Park zone permit missing park zone selection")
-
-            context = {
-                "is_park_zone": self.area_category == EventPermit.LOCATION_PARK,
-                "is_parking_zone": self.area_category == EventPermit.LOCATION_PARKING,
-                "applicant_email": self.email,
-                "link_permit": self.permit_url,
-                "link_traffic_order": self.traffic_order_url,
-            }
-            subject = "Ihr Antrag auf eine Sondernutzung für eine Veranstaltung – Xhain-Terrassen"
-            body = render_to_string("xhain/notice_event_accepted.txt", context=context)
-        elif self.status == EventPermit.STATUS_REJECTED:
-            try:
-                context = {
-                    "applicant_email": self.email,
-                    "application_created": self.created_date.date(),
-                    "application_received": self.application_received.date(),
-                    "legal_deadline": date.today() + timedelta(days=14),
-                    "title": self.title,
-                    "full_name": f"{self.first_name} {self.last_name}",
-                    "rejection_reason": self.note,
-                }
-                pass
-            except AttributeError:
-                raise AttributeError("Missing data")
-
-            if self.note is None or len(self.note) == 0:
-                raise AttributeError("Missing note")
-
-            subject = "Ihr Antrag auf eine Sondernutzungserlaubnis Xhain-Terrassen "
-            body = render_to_string("xhain/notice_event_rejected.txt", context=context)
-        else:
-            raise ValueError("Invalid status for sending notice email")
-
-        send_mail(
-            subject, body, settings.DEFAULT_FROM_EMAIL, [settings.GASTRO_RECIPIENT]
-        )
-
-        try:
-            self.set_application_decided()
-        except KeyError:
-            raise AttributeError("Campaign missing permit date range")
-
     def set_application_decided(self):
         """Save dates relative to time of application decision"""
         self.application_decided = datetime.now(tz=timezone.utc)

@@ -28,8 +28,11 @@ class EventListing(generics.ListAPIView):
     def get_queryset(self):
         campaign = self.kwargs.get('campaign')
         queryset = (
-            EventPermit.objects.filter(status=EventPermit.STATUS_ACCEPTED)
-            .filter(campaign=campaign)
+            EventPermit.objects.filter(campaign=campaign)
+            .filter(status=EventPermit.STATUS_ACCEPTED)
+            .filter(date__gte=datetime.today())
+            .filter(permit_start__isnull=False)
+            .filter(permit_end__isnull=False)
             .order_by('date')
         )
         return queryset

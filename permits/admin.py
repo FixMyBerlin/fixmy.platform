@@ -1,3 +1,4 @@
+from permits.notifications import send_decision_notice
 from anymail.exceptions import AnymailError
 from django.contrib import admin
 from fixmyapp.admin import FMBGeoAdmin
@@ -205,7 +206,7 @@ class EventPermitAdmin(FMBPermitsAdmin):
                 continue
 
             try:
-                application.send_notice()
+                send_decision_notice(application)
                 application.save()
                 numsent += 1
             except AttributeError as err:

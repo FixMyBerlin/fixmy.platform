@@ -1,12 +1,11 @@
+from permits.notifications import send_registration_confirmation
 import dateutil.parser
 import boto3
 import sys
 from datetime import datetime, timezone
 from django.conf import settings
-from django.core import mail
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
-from django.template.loader import render_to_string
 from rest_framework import permissions, status, generics
 from rest_framework.views import APIView
 from rest_framework.parsers import FileUploadParser
@@ -29,8 +28,11 @@ class EventListing(generics.ListAPIView):
     def get_queryset(self):
         campaign = self.kwargs.get('campaign')
         queryset = (
-            EventPermit.objects.filter(status=EventPermit.STATUS_ACCEPTED)
-            .filter(campaign=campaign)
+            EventPermit.objects.filter(campaign=campaign)
+            .filter(status=EventPermit.STATUS_ACCEPTED)
+            .filter(date__gte=datetime.today())
+            .filter(permit_start__isnull=False)
+            .filter(permit_end__isnull=False)
             .order_by('date')
         )
         return queryset
@@ -38,14 +40,6 @@ class EventListing(generics.ListAPIView):
 
 class EventPermitView(APIView):
     permission_classes = (permissions.AllowAny,)
-
-    def _send_registration_confirmation(self, recipient, request):
-        """Send a registration confirmation email notice"""
-        subject = 'Ihr Antrag bei Xhain-Terrassen'
-        body = render_to_string('xhain/notice_event_registered.txt', request=request)
-        mail.send_mail(
-            subject, body, settings.DEFAULT_FROM_EMAIL, [recipient], fail_silently=True
-        )
 
     def get(self, request, campaign, pk, access_key=None):
         """Request existing permit data"""
@@ -75,7 +69,7 @@ class EventPermitView(APIView):
                 public_benefit=request.data.get('public_benefitS3'),
                 application_received=datetime.now(tz=timezone.utc),
             )
-            self._send_registration_confirmation(instance.email, request)
+            send_registration_confirmation(instance.email, request)
             return Response(request.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

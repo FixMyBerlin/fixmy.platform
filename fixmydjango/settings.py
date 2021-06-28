@@ -76,6 +76,7 @@ INSTALLED_APPS = [
     'survey',
     'reports',
     'permits',
+    'fahrradparken',
 ]
 
 MIDDLEWARE = [

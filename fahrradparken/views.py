@@ -2,11 +2,8 @@ from rest_framework import permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from .notifications import send_double_opt_in
 from .serializers import SignupSerializer, EventSignupSerializer
-
-
-def send_double_opt_in(data):
-    pass
 
 
 class SignupView(APIView):
@@ -19,7 +16,7 @@ class SignupView(APIView):
             instance = serializer.save()
 
             if request.data.get('newsletter', False):
-                send_double_opt_in(request.data)
+                send_double_opt_in(instance)
             return Response(request.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

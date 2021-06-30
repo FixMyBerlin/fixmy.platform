@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -20,6 +21,13 @@ class Signup(BaseModel):
     message = models.TextField(_('message'), blank=True, null=True)
 
     newsletter = models.BooleanField(_('requests newsletter'), default=True)
+
+    # This value allows verifying a newsletter signup using a double opt in
+    # by including it in a URL that is sent to the email address, which when
+    # clicked confirms the signup.
+    newsletter_opt_in = models.UUIDField(
+        _('newsletter opt in code'), default=uuid.uuid4, editable=False
+    )
 
 
 class EventSignup(Signup):

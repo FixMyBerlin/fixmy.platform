@@ -36,7 +36,7 @@ class SignupTest(TestCase):
 
         self.assertEqual(response.status_code, 201, response.content)
         self.assertEqual(Signup.objects.count(), 1)
-        self.assertEqual(len(mail.outbox), 0, mail.outbox)
+        self.assertEqual(len(mail.outbox), 1, mail.outbox)
 
     def test_invalid_signup(self):
         from .models import EventSignup, Signup

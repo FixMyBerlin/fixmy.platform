@@ -332,4 +332,6 @@ FRONTEND_URL = os.getenv('FRONTEND_URL', 'https://fixmyberlin.de')
 PLAYSTREET_RECIPIENT = os.getenv('PLAYSTREET_RECIPIENT', 'info@fixmycity.de')
 
 # Configuration for fahrradparken
-FAHRRADPARKEN_REPLY_TO = os.getenv('FAHRRADPARKEN_REPLY_TO', 'radparken@deutschebahn.com')
+FAHRRADPARKEN_REPLY_TO = os.getenv(
+    'FAHRRADPARKEN_REPLY_TO', 'radparken@deutschebahn.com'
+)

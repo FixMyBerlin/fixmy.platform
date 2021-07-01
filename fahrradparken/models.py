@@ -22,14 +22,9 @@ class Signup(BaseModel):
 
     newsletter = models.BooleanField(_('requests newsletter'), default=True)
 
-    # This value allows verifying a newsletter signup using a double opt in
-    # by including it in a URL that is sent to the email address, which when
-    # clicked confirms the signup.
-    newsletter_opt_in = models.UUIDField(
-        _('newsletter opt in code'), default=uuid.uuid4, editable=False
-    )
-
 
 class EventSignup(Signup):
     event_id = models.IntegerField(_('event'))
     event_title = models.CharField(_('event title'), max_length=255)
+    event_date = models.CharField(_('event date'), max_length=255)
+    event_time = models.CharField(_('event time'), max_length=255)

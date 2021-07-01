@@ -17,7 +17,7 @@ signup_data = {
 
 event_data = dict(signup_data)
 event_data['event_id'] = 1
-event_data['event_title'] = 'Webinar Flächenberechnung in Excel'
+event_data['event_title'] = 'Webinar Flaechenberechnung in Excel'
 event_data['event_date'] = '29.August 2021'
 event_data['event_time'] = '16:00 Uhr'
 event_data['newsletter'] = False
@@ -38,7 +38,11 @@ class SignupTest(TestCase):
 
         self.assertEqual(response.status_code, 201, response.content)
         self.assertEqual(Signup.objects.count(), 1)
+
         self.assertEqual(len(mail.outbox), 1, mail.outbox)
+        email_body = mail.outbox[0].message()._payload
+        self.assertTrue(signup_data['first_name'] in email_body, email_body)
+        self.assertTrue(event_data['event_title'] not in email_body, email_body)
 
     def test_invalid_signup(self):
         from .models import EventSignup, Signup
@@ -71,4 +75,8 @@ class SignupTest(TestCase):
 
         self.assertEqual(response.status_code, 201, response.content)
         self.assertEqual(EventSignup.objects.count(), 1)
+
         self.assertEqual(len(mail.outbox), 1, mail.outbox)
+        email_body = mail.outbox[0].message()._payload
+        self.assertTrue(signup_data['first_name'] in email_body, email_body)
+        self.assertTrue(event_data['event_title'] in email_body, email_body)

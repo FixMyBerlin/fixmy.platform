@@ -1,4 +1,4 @@
-Hallo {signup.first_name} {signup.last_name},
+Hallo {{ signup.first_name }} {{ signup.last_name }},
 
 besten Dank für Ihr Interesse am Thema Fahrradparken am Bahnhof.
 Wir kommen in Kürze mit einem Terminvorschlag auf Sie zu, um gemeinsamen die 

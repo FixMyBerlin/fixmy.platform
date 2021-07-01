@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -25,3 +26,5 @@ class Signup(BaseModel):
 class EventSignup(Signup):
     event_id = models.IntegerField(_('event'))
     event_title = models.CharField(_('event title'), max_length=255)
+    event_date = models.CharField(_('event date'), max_length=255)
+    event_time = models.CharField(_('event time'), max_length=255)

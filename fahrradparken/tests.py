@@ -18,6 +18,8 @@ signup_data = {
 event_data = dict(signup_data)
 event_data['event_id'] = 1
 event_data['event_title'] = 'Webinar Flächenberechnung in Excel'
+event_data['event_date'] = '29.August 2021'
+event_data['event_time'] = '16:00 Uhr'
 event_data['newsletter'] = False
 
 
@@ -29,14 +31,14 @@ class SignupTest(TestCase):
         from .models import EventSignup, Signup
 
         response = self.client.post(
-            '/api/fahrradparken/signups',
+            '/api/fahrradparken/signup',
             data=json.dumps(signup_data),
             content_type="application/json",
         )
 
         self.assertEqual(response.status_code, 201, response.content)
         self.assertEqual(Signup.objects.count(), 1)
-        self.assertEqual(len(mail.outbox), 0, mail.outbox)
+        self.assertEqual(len(mail.outbox), 1, mail.outbox)
 
     def test_invalid_signup(self):
         from .models import EventSignup, Signup
@@ -45,7 +47,7 @@ class SignupTest(TestCase):
         invalid_signup.update(affiliation='')
 
         response = self.client.post(
-            '/api/fahrradparken/signups',
+            '/api/fahrradparken/signup',
             data=json.dumps(invalid_signup),
             content_type="application/json",
         )
@@ -62,11 +64,11 @@ class SignupTest(TestCase):
         from .models import EventSignup, Signup
 
         response = self.client.post(
-            '/api/fahrradparken/event-signups',
+            '/api/fahrradparken/signup',
             data=json.dumps(event_data),
             content_type="application/json",
         )
 
         self.assertEqual(response.status_code, 201, response.content)
         self.assertEqual(EventSignup.objects.count(), 1)
-        self.assertEqual(len(mail.outbox), 0, mail.outbox)
+        self.assertEqual(len(mail.outbox), 1, mail.outbox)

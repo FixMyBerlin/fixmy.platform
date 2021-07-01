@@ -1,0 +1,20 @@
+Hallo {signup.first_name} {signup.last_name},
+
+besten Dank für Ihr Interesse an der Infoveranstaltung 
+
+  {signup.event_title} am {signup.event_date} um {signup.event_time} 
+  
+In Kürze erhalten Sie per E-Mail den Link (Microsoft Teams) zur Einladung 
+sowie die Tagesordnung.
+
+Mit freundlichen Grüßen
+Ihr Team der Infostelle Fahrradparken 
+ 
+ 
+---
+radparken@deutschebahn.com
+
+DB Station&Service AG,
+Infostelle Fahrradparken,
+Europaplatz 1,
+10557 Berlin

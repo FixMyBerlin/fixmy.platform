@@ -35,6 +35,7 @@ urlpatterns = [
     path('api/', include('fixmyapp.urls')),
     path('api/', include('reports.urls')),
     path('api/', include('permits.urls')),
+    path('api/fahrradparken/', include('fahrradparken.urls')),
     path('api/', include('djoser.urls')),
     path('api/', include('djoser.urls.jwt')),
     path('api/survey/', include('survey.urls')),

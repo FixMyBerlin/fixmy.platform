@@ -76,6 +76,7 @@ INSTALLED_APPS = [
     'survey',
     'reports',
     'permits',
+    'fahrradparken',
 ]
 
 MIDDLEWARE = [
@@ -329,3 +330,8 @@ FRONTEND_URL = os.getenv('FRONTEND_URL', 'https://fixmyberlin.de')
 
 # Configuration for playstreets
 PLAYSTREET_RECIPIENT = os.getenv('PLAYSTREET_RECIPIENT', 'info@fixmycity.de')
+
+# Configuration for fahrradparken
+FAHRRADPARKEN_REPLY_TO = os.getenv(
+    'FAHRRADPARKEN_REPLY_TO', 'radparken@deutschebahn.com'
+)

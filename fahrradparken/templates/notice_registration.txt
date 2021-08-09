@@ -1,0 +1,19 @@
+Hallo {{ signup.first_name }} {{ signup.last_name }},
+
+besten Dank für Ihr Interesse am Thema Fahrradparken am Bahnhof.
+Wir kommen in Kürze mit einem Terminvorschlag auf Sie zu, um gemeinsamen die 
+benötigten Unterstützungsleistungen auf dem Weg zur eigenen Fahrradabstellanlage 
+am Bahnhof zu besprechen. 
+
+Mit freundlichen Grüßen
+Ihr Team der Infostelle Fahrradparken
+
+
+---
+
+radparken@deutschebahn.com
+
+DB Station&Service AG,
+Infostelle Fahrradparken,
+Europaplatz 1,
+10557 Berlin

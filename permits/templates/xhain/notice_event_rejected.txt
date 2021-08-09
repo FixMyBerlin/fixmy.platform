@@ -16,7 +16,11 @@ Begründung:
 
 Diese Mitteilung ist gebührenfrei. Sollten Sie einen rechtsmittelfähigen Bescheid wünschen (gebührenpflichtig), bitte ich um Ihre schriftliche oder elektronische Mitteilung bis zum {{ legal_deadline }}.
 
-Andernfalls gehe ich davon aus, dass sich Ihr Anliegen mit meinem Schreiben erledigt hat.
+Andernfalls gehe ich davon aus, dass sich Ihr Anliegen mit meinem Schreiben erledigt hat. 
+
+Haben Sie noch Fragen? Bitte nutzen Sie unsere telefonische Beratung:
+Dienstag - Freitag, 9:30 Uhr - 11:30 Uhr
+Telefon: 030 - 90 298 4216
 
 Mit freundlichen Grüßen
 

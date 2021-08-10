@@ -80,3 +80,18 @@ class SignupTest(TestCase):
         email_body = mail.outbox[0].message()._payload
         self.assertTrue(signup_data['first_name'] in email_body, email_body)
         self.assertTrue(event_data['event_title'] in email_body, email_body)
+
+
+class StationAPITest(TestCase):
+    fixtures = ['stations']
+
+    def test_get_listing(self):
+        from .models import Station
+
+        response = self.client.get(
+            '/api/fahrradparken/stations', content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 200)
+
+        data = response.json()
+        self.assertEqual(len(data['features']), 3)

@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import SignupView
+from .views import SignupView, StationList
 
 app_name = 'fahrradparken'
 
@@ -9,4 +9,5 @@ urlpatterns = [
         SignupView.as_view(),
         name='fahrradparken-signups',
     ),
+    path('stations', StationList.as_view(), name='fahrradparken-stations'),
 ]

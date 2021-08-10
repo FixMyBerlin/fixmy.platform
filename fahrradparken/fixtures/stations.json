@@ -1,0 +1,50 @@
+[
+    {
+        "model": "fahrradparken.station",
+        "pk": 1,
+        "fields": {
+            "created_date": "2021-08-10T14:01:27.724Z",
+            "modified_date": "2021-08-10T14:01:27.724Z",
+            "name": "Aachen Hbf",
+            "location": "SRID=4326;POINT (6.091498999677689 50.76779999915102)",
+            "travellers": 6,
+            "post_code": "52064",
+            "is_long_distance": true,
+            "is_light_rail": false,
+            "is_subway": false,
+            "community": "Aachen, Stadt"
+        }
+    },
+    {
+        "model": "fahrradparken.station",
+        "pk": 2,
+        "fields": {
+            "created_date": "2021-08-10T14:01:25.825Z",
+            "modified_date": "2021-08-10T14:01:25.826Z",
+            "name": "Aachen-Rothe Erde",
+            "location": "SRID=4326;POINT (6.116475000180539 50.77020199951339)",
+            "travellers": 5,
+            "post_code": "52066",
+            "is_long_distance": false,
+            "is_light_rail": false,
+            "is_subway": false,
+            "community": "Aachen, Stadt"
+        }
+    },
+    {
+        "model": "fahrradparken.station",
+        "pk": 3,
+        "fields": {
+            "created_date": "2021-08-10T14:01:23.038Z",
+            "modified_date": "2021-08-10T14:01:23.039Z",
+            "name": "Aachen West",
+            "location": "SRID=4326;POINT (6.07071499996255 50.78035999845893)",
+            "travellers": 5,
+            "post_code": "52072",
+            "is_long_distance": false,
+            "is_light_rail": false,
+            "is_subway": false,
+            "community": "Aachen, Stadt"
+        }
+    }
+]

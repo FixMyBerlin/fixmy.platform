@@ -1,3 +1,4 @@
+from django.db import transaction
 from django.core.management.base import BaseCommand
 from django.contrib.gis.utils.layermapping import LayerMapError
 from django.contrib.gis.utils import LayerMapping
@@ -29,17 +30,26 @@ class Command(BaseCommand):
             dest='progress',
             help='display the progress bar in any verbosity level.',
         )
+        parser.add_argument(
+            '--delete',
+            action='store_true',
+            help='delete all existing sections before import',
+        )
 
     def handle(self, *args, **options):
+
         try:
-            lm = LayerMapping(
-                Section,
-                os.path.abspath(options['file']),
-                mapping,
-                transform=True,
-                encoding='utf-8',
-                unique=('id',),
-            )
+            with transaction.atomic():
+                if options['delete'] is True:
+                    Section.objects.all().delete()
+                lm = LayerMapping(
+                    Section,
+                    os.path.abspath(options['file']),
+                    mapping,
+                    transform=True,
+                    encoding='utf-8',
+                    unique=('id',),
+                )
         except LayerMapError as e:
             self.stderr.write(f"Error importing sections from {options['file']}: {e}")
             sys.exit(1)

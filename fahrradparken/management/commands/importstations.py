@@ -61,7 +61,7 @@ class Command(BaseCommand):
         value = feature["properties"].get(
             "VERKEHR: Kann folgende Werte annehmen 'FV' (mit Fernverkehr), 'RV' (nur Regionalverkehr) oder 'nur DPN' (nur Regionalverkehr von privaten Eisenbahnunternehmen)."
         )
-        return 'FV' in value
+        return isinstance(value, str) and 'FV' in value
 
     def is_light_rail(self, feature):
         """Return true if this station serves light trail trains."""
@@ -72,31 +72,41 @@ class Command(BaseCommand):
         with open(path) as f:
             data = json.load(f)
 
-        for feature in data.get('features', []):
-            if not self.validate(feature):
-                continue
+        num_entries = len(data.get('features'))
+        num_updates = 0
 
-            props = feature["properties"]
-            instance = Station.objects.filter(id=int(props.get('Bf-Nr'))).first()
+        with transaction.atomic():
+            for i, feature in enumerate(data.get('features', [])):
+                if i % 500 == 0:
+                    self.stdout.write(f'Processed {i} / {num_entries} stations')
 
-            travellers = TRAVELLER_COUNT_RANGES.get(
-                props.get('Range Reisende pro Tag'), 0
-            )
+                if not self.validate(feature):
+                    continue
 
-            if instance is None:
-                instance = Station.objects.create(
-                    id=props.get('Bf-Nr'),
-                    name=props.get('Bahnhof'),
-                    location=Point(feature["geometry"]["coordinates"]),
-                    travellers=travellers,
-                    post_code=props.get('PLZ'),
-                    is_long_distance=self.is_long_distance(feature),
-                    is_light_rail=self.is_light_rail(feature),
-                    is_subway=False,  # not supported yet
-                    community=props.get('Gemeindename'),
+                props = feature["properties"]
+                instance = Station.objects.filter(id=int(props.get('Bf-Nr'))).first()
+
+                travellers = TRAVELLER_COUNT_RANGES.get(
+                    props.get('Range Reisende pro Tag'), 0
                 )
-                instance.save()
-            else:
+
+                if instance is None:
+                    instance = Station.objects.create(
+                        id=props.get('Bf-Nr'),
+                        name=props.get('Bahnhof'),
+                        location=Point(feature["geometry"]["coordinates"]),
+                        travellers=travellers,
+                        post_code=props.get('PLZ'),
+                        is_long_distance=self.is_long_distance(feature),
+                        is_light_rail=self.is_light_rail(feature),
+                        is_subway=False,  # not supported yet
+                        community=props.get('Gemeindename'),
+                    )
+                    instance.save()
+                else:
+                    num_updates += 1
+
+            if num_updates > 0:
                 self.stdout.write(
-                    f'Updating station data is not supported (station {instance.id} exists)'
+                    f'Updating station data is not supported (ignored {num_updates} entries)'
                 )

@@ -52,7 +52,7 @@ class Station(BaseModel):
     is_long_distance = models.BooleanField(_('long distance station'), default=False)
     is_light_rail = models.BooleanField(_('light rail station'), default=False)
     is_subway = models.BooleanField(_('subway station'), default=False)
-    community = models.CharField(_('community'), max_length=255)
+    community = models.CharField(_('community'), max_length=255, null=True, blank=True)
 
     @property
     def net_promoter_score():

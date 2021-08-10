@@ -43,7 +43,7 @@ class Station(BaseModel):
         (6, _('10,001-50,000')),
         (7, _('more than 50,000')),
     ]
-    
+
     id = models.IntegerField(_('station number'), primary_key=True)
     name = models.CharField(_('name'), max_length=255)
     location = models.PointField(_('geometry'), srid=4326)
@@ -77,13 +77,19 @@ class Station(BaseModel):
 
 class SurveyStation(BaseModel):
     """A survey response about stations."""
-    
-    station = models.ForeignKey(Station, related_name='survey_responses', on_delete=models.CASCADE)
+
+    station = models.ForeignKey(
+        Station, related_name='survey_responses', on_delete=models.CASCADE
+    )
     survey_version = models.IntegerField(default=1)
     npr = models.IntegerField(_('net promoter rating'))
     annoyances = models.CharField(_('annoyances'), max_length=32)
-    annoyance_custom = models.CharField(_('annoyance custom'), max_length=255, blank=True, null=True)
-    requested_location = models.CharField(_('requested bike parking location'), max_length=255, blank=True, null=True)
+    annoyance_custom = models.CharField(
+        _('annoyance custom'), max_length=255, blank=True, null=True
+    )
+    requested_location = models.CharField(
+        _('requested bike parking location'), max_length=255, blank=True, null=True
+    )
 
     def photo_upload_to(instance, filename):
         return f"fahrradparken/stations/{instance.station_id}/{instance.id}"
@@ -95,7 +101,7 @@ class SurveyStation(BaseModel):
         null=True,
         blank=True,
     )
-    photo_terms_accepted = models.DateTimeField(_('photo upload terms accepted'), null=True, blank=True)
+    photo_terms_accepted = models.DateTimeField(
+        _('photo upload terms accepted'), null=True, blank=True
+    )
     photo_description = models.TextField(_('photo description'))
-
-

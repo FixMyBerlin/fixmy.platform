@@ -7,6 +7,7 @@ from django.db import transaction
 
 from fahrradparken.models import Station
 
+# Mapping of dataset field values to model field values (see Station model)
 TRAVELLER_COUNT_RANGES = {
     "unter 100": 1,
     "100-300": 2,

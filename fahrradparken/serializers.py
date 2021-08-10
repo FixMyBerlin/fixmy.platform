@@ -14,6 +14,7 @@ class EventSignupSerializer(serializers.ModelSerializer):
         model = EventSignup
         exclude = ['modified_date']
 
+
 class StationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Station

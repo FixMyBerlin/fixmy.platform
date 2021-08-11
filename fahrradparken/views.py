@@ -14,11 +14,15 @@ class SignupView(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def post(self, request):
-        serializer_cls = (
-            EventSignupSerializer
-            if request.data.get('event_id') is not None
-            else SignupSerializer
-        )
+        try:
+            serializer_cls = (
+                EventSignupSerializer
+                if request.data.get('event_id') is not None
+                else SignupSerializer
+            )
+        except AttributeError:
+            return Response('Missing request body', status=status.HTTP_400_BAD_REQUEST)
+
         serializer = serializer_cls(data=request.data)
         if serializer.is_valid():
             instance = serializer.save()

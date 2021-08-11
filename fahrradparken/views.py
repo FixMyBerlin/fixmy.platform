@@ -7,7 +7,13 @@ from rest_framework.views import APIView
 from fahrradparken.models import Station
 
 from .notifications import send_registration_confirmation
-from .serializers import SignupSerializer, EventSignupSerializer, StationSerializer
+from .serializers import (
+    SignupSerializer,
+    EventSignupSerializer,
+    StationSerializer,
+    SurveyBicycleUsageSerializer,
+    SurveyStationSerializer,
+)
 
 
 class SignupView(APIView):
@@ -56,3 +62,30 @@ class StationList(generics.ListAPIView):
                 }
             )
         return Response(data={'type': 'FeatureCollection', 'features': features})
+
+
+class SurveyStationView(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def post(self, request):
+        """Add a new station survey response."""
+        serializer = SurveyStationSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(request.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class SurveyBicycleUsageView(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def post(self, request):
+        """Add a new bicycle usage survey response."""
+        serializer = SurveyBicycleUsageSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(
+                request.data,
+                status=status.HTTP_201_CREATED,
+            )
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

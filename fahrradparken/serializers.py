@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Signup, EventSignup, Station
+from .models import Signup, EventSignup, Station, SurveyBicycleUsage, SurveyStation
 
 
 class SignupSerializer(serializers.ModelSerializer):
@@ -18,4 +18,18 @@ class EventSignupSerializer(serializers.ModelSerializer):
 class StationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Station
+        exclude = ['modified_date']
+
+
+class SurveyStationSerializer(serializers.ModelSerializer):
+    id = serializers.UUIDField()
+
+    class Meta:
+        model = SurveyStation
+        exclude = ['modified_date']
+
+
+class SurveyBicycleUsageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SurveyBicycleUsage
         exclude = ['modified_date']

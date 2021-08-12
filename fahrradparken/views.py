@@ -20,6 +20,10 @@ class SignupView(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def post(self, request):
+        """Create a new signup entry, sending out a confirmation email on success.
+
+        An event signup is created if an `event_id` is passed in the request
+        body and a regular signup otherwise."""
         try:
             serializer_cls = (
                 EventSignupSerializer
@@ -27,6 +31,8 @@ class SignupView(APIView):
                 else SignupSerializer
             )
         except AttributeError:
+            # The above will throw when trying to access `data` on an empty
+            # request.
             return Response('Missing request body', status=status.HTTP_400_BAD_REQUEST)
 
         serializer = serializer_cls(data=request.data)
@@ -57,6 +63,8 @@ class StationList(generics.ListAPIView):
             features.append(
                 {
                     'type': 'Feature',
+                    # convert the location geometry to a data type that is
+                    # json-compatible
                     'geometry': json.loads(station.location.json),
                     'properties': props,
                 }

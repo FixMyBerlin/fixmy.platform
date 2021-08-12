@@ -136,6 +136,7 @@ class SurveyStationTest(TestCase):
         self.client = Client()
 
     def test_post_station_survey(self):
+        """Posting a station survey with valid data should succeed."""
         response = self.client.post(
             '/api/fahrradparken/survey/station',
             data=json.dumps(survey_station_request),
@@ -146,7 +147,21 @@ class SurveyStationTest(TestCase):
         data = response.json()
         self.assertTrue(len(data.keys()) > 0)
 
+    def test_post_station_survey_invalid(self):
+        """Requests missing data fields should fail."""
+        invalid_survey_station_request = survey_station_request.copy()
+        del invalid_survey_station_request['id']
+
+        response = self.client.post(
+            '/api/fahrradparken/survey/station',
+            data=json.dumps(invalid_survey_station_request),
+            content_type='application/json',
+        )
+        self.assertEqual(response.status_code, 400, response.content)
+
     def test_post_bicycle_usage_survey(self):
+        """Posting bicycle usage following a station survey should succeed. """
+
         self.client.post(
             '/api/fahrradparken/survey/station',
             data=json.dumps(survey_station_request),
@@ -160,6 +175,7 @@ class SurveyStationTest(TestCase):
         self.assertEqual(response.status_code, 201, response.content)
 
     def test_post_bicycle_usage_survey_failing(self):
+        """Posting bicycle usage without leading with a station survey should fail."""
         response = self.client.post(
             '/api/fahrradparken/survey/bicycle-usage',
             data=json.dumps(survey_bicycle_usage_request),

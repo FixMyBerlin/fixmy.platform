@@ -13,6 +13,17 @@ class EventSignupAdmin(admin.ModelAdmin):
 
 class StationAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'community')
+    fields = (
+        'id',
+        'name',
+        'community',
+        'post_code',
+        'travellers',
+        'is_long_distance',
+        'is_light_rail',
+        'is_subway',
+        'location',
+    )
 
 
 admin.site.register(Signup, SignupAdmin)

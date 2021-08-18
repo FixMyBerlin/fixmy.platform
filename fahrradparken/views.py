@@ -1,10 +1,11 @@
 import json
 
 from rest_framework import permissions, status, generics
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from fahrradparken.models import Station
+from fahrradparken.models import Station, SurveyStation
 
 from .notifications import send_registration_confirmation
 from .serializers import (
@@ -13,6 +14,7 @@ from .serializers import (
     StationSerializer,
     SurveyBicycleUsageSerializer,
     SurveyStationSerializer,
+    SurveyStationShortSerializer,
 )
 
 
@@ -82,6 +84,11 @@ class SurveyStationView(APIView):
             serializer.save()
             return Response(request.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class StationSurveysByUUID(generics.ListAPIView):
+    queryset = SurveyStation.objects.all()
+    serializer_class = SurveyStationShortSerializer
 
 
 class SurveyBicycleUsageView(APIView):

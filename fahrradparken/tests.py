@@ -1,3 +1,4 @@
+from fahrradparken.models import SurveyStation
 import json
 from django.core import mail
 from django.test import TestCase
@@ -183,3 +184,15 @@ class SurveyStationTest(TestCase):
         )
         # fails because the survey refers to non-existing station survey id
         self.assertEqual(response.status_code, 400, response.content)
+
+
+class UniqueUUIDTest(TestCase):
+    fixtures = ['station', 'survey_station']
+
+    def test_stations_by_uuid(self):
+        """Request list of stations for which a UUID has answered the survey."""
+        session = SurveyStation.objects.first().session
+        response = self.client.get(f'/api/fahrradparken/uuid/{str(session)}')
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertListEqual(data, [{'station_id': 1}, {'station_id': 2}])

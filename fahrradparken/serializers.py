@@ -27,9 +27,10 @@ class SurveyStationSerializer(serializers.ModelSerializer):
         exclude = ['modified_date']
 
 
+class SurveyStationShortSerializer(serializers.ModelSerializer):
     class Meta:
         model = SurveyStation
-        exclude = ['modified_date']
+        fields = ['station_id']
 
 
 class SurveyBicycleUsageSerializer(serializers.ModelSerializer):

@@ -1,5 +1,11 @@
 from django.urls import path
-from .views import SignupView, StationList, SurveyBicycleUsageView, SurveyStationView
+from .views import (
+    SignupView,
+    StationList,
+    SurveyBicycleUsageView,
+    SurveyStationView,
+    StationSurveysByUUID,
+)
 
 app_name = 'fahrradparken'
 
@@ -19,5 +25,10 @@ urlpatterns = [
         'survey/bicycle-usage',
         SurveyBicycleUsageView.as_view(),
         name='fahrradparken-survey-bicycle-usage',
+    ),
+    path(
+        'uuid/<uuid:session>',
+        StationSurveysByUUID.as_view(),
+        name='fahrradparken-survey-station-by-user',
     ),
 ]

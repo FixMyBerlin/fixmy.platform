@@ -135,7 +135,7 @@ class SurveyBicycleUsage(BaseModel):
     reason_custom = models.TextField(_('reasons (free text)'), blank=True)
 
     DURATION_CHOICES = (
-        (0, _('less then 5 minutes')),
+        (0, _('less than 5 minutes')),
         (1, _('5-10 minutes')),
         (2, _('10-15 minutes')),
         (3, _('15-20 minutes')),

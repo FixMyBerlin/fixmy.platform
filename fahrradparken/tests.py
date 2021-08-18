@@ -160,7 +160,7 @@ class SurveyStationTest(TestCase):
         self.assertEqual(response.status_code, 400, response.content)
 
     def test_post_bicycle_usage_survey(self):
-        """Posting bicycle usage following a station survey should succeed. """
+        """Posting bicycle usage following a station survey should succeed."""
 
         self.client.post(
             '/api/fahrradparken/survey/station',

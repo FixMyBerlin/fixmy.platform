@@ -24,7 +24,7 @@ event_request['newsletter'] = False
 
 
 survey_station_request = {
-    'id': '4e86d361-87a3-4e14-bd3a-fcf9003f7dd8',
+    'session': '4e86d361-87a3-4e14-bd3a-fcf9003f7dd8',
     'station': 1,
     'survey_version': 1,
     'npr': 9,
@@ -34,7 +34,7 @@ survey_station_request = {
 }
 
 survey_bicycle_usage_request = {
-    'survey_station': '4e86d361-87a3-4e14-bd3a-fcf9003f7dd8',
+    'session': '4e86d361-87a3-4e14-bd3a-fcf9003f7dd8',
     'survey_version': 1,
     'frequency': 2,
     'reasons': '2,3',
@@ -113,8 +113,8 @@ class SignupTest(TestCase):
         self.assertTrue(event_request['event_title'] in email_body, email_body)
 
 
-class StationAPITest(TestCase):
-    fixtures = ['stations']
+class StationTest(TestCase):
+    fixtures = ['station']
 
     def setUp(self):
         self.client = Client()
@@ -130,7 +130,7 @@ class StationAPITest(TestCase):
 
 
 class SurveyStationTest(TestCase):
-    fixtures = ['stations']
+    fixtures = ['station']
 
     def setUp(self):
         self.client = Client()
@@ -150,7 +150,7 @@ class SurveyStationTest(TestCase):
     def test_post_station_survey_invalid(self):
         """Requests missing data fields should fail."""
         invalid_survey_station_request = survey_station_request.copy()
-        del invalid_survey_station_request['id']
+        del invalid_survey_station_request['station']
 
         response = self.client.post(
             '/api/fahrradparken/survey/station',

@@ -79,7 +79,7 @@ class Station(BaseModel):
 class SurveyStation(BaseModel):
     """A survey response about stations."""
 
-    id = models.UUIDField(primary_key=True, editable=False)
+    session = models.UUIDField(_('session'))
     station = models.ForeignKey(
         Station, related_name='survey_responses', on_delete=models.CASCADE
     )
@@ -108,13 +108,18 @@ class SurveyStation(BaseModel):
     )
     photo_description = models.TextField(_('photo description'), null=True, blank=True)
 
+    class Meta:
+        constraints = (
+            models.UniqueConstraint(
+                fields=('session', 'station_id'), name='unique-session-station'
+            ),
+        )
+
 
 class SurveyBicycleUsage(BaseModel):
     """A survey response about bicycle usage."""
 
-    survey_station = models.ForeignKey(
-        SurveyStation, related_name='bicycle_usage', on_delete=models.CASCADE
-    )
+    session = models.UUIDField(_('session'), primary_key=True)
     survey_version = models.IntegerField(_('survey version'), default=1)
 
     FREQUENCY_CHOICES = (

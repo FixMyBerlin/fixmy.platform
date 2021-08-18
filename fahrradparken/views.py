@@ -91,6 +91,15 @@ class SurveyBicycleUsageView(APIView):
         """Add a new bicycle usage survey response."""
         serializer = SurveyBicycleUsageSerializer(data=request.data)
         if serializer.is_valid():
+            linked_surveys = SurveyStation.objects.filter(
+                session=request.data.get('session')
+            )
+            if linked_surveys.count() == 0:
+                return Response(
+                    'Bicycle usage survey requires at least one station survey',
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
             serializer.save()
             return Response(
                 request.data,

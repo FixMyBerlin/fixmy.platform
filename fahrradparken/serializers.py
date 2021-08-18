@@ -22,7 +22,10 @@ class StationSerializer(serializers.ModelSerializer):
 
 
 class SurveyStationSerializer(serializers.ModelSerializer):
-    id = serializers.UUIDField()
+    class Meta:
+        model = SurveyStation
+        exclude = ['modified_date']
+
 
     class Meta:
         model = SurveyStation

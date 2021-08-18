@@ -32,6 +32,13 @@ class Command(BaseCommand):
 
     help = 'Load current sections and projects from S3, overwriting current data'
 
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--delete',
+            action='store_true',
+            help='delete all existing sections before import',
+        )
+
     def handle(self, *args, **kwargs):
         try:
             # The creation of initial revisions has been disabled because they
@@ -92,7 +99,9 @@ class Command(BaseCommand):
 
             try:
                 logger.info('Importing road sections...')
-                management.call_command('importsections', FPATH_ROAD_SECTIONS)
+                management.call_command(
+                    'importsections', FPATH_ROAD_SECTIONS, delete=kwargs['delete']
+                )
 
                 logger.info('Importing intersections...')
                 management.call_command('importsections', FPATH_INTERSECTIONS)

@@ -52,7 +52,7 @@ class Command(BaseCommand):
                 )
             )
 
-            progress = upload['progress']
+            progress = self._upload_progress(upload['id'])
 
             while progress != 1:
                 time.sleep(1)

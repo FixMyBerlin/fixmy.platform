@@ -1,0 +1,56 @@
+[
+    {
+        "model": "fahrradparken.surveystation",
+        "pk": 1,
+        "fields": {
+            "session": "4e86d361-87a3-4e14-bd3a-fcf9003f7dd8",
+            "created_date": "2021-08-18T12:44:34.615Z",
+            "modified_date": "2021-08-18T12:44:34.615Z",
+            "station": 1,
+            "survey_version": 1,
+            "npr": 9,
+            "annoyances": "1,5",
+            "annoyance_custom": "",
+            "requested_location": "Westseite",
+            "photo": "",
+            "photo_terms_accepted": null,
+            "photo_description": null
+        }
+    },
+    {
+        "model": "fahrradparken.surveystation",
+        "pk": 2,
+        "fields": {
+            "session": "4e86d361-87a3-4e14-bd3a-fcf9003f7dd8",
+            "created_date": "2021-08-18T12:22:34.615Z",
+            "modified_date": "2021-08-18T12:22:34.615Z",
+            "station": 2,
+            "survey_version": 1,
+            "npr": 1,
+            "annoyances": "3",
+            "annoyance_custom": "",
+            "requested_location": "Ausgang Stadt",
+            "photo": "",
+            "photo_terms_accepted": null,
+            "photo_description": null
+        }
+    },
+    {
+        "model": "fahrradparken.surveystation",
+        "pk": 2,
+        "fields": {
+            "session": "ba86d361-87a3-4e14-bd3a-fcf9003f7dd8",
+            "created_date": "2021-08-18T12:22:34.615Z",
+            "modified_date": "2021-08-18T12:22:34.615Z",
+            "station": 2,
+            "survey_version": 1,
+            "npr": 1,
+            "annoyances": "3",
+            "annoyance_custom": "",
+            "requested_location": "Ausgang Stadt",
+            "photo": "",
+            "photo_terms_accepted": null,
+            "photo_description": null
+        }
+    }
+]

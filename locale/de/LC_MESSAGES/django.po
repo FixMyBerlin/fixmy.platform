@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE_VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-28 15:15+0000\n"
-"PO-Revision-Date: 2021-06-28 17:17+0200\n"
+"POT-Creation-Date: 2021-08-18 15:15+0000\n"
+"PO-Revision-Date: 2021-08-18 17:15+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -16,30 +16,30 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.4.3\n"
+"X-Generator: Poedit 3.0\n"
 
-#: fahrradparken/models.py:9
+#: fahrradparken/models.py:11
 msgid "affiliation"
 msgstr "Kommune / Institution"
 
-#: fahrradparken/models.py:10
+#: fahrradparken/models.py:12
 #: fixmyapp/management/commands/exportgastrosignups.py:17
 #: fixmyapp/models/gastro_signup.py:136 permits/models.py:117
 msgid "first name"
 msgstr "Vorname"
 
-#: fahrradparken/models.py:11
+#: fahrradparken/models.py:13
 #: fixmyapp/management/commands/exportgastrosignups.py:18
 #: fixmyapp/models/gastro_signup.py:137 fixmyapp/tests.py:582
 #: permits/models.py:118
 msgid "last name"
 msgstr "Nachname"
 
-#: fahrradparken/models.py:12
+#: fahrradparken/models.py:14
 msgid "role"
 msgstr "Position"
 
-#: fahrradparken/models.py:13
+#: fahrradparken/models.py:15
 #: fixmyapp/management/commands/exportgastrosignups.py:19
 #: fixmyapp/management/commands/exportplaystreets.py:14
 #: fixmyapp/models/gastro_signup.py:138 fixmyapp/models/playstreet_signup.py:17
@@ -47,32 +47,340 @@ msgstr "Position"
 msgid "email"
 msgstr "E-Mail"
 
-#: fahrradparken/models.py:15 fixmyapp/models/gastro_signup.py:140
+#: fahrradparken/models.py:17 fixmyapp/models/gastro_signup.py:140
 #: permits/models.py:120
 msgid "telephone number"
 msgstr "Telefonnummer"
 
-#: fahrradparken/models.py:19
+#: fahrradparken/models.py:21
 msgid "name of station"
 msgstr "Bahnhof"
 
-#: fahrradparken/models.py:20
+#: fahrradparken/models.py:22
 #: fixmyapp/management/commands/exportplaystreets.py:15
 #: fixmyapp/models/playstreet_signup.py:20
 msgid "message"
 msgstr "Nachricht"
 
-#: fahrradparken/models.py:22
+#: fahrradparken/models.py:24
 msgid "requests newsletter"
 msgstr "Wünscht Newsletter"
 
-#: fahrradparken/models.py:26
+#: fahrradparken/models.py:28
 msgid "event"
 msgstr "Veranstaltung"
 
-#: fahrradparken/models.py:27 permits/models.py:127
+#: fahrradparken/models.py:29 permits/models.py:127
 msgid "event title"
 msgstr "Titel"
+
+#: fahrradparken/models.py:30 permits/models.py:138
+msgid "event date"
+msgstr "Datum der Veranstaltung"
+
+#: fahrradparken/models.py:31
+msgid "event time"
+msgstr "Veranstaltungsbeginn"
+
+#: fahrradparken/models.py:38
+msgid "No data available"
+msgstr "Keine Daten vorhanden"
+
+#: fahrradparken/models.py:39
+msgid "less than 100"
+msgstr "Unter 100"
+
+#: fahrradparken/models.py:40
+msgid "100-300"
+msgstr "100-300"
+
+#: fahrradparken/models.py:41
+msgid "301-1,000"
+msgstr "301-1.000"
+
+#: fahrradparken/models.py:42
+msgid "1,001-3,000"
+msgstr "1.001-3.000"
+
+#: fahrradparken/models.py:43
+msgid "3001-10,000"
+msgstr "3.000-10.000"
+
+#: fahrradparken/models.py:44
+msgid "10,001-50,000"
+msgstr "10.001-50.000"
+
+#: fahrradparken/models.py:45
+msgid "more than 50,000"
+msgstr "Mehr als 50.000"
+
+#: fahrradparken/models.py:48
+msgid "station number"
+msgstr "Bahnhofsnummer"
+
+#: fahrradparken/models.py:49
+msgid "name"
+msgstr "Name"
+
+#: fahrradparken/models.py:50
+#: fixmyapp/management/commands/exportgastrosignups.py:15
+#: fixmyapp/models/project.py:106 fixmyapp/models/report.py:44
+#: fixmyapp/models/section.py:12 fixmyapp/tests.py:581
+#: reports/models/report.py:54
+msgid "geometry"
+msgstr "Geometrie"
+
+#: fahrradparken/models.py:51
+msgid "traveller count"
+msgstr "Fahrgäste"
+
+#: fahrradparken/models.py:52
+msgid "post code"
+msgstr "PLZ"
+
+#: fahrradparken/models.py:53
+msgid "long distance station"
+msgstr "Fernverkehrsbahnhof"
+
+#: fahrradparken/models.py:54
+msgid "light rail station"
+msgstr "S-Bahnhof"
+
+#: fahrradparken/models.py:55
+msgid "subway station"
+msgstr "U-Bahnhof"
+
+#: fahrradparken/models.py:56
+msgid "community"
+msgstr "Gemeinde"
+
+#: fahrradparken/models.py:82 fahrradparken/models.py:122 survey/models.py:68
+msgid "session"
+msgstr "Sitzung"
+
+#: fahrradparken/models.py:86 fahrradparken/models.py:123
+msgid "survey version"
+msgstr "Umfrage-Version"
+
+#: fahrradparken/models.py:87
+msgid "net promoter rating"
+msgstr "Net-Promoter-Rating"
+
+#: fahrradparken/models.py:88
+msgid "annoyances"
+msgstr "Störfaktoren"
+
+#: fahrradparken/models.py:90
+msgid "annoyance custom"
+msgstr "Störfaktor (Freitext)"
+
+#: fahrradparken/models.py:93
+msgid "requested bike parking location"
+msgstr "Wunschstandort"
+
+#: fahrradparken/models.py:101 fixmyapp/models/photo.py:17
+msgid "photo"
+msgstr "Foto"
+
+#: fahrradparken/models.py:107
+msgid "photo upload terms accepted"
+msgstr "Zustimmung zu Foto-Upload-Vereinbarung"
+
+#: fahrradparken/models.py:109
+msgid "photo description"
+msgstr "Foto-Beschreibung"
+
+#: fahrradparken/models.py:126
+msgid "(almost) daily"
+msgstr "(Fast) täglich"
+
+#: fahrradparken/models.py:127
+msgid "1-3 days a week"
+msgstr "1-3 Tage pro Woche"
+
+#: fahrradparken/models.py:128
+msgid "1-3 days a month"
+msgstr "1-3 Tage im Monat"
+
+#: fahrradparken/models.py:129
+msgid "less than once a month"
+msgstr "Weniger als einmal pro Monat"
+
+#: fahrradparken/models.py:130
+msgid "(almost) never"
+msgstr "(Fast) nie"
+
+#: fahrradparken/models.py:132
+msgid "frequency"
+msgstr "Häufigkeit"
+
+#: fahrradparken/models.py:134
+msgid "reasons"
+msgstr "Gründe"
+
+#: fahrradparken/models.py:135
+msgid "reasons (free text)"
+msgstr "Begründung"
+
+#: fahrradparken/models.py:138
+msgid "less than 5 minutes"
+msgstr "Weniger als 5 Minuten"
+
+#: fahrradparken/models.py:139
+msgid "5-10 minutes"
+msgstr "5-10 Minuten"
+
+#: fahrradparken/models.py:140
+msgid "10-15 minutes"
+msgstr "10-15 Minuten"
+
+#: fahrradparken/models.py:141
+msgid "15-20 minutes"
+msgstr "15-20 Minuten"
+
+#: fahrradparken/models.py:142
+msgid "20-25 minutes"
+msgstr "20-25 Minuten"
+
+#: fahrradparken/models.py:143
+msgid "25-30 minutes"
+msgstr "25-30 Minuten"
+
+#: fahrradparken/models.py:144
+msgid "30 minutes and above"
+msgstr "30 Minuten und mehr"
+
+#: fahrradparken/models.py:146 survey/models.py:73
+msgid "duration"
+msgstr "Dauer"
+
+#: fahrradparken/models.py:148
+msgid "with children"
+msgstr "Mit Kindern unterwegs"
+
+#: fahrradparken/models.py:151
+msgid "work"
+msgstr "Arbeit"
+
+#: fahrradparken/models.py:152
+msgid "work related"
+msgstr "Arbeit"
+
+#: fahrradparken/models.py:153
+msgid "education"
+msgstr "Ausbildung"
+
+#: fahrradparken/models.py:154
+msgid "shopping"
+msgstr "Einkauf"
+
+#: fahrradparken/models.py:155
+msgid "errands"
+msgstr "Erledigungen"
+
+#: fahrradparken/models.py:156
+msgid "leisure"
+msgstr "Freizeitaktivität"
+
+#: fahrradparken/models.py:157
+msgid "transport of persons"
+msgstr "Bringen / holen von Personen"
+
+#: fahrradparken/models.py:158 fixmyapp/models/profile.py:12
+msgid "other"
+msgstr "anders"
+
+#: fahrradparken/models.py:160
+msgid "purpose"
+msgstr "Zweck"
+
+#: fahrradparken/models.py:167
+msgid "bicycle racks"
+msgstr "Fahrradabstellplätze"
+
+#: fahrradparken/models.py:169
+msgid "sheltered bicycle racks"
+msgstr "Überdachte Abstellplätze"
+
+#: fahrradparken/models.py:172
+msgid "bicycle box"
+msgstr "Fahrradparkhaus"
+
+#: fahrradparken/models.py:175
+msgid "bicycle quality"
+msgstr "Qualität des Fahrrads"
+
+#: fahrradparken/models.py:178
+msgid "road network"
+msgstr "Radwegequalität"
+
+#: fahrradparken/models.py:181
+msgid "train network"
+msgstr "Zugverbindungen"
+
+#: fahrradparken/models.py:183
+msgid "services"
+msgstr "Dienstleistungen"
+
+#: fahrradparken/models.py:186
+msgid "less than 5€"
+msgstr "Weniger als 5€"
+
+#: fahrradparken/models.py:187
+msgid "5-10€"
+msgstr "5-10€"
+
+#: fahrradparken/models.py:188
+msgid "10-15€"
+msgstr "10-15€"
+
+#: fahrradparken/models.py:189
+msgid "15-20€"
+msgstr "15-20€"
+
+#: fahrradparken/models.py:190
+msgid "more than 20€"
+msgstr "Mehr als 20€"
+
+#: fahrradparken/models.py:192
+msgid "price"
+msgstr "Preis"
+
+#: fahrradparken/models.py:195
+msgid "under 18"
+msgstr "Unter 18"
+
+#: fahrradparken/models.py:196
+msgid "18-24"
+msgstr "18-24"
+
+#: fahrradparken/models.py:197
+msgid "25-29"
+msgstr "25-29"
+
+#: fahrradparken/models.py:198
+msgid "30-39"
+msgstr "30-39"
+
+#: fahrradparken/models.py:199
+msgid "40-49"
+msgstr "40-49"
+
+#: fahrradparken/models.py:200
+msgid "50-64"
+msgstr "50-64"
+
+#: fahrradparken/models.py:201
+msgid "65-74"
+msgstr "65-74"
+
+#: fahrradparken/models.py:202
+msgid "75 and above"
+msgstr "Über 74"
+
+#: fahrradparken/models.py:204 fixmyapp/models/profile.py:37
+msgid "age"
+msgstr "Alter"
 
 #: fixmyapp/admin.py:51 fixmyapp/models/project.py:129
 msgid "alert date"
@@ -210,13 +518,6 @@ msgstr "Name des Betriebs"
 #: permits/models.py:124 reports/models/report.py:53
 msgid "address"
 msgstr "Anschrift"
-
-#: fixmyapp/management/commands/exportgastrosignups.py:15
-#: fixmyapp/models/project.py:106 fixmyapp/models/report.py:44
-#: fixmyapp/models/section.py:12 fixmyapp/tests.py:581
-#: reports/models/report.py:54
-msgid "geometry"
-msgstr "Geometrie"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:16
 #: fixmyapp/models/gastro_signup.py:144
@@ -478,10 +779,6 @@ msgstr "Copyright"
 msgid "file"
 msgstr "Datei"
 
-#: fixmyapp/models/photo.py:17
-msgid "photo"
-msgstr "Foto"
-
 #: fixmyapp/models/photo.py:18
 msgid "photos"
 msgstr "Fotos"
@@ -505,10 +802,6 @@ msgstr "männlich"
 #: fixmyapp/models/profile.py:12
 msgid "female"
 msgstr "weiblich"
-
-#: fixmyapp/models/profile.py:12
-msgid "other"
-msgstr "anders"
 
 #: fixmyapp/models/profile.py:20
 msgid "racing cycle"
@@ -549,10 +842,6 @@ msgstr "einmal pro Woche"
 #: fixmyapp/models/profile.py:35
 msgid "once per month"
 msgstr "einmal pro Monat"
-
-#: fixmyapp/models/profile.py:37
-msgid "age"
-msgstr "Alter"
 
 #: fixmyapp/models/profile.py:39
 msgid "category of bike"
@@ -1023,10 +1312,6 @@ msgstr "Adresse Veranstaltungsort"
 msgid "street address of the event location"
 msgstr "Adresse der Veranstaltung für die VR-Anordnung"
 
-#: permits/models.py:138
-msgid "event date"
-msgstr "Datum der Veranstaltung"
-
 #: permits/models.py:139
 msgid "setup start time"
 msgstr "Beginn des Aufbaus"
@@ -1167,17 +1452,9 @@ msgstr "Szenen"
 msgid "id"
 msgstr "ID"
 
-#: survey/models.py:68
-msgid "session"
-msgstr "Sitzung"
-
 #: survey/models.py:69
 msgid "sessions"
 msgstr "Sitzungen"
-
-#: survey/models.py:73
-msgid "duration"
-msgstr "Dauer"
 
 #: survey/models.py:74 survey/models.py:81
 msgid "rating"

@@ -52,6 +52,9 @@ class StationList(generics.ListAPIView):
     search_fields = ['name', 'community']
 
     def get(self, request):
+        """Searchable station listing as GeoJSON.
+
+        Use the `search` URL parameter to filter by station name and community."""
         queryset = self.get_queryset()
         filtered_queryset = self.filter_queryset(queryset)
 

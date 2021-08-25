@@ -1,6 +1,6 @@
 import json
 
-from rest_framework import permissions, status, generics
+from rest_framework import permissions, status, generics, filters
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -48,8 +48,13 @@ class SignupView(APIView):
 class StationList(generics.ListAPIView):
     queryset = Station.objects.all()
     serializer_class = StationSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name', 'community']
 
     def get(self, request):
+        queryset = self.get_queryset()
+        filtered_queryset = self.filter_queryset(queryset)
+
         INCLUDE_FIELDS = (
             'id',
             'name',
@@ -60,7 +65,7 @@ class StationList(generics.ListAPIView):
             'community',
         )
         features = []
-        for station in Station.objects.all():
+        for station in filtered_queryset.all():
             props = dict([(field, getattr(station, field)) for field in INCLUDE_FIELDS])
             features.append(
                 {

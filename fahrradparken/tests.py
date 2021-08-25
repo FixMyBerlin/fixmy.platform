@@ -129,6 +129,17 @@ class StationTest(TestCase):
         data = response.json()
         self.assertEqual(len(data['features']), 3)
 
+    def test_search_query(self):
+        response = self.client.get(
+            '/api/fahrradparken/stations',
+            {'search': 'rothe'},
+            content_type='application/json',
+        )
+        self.assertEqual(response.status_code, 200, response.content)
+
+        data = response.json()
+        self.assertEqual(len(data['features']), 1)
+
 
 class SurveyStationTest(TestCase):
     fixtures = ['station']

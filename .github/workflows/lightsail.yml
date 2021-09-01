@@ -1,0 +1,111 @@
+name: Lightsail
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  build_and_deploy_to_lightsail_container_service:
+    runs-on: ubuntu-latest
+    
+    env:
+      ACTVATION_FRONTEND_URL: ${{ secrets.ACTVATION_FRONTEND_URL }}
+      ACTIVATION_URL: ${{ secrets.ACTIVATION_URL }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.LIGHTSAIL_STORAGE_ACCESS_KEY_ID }}
+      AWS_S3_REGION_NAME: eu-central-1
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.LIGHTSAIL_STORAGE_SECRET_ACCESS_KEY }}
+      AWS_STORAGE_BUCKET_NAME: ${{ secrets.LIGHTSAIL_STORAGE_BUCKET_NAME }}
+      DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
+      DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
+      DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+      DATABASE_USER: ${{ secrets.DATABASE_USER }}
+      DATA_UPLOAD_MAX_NUMBER_FIELDS: ${{ secrets.DATA_UPLOAD_MAX_NUMBER_FIELDS }}
+      EMAIL_BACKEND: ${{ secrets.EMAIL_BACKEND }}
+      EVENT_SIGNUPS_OPEN: ${{ secrets.EVENT_SIGNUPS_OPEN }}
+      EVENT_SIGNUPS_CLOSE: ${{ secrets.EVENT_SIGNUPS_CLOSE }}
+      GASTRO_SIGNUPS_OPEN: ${{ secrets.GASTRO_SIGNUPS_OPEN }}
+      GASTRO_SIGNUPS_CLOSE: ${{ secrets.GASTRO_SIGNUPS_CLOSE }}
+      MAILJET_API_KEY: ${{ secrets.MAILJET_API_KEY }}
+      MAILJET_SECRET_KEY: ${{ secrets.MAILJET_SECRET_KEY }}
+      MAPBOX_ACCESS_TOKEN: ${{ secrets.MAPBOX_ACCESS_TOKEN }}
+      MAPBOX_USERNAME: ${{ secrets.MAPBOX_USERNAME }}
+      PASSWORD_RESET_CONFIRM_FRONTEND_URL: ${{ secrets.PASSWORD_RESET_CONFIRM_FRONTEND_URL }}
+      PASSWORD_RESET_CONFIRM_URL: ${{ secrets.PASSWORD_RESET_CONFIRM_URL }}
+      PLAYSTREET_RECIPIENT: ${{ secrets.PLAYSTREET_RECIPIENT }}
+      NEWSLETTER_LIST_ID: ${{ secrets.NEWSLETTER_LIST_ID }}
+      REPORTS_NOTIFICATION_CAMPAIGN: ${{ secrets.REPORTS_NOTIFICATION_CAMPAIGN }}
+      REPORTS_NOTIFICATION_SENDER: ${{ secrets.REPORTS_NOTIFICATION_SENDER }}
+      SERVICE_NAME: ${{ secrets.SERVICE_NAME }}
+      TOGGLE_GASTRO_DIRECT_SIGNUP: ${{ secrets.TOGGLE_GASTRO_DIRECT_SIGNUP }}
+      TOGGLE_GASTRO_REGISTRATIONS: ${{ secrets.TOGGLE_GASTRO_REGISTRATIONS }}
+      TOGGLE_NEWSLETTER: ${{ secrets.TOGGLE_NEWSLETTER }}
+      USE_X_FORWARDED_FOR: ${{ secrets.USE_X_FORWARDED_FOR }}
+    
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Upgrade AWS CLI version and setup lightsailctl
+      run: | 
+       aws --version
+       curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+       unzip awscliv2.zip
+       sudo ./aws/install --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli --update
+       which aws
+       aws --version
+       sudo curl "https://s3.us-west-2.amazonaws.com/lightsailctl/latest/linux-amd64/lightsailctl" -o "/usr/local/bin/lightsailctl"
+       sudo chmod +x /usr/local/bin/lightsailctl
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+
+    - name: Build app image
+      run: >
+        docker build .
+        --file ./docker/app/Dockerfile
+        --tag app:latest
+
+    - name: Build nginx image
+      run: >
+        docker build .
+        --file ./docker/nginx/Dockerfile
+        --tag nginx:latest
+
+    - name: Push the app image
+      run: >
+        aws lightsail push-container-image
+        --service-name ${{ env.SERVICE_NAME }}
+        --label app
+        --image app:latest
+
+    - name: Push the nginx image
+      run: >
+        aws lightsail push-container-image
+        --service-name ${{ env.SERVICE_NAME }}
+        --label nginx
+        --image nginx:latest
+
+    - name: Get the latest app image from Lightsail
+      run: >
+        echo "LATEST_APP_IMAGE=$(aws lightsail get-container-images --service-name ${{ env.SERVICE_NAME }} | jq -r '.containerImages | map(select(.image | contains ("app") )) | .[0].image')" >> $GITHUB_ENV
+
+    - name: Get the latest nginx image from Lightsail
+      run: >
+        echo "LATEST_NGINX_IMAGE=$(aws lightsail get-container-images --service-name ${{ env.SERVICE_NAME }} | jq -r '.containerImages | map(select(.image | contains ("nginx") )) | .[0].image')" >> $GITHUB_ENV
+
+    - name: Create container_with_image.yml
+      run: |
+        cat .github/workflows/container.yml.tpl | envsubst > container_with_image.yml
+        cat container_with_image.yml
+
+    - name: Deploy to Lightsail
+      run: >
+        aws lightsail create-container-service-deployment
+        --cli-input-yaml file://container_with_image.yml
+        --output yaml

@@ -2,8 +2,10 @@
 version: "3"
 services:
   app:
-    build: .
-    entrypoint: ./wait-for-it.sh db:5432 -t 15 -s --
+    build:
+      context: .
+      dockerfile: ./docker/app/Dockerfile
+    entrypoint: ./docker/wait-for-it.sh db:5432 -t 15 -s --
     environment:
       AWS_ACCESS_KEY_ID:
       AWS_SECRET_ACCESS_KEY:
@@ -40,7 +42,11 @@ services:
       EVENT_REPLY_TO:
       PLAYSTREET_RECIPIENT:
       FAHRRADPARKEN_REPLY_TO:
-    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    command:
+      - docker-entrypoint.sh
+      - --bind
+      - 0.0.0.0
+      - fixmydjango.wsgi
     volumes:
       - .:/code
     ports:

@@ -33,7 +33,7 @@ WORKDIR /code
 ADD requirements.txt /code
 RUN pip install -r requirements.txt
 ADD . /code/
-COPY ./docker-entrypoint.sh /usr/local/bin
+COPY ./docker/app/docker-entrypoint.sh /usr/local/bin
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 ENTRYPOINT ["docker-entrypoint.sh"]
 EXPOSE 8000

@@ -1,8 +1,7 @@
 FROM python:3.8
 
-ENV DEBIAN_FRONTEND noninteractive
+ARG DEBIAN_FRONTEND=noninteractive
 ENV PYTHONUNBUFFERED 1
-
 ENV LANG C.UTF-8
 ENV LANGUAGE C.UTF-8
 ENV LC_ALL C.UTF-8
@@ -20,18 +19,15 @@ RUN apt-get update; apt-get --assume-yes --auto-remove install \
     curl \
     gdal-bin \
     gettext \
+    less \
     libproj-dev \
     locales \
     postgresql-client-13 \
     unzip \
-    less \
-    vim
-
-RUN rm -rf /var/lib/apt/lists/*
-RUN mkdir /code
+    vim && rm -rf /var/lib/apt/lists/*
 WORKDIR /code
 ADD requirements.txt /code
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 ADD . /code/
 COPY ./docker/app/docker-entrypoint.sh /usr/local/bin
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh

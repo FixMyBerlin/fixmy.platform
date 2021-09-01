@@ -6,15 +6,7 @@ ENV LANG C.UTF-8
 ENV LANGUAGE C.UTF-8
 ENV LC_ALL C.UTF-8
 
-# Add PostgreSQL repository to be able to install `postgresql-client-13`
-# c.f https://wiki.postgresql.org/wiki/Apt
-RUN apt-get update; \
-    apt-get --assume-yes --auto-remove install curl ca-certificates gnupg2 lsb-release; \
-    curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -; \
-    echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" |tee  /etc/apt/sources.list.d/pgdg.list;
-
 RUN apt-get update; apt-get --assume-yes --auto-remove install \
-    apt-transport-https \
     binutils \
     curl \
     gdal-bin \
@@ -22,7 +14,7 @@ RUN apt-get update; apt-get --assume-yes --auto-remove install \
     less \
     libproj-dev \
     locales \
-    postgresql-client-13 \
+    postgresql-client \
     unzip \
     vim && rm -rf /var/lib/apt/lists/*
 WORKDIR /code

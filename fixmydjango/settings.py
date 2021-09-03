@@ -51,7 +51,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'set-this-for-production!')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(os.getenv('DEBUG', False))
 
-ALLOWED_HOSTS = ['localhost', 'fixmyberlin.de', '35.234.67.137']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition

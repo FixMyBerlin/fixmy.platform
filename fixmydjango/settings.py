@@ -109,7 +109,7 @@ DATABASES = {
         'NAME': os.getenv('DATABASE_NAME', 'docker'),
         'USER': os.getenv('DATABASE_USER', 'docker'),
         'PASSWORD': os.getenv('DATABASE_PASSWORD', 'docker'),
-        'HOST': 'db',
+        'HOST': os.getenv('DATABASE_HOST', 'db'),
         'PORT': 5432,
     }
 }

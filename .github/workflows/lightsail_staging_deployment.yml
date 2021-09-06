@@ -1,4 +1,4 @@
-name: Lightsail
+name: Lightsail staging deployment
 
 on:
   push:

@@ -14,7 +14,7 @@ jobs:
     environment: "lightsail-staging"
     
     env:
-      ACTVATION_FRONTEND_URL: ${{ secrets.ACTVATION_FRONTEND_URL }}
+      ACTIVATION_FRONTEND_URL: ${{ secrets.ACTIVATION_FRONTEND_URL }}
       ACTIVATION_URL: ${{ secrets.ACTIVATION_URL }}
       AWS_ACCESS_KEY_ID: ${{ secrets.LIGHTSAIL_STORAGE_ACCESS_KEY_ID }}
       AWS_S3_REGION_NAME: eu-central-1
@@ -44,7 +44,7 @@ jobs:
       TOGGLE_GASTRO_DIRECT_SIGNUP: ${{ secrets.TOGGLE_GASTRO_DIRECT_SIGNUP }}
       TOGGLE_GASTRO_REGISTRATIONS: ${{ secrets.TOGGLE_GASTRO_REGISTRATIONS }}
       TOGGLE_NEWSLETTER: ${{ secrets.TOGGLE_NEWSLETTER }}
-      USE_X_FORWARDED_FOR: ${{ secrets.USE_X_FORWARDED_FOR }}
+      USE_X_FORWARDED_HOST: ${{ secrets.USE_X_FORWARDED_HOST }}
     
     steps:
     - uses: actions/checkout@v2

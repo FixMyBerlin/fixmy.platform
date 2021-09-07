@@ -1,11 +1,8 @@
 name: Lightsail production deployment
 
 on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-  workflow_dispatch:
+  release:
+    types: [published]
 
 jobs:
   build_and_deploy_to_lightsail_container_service:

@@ -1,11 +1,15 @@
 name: Lightsail staging deployment
 
 on:
-  push:
-    branches: [ master ]
+  workflow_run:
+    branches: [master]
+    workflows: ["CI"]
+    types: [completed]
 
 jobs:
   build_and_deploy_to_lightsail_container_service:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
     runs-on: ubuntu-latest
 
     environment: "lightsail-staging"

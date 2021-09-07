@@ -72,35 +72,23 @@ jobs:
       run: >
         docker build .
         --file ./docker/app/Dockerfile
-        --tag app:latest
+        --tag public.ecr.aws/n0p8j4k5/fixmycity/app:${GITHUB_SHA}
 
     - name: Build nginx image
       run: >
         docker build .
         --file ./docker/nginx/Dockerfile
-        --tag nginx:latest
+        --tag public.ecr.aws/n0p8j4k5/fixmycity/nginx:${GITHUB_SHA}
 
     - name: Push the app image
-      run: >
-        aws lightsail push-container-image
-        --service-name ${{ env.SERVICE_NAME }}
-        --label app
-        --image app:latest
+      run: |
+        aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/n0p8j4k5/fixmycity
+        docker push public.ecr.aws/n0p8j4k5/fixmycity/app:${GITHUB_SHA}
 
     - name: Push the nginx image
-      run: >
-        aws lightsail push-container-image
-        --service-name ${{ env.SERVICE_NAME }}
-        --label nginx
-        --image nginx:latest
-
-    - name: Get the latest app image from Lightsail
-      run: >
-        echo "LATEST_APP_IMAGE=$(aws lightsail get-container-images --service-name ${{ env.SERVICE_NAME }} | jq -r '.containerImages | map(select(.image | contains ("app") )) | .[0].image')" >> $GITHUB_ENV
-
-    - name: Get the latest nginx image from Lightsail
-      run: >
-        echo "LATEST_NGINX_IMAGE=$(aws lightsail get-container-images --service-name ${{ env.SERVICE_NAME }} | jq -r '.containerImages | map(select(.image | contains ("nginx") )) | .[0].image')" >> $GITHUB_ENV
+      run: |
+        aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/n0p8j4k5/fixmycity
+        docker push public.ecr.aws/n0p8j4k5/fixmycity/nginx:${GITHUB_SHA}
 
     - name: Create container_with_image.yml
       run: |

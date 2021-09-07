@@ -2,7 +2,7 @@ serviceName: ${SERVICE_NAME}
 containers:
   nginx:
     command: []
-    image: ${LATEST_NGINX_IMAGE}
+    image: public.ecr.aws/n0p8j4k5/fixmycity/nginx:${GITHUB_SHA}
     ports:
       "80": HTTP
   app:
@@ -42,7 +42,7 @@ containers:
       TOGGLE_GASTRO_REGISTRATIONS: "${TOGGLE_GASTRO_REGISTRATIONS}"
       TOGGLE_NEWSLETTER: "${TOGGLE_NEWSLETTER}"
       USE_X_FORWARDED_HOST: "${USE_X_FORWARDED_HOST}"
-    image: ${LATEST_APP_IMAGE}
+    image: public.ecr.aws/n0p8j4k5/fixmycity/app:${GITHUB_SHA}
 publicEndpoint:
   containerName: nginx
   containerPort: 80

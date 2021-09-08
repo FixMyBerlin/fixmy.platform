@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import (
+    PhotoUploadView,
     SignupView,
     StationList,
     SurveyBicycleUsageView,
@@ -20,6 +21,11 @@ urlpatterns = [
         'survey/station',
         SurveyStationView.as_view(),
         name='fahrradparken-survey-station',
+    ),
+    path(
+        'survey/photo/<str:fname>',
+        PhotoUploadView.as_view(),
+        name='fahrradparken-photo-upload',
     ),
     path(
         'survey/bicycle-usage',

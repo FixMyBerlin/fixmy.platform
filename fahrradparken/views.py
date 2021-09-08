@@ -6,7 +6,7 @@ from datetime import datetime
 from django.conf import settings
 from rest_framework import permissions, status, generics, filters
 from rest_framework.decorators import api_view
-from rest_framework.parsers import FileUploadParser
+from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from urllib.parse import unquote
@@ -132,7 +132,7 @@ class SurveyBicycleUsageView(APIView):
 
 class PhotoUploadView(APIView):
     permission_classes = (permissions.AllowAny,)
-    parser_classes = [FileUploadParser]
+    parser_classes = (FormParser, MultiPartParser)
 
     def post(self, request, fname):
         """Upload a photo"""

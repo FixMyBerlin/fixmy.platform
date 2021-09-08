@@ -54,8 +54,9 @@ class SignupView(APIView):
 class StationList(generics.ListAPIView):
     queryset = Station.objects.all()
     serializer_class = StationSerializer
-    filter_backends = [filters.SearchFilter]
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['name', 'community']
+    ordering = ['-travellers', 'community', '-is_long_distance', 'name']
 
     def get(self, request):
         """Searchable station listing as GeoJSON.

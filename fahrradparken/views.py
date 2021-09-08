@@ -1,9 +1,15 @@
+import boto3
 import json
+import sys
 
+from datetime import datetime
+from django.conf import settings
 from rest_framework import permissions, status, generics, filters
 from rest_framework.decorators import api_view
+from rest_framework.parsers import FileUploadParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from urllib.parse import unquote
 
 from fahrradparken.models import Station, SurveyStation
 
@@ -121,3 +127,29 @@ class SurveyBicycleUsageView(APIView):
                 status=status.HTTP_201_CREATED,
             )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PhotoUploadView(APIView):
+    permission_classes = (permissions.AllowAny,)
+    parser_classes = [FileUploadParser]
+
+    def post(self, request, fname):
+        """Upload a photo"""
+        try:
+            fname_decoded = unquote(fname)
+        except Exception:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        s3_client = boto3.client('s3')
+        sort_path = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+        s3_key = f"fahrradparken/user-uploads/{sort_path}/{fname_decoded}"
+
+        try:
+            s3_client.upload_fileobj(
+                request.data['file'], settings.AWS_STORAGE_BUCKET_NAME, s3_key
+            )
+        except Exception as e:
+            sys.stderr.write(str(e))
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        return Response({'path': s3_key})

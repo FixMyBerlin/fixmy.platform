@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import (
+    CheckPreviousBicycleSurvey,
     PhotoUploadView,
     SignupView,
     StationList,
@@ -35,6 +36,11 @@ urlpatterns = [
     path(
         'uuid/<uuid:session>',
         StationSurveysByUUID.as_view(),
-        name='fahrradparken-survey-station-by-user',
+        name='fahrradparken-survey-station-by-session',
+    ),
+    path(
+        'uuid/<uuid:session>/bicycle-usage-survey',
+        CheckPreviousBicycleSurvey.as_view(),
+        name='fahrradparken-previous-bicycle-survey-by-session',
     ),
 ]

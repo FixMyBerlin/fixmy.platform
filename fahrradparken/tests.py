@@ -208,12 +208,15 @@ class UniqueUUIDTest(TestCase):
         data = response.json()
         self.assertListEqual(data, [{'station_id': 1}, {'station_id': 2}])
 
+
 class CheckPreviousBicycleSurveyTest(TestCase):
     fixtures = ['station', 'survey_station']
 
     def test_check_previous_bicycle_survey(self):
         session = SurveyStation.objects.first().session
-        response = self.client.get(f'/api/fahrradparken/uuid/{str(session)}/bicycle-usage-survey')
+        response = self.client.get(
+            f'/api/fahrradparken/uuid/{str(session)}/bicycle-usage-survey'
+        )
         self.assertEqual(response.status_code, 200)
         data = response.json()
         # Improve this test by adding a fixture that allows testing for

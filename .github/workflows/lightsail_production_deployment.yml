@@ -5,7 +5,7 @@ on:
     types: [published]
 
 jobs:
-  build_and_deploy_to_lightsail_container_service:
+  deploy_to_lightsail_container_service:
     runs-on: ubuntu-latest
 
     environment: "lightsail-production"
@@ -67,28 +67,6 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ secrets.AWS_REGION }}
-
-    - name: Build app image
-      run: >
-        docker build .
-        --file ./docker/app/Dockerfile
-        --tag public.ecr.aws/n0p8j4k5/fixmycity/app:${GITHUB_SHA}
-
-    - name: Build nginx image
-      run: >
-        docker build .
-        --file ./docker/nginx/Dockerfile
-        --tag public.ecr.aws/n0p8j4k5/fixmycity/nginx:${GITHUB_SHA}
-
-    - name: Push the app image
-      run: |
-        aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/n0p8j4k5/fixmycity
-        docker push public.ecr.aws/n0p8j4k5/fixmycity/app:${GITHUB_SHA}
-
-    - name: Push the nginx image
-      run: |
-        aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/n0p8j4k5/fixmycity
-        docker push public.ecr.aws/n0p8j4k5/fixmycity/nginx:${GITHUB_SHA}
 
     - name: Create container_with_image.yml
       run: |

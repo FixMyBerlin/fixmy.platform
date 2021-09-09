@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Signup, EventSignup, Station
+from .models import Signup, EventSignup, Station, SurveyStation
 
 
 class SignupAdmin(admin.ModelAdmin):
@@ -26,6 +26,11 @@ class StationAdmin(admin.ModelAdmin):
     )
 
 
+class SurveyStationAdmin(admin.ModelAdmin):
+    list_display = ('created_date', 'session', 'station')
+
+
 admin.site.register(Signup, SignupAdmin)
 admin.site.register(EventSignup, EventSignupAdmin)
 admin.site.register(Station, StationAdmin)
+admin.site.register(SurveyStation, SurveyStationAdmin)

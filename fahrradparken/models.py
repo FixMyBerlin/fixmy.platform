@@ -55,6 +55,9 @@ class Station(BaseModel):
     is_subway = models.BooleanField(_('subway station'), default=False)
     community = models.CharField(_('community'), max_length=255, null=True, blank=True)
 
+    def __str__(self):
+        return f"{self.name} ({self.id})"
+
     @property
     def net_promoter_score():
         raise NotImplementedError()

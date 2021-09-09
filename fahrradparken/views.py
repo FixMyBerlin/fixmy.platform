@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from urllib.parse import unquote
 
-from fahrradparken.models import Station, SurveyStation
+from fahrradparken.models import Station, SurveyStation, SurveyBicycleUsage
 
 from .notifications import send_registration_confirmation
 from .serializers import (
@@ -22,6 +22,15 @@ from .serializers import (
     SurveyStationSerializer,
     SurveyStationShortSerializer,
 )
+
+
+class CheckPreviousBicycleSurvey(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get(self, request, session):
+        """Check whether this session has created a bicycle usage survey."""
+        does_exist = SurveyBicycleUsage.objects.filter(session=session).count() > 0
+        return Response({"doesExist": does_exist}, status=200)
 
 
 class SignupView(APIView):
@@ -97,7 +106,10 @@ class SurveyStationView(APIView):
         serializer = SurveyStationSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(request.data, status=status.HTTP_201_CREATED)
+            count = SurveyStation.objects.filter(
+                station=request.data['station']
+            ).count()
+            return Response({'count': count}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 

@@ -88,7 +88,7 @@ class SurveyStation(BaseModel):
     )
     survey_version = models.IntegerField(_('survey version'), default=1)
     npr = models.IntegerField(_('net promoter rating'))
-    annoyances = models.CharField(_('annoyances'), max_length=32)
+    annoyances = models.CharField(_('annoyances'), max_length=32, blank=True, null=True)
     annoyance_custom = models.CharField(
         _('annoyance custom'), max_length=255, blank=True, null=True
     )

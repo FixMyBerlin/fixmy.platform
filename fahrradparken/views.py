@@ -105,7 +105,7 @@ class SurveyStationView(APIView):
         """Add a new station survey response."""
         serializer = SurveyStationSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(photo=request.data.get('photoS3'))
             count = SurveyStation.objects.filter(
                 station=request.data['station']
             ).count()

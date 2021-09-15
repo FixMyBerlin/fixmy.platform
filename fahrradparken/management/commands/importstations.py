@@ -26,6 +26,15 @@ STORAGE_PATH = 'Data/stations-v1.0.geojson'
 class Command(BaseCommand):
     help = 'Import train station dataset from S3 storage'
 
+    def add_arguments(self, parser):
+        parser.add_argument(
+            'file',
+            type=str,
+            default='',
+            nargs='?',  # make this optional
+            help='A geojson file containing a station dataset (optional)',
+        )
+
     def validate(self, feature):
         """Return true if a feature has all required properties."""
         if feature["geometry"]["type"] != 'Point':
@@ -84,7 +93,12 @@ class Command(BaseCommand):
         return data
 
     def handle(self, *args, **kwargs):
-        data = self.download_dataset()
+        if kwargs['file'] == '':
+            data = self.download_dataset()
+        else:
+            path = os.path.abspath(kwargs['file'])
+            with open(path) as f:
+                data = json.load(f)
 
         num_entries = len(data.get('features'))
         num_created = 0

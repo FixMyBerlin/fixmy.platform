@@ -103,10 +103,19 @@ class Command(BaseCommand):
                         community=props.get('Gemeindename'),
                     )
                     instance.save()
+                    num_created += 1
                 else:
-                    num_updates += 1
+                    instance.name = props.get('Bahnhof')
+                    instance.location = Point(feature["geometry"]["coordinates"])
+                    instance.travellers = travellers
+                    instance.post_code = props.get('PLZ')
+                    instance.is_long_distance = self.is_long_distance(feature)
+                    instance.is_light_rail = self.is_light_rail(feature)
+                    instance.is_subway = False  # not supported yet
+                    instance.community = props.get('Gemeindename')
+                    instance.save()
+                    num_updated += 1
 
-            if num_updates > 0:
-                self.stdout.write(
-                    f'Updating station data is not supported (ignored {num_updates} entries)'
-                )
+            self.stdout.write(f'Created {num_created} stations')
+            if num_updated > 0:
+                self.stdout.write(f'Updated {num_updated} stations')

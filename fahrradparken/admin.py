@@ -1,6 +1,15 @@
+from .models import (
+    EventSignup,
+    ParkingFacility,
+    ParkingFacilityCondition,
+    ParkingFacilityOccupancy,
+    Signup,
+    Station,
+    SurveyStation,
+)
 from django.contrib import admin
-
-from .models import Signup, EventSignup, Station, SurveyStation
+from fixmyapp.admin import FMBGeoAdmin
+from reversion.admin import VersionAdmin
 
 
 class SignupAdmin(admin.ModelAdmin):
@@ -30,7 +39,34 @@ class SurveyStationAdmin(admin.ModelAdmin):
     list_display = ('created_date', 'session', 'station')
 
 
+class ParkingFacilityConditionInline(admin.StackedInline):
+    extra = 1
+    list_display = 'value'
+    model = ParkingFacilityCondition
+
+
+class ParkingFacilityOccupancyInline(admin.StackedInline):
+    extra = 1
+    list_display = 'value'
+    model = ParkingFacilityOccupancy
+
+
+class ParkingFacilityAdmin(FMBGeoAdmin, VersionAdmin):
+    list_display = (
+        'station',
+        'capacity',
+        'type',
+        'parking_garage',
+        'covered',
+        'two_tier',
+        'secured',
+        'confirmations',
+    )
+    inlines = (ParkingFacilityConditionInline, ParkingFacilityOccupancyInline)
+
+
 admin.site.register(Signup, SignupAdmin)
 admin.site.register(EventSignup, EventSignupAdmin)
 admin.site.register(Station, StationAdmin)
 admin.site.register(SurveyStation, SurveyStationAdmin)
+admin.site.register(ParkingFacility, ParkingFacilityAdmin)

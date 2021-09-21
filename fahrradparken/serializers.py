@@ -4,7 +4,14 @@ import json
 from django.conf import settings
 from rest_framework import serializers
 
-from .models import Signup, EventSignup, Station, SurveyBicycleUsage, SurveyStation
+from .models import (
+    EventSignup,
+    ParkingFacility,
+    Signup,
+    Station,
+    SurveyBicycleUsage,
+    SurveyStation,
+)
 
 
 class SignupSerializer(serializers.ModelSerializer):
@@ -96,3 +103,27 @@ class SurveyBicycleUsageSerializer(serializers.ModelSerializer):
     class Meta:
         model = SurveyBicycleUsage
         exclude = ['modified_date']
+
+
+class ParkingFacilitySerializer(serializers.ModelSerializer):
+    station = serializers.PrimaryKeyRelatedField(
+        many=False, queryset=Station.objects.all()
+    )
+
+    class Meta:
+        model = ParkingFacility
+        fields = [
+            'capacity',
+            'covered',
+            'created_date',
+            'external_id',
+            'id',
+            'location',
+            'parking_garage',
+            'secured',
+            'source',
+            'stands',
+            'station',
+            'two_tier',
+            'type',
+        ]

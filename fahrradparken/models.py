@@ -2,6 +2,7 @@ from collections import defaultdict
 from django.conf import settings
 from django.contrib.gis.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.db.models import Avg
 from django.utils.translation import gettext_lazy as _
 
 from fixmyapp.models.base_model import BaseModel
@@ -298,6 +299,14 @@ class ParkingFacility(BaseModel):
     class Meta:
         verbose_name = _('parking facility')
         verbose_name_plural = _('parking facilities')
+
+    @property
+    def condition(self):
+        return self.parkingfacilitycondition_set.aggregate(Avg('value'))['value__avg']
+
+    @property
+    def occupancy(self):
+        return self.parkingfacilityoccupancy_set.aggregate(Avg('value'))['value__avg']
 
 
 class ParkingFacilityCondition(models.Model):

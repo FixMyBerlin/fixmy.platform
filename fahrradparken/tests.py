@@ -313,6 +313,8 @@ class ParkingFacilityTest(TestCase):
         )
         self.assertEqual(response.status_code, 201)
         self.assertIn('id', response.json())
+        self.assertEqual(response.json().get('condition'), 2)
+        self.assertEqual(response.json().get('occupancy'), 1)
 
         updated_report = {
             'capacity': 10,
@@ -333,3 +335,5 @@ class ParkingFacilityTest(TestCase):
             content_type="application/json",
         )
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json().get('condition'), 2)
+        self.assertEqual(response.json().get('occupancy'), 1)

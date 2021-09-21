@@ -7,6 +7,8 @@ from rest_framework import serializers
 from .models import (
     EventSignup,
     ParkingFacility,
+    ParkingFacilityCondition,
+    ParkingFacilityOccupancy,
     Signup,
     Station,
     SurveyBicycleUsage,
@@ -106,6 +108,8 @@ class SurveyBicycleUsageSerializer(serializers.ModelSerializer):
 
 
 class ParkingFacilitySerializer(serializers.ModelSerializer):
+    condition = serializers.IntegerField()
+    occupancy = serializers.IntegerField()
     station = serializers.PrimaryKeyRelatedField(
         many=False, queryset=Station.objects.all()
     )
@@ -114,11 +118,13 @@ class ParkingFacilitySerializer(serializers.ModelSerializer):
         model = ParkingFacility
         fields = [
             'capacity',
+            'condition',
             'covered',
             'created_date',
             'external_id',
             'id',
             'location',
+            'occupancy',
             'parking_garage',
             'secured',
             'source',
@@ -127,3 +133,26 @@ class ParkingFacilitySerializer(serializers.ModelSerializer):
             'two_tier',
             'type',
         ]
+
+    def create(self, validated_data):
+        condition = validated_data.pop('condition')
+        occupancy = validated_data.pop('occupancy')
+        parking_facility = ParkingFacility.objects.create(**validated_data)
+        ParkingFacilityCondition.objects.create(
+            parking_facility=parking_facility, value=condition
+        )
+        ParkingFacilityOccupancy.objects.create(
+            parking_facility=parking_facility, value=occupancy
+        )
+        return parking_facility
+
+    def update(self, instance, validated_data):
+        condition = validated_data.pop('condition')
+        occupancy = validated_data.pop('occupancy')
+        ParkingFacilityCondition.objects.create(
+            parking_facility=instance, value=condition
+        )
+        ParkingFacilityOccupancy.objects.create(
+            parking_facility=instance, value=occupancy
+        )
+        return super().update(instance, validated_data)

@@ -287,3 +287,49 @@ class RawDataExportTest(TestCase):
         self.assertContains(
             response, SurveyStation.objects.first().session, 1, status_code=200
         )
+
+
+class ParkingFacilityTest(TestCase):
+    fixtures = ['station']
+
+    def test_create_and_update_parking_facility(self):
+        initial_report = {
+            'capacity': 10,
+            'condition': 2,
+            'covered': True,
+            'location': {'type': 'Point', 'coordinates': [13.415941, 52.494432]},
+            'occupancy': 1,
+            'parking_garage': False,
+            'secured': False,
+            'stands': True,
+            'station': 2,
+            'two_tier': False,
+            'type': 0,
+        }
+        response = self.client.post(
+            f'/api/fahrradparken/parking-facilities',
+            data=json.dumps(initial_report),
+            content_type='application/json',
+        )
+        self.assertEqual(response.status_code, 201)
+        self.assertIn('id', response.json())
+
+        updated_report = {
+            'capacity': 10,
+            'condition': 3,
+            'covered': True,
+            'location': {'type': 'Point', 'coordinates': [13.415941, 52.494432]},
+            'occupancy': 2,
+            'parking_garage': False,
+            'secured': False,
+            'stands': True,
+            'station': 2,
+            'two_tier': False,
+            'type': 0,
+        }
+        response = self.client.put(
+            f'/api/fahrradparken/parking-facilities/{response.json().get("id")}',
+            data=json.dumps(updated_report),
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 200)

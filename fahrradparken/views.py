@@ -7,17 +7,24 @@ from django.conf import settings
 from django.http.response import Http404
 from rest_framework import permissions, status, generics, filters
 from rest_framework.decorators import api_view
+from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView
 from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from urllib.parse import unquote
 
-from fahrradparken.models import Station, SurveyStation, SurveyBicycleUsage
+from fahrradparken.models import (
+    ParkingFacility,
+    Station,
+    SurveyBicycleUsage,
+    SurveyStation,
+)
 
 from .notifications import send_registration_confirmation
 from .serializers import (
-    SignupSerializer,
     EventSignupSerializer,
+    ParkingFacilitySerializer,
+    SignupSerializer,
     StaticStationSerializer,
     StationSerializer,
     SurveyBicycleUsageSerializer,
@@ -208,3 +215,15 @@ class RawBicycleUsageSurveyListing(generics.ListAPIView):
         queryset = self.get_queryset()
         serialized = SurveyBicycleUsageSerializer(queryset, many=True)
         return Response(data=serialized.data)
+
+
+class ParkingFacilityListView(CreateAPIView):
+    permission_classes = (permissions.AllowAny,)
+    queryset = ParkingFacility.objects.all()
+    serializer_class = ParkingFacilitySerializer
+
+
+class ParkingFacilityView(RetrieveUpdateAPIView):
+    permission_classes = (permissions.AllowAny,)
+    queryset = ParkingFacility.objects.all()
+    serializer_class = ParkingFacilitySerializer

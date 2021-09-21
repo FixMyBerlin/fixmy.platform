@@ -4,6 +4,8 @@ from django.core import mail
 from django.test import TestCase
 from django.test.client import Client
 
+from .models import Station
+
 
 signup_request = {
     "affiliation": 'Gemeinde Seeblick',
@@ -139,6 +141,12 @@ class StationTest(TestCase):
 
         data = response.json()
         self.assertEqual(len(data['features']), 1)
+
+    def test_get_detail(self):
+        station = Station.objects.all()[0]
+        url = f'/api/fahrradparken/stations/{station.id}'
+        response = self.client.get(url, content_type='application/json')
+        self.assertEqual(response.status_code, 200, response.content)
 
 
 class SurveyStationTest(TestCase):

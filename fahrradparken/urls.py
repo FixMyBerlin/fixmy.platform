@@ -4,6 +4,7 @@ from .views import (
     PhotoUploadView,
     SignupView,
     StationList,
+    StationView,
     SurveyBicycleUsageView,
     SurveyStationView,
     StationSurveysByUUID,
@@ -17,6 +18,7 @@ urlpatterns = [
         SignupView.as_view(),
         name='fahrradparken-signups',
     ),
+    path('stations/<int:pk>', StationView.as_view(), name='fahrradparken-stations'),
     path('stations', StationList.as_view(), name='fahrradparken-stations'),
     path(
         'survey/station',

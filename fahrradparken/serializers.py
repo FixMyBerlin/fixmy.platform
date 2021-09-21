@@ -1,5 +1,6 @@
 import boto3
 import botocore
+import json
 from django.conf import settings
 from rest_framework import serializers
 
@@ -21,7 +22,23 @@ class EventSignupSerializer(serializers.ModelSerializer):
 class StationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Station
-        exclude = ['modified_date']
+        fields = [
+            'id',
+            'name',
+            'travellers',
+            'post_code',
+            'is_long_distance',
+            'is_light_rail',
+            'community',
+        ]
+
+    def to_representation(self, instance):
+        props = super().to_representation(instance)
+        return {
+            'type': 'Feature',
+            'geometry': json.loads(instance.location.json),
+            'properties': props,
+        }
 
 
 class SurveyStationSerializer(serializers.ModelSerializer):

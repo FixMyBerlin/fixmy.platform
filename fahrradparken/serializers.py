@@ -20,17 +20,38 @@ class EventSignupSerializer(serializers.ModelSerializer):
 
 
 class StationSerializer(serializers.ModelSerializer):
+    annoyances_custom = serializers.ReadOnlyField()
+    annoyances = serializers.ReadOnlyField()
+    net_promoter_score = serializers.ReadOnlyField()
+    requested_locations = serializers.ReadOnlyField()
+
     class Meta:
         model = Station
-        fields = [
+        exclude = ('created_date', 'modified_date', 'location')
+
+    def to_representation(self, instance):
+        props = super().to_representation(instance)
+        return {
+            'type': 'Feature',
+            'geometry': json.loads(instance.location.json),
+            'properties': props,
+        }
+
+
+class StaticStationSerializer(serializers.ModelSerializer):
+    """This serializer doesn't output dynamic user data."""
+
+    class Meta:
+        model = Station
+        fields = (
             'id',
             'name',
+            'community',
             'travellers',
             'post_code',
             'is_long_distance',
             'is_light_rail',
-            'community',
-        ]
+        )
 
     def to_representation(self, instance):
         props = super().to_representation(instance)

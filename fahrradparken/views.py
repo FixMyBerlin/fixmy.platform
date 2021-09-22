@@ -18,6 +18,7 @@ from .notifications import send_registration_confirmation
 from .serializers import (
     SignupSerializer,
     EventSignupSerializer,
+    StaticStationSerializer,
     StationSerializer,
     SurveyBicycleUsageSerializer,
     SurveyStationSerializer,
@@ -63,7 +64,6 @@ class SignupView(APIView):
 
 class StationList(generics.ListAPIView):
     queryset = Station.objects.all()
-    serializer_class = StationSerializer
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['name', 'community']
     ordering = ['-travellers', 'community', '-is_long_distance', 'name']
@@ -83,7 +83,7 @@ class StationView(APIView):
 
     def get_object(self, pk):
         try:
-            return Station.objects.get(pk=pk)
+            return Station.objects.prefetch_related('survey_responses').get(pk=pk)
         except Station.DoesNotExist:
             raise Http404
 

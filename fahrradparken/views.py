@@ -74,7 +74,7 @@ class StationList(generics.ListAPIView):
         Use the `search` URL parameter to filter by station name and community."""
         queryset = self.get_queryset()
         filtered_queryset = self.filter_queryset(queryset)
-        features = StationSerializer(filtered_queryset, many=True)
+        features = StaticStationSerializer(filtered_queryset, many=True)
         return Response(data={'type': 'FeatureCollection', 'features': features.data})
 
 

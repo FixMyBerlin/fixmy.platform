@@ -123,17 +123,17 @@ class StationTest(TestCase):
     def setUp(self):
         self.client = Client()
 
-    # def test_get_listing(self):
-    #     response = self.client.get(
-    #         '/api/fahrradparken/stations', content_type='application/json'
-    #     )
-    #     self.assertEqual(response.status_code, 200, response.content)
+    def test_get_listing(self):
+        response = self.client.get(
+            '/api/fahrradparken/stations', content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 200, response.content)
 
-    #     data = response.json()
-    #     self.assertEqual(len(data['features']), 3)
+        data = response.json()
+        self.assertEqual(len(data['features']), 3)
 
-    #     # Listing should not contain user data
-    #     self.assertFalse('annoyances' in data['features'][0]['properties'])
+        # Listing should not contain user data
+        self.assertFalse('annoyances' in data['features'][0]['properties'])
 
     def test_search_query(self):
         response = self.client.get(
@@ -166,7 +166,8 @@ class StationTest(TestCase):
                 'detractor_count': 0,
             },
         )
-        self.assertEqual(props['requested_locations'], [])
+        self.assertEqual(props['requested_locations'], ['Westseite'])
+        self.assertEqual(props['photos'], [])
 
     def test_missing_get_detail(self):
         """Test error response."""

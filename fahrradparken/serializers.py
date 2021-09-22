@@ -23,6 +23,7 @@ class StationSerializer(serializers.ModelSerializer):
     annoyances_custom = serializers.ReadOnlyField()
     annoyances = serializers.ReadOnlyField()
     net_promoter_score = serializers.ReadOnlyField()
+    photos = serializers.ReadOnlyField()
     requested_locations = serializers.ReadOnlyField()
 
     class Meta:

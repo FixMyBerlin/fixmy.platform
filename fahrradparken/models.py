@@ -114,7 +114,7 @@ class Station(BaseModel):
         return [sr.annoyance_custom for sr in query.all()]
 
     @property
-    def requested_locations(self):
+    def photos(self):
         """Return photos submitted by users for this station."""
 
         def get_photo_url(key):
@@ -132,6 +132,14 @@ class Station(BaseModel):
     @property
     def parking_structures():
         raise NotImplementedError()
+
+    @property
+    def requested_locations(self):
+        """Return descriptions of requested locations for parking structures."""
+        query = self.survey_responses.exclude(requested_location__isnull=True).exclude(
+            requested_location__exact=''
+        )
+        return [sr.requested_location for sr in query.all()]
 
 
 class SurveyStation(BaseModel):

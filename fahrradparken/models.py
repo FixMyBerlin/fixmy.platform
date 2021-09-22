@@ -1,4 +1,5 @@
-import uuid
+from collections import defaultdict
+from django.conf import settings
 from django.contrib.gis.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.translation import gettext_lazy as _
@@ -59,24 +60,86 @@ class Station(BaseModel):
         return f"{self.name} ({self.id})"
 
     @property
-    def net_promoter_score():
-        raise NotImplementedError()
+    def net_promoter_score(self):
+        """
+        Returns Net Promoter Score for this station.
+
+        Returns 0 if no ratings exist.
+        """
+        promoter_count = 0
+        detractor_count = 0
+        total_count = 0
+
+        for sr in self.survey_responses.all():
+            total_count += 1
+            if sr.npr >= 9:
+                promoter_count += 1
+            elif sr.npr <= 6:
+                detractor_count += 1
+
+        rating = 0
+        try:
+            rating = (promoter_count / total_count) - (detractor_count / total_count)
+        except ZeroDivisionError:
+            pass
+
+        return {
+            'rating': rating,
+            'total_count': total_count,
+            'promoter_count': promoter_count,
+            'detractor_count': detractor_count,
+        }
 
     @property
-    def annoyances():
-        raise NotImplementedError()
+    def annoyances(self):
+        """
+        Transform survey data on annoyances into a response object.
+
+        The response object contains a key for every existing annoyance. The
+        value of that key is the number of times this annoyance has been
+        selected in a survey.
+        """
+        rv = defaultdict(int)
+        for sr in self.survey_responses.all():
+            for annoyance in sr.annoyances.split(','):
+                rv[annoyance] += 1
+        return rv
 
     @property
-    def annoyances_custom():
-        raise NotImplementedError()
+    def annoyances_custom(self):
+        """Return list of written out annoyances."""
+        query = self.survey_responses.exclude(annoyance_custom__isnull=True).exclude(
+            annoyance_custom__exact=''
+        )
+        return [sr.annoyance_custom for sr in query.all()]
 
     @property
-    def requested_locations():
-        raise NotImplementedError()
+    def photos(self):
+        """Return photos submitted by users for this station."""
+
+        def get_photo_url(key):
+            bucket = settings.AWS_STORAGE_BUCKET_NAME
+            return f"https://{bucket}.s3.amazonaws.com/{key}"
+
+        query = self.survey_responses.exclude(photo__isnull=True).exclude(
+            photo__exact=''
+        )
+        return [
+            {'photo_url': get_photo_url(sr.photo), 'description': sr.photo_description}
+            for sr in query.all()
+        ]
 
     @property
     def parking_structures():
         raise NotImplementedError()
+
+    @property
+    def requested_locations(self):
+        """Return descriptions of requested locations for parking structures."""
+        query = self.survey_responses.exclude(requested_location__isnull=True).exclude(
+            requested_location__exact=''
+        )
+        return [sr.requested_location for sr in query.all()]
 
 
 class SurveyStation(BaseModel):

@@ -4,6 +4,7 @@ import sys
 
 from datetime import datetime
 from django.conf import settings
+from django.http.response import Http404
 from rest_framework import permissions, status, generics, filters
 from rest_framework.decorators import api_view
 from rest_framework.parsers import FormParser, MultiPartParser
@@ -17,6 +18,7 @@ from .notifications import send_registration_confirmation
 from .serializers import (
     SignupSerializer,
     EventSignupSerializer,
+    StaticStationSerializer,
     StationSerializer,
     SurveyBicycleUsageSerializer,
     SurveyStationSerializer,
@@ -62,40 +64,33 @@ class SignupView(APIView):
 
 class StationList(generics.ListAPIView):
     queryset = Station.objects.all()
-    serializer_class = StationSerializer
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['name', 'community']
     ordering = ['-travellers', 'community', '-is_long_distance', 'name']
 
-    def get(self, request):
+    def list(self, request):
         """Searchable station listing as GeoJSON.
 
         Use the `search` URL parameter to filter by station name and community."""
         queryset = self.get_queryset()
         filtered_queryset = self.filter_queryset(queryset)
+        features = StaticStationSerializer(filtered_queryset, many=True)
+        return Response(data={'type': 'FeatureCollection', 'features': features.data})
 
-        INCLUDE_FIELDS = (
-            'id',
-            'name',
-            'travellers',
-            'post_code',
-            'is_long_distance',
-            'is_light_rail',
-            'community',
-        )
-        features = []
-        for station in filtered_queryset.all():
-            props = dict([(field, getattr(station, field)) for field in INCLUDE_FIELDS])
-            features.append(
-                {
-                    'type': 'Feature',
-                    # convert the location geometry to a data type that is
-                    # json-compatible
-                    'geometry': json.loads(station.location.json),
-                    'properties': props,
-                }
-            )
-        return Response(data={'type': 'FeatureCollection', 'features': features})
+
+class StationView(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get_object(self, pk):
+        try:
+            return Station.objects.prefetch_related('survey_responses').get(pk=pk)
+        except Station.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk):
+        station = self.get_object(pk)
+        serializer = StationSerializer(station)
+        return Response(serializer.data)
 
 
 class SurveyStationView(APIView):

@@ -3,6 +3,7 @@ import json
 from django.core import mail
 from django.test import TestCase
 from django.test.client import Client
+from pprint import pformat, pprint
 
 from .models import Station
 
@@ -141,12 +142,21 @@ class StationTest(TestCase):
 
         data = response.json()
         self.assertEqual(len(data['features']), 1)
+        self.assertEqual(data['features'][0]['geometry']['type'], 'Point')
 
     def test_get_detail(self):
         station = Station.objects.all()[0]
         url = f'/api/fahrradparken/stations/{station.id}'
         response = self.client.get(url, content_type='application/json')
         self.assertEqual(response.status_code, 200, response.content)
+        data = response.json()
+        self.assertEqual(data['properties']['id'], station.id)
+
+    def test_missing_get_detail(self):
+        """Test error response."""
+        url = f'/api/fahrradparken/stations/9999'
+        response = self.client.get(url, content_type='application/json')
+        self.assertEqual(response.status_code, 404, response.content)
 
 
 class SurveyStationTest(TestCase):

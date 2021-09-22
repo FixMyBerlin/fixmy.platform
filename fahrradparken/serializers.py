@@ -109,6 +109,7 @@ class SurveyBicycleUsageSerializer(serializers.ModelSerializer):
 
 class ParkingFacilitySerializer(serializers.ModelSerializer):
     condition = serializers.IntegerField()
+    confirm = serializers.BooleanField(write_only=True)
     occupancy = serializers.IntegerField()
     station = serializers.PrimaryKeyRelatedField(
         many=False, queryset=Station.objects.all()
@@ -119,6 +120,8 @@ class ParkingFacilitySerializer(serializers.ModelSerializer):
         fields = [
             'capacity',
             'condition',
+            'confirm',
+            'confirmations',
             'covered',
             'created_date',
             'external_id',
@@ -137,6 +140,7 @@ class ParkingFacilitySerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         condition = validated_data.pop('condition')
         occupancy = validated_data.pop('occupancy')
+        validated_data.pop('confirm')
         parking_facility = ParkingFacility.objects.create(**validated_data)
         ParkingFacilityCondition.objects.create(
             parking_facility=parking_facility, value=condition
@@ -155,4 +159,10 @@ class ParkingFacilitySerializer(serializers.ModelSerializer):
         ParkingFacilityOccupancy.objects.create(
             parking_facility=instance, value=occupancy
         )
+
+        if validated_data.pop('confirm'):
+            instance.confirmations += 1
+        else:
+            instance.confirmations = 0
+
         return super().update(instance, validated_data)

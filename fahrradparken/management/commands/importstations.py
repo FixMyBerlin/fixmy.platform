@@ -71,10 +71,6 @@ class Command(BaseCommand):
         )
         return isinstance(value, str) and 'FV' in value
 
-    def is_light_rail(self, feature):
-        """Return true if this station serves light trail trains."""
-        return feature["properties"]["Produktlinie\n(Stand: 03.03.2021)"] == 'S-Bahnhof'
-
     def download_dataset(self):
         """Download stations dataset from storage."""
         TEMP_PATH = '/tmp/stations.geojson'
@@ -127,7 +123,7 @@ class Command(BaseCommand):
                         travellers=travellers,
                         post_code=props.get('PLZ'),
                         is_long_distance=self.is_long_distance(feature),
-                        is_light_rail=self.is_light_rail(feature),
+                        is_light_rail=False,
                         is_subway=False,  # not supported yet
                         community=props.get('Gemeindename'),
                     )
@@ -139,7 +135,7 @@ class Command(BaseCommand):
                     instance.travellers = travellers
                     instance.post_code = props.get('PLZ')
                     instance.is_long_distance = self.is_long_distance(feature)
-                    instance.is_light_rail = self.is_light_rail(feature)
+                    instance.is_light_rail = False
                     instance.is_subway = False  # not supported yet
                     instance.community = props.get('Gemeindename')
                     instance.save()

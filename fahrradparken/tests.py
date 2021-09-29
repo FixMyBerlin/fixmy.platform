@@ -1,11 +1,11 @@
-from fahrradparken.models import SurveyStation
 import json
 from django.core import mail
 from django.test import TestCase
 from django.test.client import Client
 from pprint import pformat, pprint
+import uuid
 
-from .models import Station
+from .models import Station, SurveyStation
 
 
 signup_request = {
@@ -242,6 +242,13 @@ class UniqueUUIDTest(TestCase):
         self.assertEqual(response.status_code, 200)
         data = response.json()
         self.assertListEqual(data, [{'station_id': 1}, {'station_id': 2}])
+
+    def test_stations_by_uuid(self):
+        """If no answers have been submitted an empty list is returned."""
+        response = self.client.get(f'/api/fahrradparken/uuid/{str(uuid.uuid4())}')
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+        self.assertListEqual(data, [])
 
 
 class CheckPreviousBicycleSurveyTest(TestCase):

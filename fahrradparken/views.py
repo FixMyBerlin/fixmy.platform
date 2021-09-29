@@ -109,8 +109,11 @@ class SurveyStationView(APIView):
 
 
 class StationSurveysByUUID(generics.ListAPIView):
-    queryset = SurveyStation.objects.all()
     serializer_class = SurveyStationShortSerializer
+
+    def get_queryset(self):
+        session = self.kwargs.get('session')
+        return SurveyStation.objects.filter(session=session)
 
 
 class SurveyBicycleUsageView(APIView):

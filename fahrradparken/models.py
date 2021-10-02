@@ -335,3 +335,20 @@ class ParkingFacilityOccupancy(models.Model):
 
     class Meta:
         verbose_name = _('occupancy')
+
+
+class ParkingFacilityPhoto(models.Model):
+    parking_facility = models.ForeignKey(
+        ParkingFacility, related_name='photos', on_delete=models.CASCADE
+    )
+    description = models.TextField(_('description'), null=True, blank=True)
+    src = models.ImageField(
+        _("file"),
+        upload_to='fahrradparken/parking-facilities',
+    )
+    terms_accepted = models.DateTimeField(
+        _('upload terms accepted'), null=True, blank=True
+    )
+
+    class Meta:
+        verbose_name = _('photo')

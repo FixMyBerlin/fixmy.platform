@@ -1,6 +1,7 @@
+import datetime
 import json
 from django.core import mail
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.test.client import Client
 from pprint import pformat, pprint
 import uuid
@@ -289,6 +290,7 @@ class RawDataExportTest(TestCase):
         )
 
 
+@override_settings(DEFAULT_FILE_STORAGE='django.core.files.storage.FileSystemStorage')
 class ParkingFacilityTest(TestCase):
     fixtures = ['station']
 
@@ -301,6 +303,13 @@ class ParkingFacilityTest(TestCase):
             'location': {'type': 'Point', 'coordinates': [13.415941, 52.494432]},
             'occupancy': 1,
             'parking_garage': False,
+            'photo': {
+                'src': 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAABlBMVEUAAAD///+l2Z/dAAAAM0lEQVR4nGP4/5/h/1+G/58ZDrAz3D/McH8yw83NDDeNGe4Ug9C9zwz3gVLMDA/A6P9/AFGGFyjOXZtQAAAAAElFTkSuQmCC',
+                'description': 'Lorem ipsum',
+                'terms_accepted': datetime.datetime.now(
+                    datetime.timezone.utc
+                ).isoformat(),
+            },
             'secured': False,
             'stands': True,
             'station': 2,
@@ -317,6 +326,7 @@ class ParkingFacilityTest(TestCase):
         self.assertEqual(response.json().get('condition'), 2)
         self.assertFalse(response.json().get('confirmations'), 0)
         self.assertEqual(response.json().get('occupancy'), 1)
+        self.assertEqual(len(response.json().get('photos', [])), 1)
 
         updated_report = {
             'capacity': 10,
@@ -326,6 +336,13 @@ class ParkingFacilityTest(TestCase):
             'location': {'type': 'Point', 'coordinates': [13.415941, 52.494432]},
             'occupancy': 2,
             'parking_garage': False,
+            'photo': {
+                'src': 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAABlBMVEUAAAD///+l2Z/dAAAAM0lEQVR4nGP4/5/h/1+G/58ZDrAz3D/McH8yw83NDDeNGe4Ug9C9zwz3gVLMDA/A6P9/AFGGFyjOXZtQAAAAAElFTkSuQmCC',
+                'description': 'Lorem ipsum',
+                'terms_accepted': datetime.datetime.now(
+                    datetime.timezone.utc
+                ).isoformat(),
+            },
             'secured': False,
             'stands': True,
             'station': 2,
@@ -341,6 +358,7 @@ class ParkingFacilityTest(TestCase):
         self.assertEqual(response.json().get('condition'), 2)
         self.assertEqual(response.json().get('confirmations'), 1)
         self.assertEqual(response.json().get('occupancy'), 1)
+        self.assertEqual(len(response.json().get('photos', [])), 2)
 
         confirmed_report = {
             'capacity': 10,

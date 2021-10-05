@@ -168,3 +168,24 @@ class PhotoUploadView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         return Response({'path': s3_key})
+
+
+class RawStationSurveyListing(generics.ListAPIView):
+    queryset = SurveyStation.objects.all()
+    filter_backends = [filters.OrderingFilter]
+    ordering = ['station']
+
+    def list(self, request):
+        queryset = self.get_queryset()
+        filtered_queryset = self.filter_queryset(queryset)
+        serialized = SurveyStationSerializer(filtered_queryset, many=True)
+        return Response(data=serialized.data)
+
+
+class RawBicycleUsageSurveyListing(generics.ListAPIView):
+    queryset = SurveyBicycleUsage.objects.all()
+
+    def list(self, request):
+        queryset = self.get_queryset()
+        serialized = SurveyBicycleUsageSerializer(queryset, many=True)
+        return Response(data=serialized.data)

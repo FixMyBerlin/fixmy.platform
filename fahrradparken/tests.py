@@ -277,3 +277,13 @@ class CheckPreviousBicycleSurveyTest(TestCase):
         # Improve this test by adding a fixture that allows testing for
         # {'doesExist': True}
         self.assertEqual(data, {'doesExist': False})
+
+
+class RawDataExportTest(TestCase):
+    fixtures = ['station', 'survey_station']
+
+    def test_station_survey_raw_export(self):
+        response = self.client.get('/api/fahrradparken/survey-results/stations')
+        self.assertContains(
+            response, SurveyStation.objects.first().session, 1, status_code=200
+        )

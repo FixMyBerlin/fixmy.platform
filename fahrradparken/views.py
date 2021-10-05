@@ -62,6 +62,25 @@ class SignupView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class SurveyInfoView(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get(self, request):
+        survey_stations_count = SurveyStation.objects.count()
+        survey_stations_session_count = (
+            SurveyStation.objects.values('session').distinct().count()
+        )
+        survey_bicycle_usage_count = SurveyBicycleUsage.objects.count()
+        return Response(
+            {
+                "survey_stations_count": survey_stations_count,
+                "survey_stations_session_count": survey_stations_session_count,
+                "survey_parking_structures_count": None,
+                "survey_bicycle_usage_count": survey_bicycle_usage_count,
+            }
+        )
+
+
 class StationList(generics.ListAPIView):
     queryset = Station.objects.all()
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]

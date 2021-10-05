@@ -135,6 +135,19 @@ class StationTest(TestCase):
         # Listing should not contain user data
         self.assertFalse('annoyances' in data['features'][0]['properties'])
 
+    def test_get_full_listing(self):
+        """Include dynamic data in listing."""
+        response = self.client.get(
+            '/api/fahrradparken/stations?full', content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 200, response.content)
+
+        data = response.json()
+        self.assertEqual(len(data['features']), 3)
+
+        # Listing should contain user data
+        self.assertTrue('annoyances' in data['features'][0]['properties'])
+
     def test_search_query(self):
         response = self.client.get(
             '/api/fahrradparken/stations',
@@ -264,3 +277,13 @@ class CheckPreviousBicycleSurveyTest(TestCase):
         # Improve this test by adding a fixture that allows testing for
         # {'doesExist': True}
         self.assertEqual(data, {'doesExist': False})
+
+
+class RawDataExportTest(TestCase):
+    fixtures = ['station', 'survey_station']
+
+    def test_station_survey_raw_export(self):
+        response = self.client.get('/api/fahrradparken/survey-results/stations')
+        self.assertContains(
+            response, SurveyStation.objects.first().session, 1, status_code=200
+        )

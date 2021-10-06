@@ -132,10 +132,6 @@ class Station(BaseModel):
         ]
 
     @property
-    def parking_structures():
-        raise NotImplementedError()
-
-    @property
     def requested_locations(self):
         """Return descriptions of requested locations for parking structures."""
         query = self.survey_responses.exclude(requested_location__isnull=True).exclude(

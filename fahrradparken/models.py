@@ -2,6 +2,7 @@ from collections import defaultdict
 from django.conf import settings
 from django.contrib.gis.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.db.models import Avg
 from django.utils.translation import gettext_lazy as _
 
 from fixmyapp.models.base_model import BaseModel
@@ -129,10 +130,6 @@ class Station(BaseModel):
             {'photo_url': get_photo_url(sr.photo), 'description': sr.photo_description}
             for sr in query.all()
         ]
-
-    @property
-    def parking_structures():
-        raise NotImplementedError()
 
     @property
     def requested_locations(self):
@@ -269,3 +266,85 @@ class SurveyBicycleUsage(BaseModel):
         (7, _('75 and above')),
     )
     age = models.IntegerField(_('age'), choices=AGE_CHOICES)
+
+
+class ParkingFacility(BaseModel):
+    capacity = models.IntegerField(_('capacity'))
+    confirmations = models.PositiveSmallIntegerField(_('confirmations'), default=0)
+    covered = models.BooleanField(_('covered'), null=True)
+    external_id = models.CharField(
+        _('external ID'), max_length=100, blank=True, null=True
+    )
+    location = models.PointField(_('location'), srid=4326)
+    parking_garage = models.BooleanField(_('part of parking garage'), null=True)
+    secured = models.BooleanField(_('secured'), null=True)
+    source = models.CharField(_('source'), max_length=100, blank=True, null=True)
+    stands = models.BooleanField(_('stands'), null=True)
+    station = models.ForeignKey(
+        Station, related_name='parking_facilities', on_delete=models.CASCADE
+    )
+    two_tier = models.BooleanField(_('two tier'), null=True)
+
+    TYPE_CHOICES = (
+        (0, _('enclosed compound')),
+        (1, _('bicycle locker')),
+        (2, _('bicycle parking tower')),
+    )
+    type = models.IntegerField(choices=TYPE_CHOICES)
+
+    class Meta:
+        verbose_name = _('parking facility')
+        verbose_name_plural = _('parking facilities')
+
+    @property
+    def condition(self):
+        return self.parkingfacilitycondition_set.aggregate(Avg('value'))['value__avg']
+
+    @property
+    def occupancy(self):
+        return self.parkingfacilityoccupancy_set.aggregate(Avg('value'))['value__avg']
+
+
+class ParkingFacilityCondition(models.Model):
+    parking_facility = models.ForeignKey(ParkingFacility, on_delete=models.CASCADE)
+    VALUE_CHOICES = (
+        (0, _('very bad')),
+        (1, _('bad')),
+        (2, _('good')),
+        (3, _('very good')),
+    )
+    value = models.IntegerField(choices=VALUE_CHOICES)
+
+    class Meta:
+        verbose_name = _('condition')
+
+
+class ParkingFacilityOccupancy(models.Model):
+    parking_facility = models.ForeignKey(ParkingFacility, on_delete=models.CASCADE)
+    VALUE_CHOICES = (
+        (0, _('overcapacity')),
+        (1, _('high')),
+        (2, _('medium')),
+        (3, _('low')),
+    )
+    value = models.IntegerField(choices=VALUE_CHOICES)
+
+    class Meta:
+        verbose_name = _('occupancy')
+
+
+class ParkingFacilityPhoto(models.Model):
+    parking_facility = models.ForeignKey(
+        ParkingFacility, related_name='photos', on_delete=models.CASCADE
+    )
+    description = models.TextField(_('description'), null=True, blank=True)
+    src = models.ImageField(
+        _("file"),
+        upload_to='fahrradparken/parking-facilities',
+    )
+    terms_accepted = models.DateTimeField(
+        _('upload terms accepted'), null=True, blank=True
+    )
+
+    class Meta:
+        verbose_name = _('photo')

@@ -7,8 +7,8 @@ if [ "${1:0:1}" = '-' ]; then
 fi
 
 if [ "$1" = "gunicorn" ]; then
-  python manage.py migrate
-  python manage.py collectstatic
+  python manage.py migrate --no-input
+  python manage.py collectstatic --no-input
 fi
 
 exec "$@"

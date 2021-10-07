@@ -2,9 +2,20 @@ import boto3
 import botocore
 import json
 from django.conf import settings
+from drf_extra_fields.fields import HybridImageField
 from rest_framework import serializers
 
-from .models import Signup, EventSignup, Station, SurveyBicycleUsage, SurveyStation
+from .models import (
+    EventSignup,
+    ParkingFacility,
+    ParkingFacilityCondition,
+    ParkingFacilityOccupancy,
+    ParkingFacilityPhoto,
+    Signup,
+    Station,
+    SurveyBicycleUsage,
+    SurveyStation,
+)
 
 
 class SignupSerializer(serializers.ModelSerializer):
@@ -96,3 +107,84 @@ class SurveyBicycleUsageSerializer(serializers.ModelSerializer):
     class Meta:
         model = SurveyBicycleUsage
         exclude = ['modified_date']
+
+
+class ParkingFacilityPhotoSerializer(serializers.ModelSerializer):
+    src = HybridImageField()
+
+    class Meta:
+        model = ParkingFacilityPhoto
+        fields = ('description', 'src', 'terms_accepted')
+
+
+class ParkingFacilitySerializer(serializers.ModelSerializer):
+    condition = serializers.IntegerField()
+    confirm = serializers.BooleanField(write_only=True)
+    occupancy = serializers.IntegerField()
+    photo = ParkingFacilityPhotoSerializer(required=False, write_only=True)
+    photos = ParkingFacilityPhotoSerializer(many=True, read_only=True)
+    station = serializers.PrimaryKeyRelatedField(
+        many=False, queryset=Station.objects.all()
+    )
+
+    class Meta:
+        model = ParkingFacility
+        fields = [
+            'capacity',
+            'condition',
+            'confirm',
+            'confirmations',
+            'covered',
+            'created_date',
+            'external_id',
+            'id',
+            'location',
+            'occupancy',
+            'parking_garage',
+            'photo',
+            'photos',
+            'secured',
+            'source',
+            'stands',
+            'station',
+            'two_tier',
+            'type',
+        ]
+
+    def create(self, validated_data):
+        condition = validated_data.pop('condition')
+        occupancy = validated_data.pop('occupancy')
+        photo = validated_data.pop('photo', None)
+        validated_data.pop('confirm')
+        parking_facility = ParkingFacility.objects.create(**validated_data)
+        ParkingFacilityCondition.objects.create(
+            parking_facility=parking_facility, value=condition
+        )
+        ParkingFacilityOccupancy.objects.create(
+            parking_facility=parking_facility, value=occupancy
+        )
+        if photo:
+            ParkingFacilityPhoto.objects.create(
+                parking_facility=parking_facility, **photo
+            )
+        return parking_facility
+
+    def update(self, instance, validated_data):
+        condition = validated_data.pop('condition')
+        occupancy = validated_data.pop('occupancy')
+        photo = validated_data.pop('photo', None)
+        ParkingFacilityCondition.objects.create(
+            parking_facility=instance, value=condition
+        )
+        ParkingFacilityOccupancy.objects.create(
+            parking_facility=instance, value=occupancy
+        )
+        if photo:
+            ParkingFacilityPhoto.objects.create(parking_facility=instance, **photo)
+
+        if validated_data.pop('confirm'):
+            instance.confirmations += 1
+        else:
+            instance.confirmations = 0
+
+        return super().update(instance, validated_data)

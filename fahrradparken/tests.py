@@ -1,6 +1,7 @@
+import datetime
 import json
 from django.core import mail
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.test.client import Client
 from pprint import pformat, pprint
 import uuid
@@ -287,3 +288,98 @@ class RawDataExportTest(TestCase):
         self.assertContains(
             response, SurveyStation.objects.first().session, 1, status_code=200
         )
+
+
+@override_settings(DEFAULT_FILE_STORAGE='django.core.files.storage.FileSystemStorage')
+class ParkingFacilityTest(TestCase):
+    fixtures = ['station']
+
+    def test_create_and_update_parking_facility(self):
+        initial_report = {
+            'capacity': 10,
+            'condition': 2,
+            'confirm': False,
+            'covered': True,
+            'location': {'type': 'Point', 'coordinates': [13.415941, 52.494432]},
+            'occupancy': 1,
+            'parking_garage': False,
+            'photo': {
+                'src': 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAABlBMVEUAAAD///+l2Z/dAAAAM0lEQVR4nGP4/5/h/1+G/58ZDrAz3D/McH8yw83NDDeNGe4Ug9C9zwz3gVLMDA/A6P9/AFGGFyjOXZtQAAAAAElFTkSuQmCC',
+                'description': 'Lorem ipsum',
+                'terms_accepted': datetime.datetime.now(
+                    datetime.timezone.utc
+                ).isoformat(),
+            },
+            'secured': False,
+            'stands': True,
+            'station': 2,
+            'two_tier': False,
+            'type': 0,
+        }
+        response = self.client.post(
+            f'/api/fahrradparken/parking-facilities',
+            data=json.dumps(initial_report),
+            content_type='application/json',
+        )
+        self.assertEqual(response.status_code, 201)
+        self.assertIn('id', response.json())
+        self.assertEqual(response.json().get('condition'), 2)
+        self.assertFalse(response.json().get('confirmations'), 0)
+        self.assertEqual(response.json().get('occupancy'), 1)
+        self.assertEqual(len(response.json().get('photos', [])), 1)
+
+        updated_report = {
+            'capacity': 10,
+            'condition': 3,
+            'confirm': True,
+            'covered': True,
+            'location': {'type': 'Point', 'coordinates': [13.415941, 52.494432]},
+            'occupancy': 2,
+            'parking_garage': False,
+            'photo': {
+                'src': 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAABlBMVEUAAAD///+l2Z/dAAAAM0lEQVR4nGP4/5/h/1+G/58ZDrAz3D/McH8yw83NDDeNGe4Ug9C9zwz3gVLMDA/A6P9/AFGGFyjOXZtQAAAAAElFTkSuQmCC',
+                'description': 'Lorem ipsum',
+                'terms_accepted': datetime.datetime.now(
+                    datetime.timezone.utc
+                ).isoformat(),
+            },
+            'secured': False,
+            'stands': True,
+            'station': 2,
+            'two_tier': False,
+            'type': 0,
+        }
+        response = self.client.put(
+            f'/api/fahrradparken/parking-facilities/{response.json().get("id")}',
+            data=json.dumps(updated_report),
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json().get('condition'), 2)
+        self.assertEqual(response.json().get('confirmations'), 1)
+        self.assertEqual(response.json().get('occupancy'), 1)
+        self.assertEqual(len(response.json().get('photos', [])), 2)
+
+        confirmed_report = {
+            'capacity': 10,
+            'condition': 4,
+            'confirm': True,
+            'covered': True,
+            'location': {'type': 'Point', 'coordinates': [13.415941, 52.494432]},
+            'occupancy': 3,
+            'parking_garage': False,
+            'secured': False,
+            'stands': True,
+            'station': 2,
+            'two_tier': False,
+            'type': 0,
+        }
+        response = self.client.put(
+            f'/api/fahrradparken/parking-facilities/{response.json().get("id")}',
+            data=json.dumps(confirmed_report),
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json().get('condition'), 3)
+        self.assertEqual(response.json().get('confirmations'), 2)
+        self.assertEqual(response.json().get('occupancy'), 2)

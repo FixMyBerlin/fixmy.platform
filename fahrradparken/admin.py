@@ -36,7 +36,8 @@ class StationAdmin(admin.ModelAdmin):
 
 
 class SurveyStationAdmin(admin.ModelAdmin):
-    list_display = ('created_date', 'session', 'station')
+    list_display = ('created_date', 'session', 'station', 'is_photo_published')
+    list_filter = (("photo", admin.EmptyFieldListFilter),)
 
 
 class ParkingFacilityConditionInline(admin.StackedInline):

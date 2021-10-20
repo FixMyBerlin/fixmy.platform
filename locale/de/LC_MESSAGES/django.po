@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE_VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-05 07:29+0000\n"
-"PO-Revision-Date: 2021-08-18 17:15+0200\n"
+"POT-Creation-Date: 2021-10-20 10:27+0000\n"
+"PO-Revision-Date: 2021-10-20 12:28+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -154,345 +154,357 @@ msgstr "U-Bahnhof"
 msgid "community"
 msgstr "Gemeinde"
 
-#: fahrradparken/models.py:150 fahrradparken/models.py:190 survey/models.py:68
+#: fahrradparken/models.py:146 fahrradparken/models.py:189 survey/models.py:68
 msgid "session"
 msgstr "Sitzung"
 
-#: fahrradparken/models.py:154 fahrradparken/models.py:191
+#: fahrradparken/models.py:150 fahrradparken/models.py:190
 msgid "survey version"
 msgstr "Umfrage-Version"
 
-#: fahrradparken/models.py:155
+#: fahrradparken/models.py:151
 msgid "net promoter rating"
 msgstr "Net-Promoter-Rating"
 
-#: fahrradparken/models.py:156
+#: fahrradparken/models.py:152
 msgid "annoyances"
 msgstr "Störfaktoren"
 
-#: fahrradparken/models.py:158
+#: fahrradparken/models.py:154
 msgid "annoyance custom"
 msgstr "Störfaktor (Freitext)"
 
-#: fahrradparken/models.py:161
+#: fahrradparken/models.py:157
 msgid "requested bike parking location"
 msgstr "Wunschstandort"
 
-#: fahrradparken/models.py:169 fahrradparken/models.py:354
+#: fahrradparken/models.py:165 fahrradparken/models.py:353
 #: fixmyapp/models/photo.py:17
 msgid "photo"
 msgstr "Foto"
 
-#: fahrradparken/models.py:175
+#: fahrradparken/models.py:171
 msgid "photo upload terms accepted"
 msgstr "Zustimmung zu Foto-Upload-Vereinbarung"
 
-#: fahrradparken/models.py:177
+#: fahrradparken/models.py:173
 msgid "photo description"
 msgstr "Foto-Beschreibung"
 
-#: fahrradparken/models.py:194
+#: fahrradparken/models.py:174
+msgid "photo published"
+msgstr "Foto veröffentlicht"
+
+#: fahrradparken/models.py:182
+msgid "Station survey"
+msgstr "Umfrage zu Bahnhof"
+
+#: fahrradparken/models.py:183
+msgid "Station surveys"
+msgstr "Umfragen zu Bahnhöfen"
+
+#: fahrradparken/models.py:193
 msgid "(almost) daily"
 msgstr "(Fast) täglich"
 
-#: fahrradparken/models.py:195
+#: fahrradparken/models.py:194
 msgid "1-3 days a week"
 msgstr "1-3 Tage pro Woche"
 
-#: fahrradparken/models.py:196
+#: fahrradparken/models.py:195
 msgid "1-3 days a month"
 msgstr "1-3 Tage im Monat"
 
-#: fahrradparken/models.py:197
+#: fahrradparken/models.py:196
 msgid "less than once a month"
 msgstr "Weniger als einmal pro Monat"
 
-#: fahrradparken/models.py:198
+#: fahrradparken/models.py:197
 msgid "(almost) never"
 msgstr "(Fast) nie"
 
-#: fahrradparken/models.py:200
+#: fahrradparken/models.py:199
 msgid "frequency"
 msgstr "Häufigkeit"
 
-#: fahrradparken/models.py:202
+#: fahrradparken/models.py:201
 msgid "reasons"
 msgstr "Gründe"
 
-#: fahrradparken/models.py:203
+#: fahrradparken/models.py:202
 msgid "reasons (free text)"
 msgstr "Begründung"
 
-#: fahrradparken/models.py:206
+#: fahrradparken/models.py:205
 msgid "less than 5 minutes"
 msgstr "Weniger als 5 Minuten"
 
-#: fahrradparken/models.py:207
+#: fahrradparken/models.py:206
 msgid "5-10 minutes"
 msgstr "5-10 Minuten"
 
-#: fahrradparken/models.py:208
+#: fahrradparken/models.py:207
 msgid "10-15 minutes"
 msgstr "10-15 Minuten"
 
-#: fahrradparken/models.py:209
+#: fahrradparken/models.py:208
 msgid "15-20 minutes"
 msgstr "15-20 Minuten"
 
-#: fahrradparken/models.py:210
+#: fahrradparken/models.py:209
 msgid "20-25 minutes"
 msgstr "20-25 Minuten"
 
-#: fahrradparken/models.py:211
+#: fahrradparken/models.py:210
 msgid "25-30 minutes"
 msgstr "25-30 Minuten"
 
-#: fahrradparken/models.py:212
+#: fahrradparken/models.py:211
 msgid "30 minutes and above"
 msgstr "30 Minuten und mehr"
 
-#: fahrradparken/models.py:214 survey/models.py:73
+#: fahrradparken/models.py:213 survey/models.py:73
 msgid "duration"
 msgstr "Dauer"
 
-#: fahrradparken/models.py:216
+#: fahrradparken/models.py:215
 msgid "with children"
 msgstr "Mit Kindern unterwegs"
 
-#: fahrradparken/models.py:219
+#: fahrradparken/models.py:218
 msgid "work"
 msgstr "Arbeit"
 
-#: fahrradparken/models.py:220
+#: fahrradparken/models.py:219
 msgid "work related"
 msgstr "Arbeit"
 
-#: fahrradparken/models.py:221
+#: fahrradparken/models.py:220
 msgid "education"
 msgstr "Ausbildung"
 
-#: fahrradparken/models.py:222
+#: fahrradparken/models.py:221
 msgid "shopping"
 msgstr "Einkauf"
 
-#: fahrradparken/models.py:223
+#: fahrradparken/models.py:222
 msgid "errands"
 msgstr "Erledigungen"
 
-#: fahrradparken/models.py:224
+#: fahrradparken/models.py:223
 msgid "leisure"
 msgstr "Freizeitaktivität"
 
-#: fahrradparken/models.py:225
+#: fahrradparken/models.py:224
 msgid "transport of persons"
 msgstr "Bringen / holen von Personen"
 
-#: fahrradparken/models.py:226 fixmyapp/models/profile.py:12
+#: fahrradparken/models.py:225 fixmyapp/models/profile.py:12
 msgid "other"
 msgstr "anders"
 
-#: fahrradparken/models.py:228
+#: fahrradparken/models.py:227
 msgid "purpose"
 msgstr "Zweck"
 
-#: fahrradparken/models.py:235
+#: fahrradparken/models.py:234
 msgid "bicycle racks"
 msgstr "Fahrradabstellplätze"
 
-#: fahrradparken/models.py:237
+#: fahrradparken/models.py:236
 msgid "sheltered bicycle racks"
 msgstr "Überdachte Abstellplätze"
 
-#: fahrradparken/models.py:240
+#: fahrradparken/models.py:239
 msgid "bicycle box"
 msgstr "Fahrradparkhaus"
 
-#: fahrradparken/models.py:243
+#: fahrradparken/models.py:242
 msgid "bicycle quality"
 msgstr "Qualität des Fahrrads"
 
-#: fahrradparken/models.py:246
+#: fahrradparken/models.py:245
 msgid "road network"
 msgstr "Radwegequalität"
 
-#: fahrradparken/models.py:249
+#: fahrradparken/models.py:248
 msgid "train network"
 msgstr "Zugverbindungen"
 
-#: fahrradparken/models.py:251
+#: fahrradparken/models.py:250
 msgid "services"
 msgstr "Dienstleistungen"
 
-#: fahrradparken/models.py:254
+#: fahrradparken/models.py:253
 msgid "less than 5€"
 msgstr "Weniger als 5€"
 
-#: fahrradparken/models.py:255
+#: fahrradparken/models.py:254
 msgid "5-10€"
 msgstr "5-10€"
 
-#: fahrradparken/models.py:256
+#: fahrradparken/models.py:255
 msgid "10-15€"
 msgstr "10-15€"
 
-#: fahrradparken/models.py:257
+#: fahrradparken/models.py:256
 msgid "15-20€"
 msgstr "15-20€"
 
-#: fahrradparken/models.py:258
+#: fahrradparken/models.py:257
 msgid "more than 20€"
 msgstr "Mehr als 20€"
 
-#: fahrradparken/models.py:260
+#: fahrradparken/models.py:259
 msgid "price"
 msgstr "Preis"
 
-#: fahrradparken/models.py:263
+#: fahrradparken/models.py:262
 msgid "under 18"
 msgstr "Unter 18"
 
-#: fahrradparken/models.py:264
+#: fahrradparken/models.py:263
 msgid "18-24"
 msgstr "18-24"
 
-#: fahrradparken/models.py:265
+#: fahrradparken/models.py:264
 msgid "25-29"
 msgstr "25-29"
 
-#: fahrradparken/models.py:266
+#: fahrradparken/models.py:265
 msgid "30-39"
 msgstr "30-39"
 
-#: fahrradparken/models.py:267
+#: fahrradparken/models.py:266
 msgid "40-49"
 msgstr "40-49"
 
-#: fahrradparken/models.py:268
+#: fahrradparken/models.py:267
 msgid "50-64"
 msgstr "50-64"
 
-#: fahrradparken/models.py:269
+#: fahrradparken/models.py:268
 msgid "65-74"
 msgstr "65-74"
 
-#: fahrradparken/models.py:270
+#: fahrradparken/models.py:269
 msgid "75 and above"
 msgstr "Über 74"
 
-#: fahrradparken/models.py:272 fixmyapp/models/profile.py:37
+#: fahrradparken/models.py:271 fixmyapp/models/profile.py:37
 msgid "age"
 msgstr "Alter"
 
-#: fahrradparken/models.py:276
+#: fahrradparken/models.py:275
 msgid "capacity"
 msgstr "Anzahl Stellplätze"
 
-#: fahrradparken/models.py:277
+#: fahrradparken/models.py:276
 msgid "confirmations"
 msgstr "Bestätigungen"
 
-#: fahrradparken/models.py:278
+#: fahrradparken/models.py:277
 msgid "covered"
 msgstr "überdacht"
 
-#: fahrradparken/models.py:280
+#: fahrradparken/models.py:279
 msgid "external ID"
 msgstr "externe ID"
 
-#: fahrradparken/models.py:282 fixmyapp/models/gastro_signup.py:145
+#: fahrradparken/models.py:281 fixmyapp/models/gastro_signup.py:145
 msgid "location"
 msgstr "Standort"
 
-#: fahrradparken/models.py:283
+#: fahrradparken/models.py:282
 msgid "part of parking garage"
 msgstr "Ist Teil eines Fahrradparkhauses"
 
-#: fahrradparken/models.py:284
+#: fahrradparken/models.py:283
 msgid "secured"
 msgstr "Zugangssicherung"
 
-#: fahrradparken/models.py:285 fixmyapp/models/section_accidents.py:24
+#: fahrradparken/models.py:284 fixmyapp/models/section_accidents.py:24
 msgid "source"
 msgstr "Quelle"
 
-#: fahrradparken/models.py:286
+#: fahrradparken/models.py:285
 msgid "stands"
 msgstr "Radbügel"
 
-#: fahrradparken/models.py:290
+#: fahrradparken/models.py:289
 msgid "two tier"
 msgstr "Doppelstockanlage"
 
-#: fahrradparken/models.py:293
+#: fahrradparken/models.py:292
 msgid "enclosed compound"
 msgstr "Sammelschließanlage"
 
-#: fahrradparken/models.py:294
+#: fahrradparken/models.py:293
 msgid "bicycle locker"
 msgstr "Fahrradbox"
 
-#: fahrradparken/models.py:295
+#: fahrradparken/models.py:294
 msgid "bicycle parking tower"
 msgstr "Fahrradparkturm"
 
-#: fahrradparken/models.py:300
+#: fahrradparken/models.py:299
 msgid "parking facility"
 msgstr "Fahrradparkanlage"
 
-#: fahrradparken/models.py:301
+#: fahrradparken/models.py:300
 msgid "parking facilities"
 msgstr "Fahrradparkanlagen"
 
-#: fahrradparken/models.py:315
+#: fahrradparken/models.py:314
 msgid "very bad"
 msgstr "sehr schlecht"
 
-#: fahrradparken/models.py:316
+#: fahrradparken/models.py:315
 msgid "bad"
 msgstr "schlecht"
 
-#: fahrradparken/models.py:317
+#: fahrradparken/models.py:316
 msgid "good"
 msgstr "gut"
 
-#: fahrradparken/models.py:318
+#: fahrradparken/models.py:317
 msgid "very good"
 msgstr "sehr gut"
 
-#: fahrradparken/models.py:323
+#: fahrradparken/models.py:322
 msgid "condition"
 msgstr "Zustand"
 
-#: fahrradparken/models.py:329
+#: fahrradparken/models.py:328
 msgid "overcapacity"
 msgstr "überlastet"
 
-#: fahrradparken/models.py:330
+#: fahrradparken/models.py:329
 msgid "high"
 msgstr "hoch"
 
-#: fahrradparken/models.py:331
+#: fahrradparken/models.py:330
 msgid "medium"
 msgstr "mittel"
 
-#: fahrradparken/models.py:332
+#: fahrradparken/models.py:331
 msgid "low"
 msgstr "gering"
 
-#: fahrradparken/models.py:337
+#: fahrradparken/models.py:336
 msgid "occupancy"
 msgstr "Auslastung"
 
-#: fahrradparken/models.py:344 fixmyapp/models/project.py:102
+#: fahrradparken/models.py:343 fixmyapp/models/project.py:102
 #: fixmyapp/models/report.py:47 reports/models/report.py:57
 msgid "description"
 msgstr "Beschreibung"
 
-#: fahrradparken/models.py:346 fixmyapp/models/photo.py:14
+#: fahrradparken/models.py:345 fixmyapp/models/photo.py:14
 msgid "file"
 msgstr "Datei"
 
-#: fahrradparken/models.py:350
+#: fahrradparken/models.py:349
 msgid "upload terms accepted"
 msgstr "Zustimmung zu Foto-Upload-Vereinbarung"
 

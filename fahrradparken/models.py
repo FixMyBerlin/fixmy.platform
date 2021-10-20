@@ -171,6 +171,7 @@ class SurveyStation(BaseModel):
         _('photo upload terms accepted'), null=True, blank=True
     )
     photo_description = models.TextField(_('photo description'), null=True, blank=True)
+    is_photo_published = models.BooleanField(_('photo published'), default=False)
 
     class Meta:
         constraints = (
@@ -178,6 +179,8 @@ class SurveyStation(BaseModel):
                 fields=('session', 'station_id'), name='unique-session-station'
             ),
         )
+        verbose_name = _('Station survey')
+        verbose_name_plural = _('Station surveys')
 
 
 class SurveyBicycleUsage(BaseModel):

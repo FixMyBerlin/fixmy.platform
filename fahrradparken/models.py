@@ -117,7 +117,14 @@ class Station(BaseModel):
 
     @property
     def photos(self):
-        """Return photos submitted by users for this station."""
+        """
+        Return photos submitted by users for this station.
+        
+        Before uploaded photos have been moderated in the Django admin panel
+        their URL and description are not returned. If photos are rejected
+        during moderation the photo and description should be deleted in the 
+        Django admin.
+        """
 
         def get_photo_url(key):
             bucket = settings.AWS_STORAGE_BUCKET_NAME
@@ -126,10 +133,18 @@ class Station(BaseModel):
         query = self.survey_responses.exclude(photo__isnull=True).exclude(
             photo__exact=''
         )
-        return [
-            {'photo_url': get_photo_url(sr.photo), 'description': sr.photo_description}
-            for sr in query.all()
-        ]
+
+        def get_photo_serialisation(entry):
+            if entry.is_photo_published:
+                return {
+                    'photo_url': get_photo_url(entry.photo),
+                    'description': entry.photo_description,
+                    'is_published': True,
+                }
+            else:
+                return {'photo_url': None, 'description': None, 'is_published': False} 
+
+        return [get_photo_serialisation(sr) for sr in query.all()]
 
     @property
     def requested_locations(self):

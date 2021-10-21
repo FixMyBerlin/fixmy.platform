@@ -10,5 +10,4 @@ class Migration(migrations.Migration):
         ('fahrradparken', '0006_parkingfacilityphoto'),
     ]
 
-    operations = [
-    ]
+    operations = []

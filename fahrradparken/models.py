@@ -119,10 +119,10 @@ class Station(BaseModel):
     def photos(self):
         """
         Return photos submitted by users for this station.
-        
+
         Before uploaded photos have been moderated in the Django admin panel
         their URL and description are not returned. If photos are rejected
-        during moderation the photo and description should be deleted in the 
+        during moderation the photo and description should be deleted in the
         Django admin.
         """
 
@@ -142,7 +142,7 @@ class Station(BaseModel):
                     'is_published': True,
                 }
             else:
-                return {'photo_url': None, 'description': None, 'is_published': False} 
+                return {'photo_url': None, 'description': None, 'is_published': False}
 
         return [get_photo_serialisation(sr) for sr in query.all()]
 

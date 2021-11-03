@@ -2,7 +2,7 @@ from collections import defaultdict
 from django.conf import settings
 from django.contrib.gis.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
-from django.db.models import Avg
+from django.db.models import Avg, Q
 from django.utils.translation import gettext_lazy as _
 
 from fixmyapp.models.base_model import BaseModel
@@ -118,20 +118,30 @@ class Station(BaseModel):
     @property
     def photos(self):
         """
-        Return photos submitted by users for this station.
+        Return location description and/or location photos submitted by users
+        for this station. Variants are:
+        - photo with description
+        - photo without description
+        - description without photo
 
-        Before uploaded photos have been moderated in the Django admin panel
-        their URL and description are not returned. If photos are rejected
-        during moderation the photo and description should be deleted in the
-        Django admin.
+        The photo URL is hidden until the photo is moderated in the Django
+        admin panel. (If a photo is rejected during moderation it should
+        be deleted in the Django admin. Possibly the description as well.)
         """
 
         def get_photo_url(key):
             bucket = settings.AWS_STORAGE_BUCKET_NAME
             return f"https://{bucket}.s3.amazonaws.com/{key}"
 
-        query = self.survey_responses.exclude(photo__isnull=True).exclude(
-            photo__exact=''
+        # Include if photo present (regardless of photo_description present or empty)
+        # Include if photo missing but photo_description present
+        query = self.survey_responses.filter(
+            (
+                Q(photo__isnull=False) | ~Q(photo__exact='')
+            ) | (
+                (Q(photo__isnull=True) | Q(photo__exact='')),
+                (Q(photo_description__isnull=False) | ~Q(photo_description__exact=''))
+            )
         )
 
         def get_photo_serialisation(entry):
@@ -142,7 +152,11 @@ class Station(BaseModel):
                     'is_published': True,
                 }
             else:
-                return {'photo_url': None, 'description': None, 'is_published': False}
+                return {
+                    'photo_url': None,
+                    'description': entry.photo_description,
+                    'is_published': False
+                }
 
         return [get_photo_serialisation(sr) for sr in query.all()]
 

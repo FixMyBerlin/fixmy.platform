@@ -162,8 +162,7 @@ class StationTest(TestCase):
         self.assertEqual(data['features'][0]['geometry']['type'], 'Point')
 
     def test_get_detail(self):
-        station = Station.objects.all()[0]
-        url = f'/api/fahrradparken/stations/{station.id}'
+        url = f'/api/fahrradparken/stations/2'
         response = self.client.get(url, content_type='application/json')
         self.assertEqual(response.status_code, 200, response.content)
         props = response.json()['properties']

@@ -32,9 +32,7 @@ def validate_entry(row, errorfn):
     assert float(row.get('lat')) > 0
 
     if ',' in row['origin_ids']:
-        errorfn(
-            ' has origin_ids separated by comma. Must be separated by semicolon.'
-        )
+        errorfn(' has origin_ids separated by comma. Must be separated by semicolon.')
 
     if row['status'] not in STATUS_CHOICES:
         errorfn(

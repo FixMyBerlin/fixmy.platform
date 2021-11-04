@@ -32,9 +32,7 @@ def validate_entry(row, errorfn):
     assert float(row.get('lat')) > 0
 
     if ',' in row['origin_ids']:
-        errorfn.append(
-            ' has origin_ids separated by comma. Must be separated by semicolon.'
-        )
+        errorfn(' has origin_ids separated by comma. Must be separated by semicolon.')
 
     if row['status'] not in STATUS_CHOICES:
         errorfn(
@@ -227,18 +225,10 @@ class Command(BaseCommand):
                 col in csv_reader.fieldnames
             ), f'The input file is missing the {col} column'
 
-        errmsg = 'Input file may not have both geometry and lon, lat columns'
-        if "geometry" in csv_reader.fieldnames:
-            assert "long" not in csv_reader.fieldnames, errmsg
-            assert "lat" not in csv_reader.fieldnames, errmsg
-        elif "long" in csv_reader.fieldnames:
-            assert "geometry" not in csv_reader.fieldnames, errmsg
-        elif "lat" in csv_reader.fieldnames:
-            assert "geometry" not in csv_reader.fieldnames, errmsg
-        else:
+        if "long" not in csv_reader.fieldnames or "lat" not in csv_reader.fieldnames:
             raise IntegrityError(
                 'The input file is missing entry locations defined \
-                in either a "geometry" column or in "long" and "lat" columns.'
+                in "long" and "lat" columns.'
             )
         return rows
 

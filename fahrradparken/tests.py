@@ -383,3 +383,7 @@ class ParkingFacilityTest(TestCase):
         self.assertEqual(response.json().get('condition'), 3)
         self.assertEqual(response.json().get('confirmations'), 2)
         self.assertEqual(response.json().get('occupancy'), 2)
+
+        response = self.client.get('/api/fahrradparken/stations/2')
+        self.assertIn('parking_facilities', response.json()['properties'])
+        self.assertEqual(len(response.json()['properties']['parking_facilities']), 1)

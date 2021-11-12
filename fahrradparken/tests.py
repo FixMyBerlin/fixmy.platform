@@ -417,3 +417,33 @@ class ParkingFacilityTest(TestCase):
             content_type="application/json",
         )
         self.assertEqual(response.status_code, 200)
+
+    def test_type_is_optional_and_can_be_set_to_null(self):
+        updated_report = initial_report = {
+            'capacity': 10,
+            'confirm': False,
+            'covered': True,
+            'location': {'type': 'Point', 'coordinates': [13.415941, 52.494432]},
+            'parking_garage': False,
+            'secured': False,
+            'stands': True,
+            'station': 2,
+            'two_tier': False,
+            'type': 0,
+        }
+
+        response = self.client.post(
+            f'/api/fahrradparken/parking-facilities',
+            data=json.dumps(initial_report),
+            content_type='application/json',
+        )
+        self.assertEqual(response.status_code, 201)
+
+        updated_report['type'] = None
+        response = self.client.put(
+            f'/api/fahrradparken/parking-facilities/{response.json().get("id")}',
+            data=json.dumps(updated_report),
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertIsNone(response.json().get('type'))

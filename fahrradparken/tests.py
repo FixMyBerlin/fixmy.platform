@@ -1,5 +1,6 @@
 import datetime
 import json
+import tempfile
 from django.core import mail
 from django.test import TestCase, override_settings
 from django.test.client import Client
@@ -290,7 +291,10 @@ class RawDataExportTest(TestCase):
         )
 
 
-@override_settings(DEFAULT_FILE_STORAGE='django.core.files.storage.FileSystemStorage')
+@override_settings(
+    DEFAULT_FILE_STORAGE='django.core.files.storage.FileSystemStorage',
+    MEDIA_ROOT=tempfile.mkdtemp(),
+)
 class ParkingFacilityTest(TestCase):
     fixtures = ['station']
 

@@ -16,7 +16,10 @@ from fixmydjango.utils import get_templates_config
 from .models import Report, StatusNotice
 
 # Create your tests here.
-@override_settings(DEFAULT_FILE_STORAGE='django.core.files.storage.FileSystemStorage')
+@override_settings(
+    DEFAULT_FILE_STORAGE='django.core.files.storage.FileSystemStorage',
+    MEDIA_ROOT=tempfile.mkdtemp(),
+)
 class ApiTests(TestCase):
     def setUp(self):
         self.user = get_user_model().objects.create_user(

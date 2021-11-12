@@ -35,7 +35,7 @@ class ParkingFacilityPhotoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ParkingFacilityPhoto
-        fields = ('description', 'photo_url', 'terms_accepted')
+        fields = ('description', 'photo_url')
 
 
 class ParkingFacilitySerializer(serializers.ModelSerializer):

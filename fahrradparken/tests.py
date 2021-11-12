@@ -1,11 +1,10 @@
 import datetime
 import json
 import tempfile
+import uuid
 from django.core import mail
 from django.test import TestCase, override_settings
 from django.test.client import Client
-from pprint import pformat, pprint
-import uuid
 
 from .models import Station, SurveyStation
 

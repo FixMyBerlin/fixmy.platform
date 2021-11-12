@@ -31,11 +31,11 @@ class EventSignupSerializer(serializers.ModelSerializer):
 
 
 class ParkingFacilityPhotoSerializer(serializers.ModelSerializer):
-    src = HybridImageField()
+    photo_url = HybridImageField()
 
     class Meta:
         model = ParkingFacilityPhoto
-        fields = ('description', 'src', 'terms_accepted')
+        fields = ('description', 'photo_url', 'terms_accepted')
 
 
 class ParkingFacilitySerializer(serializers.ModelSerializer):

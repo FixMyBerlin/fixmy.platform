@@ -291,7 +291,7 @@ class ParkingFacility(BaseModel):
     confirmations = models.PositiveSmallIntegerField(_('confirmations'), default=0)
     covered = models.BooleanField(_('covered'), null=True)
     external_id = models.CharField(
-        _('external ID'), max_length=100, blank=True, null=True
+        _('external ID'), max_length=100, blank=True, null=True, unique=True
     )
     location = models.PointField(_('location'), srid=4326)
     parking_garage = models.BooleanField(_('part of parking garage'), null=True)
@@ -308,7 +308,7 @@ class ParkingFacility(BaseModel):
         (1, _('bicycle locker')),
         (2, _('bicycle parking tower')),
     )
-    type = models.IntegerField(choices=TYPE_CHOICES)
+    type = models.IntegerField(choices=TYPE_CHOICES, null=True)
 
     class Meta:
         verbose_name = _('parking facility')
@@ -356,8 +356,8 @@ class ParkingFacilityPhoto(models.Model):
         ParkingFacility, related_name='photos', on_delete=models.CASCADE
     )
     description = models.TextField(_('description'), null=True, blank=True)
-    src = models.ImageField(
-        _("file"),
+    photo_url = models.ImageField(
+        _('file'),
         upload_to='fahrradparken/parking-facilities',
     )
     terms_accepted = models.DateTimeField(

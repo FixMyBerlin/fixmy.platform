@@ -1,10 +1,10 @@
 import datetime
 import json
+import tempfile
+import uuid
 from django.core import mail
 from django.test import TestCase, override_settings
 from django.test.client import Client
-from pprint import pformat, pprint
-import uuid
 
 from .models import Station, SurveyStation
 
@@ -290,7 +290,10 @@ class RawDataExportTest(TestCase):
         )
 
 
-@override_settings(DEFAULT_FILE_STORAGE='django.core.files.storage.FileSystemStorage')
+@override_settings(
+    DEFAULT_FILE_STORAGE='django.core.files.storage.FileSystemStorage',
+    MEDIA_ROOT=tempfile.mkdtemp(),
+)
 class ParkingFacilityTest(TestCase):
     fixtures = ['station']
 
@@ -304,11 +307,8 @@ class ParkingFacilityTest(TestCase):
             'occupancy': 1,
             'parking_garage': False,
             'photo': {
-                'src': 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAABlBMVEUAAAD///+l2Z/dAAAAM0lEQVR4nGP4/5/h/1+G/58ZDrAz3D/McH8yw83NDDeNGe4Ug9C9zwz3gVLMDA/A6P9/AFGGFyjOXZtQAAAAAElFTkSuQmCC',
+                'photo_url': 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAABlBMVEUAAAD///+l2Z/dAAAAM0lEQVR4nGP4/5/h/1+G/58ZDrAz3D/McH8yw83NDDeNGe4Ug9C9zwz3gVLMDA/A6P9/AFGGFyjOXZtQAAAAAElFTkSuQmCC',
                 'description': 'Lorem ipsum',
-                'terms_accepted': datetime.datetime.now(
-                    datetime.timezone.utc
-                ).isoformat(),
             },
             'secured': False,
             'stands': True,
@@ -337,11 +337,8 @@ class ParkingFacilityTest(TestCase):
             'occupancy': 2,
             'parking_garage': False,
             'photo': {
-                'src': 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAABlBMVEUAAAD///+l2Z/dAAAAM0lEQVR4nGP4/5/h/1+G/58ZDrAz3D/McH8yw83NDDeNGe4Ug9C9zwz3gVLMDA/A6P9/AFGGFyjOXZtQAAAAAElFTkSuQmCC',
+                'photo_url': 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAABlBMVEUAAAD///+l2Z/dAAAAM0lEQVR4nGP4/5/h/1+G/58ZDrAz3D/McH8yw83NDDeNGe4Ug9C9zwz3gVLMDA/A6P9/AFGGFyjOXZtQAAAAAElFTkSuQmCC',
                 'description': 'Lorem ipsum',
-                'terms_accepted': datetime.datetime.now(
-                    datetime.timezone.utc
-                ).isoformat(),
             },
             'secured': False,
             'stands': True,
@@ -387,3 +384,60 @@ class ParkingFacilityTest(TestCase):
         response = self.client.get('/api/fahrradparken/stations/2')
         self.assertIn('parking_facilities', response.json()['properties'])
         self.assertEqual(len(response.json()['properties']['parking_facilities']), 1)
+
+    def test_occupancy_and_condition_are_optional(self):
+        updated_report = initial_report = {
+            'capacity': 10,
+            'confirm': False,
+            'covered': True,
+            'location': {'type': 'Point', 'coordinates': [13.415941, 52.494432]},
+            'parking_garage': False,
+            'secured': False,
+            'stands': True,
+            'station': 2,
+            'two_tier': False,
+            'type': 0,
+        }
+        response = self.client.post(
+            f'/api/fahrradparken/parking-facilities',
+            data=json.dumps(initial_report),
+            content_type='application/json',
+        )
+        self.assertEqual(response.status_code, 201)
+
+        response = self.client.put(
+            f'/api/fahrradparken/parking-facilities/{response.json().get("id")}',
+            data=json.dumps(updated_report),
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_type_is_optional_and_can_be_set_to_null(self):
+        updated_report = initial_report = {
+            'capacity': 10,
+            'confirm': False,
+            'covered': True,
+            'location': {'type': 'Point', 'coordinates': [13.415941, 52.494432]},
+            'parking_garage': False,
+            'secured': False,
+            'stands': True,
+            'station': 2,
+            'two_tier': False,
+            'type': 0,
+        }
+
+        response = self.client.post(
+            f'/api/fahrradparken/parking-facilities',
+            data=json.dumps(initial_report),
+            content_type='application/json',
+        )
+        self.assertEqual(response.status_code, 201)
+
+        updated_report['type'] = None
+        response = self.client.put(
+            f'/api/fahrradparken/parking-facilities/{response.json().get("id")}',
+            data=json.dumps(updated_report),
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertIsNone(response.json().get('type'))

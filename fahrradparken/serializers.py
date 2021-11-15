@@ -31,17 +31,17 @@ class EventSignupSerializer(serializers.ModelSerializer):
 
 
 class ParkingFacilityPhotoSerializer(serializers.ModelSerializer):
-    src = HybridImageField()
+    photo_url = HybridImageField()
 
     class Meta:
         model = ParkingFacilityPhoto
-        fields = ('description', 'src', 'terms_accepted')
+        fields = ('description', 'photo_url')
 
 
 class ParkingFacilitySerializer(serializers.ModelSerializer):
-    condition = serializers.IntegerField()
+    condition = serializers.IntegerField(required=False)
     confirm = serializers.BooleanField(write_only=True)
-    occupancy = serializers.IntegerField()
+    occupancy = serializers.IntegerField(required=False)
     photo = ParkingFacilityPhotoSerializer(required=False, write_only=True)
     photos = ParkingFacilityPhotoSerializer(many=True, read_only=True)
     station = serializers.PrimaryKeyRelatedField(
@@ -73,17 +73,19 @@ class ParkingFacilitySerializer(serializers.ModelSerializer):
         ]
 
     def create(self, validated_data):
-        condition = validated_data.pop('condition')
-        occupancy = validated_data.pop('occupancy')
+        condition = validated_data.pop('condition', None)
+        occupancy = validated_data.pop('occupancy', None)
         photo = validated_data.pop('photo', None)
         validated_data.pop('confirm')
         parking_facility = ParkingFacility.objects.create(**validated_data)
-        ParkingFacilityCondition.objects.create(
-            parking_facility=parking_facility, value=condition
-        )
-        ParkingFacilityOccupancy.objects.create(
-            parking_facility=parking_facility, value=occupancy
-        )
+        if condition:
+            ParkingFacilityCondition.objects.create(
+                parking_facility=parking_facility, value=condition
+            )
+        if occupancy:
+            ParkingFacilityOccupancy.objects.create(
+                parking_facility=parking_facility, value=occupancy
+            )
         if photo:
             ParkingFacilityPhoto.objects.create(
                 parking_facility=parking_facility, **photo
@@ -91,15 +93,17 @@ class ParkingFacilitySerializer(serializers.ModelSerializer):
         return parking_facility
 
     def update(self, instance, validated_data):
-        condition = validated_data.pop('condition')
-        occupancy = validated_data.pop('occupancy')
+        condition = validated_data.pop('condition', None)
+        occupancy = validated_data.pop('occupancy', None)
         photo = validated_data.pop('photo', None)
-        ParkingFacilityCondition.objects.create(
-            parking_facility=instance, value=condition
-        )
-        ParkingFacilityOccupancy.objects.create(
-            parking_facility=instance, value=occupancy
-        )
+        if condition:
+            ParkingFacilityCondition.objects.create(
+                parking_facility=instance, value=condition
+            )
+        if occupancy:
+            ParkingFacilityOccupancy.objects.create(
+                parking_facility=instance, value=occupancy
+            )
         if photo:
             ParkingFacilityPhoto.objects.create(parking_facility=instance, **photo)
 

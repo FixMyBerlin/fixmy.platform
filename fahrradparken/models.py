@@ -291,7 +291,7 @@ class ParkingFacility(BaseModel):
     confirmations = models.PositiveSmallIntegerField(_('confirmations'), default=0)
     covered = models.BooleanField(_('covered'), null=True)
     external_id = models.CharField(
-        _('external ID'), max_length=100, blank=True, null=True
+        _('external ID'), max_length=100, blank=True, null=True, unique=True
     )
     location = models.PointField(_('location'), srid=4326)
     parking_garage = models.BooleanField(_('part of parking garage'), null=True)

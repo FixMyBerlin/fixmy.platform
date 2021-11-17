@@ -3,6 +3,7 @@ from .models import (
     ParkingFacility,
     ParkingFacilityCondition,
     ParkingFacilityOccupancy,
+    ParkingFacilityPhoto,
     Signup,
     Station,
     SurveyStation,
@@ -53,9 +54,18 @@ class ParkingFacilityOccupancyInline(admin.StackedInline):
     model = ParkingFacilityOccupancy
 
 
+class ParkingFacilityPhotoInline(admin.TabularInline):
+    fields = ('photo_url', 'description', 'terms_accepted', 'is_published')
+    model = ParkingFacilityPhoto
+
+
 class ParkingFacilityAdmin(FMBGeoAdmin, VersionAdmin):
     autocomplete_fields = ('station',)
-    inlines = (ParkingFacilityConditionInline, ParkingFacilityOccupancyInline)
+    inlines = (
+        ParkingFacilityConditionInline,
+        ParkingFacilityOccupancyInline,
+        ParkingFacilityPhotoInline,
+    )
     list_display = (
         'station',
         'capacity',

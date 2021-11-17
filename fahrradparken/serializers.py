@@ -31,11 +31,12 @@ class EventSignupSerializer(serializers.ModelSerializer):
 
 
 class ParkingFacilityPhotoSerializer(serializers.ModelSerializer):
+    is_published = serializers.BooleanField(read_only=True)
     photo_url = HybridImageField()
 
     class Meta:
         model = ParkingFacilityPhoto
-        fields = ('description', 'photo_url', 'terms_accepted')
+        fields = ('description', 'is_published', 'photo_url', 'terms_accepted')
 
 
 class ParkingFacilitySerializer(serializers.ModelSerializer):

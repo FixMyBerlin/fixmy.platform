@@ -308,7 +308,7 @@ class ParkingFacility(BaseModel):
         (1, _('bicycle locker')),
         (2, _('bicycle parking tower')),
     )
-    type = models.IntegerField(choices=TYPE_CHOICES, null=True)
+    type = models.IntegerField(choices=TYPE_CHOICES, blank=True, null=True)
 
     class Meta:
         verbose_name = _('parking facility')

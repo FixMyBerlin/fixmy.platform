@@ -33,6 +33,7 @@ class StationAdmin(admin.ModelAdmin):
         'is_subway',
         'location',
     )
+    search_fields = ('id',)
 
 
 class SurveyStationAdmin(admin.ModelAdmin):
@@ -53,6 +54,8 @@ class ParkingFacilityOccupancyInline(admin.StackedInline):
 
 
 class ParkingFacilityAdmin(FMBGeoAdmin, VersionAdmin):
+    autocomplete_fields = ('station',)
+    inlines = (ParkingFacilityConditionInline, ParkingFacilityOccupancyInline)
     list_display = (
         'station',
         'capacity',
@@ -63,7 +66,6 @@ class ParkingFacilityAdmin(FMBGeoAdmin, VersionAdmin):
         'secured',
         'confirmations',
     )
-    inlines = (ParkingFacilityConditionInline, ParkingFacilityOccupancyInline)
 
 
 admin.site.register(Signup, SignupAdmin)

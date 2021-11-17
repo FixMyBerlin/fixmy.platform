@@ -70,7 +70,11 @@ class ParkingFacilitySerializer(serializers.ModelSerializer):
             'station',
             'two_tier',
             'type',
+            'url',
         ]
+        extra_kwargs = {
+            'url': {'view_name': 'fahrradparken:parkingfacility-detail'},
+        }
 
     def create(self, validated_data):
         condition = validated_data.pop('condition', None)

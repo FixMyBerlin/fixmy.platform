@@ -326,6 +326,7 @@ class ParkingFacilityTest(TestCase):
         )
         self.assertEqual(response.status_code, 201)
         self.assertIn('id', response.json())
+        self.assertIn('url', response.json())
         self.assertEqual(response.json().get('condition'), 2)
         self.assertFalse(response.json().get('confirmations'), 0)
         self.assertEqual(response.json().get('occupancy'), 1)

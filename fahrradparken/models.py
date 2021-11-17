@@ -356,6 +356,7 @@ class ParkingFacilityPhoto(models.Model):
         ParkingFacility, related_name='photos', on_delete=models.CASCADE
     )
     description = models.TextField(_('description'), null=True, blank=True)
+    is_published = models.BooleanField(_('is published'), default=False)
     photo_url = models.ImageField(
         _('file'),
         upload_to='fahrradparken/parking-facilities',

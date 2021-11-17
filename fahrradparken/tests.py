@@ -332,6 +332,8 @@ class ParkingFacilityTest(TestCase):
         self.assertEqual(response.json().get('occupancy'), 1)
         self.assertEqual(len(response.json().get('photos', [])), 1)
         self.assertFalse(response.json()['photos'][0].get('is_published'))
+        self.assertIsNone(response.json()['photos'][0].get('photo_url'))
+        self.assertIsNone(response.json()['photos'][0].get('description'))
 
         updated_report = {
             'capacity': 10,

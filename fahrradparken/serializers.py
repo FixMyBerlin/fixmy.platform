@@ -34,6 +34,12 @@ class ParkingFacilityPhotoSerializer(serializers.ModelSerializer):
     is_published = serializers.BooleanField(read_only=True)
     photo_url = HybridImageField()
 
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        if not instance.is_published:
+            ret = {k: ret[k] if k == 'is_published' else None for k in ret.keys()}
+        return ret
+
     class Meta:
         model = ParkingFacilityPhoto
         fields = ('description', 'is_published', 'photo_url', 'terms_accepted')

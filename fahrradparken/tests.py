@@ -395,8 +395,8 @@ class ParkingFacilityTest(TestCase):
         self.assertIn('parking_facilities', response.json()['properties'])
         self.assertEqual(len(response.json()['properties']['parking_facilities']), 1)
 
-    def test_occupancy_and_condition_are_optional(self):
-        updated_report = initial_report = {
+    def test_occupancy_and_condition_can_be_added(self):
+        initial_report = {
             'capacity': 10,
             'confirm': False,
             'covered': True,
@@ -415,9 +415,16 @@ class ParkingFacilityTest(TestCase):
         )
         self.assertEqual(response.status_code, 201)
 
-        response = self.client.put(
+        response = self.client.patch(
             f'/api/fahrradparken/parking-facilities/{response.json().get("id")}',
-            data=json.dumps(updated_report),
+            data=json.dumps({'occupancy': '1'}),
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 200)
+
+        response = self.client.patch(
+            f'/api/fahrradparken/parking-facilities/{response.json().get("id")}',
+            data=json.dumps({'condition': '1'}),
             content_type="application/json",
         )
         self.assertEqual(response.status_code, 200)

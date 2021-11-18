@@ -118,10 +118,13 @@ class ParkingFacilitySerializer(serializers.ModelSerializer):
         if photo:
             ParkingFacilityPhoto.objects.create(parking_facility=instance, **photo)
 
-        if validated_data.pop('confirm'):
-            instance.confirmations += 1
-        else:
-            instance.confirmations = 0
+        confirm = validated_data.pop('confirm', None)
+
+        if confirm is not None:
+            if confirm:
+                instance.confirmations += 1
+            else:
+                instance.confirmations = 0
 
         return super().update(instance, validated_data)
 

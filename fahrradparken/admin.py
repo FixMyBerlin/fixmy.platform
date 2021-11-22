@@ -3,6 +3,7 @@ from .models import (
     ParkingFacility,
     ParkingFacilityCondition,
     ParkingFacilityOccupancy,
+    ParkingFacilityPhoto,
     Signup,
     Station,
     SurveyStation,
@@ -33,6 +34,7 @@ class StationAdmin(admin.ModelAdmin):
         'is_subway',
         'location',
     )
+    search_fields = ('id',)
 
 
 class SurveyStationAdmin(admin.ModelAdmin):
@@ -52,7 +54,18 @@ class ParkingFacilityOccupancyInline(admin.StackedInline):
     model = ParkingFacilityOccupancy
 
 
+class ParkingFacilityPhotoInline(admin.TabularInline):
+    fields = ('photo_url', 'description', 'terms_accepted', 'is_published')
+    model = ParkingFacilityPhoto
+
+
 class ParkingFacilityAdmin(FMBGeoAdmin, VersionAdmin):
+    autocomplete_fields = ('station',)
+    inlines = (
+        ParkingFacilityConditionInline,
+        ParkingFacilityOccupancyInline,
+        ParkingFacilityPhotoInline,
+    )
     list_display = (
         'station',
         'capacity',
@@ -63,7 +76,6 @@ class ParkingFacilityAdmin(FMBGeoAdmin, VersionAdmin):
         'secured',
         'confirmations',
     )
-    inlines = (ParkingFacilityConditionInline, ParkingFacilityOccupancyInline)
 
 
 admin.site.register(Signup, SignupAdmin)

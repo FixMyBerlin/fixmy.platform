@@ -31,11 +31,18 @@ class EventSignupSerializer(serializers.ModelSerializer):
 
 
 class ParkingFacilityPhotoSerializer(serializers.ModelSerializer):
+    is_published = serializers.BooleanField(read_only=True)
     photo_url = HybridImageField()
+
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        if not instance.is_published:
+            ret = {k: ret[k] if k == 'is_published' else None for k in ret.keys()}
+        return ret
 
     class Meta:
         model = ParkingFacilityPhoto
-        fields = ('description', 'photo_url')
+        fields = ('description', 'is_published', 'photo_url', 'terms_accepted')
 
 
 class ParkingFacilitySerializer(serializers.ModelSerializer):
@@ -70,7 +77,11 @@ class ParkingFacilitySerializer(serializers.ModelSerializer):
             'station',
             'two_tier',
             'type',
+            'url',
         ]
+        extra_kwargs = {
+            'url': {'view_name': 'fahrradparken:parkingfacility-detail'},
+        }
 
     def create(self, validated_data):
         condition = validated_data.pop('condition', None)
@@ -107,10 +118,13 @@ class ParkingFacilitySerializer(serializers.ModelSerializer):
         if photo:
             ParkingFacilityPhoto.objects.create(parking_facility=instance, **photo)
 
-        if validated_data.pop('confirm'):
-            instance.confirmations += 1
-        else:
-            instance.confirmations = 0
+        confirm = validated_data.pop('confirm', None)
+
+        if confirm is not None:
+            if confirm:
+                instance.confirmations += 1
+            else:
+                instance.confirmations = 0
 
         return super().update(instance, validated_data)
 

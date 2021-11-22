@@ -309,6 +309,9 @@ class ParkingFacilityTest(TestCase):
             'photo': {
                 'photo_url': 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAABlBMVEUAAAD///+l2Z/dAAAAM0lEQVR4nGP4/5/h/1+G/58ZDrAz3D/McH8yw83NDDeNGe4Ug9C9zwz3gVLMDA/A6P9/AFGGFyjOXZtQAAAAAElFTkSuQmCC',
                 'description': 'Lorem ipsum',
+                'terms_accepted': datetime.datetime.now(
+                    datetime.timezone.utc
+                ).isoformat(),
             },
             'secured': False,
             'stands': True,
@@ -323,10 +326,14 @@ class ParkingFacilityTest(TestCase):
         )
         self.assertEqual(response.status_code, 201)
         self.assertIn('id', response.json())
+        self.assertIn('url', response.json())
         self.assertEqual(response.json().get('condition'), 2)
         self.assertFalse(response.json().get('confirmations'), 0)
         self.assertEqual(response.json().get('occupancy'), 1)
         self.assertEqual(len(response.json().get('photos', [])), 1)
+        self.assertFalse(response.json()['photos'][0].get('is_published'))
+        self.assertIsNone(response.json()['photos'][0].get('photo_url'))
+        self.assertIsNone(response.json()['photos'][0].get('description'))
 
         updated_report = {
             'capacity': 10,
@@ -339,6 +346,9 @@ class ParkingFacilityTest(TestCase):
             'photo': {
                 'photo_url': 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAABlBMVEUAAAD///+l2Z/dAAAAM0lEQVR4nGP4/5/h/1+G/58ZDrAz3D/McH8yw83NDDeNGe4Ug9C9zwz3gVLMDA/A6P9/AFGGFyjOXZtQAAAAAElFTkSuQmCC',
                 'description': 'Lorem ipsum',
+                'terms_accepted': datetime.datetime.now(
+                    datetime.timezone.utc
+                ).isoformat(),
             },
             'secured': False,
             'stands': True,
@@ -385,8 +395,8 @@ class ParkingFacilityTest(TestCase):
         self.assertIn('parking_facilities', response.json()['properties'])
         self.assertEqual(len(response.json()['properties']['parking_facilities']), 1)
 
-    def test_occupancy_and_condition_are_optional(self):
-        updated_report = initial_report = {
+    def test_occupancy_and_condition_can_be_added(self):
+        initial_report = {
             'capacity': 10,
             'confirm': False,
             'covered': True,
@@ -405,9 +415,16 @@ class ParkingFacilityTest(TestCase):
         )
         self.assertEqual(response.status_code, 201)
 
-        response = self.client.put(
+        response = self.client.patch(
             f'/api/fahrradparken/parking-facilities/{response.json().get("id")}',
-            data=json.dumps(updated_report),
+            data=json.dumps({'occupancy': '1'}),
+            content_type="application/json",
+        )
+        self.assertEqual(response.status_code, 200)
+
+        response = self.client.patch(
+            f'/api/fahrradparken/parking-facilities/{response.json().get("id")}',
+            data=json.dumps({'condition': '1'}),
             content_type="application/json",
         )
         self.assertEqual(response.status_code, 200)

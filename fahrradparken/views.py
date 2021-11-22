@@ -119,7 +119,7 @@ class StationView(APIView):
 
     def get(self, request, pk):
         station = self.get_object(pk)
-        serializer = StationSerializer(station)
+        serializer = StationSerializer(station, context={'request': request})
         return Response(serializer.data)
 
 
@@ -217,13 +217,13 @@ class RawBicycleUsageSurveyListing(generics.ListAPIView):
         return Response(data=serialized.data)
 
 
-class ParkingFacilityListView(CreateAPIView):
+class ParkingFacilityList(CreateAPIView):
     permission_classes = (permissions.AllowAny,)
     queryset = ParkingFacility.objects.all()
     serializer_class = ParkingFacilitySerializer
 
 
-class ParkingFacilityView(RetrieveUpdateAPIView):
+class ParkingFacilityDetail(RetrieveUpdateAPIView):
     permission_classes = (permissions.AllowAny,)
     queryset = ParkingFacility.objects.all()
     serializer_class = ParkingFacilitySerializer

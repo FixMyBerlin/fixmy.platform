@@ -1,8 +1,8 @@
 from django.urls import path
 from .views import (
     CheckPreviousBicycleSurvey,
-    ParkingFacilityListView,
-    ParkingFacilityView,
+    ParkingFacilityList,
+    ParkingFacilityDetail,
     PhotoUploadView,
     RawBicycleUsageSurveyListing,
     RawStationSurveyListing,
@@ -61,12 +61,12 @@ urlpatterns = [
     ),
     path(
         'parking-facilities',
-        ParkingFacilityListView.as_view(),
-        name='fahrradparken-parking-facility-list',
+        ParkingFacilityList.as_view(),
+        name='parkingfacility-list',
     ),
     path(
         'parking-facilities/<int:pk>',
-        ParkingFacilityView.as_view(),
-        name='fahrradparken-parking-facility',
+        ParkingFacilityDetail.as_view(),
+        name='parkingfacility-detail',
     ),
 ]

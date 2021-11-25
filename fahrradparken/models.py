@@ -322,6 +322,12 @@ class ParkingFacility(BaseModel):
     def occupancy(self):
         return self.parkingfacilityoccupancy_set.aggregate(Avg('value'))['value__avg']
 
+    @classmethod
+    def next_external_id(cls, station):
+        objects = cls.objects.filter(station_id=station.id).all()
+        suffixes = [0] + sorted(o.external_id.split('.')[1] for o in objects)
+        return f'{station.id}.{suffixes[-1] + 1}'
+
 
 class ParkingFacilityCondition(models.Model):
     parking_facility = models.ForeignKey(ParkingFacility, on_delete=models.CASCADE)

@@ -88,12 +88,15 @@ class ParkingFacilitySerializer(serializers.ModelSerializer):
         occupancy = validated_data.pop('occupancy', None)
         photo = validated_data.pop('photo', None)
         validated_data.pop('confirm')
+        validated_data['external_id'] = ParkingFacility.next_external_id(
+            validated_data['station']
+        )
         parking_facility = ParkingFacility.objects.create(**validated_data)
-        if condition:
+        if condition is not None:
             ParkingFacilityCondition.objects.create(
                 parking_facility=parking_facility, value=condition
             )
-        if occupancy:
+        if occupancy is not None:
             ParkingFacilityOccupancy.objects.create(
                 parking_facility=parking_facility, value=occupancy
             )
@@ -107,11 +110,11 @@ class ParkingFacilitySerializer(serializers.ModelSerializer):
         condition = validated_data.pop('condition', None)
         occupancy = validated_data.pop('occupancy', None)
         photo = validated_data.pop('photo', None)
-        if condition:
+        if condition is not None:
             ParkingFacilityCondition.objects.create(
                 parking_facility=instance, value=condition
             )
-        if occupancy:
+        if occupancy is not None:
             ParkingFacilityOccupancy.objects.create(
                 parking_facility=instance, value=occupancy
             )

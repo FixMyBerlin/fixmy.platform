@@ -42,8 +42,8 @@ class Command(BaseCommand):
             condition = row.get('condition')
             occupancy = row.get('occupancy')
             coordinates = row.get('location', '').split(',')
-            longitude = float(coordinates[1].strip())
-            latitude = float(coordinates[0].strip())
+            longitude = float(coordinates[1].strip().replace(',', '.'))
+            latitude = float(coordinates[0].strip().replace(',', '.'))
             kwargs = {k: row[k] if row[k] != '' else None for k in self.fields}
             kwargs['location'] = Point(longitude, latitude)
             try:

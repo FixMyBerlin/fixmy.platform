@@ -1,3 +1,4 @@
+import decimal
 from collections import defaultdict
 from django.conf import settings
 from django.contrib.gis.db import models
@@ -316,11 +317,19 @@ class ParkingFacility(BaseModel):
 
     @property
     def condition(self):
-        return self.parkingfacilitycondition_set.aggregate(Avg('value'))['value__avg']
+        avg = self.parkingfacilitycondition_set.aggregate(Avg('value'))['value__avg']
+        if avg is not None:
+            return decimal.Decimal(avg).to_integral_value(
+                rounding=decimal.ROUND_HALF_UP
+            )
 
     @property
     def occupancy(self):
-        return self.parkingfacilityoccupancy_set.aggregate(Avg('value'))['value__avg']
+        avg = self.parkingfacilityoccupancy_set.aggregate(Avg('value'))['value__avg']
+        if avg is not None:
+            return decimal.Decimal(avg).to_integral_value(
+                rounding=decimal.ROUND_HALF_UP
+            )
 
     @classmethod
     def next_external_id(cls, station):

@@ -363,9 +363,9 @@ class ParkingFacilityTest(TestCase):
             content_type="application/json",
         )
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json().get('condition'), 2)
+        self.assertEqual(response.json().get('condition'), 3)
         self.assertEqual(response.json().get('confirmations'), 1)
-        self.assertEqual(response.json().get('occupancy'), 1)
+        self.assertEqual(response.json().get('occupancy'), 2)
         self.assertEqual(len(response.json().get('photos', [])), 2)
 
         confirmed_report = {

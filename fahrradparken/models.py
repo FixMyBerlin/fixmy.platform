@@ -1,7 +1,9 @@
+import decimal
 from collections import defaultdict
 from django.conf import settings
 from django.contrib.gis.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.db.models import Avg
 from django.utils.translation import gettext_lazy as _
 
 from fixmyapp.models.base_model import BaseModel
@@ -102,7 +104,8 @@ class Station(BaseModel):
         rv = defaultdict(int)
         for sr in self.survey_responses.all():
             for annoyance in sr.annoyances.split(','):
-                rv[annoyance] += 1
+                if len(annoyance) > 0:
+                    rv[annoyance] += 1
         return rv
 
     @property
@@ -115,7 +118,14 @@ class Station(BaseModel):
 
     @property
     def photos(self):
-        """Return photos submitted by users for this station."""
+        """
+        Return photos submitted by users for this station.
+
+        Before uploaded photos have been moderated in the Django admin panel
+        their URL and description are not returned. If photos are rejected
+        during moderation the photo and description should be deleted in the
+        Django admin.
+        """
 
         def get_photo_url(key):
             bucket = settings.AWS_STORAGE_BUCKET_NAME
@@ -124,14 +134,18 @@ class Station(BaseModel):
         query = self.survey_responses.exclude(photo__isnull=True).exclude(
             photo__exact=''
         )
-        return [
-            {'photo_url': get_photo_url(sr.photo), 'description': sr.photo_description}
-            for sr in query.all()
-        ]
 
-    @property
-    def parking_structures():
-        raise NotImplementedError()
+        def get_photo_serialisation(entry):
+            if entry.is_photo_published:
+                return {
+                    'photo_url': get_photo_url(entry.photo),
+                    'description': entry.photo_description,
+                    'is_published': True,
+                }
+            else:
+                return {'photo_url': None, 'description': None, 'is_published': False}
+
+        return [get_photo_serialisation(sr) for sr in query.all()]
 
     @property
     def requested_locations(self):
@@ -173,6 +187,7 @@ class SurveyStation(BaseModel):
         _('photo upload terms accepted'), null=True, blank=True
     )
     photo_description = models.TextField(_('photo description'), null=True, blank=True)
+    is_photo_published = models.BooleanField(_('photo published'), default=False)
 
     class Meta:
         constraints = (
@@ -180,6 +195,8 @@ class SurveyStation(BaseModel):
                 fields=('session', 'station_id'), name='unique-session-station'
             ),
         )
+        verbose_name = _('Station survey')
+        verbose_name_plural = _('Station surveys')
 
 
 class SurveyBicycleUsage(BaseModel):
@@ -268,3 +285,100 @@ class SurveyBicycleUsage(BaseModel):
         (7, _('75 and above')),
     )
     age = models.IntegerField(_('age'), choices=AGE_CHOICES)
+
+
+class ParkingFacility(BaseModel):
+    capacity = models.IntegerField(_('capacity'))
+    confirmations = models.PositiveSmallIntegerField(_('confirmations'), default=0)
+    covered = models.BooleanField(_('covered'), null=True)
+    external_id = models.CharField(
+        _('external ID'), max_length=100, blank=True, null=True, unique=True
+    )
+    location = models.PointField(_('location'), srid=4326)
+    parking_garage = models.BooleanField(_('part of parking garage'), null=True)
+    secured = models.BooleanField(_('secured'), null=True)
+    source = models.CharField(_('source'), max_length=100, blank=True, null=True)
+    stands = models.BooleanField(_('stands'), null=True)
+    station = models.ForeignKey(
+        Station, related_name='parking_facilities', on_delete=models.CASCADE
+    )
+    two_tier = models.BooleanField(_('two tier'), null=True)
+
+    TYPE_CHOICES = (
+        (0, _('enclosed compound')),
+        (1, _('bicycle locker')),
+        (2, _('bicycle parking tower')),
+    )
+    type = models.IntegerField(choices=TYPE_CHOICES, blank=True, null=True)
+
+    class Meta:
+        verbose_name = _('parking facility')
+        verbose_name_plural = _('parking facilities')
+
+    @property
+    def condition(self):
+        avg = self.parkingfacilitycondition_set.aggregate(Avg('value'))['value__avg']
+        if avg is not None:
+            return decimal.Decimal(avg).to_integral_value(
+                rounding=decimal.ROUND_HALF_UP
+            )
+
+    @property
+    def occupancy(self):
+        avg = self.parkingfacilityoccupancy_set.aggregate(Avg('value'))['value__avg']
+        if avg is not None:
+            return decimal.Decimal(avg).to_integral_value(
+                rounding=decimal.ROUND_HALF_UP
+            )
+
+    @classmethod
+    def next_external_id(cls, station):
+        objects = cls.objects.filter(station_id=station.id).all()
+        suffixes = [0] + sorted(int(o.external_id.split('.')[1]) for o in objects)
+        return f'{station.id}.{suffixes[-1] + 1}'
+
+
+class ParkingFacilityCondition(models.Model):
+    parking_facility = models.ForeignKey(ParkingFacility, on_delete=models.CASCADE)
+    VALUE_CHOICES = (
+        (0, _('very bad')),
+        (1, _('bad')),
+        (2, _('good')),
+        (3, _('very good')),
+    )
+    value = models.IntegerField(choices=VALUE_CHOICES)
+
+    class Meta:
+        verbose_name = _('condition')
+
+
+class ParkingFacilityOccupancy(models.Model):
+    parking_facility = models.ForeignKey(ParkingFacility, on_delete=models.CASCADE)
+    VALUE_CHOICES = (
+        (0, _('overcapacity')),
+        (1, _('high')),
+        (2, _('medium')),
+        (3, _('low')),
+    )
+    value = models.IntegerField(choices=VALUE_CHOICES)
+
+    class Meta:
+        verbose_name = _('occupancy')
+
+
+class ParkingFacilityPhoto(models.Model):
+    parking_facility = models.ForeignKey(
+        ParkingFacility, related_name='photos', on_delete=models.CASCADE
+    )
+    description = models.TextField(_('description'), null=True, blank=True)
+    is_published = models.BooleanField(_('is published'), default=False)
+    photo_url = models.ImageField(
+        _('file'),
+        upload_to='fahrradparken/parking-facilities',
+    )
+    terms_accepted = models.DateTimeField(
+        _('upload terms accepted'), null=True, blank=True
+    )
+
+    class Meta:
+        verbose_name = _('photo')

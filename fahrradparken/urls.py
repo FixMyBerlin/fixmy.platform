@@ -1,11 +1,16 @@
 from django.urls import path
 from .views import (
     CheckPreviousBicycleSurvey,
+    ParkingFacilityList,
+    ParkingFacilityDetail,
     PhotoUploadView,
+    RawBicycleUsageSurveyListing,
+    RawStationSurveyListing,
     SignupView,
     StationList,
     StationView,
     SurveyBicycleUsageView,
+    SurveyInfoView,
     SurveyStationView,
     StationSurveysByUUID,
 )
@@ -18,6 +23,7 @@ urlpatterns = [
         SignupView.as_view(),
         name='fahrradparken-signups',
     ),
+    path('info', SurveyInfoView.as_view()),
     path('stations/<int:pk>', StationView.as_view(), name='fahrradparken-stations'),
     path('stations', StationList.as_view(), name='fahrradparken-stations'),
     path(
@@ -44,5 +50,23 @@ urlpatterns = [
         'uuid/<uuid:session>/bicycle-usage-survey',
         CheckPreviousBicycleSurvey.as_view(),
         name='fahrradparken-previous-bicycle-survey-by-session',
+    ),
+    path(
+        'survey-results/stations',
+        RawStationSurveyListing.as_view(),
+    ),
+    path(
+        'survey-results/bicycle-usage',
+        RawBicycleUsageSurveyListing.as_view(),
+    ),
+    path(
+        'parking-facilities',
+        ParkingFacilityList.as_view(),
+        name='parkingfacility-list',
+    ),
+    path(
+        'parking-facilities/<int:pk>',
+        ParkingFacilityDetail.as_view(),
+        name='parkingfacility-detail',
     ),
 ]

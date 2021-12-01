@@ -7,17 +7,24 @@ from django.conf import settings
 from django.http.response import Http404
 from rest_framework import permissions, status, generics, filters
 from rest_framework.decorators import api_view
+from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView
 from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from urllib.parse import unquote
 
-from fahrradparken.models import Station, SurveyStation, SurveyBicycleUsage
+from fahrradparken.models import (
+    ParkingFacility,
+    Station,
+    SurveyBicycleUsage,
+    SurveyStation,
+)
 
 from .notifications import send_registration_confirmation
 from .serializers import (
-    SignupSerializer,
     EventSignupSerializer,
+    ParkingFacilitySerializer,
+    SignupSerializer,
     StaticStationSerializer,
     StationSerializer,
     SurveyBicycleUsageSerializer,
@@ -62,6 +69,25 @@ class SignupView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class SurveyInfoView(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get(self, request):
+        survey_stations_count = SurveyStation.objects.count()
+        survey_stations_session_count = (
+            SurveyStation.objects.values('session').distinct().count()
+        )
+        survey_bicycle_usage_count = SurveyBicycleUsage.objects.count()
+        return Response(
+            {
+                "survey_stations_count": survey_stations_count,
+                "survey_stations_session_count": survey_stations_session_count,
+                "survey_parking_structures_count": None,
+                "survey_bicycle_usage_count": survey_bicycle_usage_count,
+            }
+        )
+
+
 class StationList(generics.ListAPIView):
     queryset = Station.objects.all()
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
@@ -74,7 +100,11 @@ class StationList(generics.ListAPIView):
         Use the `search` URL parameter to filter by station name and community."""
         queryset = self.get_queryset()
         filtered_queryset = self.filter_queryset(queryset)
-        features = StaticStationSerializer(filtered_queryset, many=True)
+        is_static_only = self.request.query_params.get('full') is None
+        if is_static_only:
+            features = StaticStationSerializer(filtered_queryset, many=True)
+        else:
+            features = StationSerializer(filtered_queryset, many=True)
         return Response(data={'type': 'FeatureCollection', 'features': features.data})
 
 
@@ -89,7 +119,7 @@ class StationView(APIView):
 
     def get(self, request, pk):
         station = self.get_object(pk)
-        serializer = StationSerializer(station)
+        serializer = StationSerializer(station, context={'request': request})
         return Response(serializer.data)
 
 
@@ -164,3 +194,36 @@ class PhotoUploadView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         return Response({'path': s3_key})
+
+
+class RawStationSurveyListing(generics.ListAPIView):
+    queryset = SurveyStation.objects.all()
+    filter_backends = [filters.OrderingFilter]
+    ordering = ['station']
+
+    def list(self, request):
+        queryset = self.get_queryset()
+        filtered_queryset = self.filter_queryset(queryset)
+        serialized = SurveyStationSerializer(filtered_queryset, many=True)
+        return Response(data=serialized.data)
+
+
+class RawBicycleUsageSurveyListing(generics.ListAPIView):
+    queryset = SurveyBicycleUsage.objects.all()
+
+    def list(self, request):
+        queryset = self.get_queryset()
+        serialized = SurveyBicycleUsageSerializer(queryset, many=True)
+        return Response(data=serialized.data)
+
+
+class ParkingFacilityList(CreateAPIView):
+    permission_classes = (permissions.AllowAny,)
+    queryset = ParkingFacility.objects.all()
+    serializer_class = ParkingFacilitySerializer
+
+
+class ParkingFacilityDetail(RetrieveUpdateAPIView):
+    permission_classes = (permissions.AllowAny,)
+    queryset = ParkingFacility.objects.all()
+    serializer_class = ParkingFacilitySerializer

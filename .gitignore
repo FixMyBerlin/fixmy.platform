@@ -1,7 +1,6 @@
 # Custom
 fixmyapp/data
 static/
-photos/
 
 # Prevent (personal) data from being committed
 *.dump

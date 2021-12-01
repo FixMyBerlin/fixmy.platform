@@ -2,9 +2,20 @@ import boto3
 import botocore
 import json
 from django.conf import settings
+from drf_extra_fields.fields import HybridImageField
 from rest_framework import serializers
 
-from .models import Signup, EventSignup, Station, SurveyBicycleUsage, SurveyStation
+from .models import (
+    EventSignup,
+    ParkingFacility,
+    ParkingFacilityCondition,
+    ParkingFacilityOccupancy,
+    ParkingFacilityPhoto,
+    Signup,
+    Station,
+    SurveyBicycleUsage,
+    SurveyStation,
+)
 
 
 class SignupSerializer(serializers.ModelSerializer):
@@ -19,10 +30,113 @@ class EventSignupSerializer(serializers.ModelSerializer):
         exclude = ['modified_date']
 
 
+class ParkingFacilityPhotoSerializer(serializers.ModelSerializer):
+    is_published = serializers.BooleanField(read_only=True)
+    photo_url = HybridImageField()
+
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        if not instance.is_published:
+            ret = {k: ret[k] if k == 'is_published' else None for k in ret.keys()}
+        return ret
+
+    class Meta:
+        model = ParkingFacilityPhoto
+        fields = ('description', 'is_published', 'photo_url', 'terms_accepted')
+
+
+class ParkingFacilitySerializer(serializers.ModelSerializer):
+    condition = serializers.IntegerField(required=False)
+    confirm = serializers.BooleanField(write_only=True)
+    occupancy = serializers.IntegerField(required=False)
+    photo = ParkingFacilityPhotoSerializer(required=False, write_only=True)
+    photos = ParkingFacilityPhotoSerializer(many=True, read_only=True)
+    station = serializers.PrimaryKeyRelatedField(
+        many=False, queryset=Station.objects.all()
+    )
+
+    class Meta:
+        model = ParkingFacility
+        fields = [
+            'capacity',
+            'condition',
+            'confirm',
+            'confirmations',
+            'covered',
+            'created_date',
+            'external_id',
+            'id',
+            'location',
+            'occupancy',
+            'parking_garage',
+            'photo',
+            'photos',
+            'secured',
+            'source',
+            'stands',
+            'station',
+            'two_tier',
+            'type',
+            'url',
+        ]
+        extra_kwargs = {
+            'url': {'view_name': 'fahrradparken:parkingfacility-detail'},
+        }
+
+    def create(self, validated_data):
+        condition = validated_data.pop('condition', None)
+        occupancy = validated_data.pop('occupancy', None)
+        photo = validated_data.pop('photo', None)
+        validated_data.pop('confirm')
+        validated_data['external_id'] = ParkingFacility.next_external_id(
+            validated_data['station']
+        )
+        parking_facility = ParkingFacility.objects.create(**validated_data)
+        if condition is not None:
+            ParkingFacilityCondition.objects.create(
+                parking_facility=parking_facility, value=condition
+            )
+        if occupancy is not None:
+            ParkingFacilityOccupancy.objects.create(
+                parking_facility=parking_facility, value=occupancy
+            )
+        if photo:
+            ParkingFacilityPhoto.objects.create(
+                parking_facility=parking_facility, **photo
+            )
+        return parking_facility
+
+    def update(self, instance, validated_data):
+        condition = validated_data.pop('condition', None)
+        occupancy = validated_data.pop('occupancy', None)
+        photo = validated_data.pop('photo', None)
+        if condition is not None:
+            ParkingFacilityCondition.objects.create(
+                parking_facility=instance, value=condition
+            )
+        if occupancy is not None:
+            ParkingFacilityOccupancy.objects.create(
+                parking_facility=instance, value=occupancy
+            )
+        if photo:
+            ParkingFacilityPhoto.objects.create(parking_facility=instance, **photo)
+
+        confirm = validated_data.pop('confirm', None)
+
+        if confirm is not None:
+            if confirm:
+                instance.confirmations += 1
+            else:
+                instance.confirmations = 0
+
+        return super().update(instance, validated_data)
+
+
 class StationSerializer(serializers.ModelSerializer):
     annoyances_custom = serializers.ReadOnlyField()
     annoyances = serializers.ReadOnlyField()
     net_promoter_score = serializers.ReadOnlyField()
+    parking_facilities = ParkingFacilitySerializer(many=True, read_only=True)
     photos = serializers.ReadOnlyField()
     requested_locations = serializers.ReadOnlyField()
 

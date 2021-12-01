@@ -288,7 +288,7 @@ class SurveyBicycleUsage(BaseModel):
 
 
 class ParkingFacility(BaseModel):
-    capacity = models.IntegerField(_('capacity'))
+    capacity = models.IntegerField(_('capacity'), null=True, blank=True)
     confirmations = models.PositiveSmallIntegerField(_('confirmations'), default=0)
     covered = models.BooleanField(_('covered'), null=True)
     external_id = models.CharField(

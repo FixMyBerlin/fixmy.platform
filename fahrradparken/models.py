@@ -1,3 +1,4 @@
+import decimal
 from collections import defaultdict
 from django.conf import settings
 from django.contrib.gis.db import models
@@ -287,11 +288,11 @@ class SurveyBicycleUsage(BaseModel):
 
 
 class ParkingFacility(BaseModel):
-    capacity = models.IntegerField(_('capacity'))
+    capacity = models.IntegerField(_('capacity'), null=True, blank=True)
     confirmations = models.PositiveSmallIntegerField(_('confirmations'), default=0)
     covered = models.BooleanField(_('covered'), null=True)
     external_id = models.CharField(
-        _('external ID'), max_length=100, blank=True, null=True
+        _('external ID'), max_length=100, blank=True, null=True, unique=True
     )
     location = models.PointField(_('location'), srid=4326)
     parking_garage = models.BooleanField(_('part of parking garage'), null=True)
@@ -308,7 +309,7 @@ class ParkingFacility(BaseModel):
         (1, _('bicycle locker')),
         (2, _('bicycle parking tower')),
     )
-    type = models.IntegerField(choices=TYPE_CHOICES)
+    type = models.IntegerField(choices=TYPE_CHOICES, blank=True, null=True)
 
     class Meta:
         verbose_name = _('parking facility')
@@ -316,11 +317,25 @@ class ParkingFacility(BaseModel):
 
     @property
     def condition(self):
-        return self.parkingfacilitycondition_set.aggregate(Avg('value'))['value__avg']
+        avg = self.parkingfacilitycondition_set.aggregate(Avg('value'))['value__avg']
+        if avg is not None:
+            return decimal.Decimal(avg).to_integral_value(
+                rounding=decimal.ROUND_HALF_UP
+            )
 
     @property
     def occupancy(self):
-        return self.parkingfacilityoccupancy_set.aggregate(Avg('value'))['value__avg']
+        avg = self.parkingfacilityoccupancy_set.aggregate(Avg('value'))['value__avg']
+        if avg is not None:
+            return decimal.Decimal(avg).to_integral_value(
+                rounding=decimal.ROUND_HALF_UP
+            )
+
+    @classmethod
+    def next_external_id(cls, station):
+        objects = cls.objects.filter(station_id=station.id).all()
+        suffixes = [0] + sorted(int(o.external_id.split('.')[1]) for o in objects)
+        return f'{station.id}.{suffixes[-1] + 1}'
 
 
 class ParkingFacilityCondition(models.Model):
@@ -356,8 +371,9 @@ class ParkingFacilityPhoto(models.Model):
         ParkingFacility, related_name='photos', on_delete=models.CASCADE
     )
     description = models.TextField(_('description'), null=True, blank=True)
-    src = models.ImageField(
-        _("file"),
+    is_published = models.BooleanField(_('is published'), default=False)
+    photo_url = models.ImageField(
+        _('file'),
         upload_to='fahrradparken/parking-facilities',
     )
     terms_accepted = models.DateTimeField(

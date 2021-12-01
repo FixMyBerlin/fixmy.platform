@@ -31,17 +31,24 @@ class EventSignupSerializer(serializers.ModelSerializer):
 
 
 class ParkingFacilityPhotoSerializer(serializers.ModelSerializer):
-    src = HybridImageField()
+    is_published = serializers.BooleanField(read_only=True)
+    photo_url = HybridImageField()
+
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        if not instance.is_published:
+            ret = {k: ret[k] if k == 'is_published' else None for k in ret.keys()}
+        return ret
 
     class Meta:
         model = ParkingFacilityPhoto
-        fields = ('description', 'src', 'terms_accepted')
+        fields = ('description', 'is_published', 'photo_url', 'terms_accepted')
 
 
 class ParkingFacilitySerializer(serializers.ModelSerializer):
-    condition = serializers.IntegerField()
+    condition = serializers.IntegerField(required=False)
     confirm = serializers.BooleanField(write_only=True)
-    occupancy = serializers.IntegerField()
+    occupancy = serializers.IntegerField(required=False)
     photo = ParkingFacilityPhotoSerializer(required=False, write_only=True)
     photos = ParkingFacilityPhotoSerializer(many=True, read_only=True)
     station = serializers.PrimaryKeyRelatedField(
@@ -70,20 +77,29 @@ class ParkingFacilitySerializer(serializers.ModelSerializer):
             'station',
             'two_tier',
             'type',
+            'url',
         ]
+        extra_kwargs = {
+            'url': {'view_name': 'fahrradparken:parkingfacility-detail'},
+        }
 
     def create(self, validated_data):
-        condition = validated_data.pop('condition')
-        occupancy = validated_data.pop('occupancy')
+        condition = validated_data.pop('condition', None)
+        occupancy = validated_data.pop('occupancy', None)
         photo = validated_data.pop('photo', None)
         validated_data.pop('confirm')
+        validated_data['external_id'] = ParkingFacility.next_external_id(
+            validated_data['station']
+        )
         parking_facility = ParkingFacility.objects.create(**validated_data)
-        ParkingFacilityCondition.objects.create(
-            parking_facility=parking_facility, value=condition
-        )
-        ParkingFacilityOccupancy.objects.create(
-            parking_facility=parking_facility, value=occupancy
-        )
+        if condition is not None:
+            ParkingFacilityCondition.objects.create(
+                parking_facility=parking_facility, value=condition
+            )
+        if occupancy is not None:
+            ParkingFacilityOccupancy.objects.create(
+                parking_facility=parking_facility, value=occupancy
+            )
         if photo:
             ParkingFacilityPhoto.objects.create(
                 parking_facility=parking_facility, **photo
@@ -91,22 +107,27 @@ class ParkingFacilitySerializer(serializers.ModelSerializer):
         return parking_facility
 
     def update(self, instance, validated_data):
-        condition = validated_data.pop('condition')
-        occupancy = validated_data.pop('occupancy')
+        condition = validated_data.pop('condition', None)
+        occupancy = validated_data.pop('occupancy', None)
         photo = validated_data.pop('photo', None)
-        ParkingFacilityCondition.objects.create(
-            parking_facility=instance, value=condition
-        )
-        ParkingFacilityOccupancy.objects.create(
-            parking_facility=instance, value=occupancy
-        )
+        if condition is not None:
+            ParkingFacilityCondition.objects.create(
+                parking_facility=instance, value=condition
+            )
+        if occupancy is not None:
+            ParkingFacilityOccupancy.objects.create(
+                parking_facility=instance, value=occupancy
+            )
         if photo:
             ParkingFacilityPhoto.objects.create(parking_facility=instance, **photo)
 
-        if validated_data.pop('confirm'):
-            instance.confirmations += 1
-        else:
-            instance.confirmations = 0
+        confirm = validated_data.pop('confirm', None)
+
+        if confirm is not None:
+            if confirm:
+                instance.confirmations += 1
+            else:
+                instance.confirmations = 0
 
         return super().update(instance, validated_data)
 

@@ -1,12 +1,9 @@
-import csv
 import json
 import tempfile
 import uuid
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.gis.geos import Point
-from django.core.management import call_command
-from django.core.exceptions import PermissionDenied
 from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 
@@ -15,8 +12,11 @@ from fixmyapp.models import NoticeSetting
 from fixmydjango.utils import get_templates_config
 from .models import Report, StatusNotice
 
-# Create your tests here.
-@override_settings(DEFAULT_FILE_STORAGE='django.core.files.storage.FileSystemStorage')
+
+@override_settings(
+    DEFAULT_FILE_STORAGE='django.core.files.storage.FileSystemStorage',
+    MEDIA_ROOT=tempfile.mkdtemp(),
+)
 class ApiTests(TestCase):
     def setUp(self):
         self.user = get_user_model().objects.create_user(

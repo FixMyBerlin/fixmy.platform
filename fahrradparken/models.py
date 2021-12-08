@@ -291,6 +291,7 @@ class ParkingFacility(BaseModel):
     capacity = models.IntegerField(_('capacity'), null=True, blank=True)
     confirmations = models.PositiveSmallIntegerField(_('confirmations'), default=0)
     covered = models.BooleanField(_('covered'), null=True)
+    description = models.TextField(_('description'), null=True, blank=True)
     external_id = models.CharField(
         _('external ID'), max_length=100, blank=True, null=True, unique=True
     )

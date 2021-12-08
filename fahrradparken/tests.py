@@ -303,6 +303,7 @@ class ParkingFacilityTest(TestCase):
             'condition': 0,
             'confirm': False,
             'covered': True,
+            'description': 'Lorem ipsum dolor sit amet',
             'location': {'type': 'Point', 'coordinates': [13.415941, 52.494432]},
             'occupancy': 0,
             'parking_garage': False,
@@ -329,6 +330,9 @@ class ParkingFacilityTest(TestCase):
         self.assertIn('url', response.json())
         self.assertEqual(response.json().get('condition'), 0)
         self.assertFalse(response.json().get('confirmations'), 0)
+        self.assertEqual(
+            response.json().get('description'), 'Lorem ipsum dolor sit amet'
+        )
         self.assertEqual(response.json().get('occupancy'), 0)
         self.assertEqual(len(response.json().get('photos', [])), 1)
         self.assertFalse(response.json()['photos'][0].get('is_published'))

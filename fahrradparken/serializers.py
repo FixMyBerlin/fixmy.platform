@@ -64,6 +64,7 @@ class ParkingFacilitySerializer(serializers.ModelSerializer):
             'confirmations',
             'covered',
             'created_date',
+            'description',
             'external_id',
             'id',
             'location',

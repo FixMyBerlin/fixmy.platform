@@ -68,6 +68,7 @@ class ParkingFacilityAdmin(FMBGeoAdmin, VersionAdmin):
         ParkingFacilityPhotoInline,
     )
     list_display = (
+        'external_id',
         'station',
         'capacity',
         'type',

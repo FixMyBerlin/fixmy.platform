@@ -253,7 +253,14 @@ class SurveyInfoViewTest(TestCase):
         response = self.client.get('/api/fahrradparken/info')
         self.assertEqual(response.json().get('survey_stations_count', 0), 4)
         self.assertEqual(response.json().get('survey_stations_session_count', 0), 3)
+        self.assertEqual(response.json().get('survey_stations_with_nps_count', 0), 1)
         self.assertEqual(response.json().get('survey_bicycle_usage_count"', 0), 0)
+        self.assertEqual(
+            response.json().get('survey_stations_with_parking_facilities_count', 0), 3
+        )
+        self.assertEqual(
+            response.json().get('survey_confirmed_parking_facilities_count', 0), 4
+        )
 
 
 class UniqueUUIDTest(TestCase):

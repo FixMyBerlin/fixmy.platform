@@ -9,6 +9,7 @@ from .models import (
     SurveyStation,
 )
 from django.contrib import admin
+from django.utils.translation import gettext_lazy as _
 from fixmyapp.admin import FMBGeoAdmin
 from reversion.admin import VersionAdmin
 
@@ -39,7 +40,7 @@ class StationAdmin(admin.ModelAdmin):
 
 class SurveyStationAdmin(admin.ModelAdmin):
     list_display = ('created_date', 'session', 'station', 'is_photo_published')
-    list_filter = (("photo", admin.EmptyFieldListFilter),)
+    list_filter = (('photo', admin.EmptyFieldListFilter),)
 
 
 class ParkingFacilityConditionInline(admin.StackedInline):
@@ -76,6 +77,7 @@ class ParkingFacilityAdmin(FMBGeoAdmin, VersionAdmin):
         'secured',
         'confirmations',
     )
+    list_filter = ('photos__is_published',)
 
 
 admin.site.register(Signup, SignupAdmin)

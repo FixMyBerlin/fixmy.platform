@@ -246,6 +246,16 @@ class SurveyStationTest(TestCase):
         self.assertEqual(response.status_code, 400, response.content)
 
 
+class SurveyInfoViewTest(TestCase):
+    fixtures = ['station', 'survey_station', 'parking_facilities']
+
+    def test_get_info(self):
+        response = self.client.get('/api/fahrradparken/info')
+        self.assertEqual(response.json().get('survey_stations_count', 0), 4)
+        self.assertEqual(response.json().get('survey_stations_session_count', 0), 3)
+        self.assertEqual(response.json().get('survey_bicycle_usage_count"', 0), 0)
+
+
 class UniqueUUIDTest(TestCase):
     fixtures = ['station', 'survey_station']
 

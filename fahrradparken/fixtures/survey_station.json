@@ -37,9 +37,9 @@
     },
     {
         "model": "fahrradparken.surveystation",
-        "pk": 2,
+        "pk": 3,
         "fields": {
-            "session": "ba86d361-87a3-4e14-bd3a-fcf9003f7dd8",
+            "session": "16014509-c893-4034-9c92-a6ca8617695c",
             "created_date": "2021-08-18T12:22:34.615Z",
             "modified_date": "2021-08-18T12:22:34.615Z",
             "station": 2,

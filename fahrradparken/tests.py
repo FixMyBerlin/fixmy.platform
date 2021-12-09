@@ -286,7 +286,7 @@ class RawDataExportTest(TestCase):
     def test_station_survey_raw_export(self):
         response = self.client.get('/api/fahrradparken/survey-results/stations')
         self.assertContains(
-            response, SurveyStation.objects.first().session, 1, status_code=200
+            response, SurveyStation.objects.first().session, 2, status_code=200
         )
 
 

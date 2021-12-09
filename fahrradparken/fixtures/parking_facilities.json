@@ -1,0 +1,170 @@
+[
+  {
+    "model": "fahrradparken.parkingfacility",
+    "pk": 17527,
+    "fields": {
+      "created_date": "2021-12-06T13:46:16.482Z",
+      "modified_date": "2021-12-06T13:46:16.482Z",
+      "capacity": 4,
+      "confirmations": 0,
+      "covered": false,
+      "description": null,
+      "external_id": "1.09",
+      "location": "SRID=4326;POINT (6.0938351 50.768055)",
+      "parking_garage": false,
+      "secured": false,
+      "source": "© OpenStreetMap contributors, https://www.openstreetmap.org/node/6695269192",
+      "stands": true,
+      "station": 1,
+      "two_tier": false,
+      "type": null
+    }
+  },
+  {
+    "model": "fahrradparken.parkingfacility",
+    "pk": 17528,
+    "fields": {
+      "created_date": "2021-12-06T13:46:16.484Z",
+      "modified_date": "2021-12-06T13:46:16.484Z",
+      "capacity": 10,
+      "confirmations": 2,
+      "covered": false,
+      "description": null,
+      "external_id": "1.10",
+      "location": "SRID=4326;POINT (6.0911401 50.7685158)",
+      "parking_garage": false,
+      "secured": false,
+      "source": "© OpenStreetMap contributors, https://www.openstreetmap.org/node/6695269193",
+      "stands": true,
+      "station": 1,
+      "two_tier": false,
+      "type": null
+    }
+  },
+  {
+    "model": "fahrradparken.parkingfacility",
+    "pk": 17529,
+    "fields": {
+      "created_date": "2021-12-06T13:46:16.486Z",
+      "modified_date": "2021-12-06T13:46:16.486Z",
+      "capacity": 8,
+      "confirmations": 0,
+      "covered": false,
+      "description": null,
+      "external_id": "1.11",
+      "location": "SRID=4326;POINT (6.094718 50.7670514)",
+      "parking_garage": false,
+      "secured": false,
+      "source": "© OpenStreetMap contributors, https://www.openstreetmap.org/node/7326762933",
+      "stands": true,
+      "station": 1,
+      "two_tier": false,
+      "type": null
+    }
+  },
+  {
+    "model": "fahrradparken.parkingfacility",
+    "pk": 22211,
+    "fields": {
+      "created_date": "2021-12-06T13:46:28.264Z",
+      "modified_date": "2021-12-06T13:46:28.264Z",
+      "capacity": 8,
+      "confirmations": 2,
+      "covered": false,
+      "description": null,
+      "external_id": "3.03",
+      "location": "SRID=4326;POINT (6.0712015 50.779917)",
+      "parking_garage": false,
+      "secured": false,
+      "source": "© OpenStreetMap contributors, https://www.openstreetmap.org/node/6616367702",
+      "stands": true,
+      "station": 3,
+      "two_tier": false,
+      "type": null
+    }
+  },
+  {
+    "model": "fahrradparken.parkingfacility",
+    "pk": 22212,
+    "fields": {
+      "created_date": "2021-12-06T13:46:28.266Z",
+      "modified_date": "2021-12-06T13:46:28.266Z",
+      "capacity": 6,
+      "confirmations": 0,
+      "covered": true,
+      "description": null,
+      "external_id": "3.04",
+      "location": "SRID=4326;POINT (6.0712918 50.77995)",
+      "parking_garage": false,
+      "secured": false,
+      "source": "© OpenStreetMap contributors, https://www.openstreetmap.org/node/6616367703",
+      "stands": true,
+      "station": 3,
+      "two_tier": false,
+      "type": null
+    }
+  },
+  {
+    "model": "fahrradparken.parkingfacility",
+    "pk": 22213,
+    "fields": {
+      "created_date": "2021-12-06T13:46:28.268Z",
+      "modified_date": "2021-12-06T13:46:28.268Z",
+      "capacity": 12,
+      "confirmations": 2,
+      "covered": false,
+      "description": null,
+      "external_id": "3.05",
+      "location": "SRID=4326;POINT (6.0723166 50.7804041)",
+      "parking_garage": false,
+      "secured": false,
+      "source": "© OpenStreetMap contributors, https://www.openstreetmap.org/node/8329708887",
+      "stands": true,
+      "station": 3,
+      "two_tier": false,
+      "type": null
+    }
+  },
+  {
+    "model": "fahrradparken.parkingfacility",
+    "pk": 23886,
+    "fields": {
+      "created_date": "2021-12-06T13:46:32.183Z",
+      "modified_date": "2021-12-06T13:46:32.183Z",
+      "capacity": 20,
+      "confirmations": 2,
+      "covered": false,
+      "description": null,
+      "external_id": "2.01",
+      "location": "SRID=4326;POINT (6.1167793 50.7700615)",
+      "parking_garage": false,
+      "secured": false,
+      "source": "© OpenStreetMap contributors, https://www.openstreetmap.org/node/959636817",
+      "stands": true,
+      "station": 2,
+      "two_tier": false,
+      "type": null
+    }
+  },
+  {
+    "model": "fahrradparken.parkingfacility",
+    "pk": 23887,
+    "fields": {
+      "created_date": "2021-12-06T13:46:32.185Z",
+      "modified_date": "2021-12-06T13:46:32.185Z",
+      "capacity": 10,
+      "confirmations": 0,
+      "covered": true,
+      "description": null,
+      "external_id": "2.02",
+      "location": "SRID=4326;POINT (6.1171102 50.7700743)",
+      "parking_garage": false,
+      "secured": false,
+      "source": "© OpenStreetMap contributors, https://www.openstreetmap.org/node/959636811",
+      "stands": true,
+      "station": 2,
+      "two_tier": false,
+      "type": null
+    }
+  }
+]

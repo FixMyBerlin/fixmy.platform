@@ -68,6 +68,7 @@ class ParkingFacilityAdmin(FMBGeoAdmin, VersionAdmin):
         ParkingFacilityPhotoInline,
     )
     list_display = (
+        'external_id',
         'station',
         'capacity',
         'type',
@@ -78,6 +79,7 @@ class ParkingFacilityAdmin(FMBGeoAdmin, VersionAdmin):
         'confirmations',
     )
     list_filter = ('photos__is_published',)
+    search_fields = ('external_id', 'station__name')
 
 
 admin.site.register(Signup, SignupAdmin)

@@ -37,9 +37,27 @@
     },
     {
         "model": "fahrradparken.surveystation",
-        "pk": 2,
+        "pk": 3,
         "fields": {
-            "session": "ba86d361-87a3-4e14-bd3a-fcf9003f7dd8",
+            "session": "16014509-c893-4034-9c92-a6ca8617695c",
+            "created_date": "2021-08-18T12:22:34.615Z",
+            "modified_date": "2021-08-18T12:22:34.615Z",
+            "station": 2,
+            "survey_version": 1,
+            "npr": 6,
+            "annoyances": "3",
+            "annoyance_custom": "",
+            "requested_location": "Ausgang Stadt",
+            "photo": "",
+            "photo_terms_accepted": null,
+            "photo_description": null
+        }
+    },
+    {
+        "model": "fahrradparken.surveystation",
+        "pk": 4,
+        "fields": {
+            "session": "9ff5f063-01eb-45b9-b952-ca0551c8b03d",
             "created_date": "2021-08-18T12:22:34.615Z",
             "modified_date": "2021-08-18T12:22:34.615Z",
             "station": 2,

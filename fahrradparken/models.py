@@ -58,6 +58,10 @@ class Station(BaseModel):
     is_subway = models.BooleanField(_('subway station'), default=False)
     community = models.CharField(_('community'), max_length=255, null=True, blank=True)
 
+    class Meta:
+        verbose_name = _('station')
+        verbose_name_plural = _('stations')
+
     def __str__(self):
         return f"{self.name} ({self.id})"
 
@@ -293,7 +297,7 @@ class ParkingFacility(BaseModel):
     covered = models.BooleanField(_('covered'), null=True)
     description = models.TextField(_('description'), null=True, blank=True)
     external_id = models.CharField(
-        _('external ID'), max_length=100, blank=True, null=True, unique=True
+        _('facility ID'), max_length=100, blank=True, null=True, unique=True
     )
     location = models.PointField(_('location'), srid=4326)
     parking_garage = models.BooleanField(_('part of parking garage'), null=True)

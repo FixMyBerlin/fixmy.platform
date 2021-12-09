@@ -246,6 +246,23 @@ class SurveyStationTest(TestCase):
         self.assertEqual(response.status_code, 400, response.content)
 
 
+class SurveyInfoViewTest(TestCase):
+    fixtures = ['station', 'survey_station', 'parking_facilities']
+
+    def test_get_info(self):
+        response = self.client.get('/api/fahrradparken/info')
+        self.assertEqual(response.json().get('survey_stations_count', 0), 4)
+        self.assertEqual(response.json().get('survey_stations_session_count', 0), 3)
+        self.assertEqual(response.json().get('survey_stations_with_nps_count', 0), 1)
+        self.assertEqual(response.json().get('survey_bicycle_usage_count"', 0), 0)
+        self.assertEqual(
+            response.json().get('survey_stations_with_parking_facilities_count', 0), 3
+        )
+        self.assertEqual(
+            response.json().get('survey_confirmed_parking_facilities_count', 0), 4
+        )
+
+
 class UniqueUUIDTest(TestCase):
     fixtures = ['station', 'survey_station']
 
@@ -286,7 +303,7 @@ class RawDataExportTest(TestCase):
     def test_station_survey_raw_export(self):
         response = self.client.get('/api/fahrradparken/survey-results/stations')
         self.assertContains(
-            response, SurveyStation.objects.first().session, 1, status_code=200
+            response, SurveyStation.objects.first().session, 2, status_code=200
         )
 
 

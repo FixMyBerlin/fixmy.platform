@@ -1,12 +1,11 @@
 import boto3
-import json
 import sys
 
 from datetime import datetime
 from django.conf import settings
+from django.db.models import Count
 from django.http.response import Http404
 from rest_framework import permissions, status, generics, filters
-from rest_framework.decorators import api_view
 from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView
 from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.response import Response
@@ -78,12 +77,27 @@ class SurveyInfoView(APIView):
             SurveyStation.objects.values('session').distinct().count()
         )
         survey_bicycle_usage_count = SurveyBicycleUsage.objects.count()
+        stations_with_nps_count = (
+            SurveyStation.objects.values('station')
+            .annotate(count=Count('station'))
+            .filter(count__gt=2)
+            .count()
+        )
+        confirmed_parking_facilities_count = ParkingFacility.objects.filter(
+            confirmations=2
+        ).count()
+        survey_stations_with_parking_facilities_count = (
+            ParkingFacility.objects.distinct('station').count()
+        )
+
         return Response(
             {
                 "survey_stations_count": survey_stations_count,
                 "survey_stations_session_count": survey_stations_session_count,
-                "survey_parking_structures_count": None,
+                "survey_stations_with_parking_facilities_count": survey_stations_with_parking_facilities_count,
                 "survey_bicycle_usage_count": survey_bicycle_usage_count,
+                "survey_stations_with_nps_count": stations_with_nps_count,
+                "survey_confirmed_parking_facilities_count": confirmed_parking_facilities_count,
             }
         )
 

@@ -41,8 +41,9 @@ class Command(BaseCommand):
             help='CSV file delimiter , or ;',
         )
         parser.add_argument(
-            '--skip-stations', type=argparse.FileType('r'),
-            help='A file containing a list of stations to skip'
+            '--skip-stations',
+            type=argparse.FileType('r'),
+            help='A file containing a list of stations to skip',
         )
 
     def import_from_reader(self, reader, skip_stations):
@@ -94,7 +95,9 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         reader = csv.DictReader(options['file'], delimiter=options['delimiter'])
         if options['skip_stations']:
-            skip_stations = [int(s.rstrip()) for s in options['skip_stations'].readlines()]
+            skip_stations = [
+                int(s.rstrip()) for s in options['skip_stations'].readlines()
+            ]
         else:
             skip_stations = []
         self.import_from_reader(reader, skip_stations)

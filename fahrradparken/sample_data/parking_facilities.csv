@@ -1,0 +1,6 @@
+station;external_id;location;capacity;stands;covered;two_tier;secured;parking_garage;type;photo;photo_terms_accepted;photo_description;occupancy;condition;source
+Aachen Schanz;"01.01";"50.7703706, 6.0731631";"26";"1";"0";"0";"0";"0";;;;;;;"© OpenStreetMap contributors, https://www.openstreetmap.org/way/695470288"
+Aachen Schanz;"01.02";"50,7706011, 6,0737671";"32";"1";"1";"1";"0";"0";;;;;;;"Something"
+Aachen Schanz;"01.03";"";"10";"1";"0";"0";"1";"0";;;;;;;"Something"
+Lorem;"02.01";"50.7703706, 6.0731631";"26";"1";"0";"0";"0";"0";;;;;;;"Lorem"
+Ipsum;"03.01";"50.7703706, 6.0731631";"26";"1";"0";"0";"0";"0";;;;;;;"Lorem"

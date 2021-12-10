@@ -258,6 +258,7 @@ class SurveyInfoViewTest(TestCase):
         self.assertEqual(
             response.json().get('survey_stations_with_parking_facilities_count', 0), 3
         )
+        self.assertEqual(response.json().get('survey_parking_facilities_count', 0), 8)
         self.assertEqual(
             response.json().get('survey_confirmed_parking_facilities_count', 0), 4
         )

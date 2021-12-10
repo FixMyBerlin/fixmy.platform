@@ -83,6 +83,7 @@ class SurveyInfoView(APIView):
             .filter(count__gt=2)
             .count()
         )
+        parking_facilities_count = ParkingFacility.objects.all().count()
         confirmed_parking_facilities_count = ParkingFacility.objects.filter(
             confirmations=2
         ).count()
@@ -97,6 +98,7 @@ class SurveyInfoView(APIView):
                 "survey_stations_with_parking_facilities_count": survey_stations_with_parking_facilities_count,
                 "survey_bicycle_usage_count": survey_bicycle_usage_count,
                 "survey_stations_with_nps_count": stations_with_nps_count,
+                "survey_parking_facilities_count": parking_facilities_count,
                 "survey_confirmed_parking_facilities_count": confirmed_parking_facilities_count,
             }
         )

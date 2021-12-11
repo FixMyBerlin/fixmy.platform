@@ -299,6 +299,9 @@ class ParkingFacility(BaseModel):
     external_id = models.CharField(
         _('facility ID'), max_length=100, blank=True, null=True, unique=True
     )
+    fingerprint = models.CharField(
+        _('fingerprint'), max_length=64, null=True, blank=True
+    )
     location = models.PointField(_('location'), srid=4326)
     parking_garage = models.BooleanField(_('part of parking garage'), null=True)
     secured = models.BooleanField(_('secured'), null=True)

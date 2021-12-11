@@ -79,6 +79,7 @@ class ParkingFacilityAdmin(FMBGeoAdmin, VersionAdmin):
         'confirmations',
     )
     list_filter = ('photos__is_published',)
+    readonly_fields = ('fingerprint',)
     search_fields = ('external_id', 'station__name')
 
 

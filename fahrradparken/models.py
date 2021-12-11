@@ -308,7 +308,10 @@ class ParkingFacility(BaseModel):
     source = models.CharField(_('source'), max_length=100, blank=True, null=True)
     stands = models.BooleanField(_('stands'), null=True)
     station = models.ForeignKey(
-        Station, related_name='parking_facilities', on_delete=models.CASCADE
+        Station,
+        verbose_name=_('station'),
+        related_name='parking_facilities',
+        on_delete=models.CASCADE,
     )
     two_tier = models.BooleanField(_('two tier'), null=True)
 
@@ -317,7 +320,7 @@ class ParkingFacility(BaseModel):
         (1, _('bicycle locker')),
         (2, _('bicycle parking tower')),
     )
-    type = models.IntegerField(choices=TYPE_CHOICES, blank=True, null=True)
+    type = models.IntegerField(_('type'), choices=TYPE_CHOICES, blank=True, null=True)
 
     class Meta:
         verbose_name = _('parking facility')

@@ -1,5 +1,6 @@
 import boto3
 import botocore
+import hashlib
 import json
 from django.conf import settings
 from drf_extra_fields.fields import HybridImageField
@@ -16,6 +17,18 @@ from .models import (
     SurveyBicycleUsage,
     SurveyStation,
 )
+
+
+def fingerprint(request):
+    if request is None:
+        return ''
+    f = hashlib.sha256()
+    f.update(request.headers.get('X-Forwarded-For', '').encode('latin-1'))
+    f.update(request.headers.get('User-Agent', '').encode('latin-1'))
+    f.update(request.headers.get('Accept', '').encode('latin-1'))
+    f.update(request.headers.get('Accept-Encoding', '').encode('latin-1'))
+    f.update(request.headers.get('Accept-Language', '').encode('latin-1'))
+    return f.hexdigest()
 
 
 class SignupSerializer(serializers.ModelSerializer):
@@ -92,6 +105,7 @@ class ParkingFacilitySerializer(serializers.ModelSerializer):
         validated_data['external_id'] = ParkingFacility.next_external_id(
             validated_data['station']
         )
+        validated_data['fingerprint'] = fingerprint(self.context.get('request'))
         parking_facility = ParkingFacility.objects.create(**validated_data)
         if condition is not None:
             ParkingFacilityCondition.objects.create(
@@ -129,6 +143,8 @@ class ParkingFacilitySerializer(serializers.ModelSerializer):
                 instance.confirmations += 1
             else:
                 instance.confirmations = 0
+
+        validated_data['fingerprint'] = fingerprint(self.context.get('request'))
 
         return super().update(instance, validated_data)
 

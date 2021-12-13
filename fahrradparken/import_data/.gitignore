@@ -1,0 +1,4 @@
+*.csv
+*.log
+*.geojson
+*.gpkg

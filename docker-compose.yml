@@ -50,6 +50,7 @@ services:
       - fixmydjango.wsgi
     volumes:
       - .:/code
+      - locale-volume:/code/locale
     ports:
       - "8000:8000"
       - "3000:3000"
@@ -70,3 +71,4 @@ services:
       - data-volume:/var/lib/postgresql/data
 volumes:
   data-volume:
+  locale-volume:

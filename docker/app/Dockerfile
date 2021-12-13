@@ -21,6 +21,7 @@ WORKDIR /code
 ADD requirements.txt /code
 RUN pip install --no-cache-dir -r requirements.txt
 ADD . /code/
+RUN python manage.py compilemessages
 COPY ./docker/app/docker-entrypoint.sh /usr/local/bin
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 ENTRYPOINT ["docker-entrypoint.sh"]

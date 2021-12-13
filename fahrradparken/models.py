@@ -299,13 +299,19 @@ class ParkingFacility(BaseModel):
     external_id = models.CharField(
         _('facility ID'), max_length=100, blank=True, null=True, unique=True
     )
+    fingerprint = models.CharField(
+        _('fingerprint'), max_length=64, null=True, blank=True
+    )
     location = models.PointField(_('location'), srid=4326)
     parking_garage = models.BooleanField(_('part of parking garage'), null=True)
     secured = models.BooleanField(_('secured'), null=True)
     source = models.CharField(_('source'), max_length=100, blank=True, null=True)
     stands = models.BooleanField(_('stands'), null=True)
     station = models.ForeignKey(
-        Station, related_name='parking_facilities', on_delete=models.CASCADE
+        Station,
+        verbose_name=_('station'),
+        related_name='parking_facilities',
+        on_delete=models.CASCADE,
     )
     two_tier = models.BooleanField(_('two tier'), null=True)
 
@@ -314,7 +320,7 @@ class ParkingFacility(BaseModel):
         (1, _('bicycle locker')),
         (2, _('bicycle parking tower')),
     )
-    type = models.IntegerField(choices=TYPE_CHOICES, blank=True, null=True)
+    type = models.IntegerField(_('type'), choices=TYPE_CHOICES, blank=True, null=True)
 
     class Meta:
         verbose_name = _('parking facility')

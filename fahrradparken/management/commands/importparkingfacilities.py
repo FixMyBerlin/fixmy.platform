@@ -64,7 +64,7 @@ class Command(BaseCommand):
             kwargs['location'] = Point(longitude, latitude)
             kwargs['station_id'] = kwargs['external_id'].split('.')[0]
             if int(kwargs['station_id']) in skip_stations:
-                logger.info(
+                logger.warning(
                     f"Skipped importing parking facility {kwargs['external_id']} due to skip station list"
                 )
                 continue

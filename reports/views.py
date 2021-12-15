@@ -96,7 +96,7 @@ class UnsubscribeView(TemplateView):
 @api_view(['GET'])
 @permission_classes((permissions.AllowAny,))
 def report_stats(request):
-    reports = BikeStands.objects.all()
+    reports = BikeStands.objects.filter(published=True)
 
     REPORT_STATUSES = [
         Report.STATUS_REPORT_NEW,

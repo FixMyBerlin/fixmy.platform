@@ -388,7 +388,7 @@ class ParkingFacilityPhoto(models.Model):
         upload_to='fahrradparken/parking-facilities',
     )
     terms_accepted = models.DateTimeField(
-        _('upload terms accepted'), null=True, blank=True
+        _('upload terms accepted'), null=True, blank=True, auto_now_add=True
     )
 
     class Meta:

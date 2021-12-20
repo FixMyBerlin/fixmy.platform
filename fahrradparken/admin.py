@@ -56,7 +56,7 @@ class ParkingFacilityOccupancyInline(admin.StackedInline):
 
 
 class ParkingFacilityPhotoInline(admin.TabularInline):
-    fields = ('photo_url', 'description', 'is_published')
+    fields = ('photo_url', 'description', 'terms_accepted', 'is_published')
     model = ParkingFacilityPhoto
 
 

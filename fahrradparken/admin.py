@@ -58,6 +58,7 @@ class ParkingFacilityOccupancyInline(admin.StackedInline):
 class ParkingFacilityPhotoInline(admin.TabularInline):
     fields = ('photo_url', 'description', 'terms_accepted', 'is_published')
     model = ParkingFacilityPhoto
+    readonly_fields = ('terms_accepted',)
 
 
 class ParkingFacilityAdmin(FMBGeoAdmin, VersionAdmin):

@@ -51,6 +51,7 @@ services:
     volumes:
       - .:/code
       - locale-volume:/code/locale
+      - ./locale/de/LC_MESSAGES/django.po:/code/locale/de/LC_MESSAGES/django.po
     ports:
       - "8000:8000"
       - "3000:3000"

@@ -8,19 +8,45 @@ In order to use the provided development environment install [Docker Desktop](ht
 
 This project has a docker-compose.yml file, which will start the Django application on your local machine.
 
+### 1. Setup Docker
+
 Clone the repository and start the development environment in the created directory:
 
-    $ docker-compose up -d
+```
+docker-compose up -d
+```
 
-Now, the API is available at [http://localhost:8000/api](http://localhost:8000/api).
+(Should you recieve errors [like `docker/transport/unixconn.py`](https://github.com/prisma/prisma1/issues/5120#issue-700225976), try starting docker desktop first, then run the compose command.)
 
-Use the command
+### 2. Test API
 
-    $ docker-compose exec app bash
+Now, the API is available at [http://localhost:8000/api/](http://localhost:8000/api/).
 
-to access the console of the Docker container running the backend app. Here you can use the following Django commands to manage the app.
+```
+curl http://localhost:8000/api/
+# => {"users":"http://localhost:8000/api/users/"}
+```
 
-You can enable interactive debugging through [debugpy](https://github.com/microsoft/debugpy) by setting the environment variable `DEBUGPY=1` (e.g. through a `.env` file).
+### 3. Configure Django
+
+Access the console of the Docker container running the backend app:
+
+```
+docker-compose exec app bash
+```
+
+#### 3.1 Create a new user for Django's admin console
+
+[http://localhost:8000/admin/](http://localhost:8000/admin/)
+
+```
+python manage.py createsuperuser
+```
+
+#### 3.2 Seed data
+
+_TODO_
+
 
 ## Configuration
 

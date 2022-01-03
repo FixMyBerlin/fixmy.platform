@@ -84,7 +84,9 @@ class ParkingFacilityAdmin(FMBGeoAdmin, VersionAdmin):
     search_fields = ('external_id', 'station__name')
 
 
+# TODO Delete, will not be used.
 admin.site.register(Signup, SignupAdmin)
+# TODO Delete, will not be used.
 admin.site.register(EventSignup, EventSignupAdmin)
 admin.site.register(Station, StationAdmin)
 admin.site.register(SurveyStation, SurveyStationAdmin)

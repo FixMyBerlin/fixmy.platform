@@ -4,7 +4,7 @@ from django.template.loader import render_to_string
 
 from .models import EventSignup
 
-
+# TODO Delete, will not be used.
 def send_registration_confirmation(instance):
     """Notify users who signed up for an event of news."""
     context = {"signup": instance}

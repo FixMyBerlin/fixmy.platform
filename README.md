@@ -47,10 +47,29 @@ python manage.py createsuperuser
 
 _TODO_
 
+### Code Editor VSCode
+
+#### "black" code formatter
+
+Please use black as code formatter. https://black.readthedocs.io/en/stable/
+
+We use `# fmt: off` whenever we want to specify our own formatting style.
+
+VSCode hints:
+
+- Use "Format Document" to manually format
+- Install the [Microsoft Python Extension](https://marketplace.visualstudio.com/items?itemName=ms-python.python) for VSCode
+  - Configure "Python > Formatting Provider": "Black" (`"python.formatting.provider": "black"`)
+- Make sure your VSCode Python Version in "Python: Select interpreter" sie same as your docker terminal `root@123406906c90:/code# which python`
+
+### Docker support
+
+Using the [Docker extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker)
+is recommended to develop in VSCode. It requires special `./.devcontainer` setting files hat a fellow developer can provide.
 
 ## Configuration
 
-Configuration options are set through environment variables, all of which are listed in `docker-compose.yml`.
+Configuration options are set through environment variables, all of which are listed in [`docker-compose.yml`](./docker-compose.yml).
 
 ### AWS Backend
 

@@ -73,48 +73,81 @@ Configuration options are set through environment variables, all of which are li
 
 ### AWS Backend
 
+.
+
 ### General Debugging
+
+.
 
 ### E-Mail Service
 
+.
+
 ### Mapbox service
+
+.
 
 ### Newsletter service
 
+.
 
-### Reports app
+### [Reports app](./reports)
 
-### Gastro app
+.
 
-### Permits app
+### [Gastro app](.#todo)
+
+_TODO: Does this have a folder?_
+
+### [Permits app](./permits)
 
 `EVENT_RECIPIENT` (string): An email address to which email notifications for
 accepted or rejected applications are sent be forwarded to the actual recipients.
 
 `EVENT_SIGNUPS_OPEN` (string): An iso 8601 formatted datetime which defines the
-beginning of the event permit application signup timeframe. 
+beginning of the event permit application signup timeframe.
 
 If undefined, applications are always open. If the value can not be parsed, sign
 ups are always closed.
 
 `EVENT_SIGNUPS_CLOSE` (string): Equivalent for closing date and time.
 
-### Playstreets app
+### [Playstreets app](#todo)
+
+_TODO: Does this have a folder?_
 
 ## Django commands
 
-Use
+- Get an overview of all commands available:
 
-    $ python manage.py
+  ```
+  docker-compose exec app bash
+  python manage.py
+  ```
 
-to get an overview of all commands available. With
+- Run the test suite:
 
-    $ python manage.py createsuperuser
+  ```
+  docker-compose exec app bash
+  python manage.py test
+  ```
 
-you create a new user for Django's admin console, which can then be accessed at [http://localhost:8000/admin/](http://localhost:8000/admin/). You can run
-the test suite with
+- `./manage.py test --pdb` TODO NAME Interaktvier debugger in dre shell.
+  TODO Resaearch: Wie kann man das in der IDE machen? Also in VS Code?
 
-    $ python manage.py test
+## Debugging
+
+**Using debugpy:**
+
+You can enable interactive debugging through [debugpy](https://github.com/microsoft/debugpy) by setting the environment variable `DEBUGPY=1` (e.g. through a `.env` file).
+
+**Using pdb:**
+
+- Docs https://docs.python.org/3/library/pdb.html
+- `import pdb; pdb.set_trace()` – Break into the debugger from a running program.
+- `l` – List source code for the current file.
+- `a` – Print the argument list of the current function.
+- `p some_variable` – Evaluate the expression in the current context and print its value.
 
 ## Custom Commands: fixmyapp
 
@@ -122,31 +155,41 @@ the test suite with
 
 Removes personal information from the database. By default it preserves data of staff.
 
-    $ python manage.py anonymizedata
+```
+python manage.py anonymizedata
+```
 
 ### downloadfiles
 
 Downloads content of S3 bucket to /tmp, filtered by path prefix. This command requires the environment variables `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_S3_REGION_NAME` and `AWS_STORAGE_BUCKET_NAME` to be set correctly.
 
-    $ python manage.py downloaddata Data/
+```
+python manage.py downloaddata Data/
+```
 
 ### exportprojects
 
 Exports projects as GeoJSON intended for Mapbox.
 
-    $ python manage.py exportprojects > /tmp/projects.json
+```
+python manage.py exportprojects > /tmp/projects.json
+```
 
 ### exportsections
 
 Exports sections as GeoJSON intended for Mapbox.
 
-    $ python manage.py exportsections > /tmp/sections.json
+```
+python manage.py exportsections > /tmp/sections.json
+```
 
 ### exportplaystreets
 
 Similar to `exportreports`, this command exports play street signups to a csv file.
 
-    $ python manage.py exportplaystreets spielstrassen.csv
+```
+python manage.py exportplaystreets spielstrassen.csv
+```
 
 ### exportgastrosignups
 
@@ -158,44 +201,57 @@ The GeoJSON format doesn't include any personal information.
 
 In order to export the requested usage areas in GeoJSON format into a file `gastrosignup_area.geojson`:
 
-    $ python manage.py exportgastrosignups --format geojson --area gastrosignup_area.geojson
-
+```
+python manage.py exportgastrosignups --format geojson --area gastrosignup_area.geojson
+```
 
 ### updatehbi
 
 Bootstrap the database for HBI. Downloads and imports road and intersection data, section details and section accidents, also applying migrations.
 
-    $ python manage.py updatehbi
+```
+python manage.py updatehbi
+```
 
 ### importsections
 
 Imports sections from shape file. The file is usually downloaded from S3 with `downloadfiles`.
 
-    $ python manage.py importsections /tmp/sections.shp
+```
+python manage.py importsections /tmp/sections.shp
+```
 
 ### importsectiondetails
 
 Imports section details including pictures and traffic information from CSV file. The file is usually downloaded from S3 with `downloadfiles`.
 
-    $ python manage.py importsectiondetails /tmp/section_details.csv
+```
+python manage.py importsectiondetails /tmp/section_details.csv
+```
 
 ### importsectionaccidents
 
 Import section accident data set, which references previously imported sections.
 
-    $ python manage.py importsectionaccidents /tmp/section_accidents.csv
+```
+python manage.py importsectionaccidents /tmp/section_accidents.csv
+```
 
 ### updateprojectgeometries
 
 Updates project geometries from a shape file. The file is usually downloaded from S3 with `downloadfiles`.
 
-    $ python manage.py updateprojectgeometries /tmp/projects.shp linestring
+```
+python manage.py updateprojectgeometries /tmp/projects.shp linestring
+```
 
 ### uploadtileset
 
 Uploads GeoJSON export of projects or sections (see `exportprojects` and `exportsetcions`) to Mapbox. This command requires the environment variables `MAPBOX_UPLOAD_NAME_SECTIONS`, `MAPBOX_UPLOAD_TILESET_SECTIONS`, `MAPBOX_UPLOAD_NAME_PROJECTS` and `MAPBOX_UPLOAD_TILESET_PROJECTS` to be set correctly.
 
-    $ python manage.py uploadtileset --dataset projects /tmp/projects.json
+```
+python manage.py uploadtileset --dataset projects /tmp/projects.json
+```
 
 ## Custom Commands: reports
 
@@ -203,7 +259,9 @@ Uploads GeoJSON export of projects or sections (see `exportprojects` and `export
 
 Export reports about bike stands in either CSV or GeoJSON format
 
-    $ python manage.py exportreports --format csv /tmp/reports.csv
+```
+python manage.py exportreports --format csv /tmp/reports.csv
+```
 
 Notes:
 
@@ -226,19 +284,25 @@ The imported CSV file is required to have the columns;
 - status_reason: a reason if the planning's status is 'invalid'
 - number: number of bike stands built in this planning
 
-  \$ python manage.py importreports reports.csv
+```
+python manage.py importreports reports.csv
+```
 
 ### sendnotifications
 
 Batch send notifications, which are enqueued when a reports status is changed
 
-    $ python manage.py sendnotifications
+```
+python manage.py sendnotifications
+```
 
 This command requires the environment variables `REPORTS_NOTIFICATION_CAMPAIGN`
-and `REPORTS_NOTIFICATION_SENDER` to be set. You can send sample emails 
+and `REPORTS_NOTIFICATION_SENDER` to be set. You can send sample emails
 containing all variations of the text templates using
 
-    $ python manage.py sendnotifications --send-samples your@email.org
+```
+python manage.py sendnotifications --send-samples your@email.org
+```
 
 ## Other scripts
 
@@ -246,4 +310,8 @@ containing all variations of the text templates using
 
 Creates a backup using a given Heroku app, downloads it and uses it to overwrite the local database schema and contents. User data is anonymized in the process, except for staff users, who are preserved.
 
-    $ ./scripts/fetch_database.sh fixmyplatform
+_todo: Requires heroku tools? Only for heroku based installations._
+
+```
+./scripts/fetch_database.sh fixmyplatform
+```

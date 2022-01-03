@@ -72,16 +72,26 @@ class ParkingFacilityAdmin(FMBGeoAdmin, VersionAdmin):
         'external_id',
         'station',
         'capacity',
+        'truncated_fingerprint',
+        'modified_date',
+    )
+    list_filter = (
+        'confirmations',
         'type',
         'parking_garage',
         'covered',
         'two_tier',
         'secured',
-        'confirmations',
+        'photos__is_published',
     )
-    list_filter = ('photos__is_published',)
     readonly_fields = ('fingerprint',)
     search_fields = ('external_id', 'station__name')
+
+    def truncated_fingerprint(self, obj):
+        return obj.fingerprint[:10] if obj.fingerprint else ''
+
+    truncated_fingerprint.short_description = _('fingerprint')
+    truncated_fingerprint.admin_order_field = 'fingerprint'
 
 
 # TODO Delete, will not be used.

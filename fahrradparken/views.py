@@ -120,7 +120,9 @@ class StationList(generics.ListAPIView):
         if is_static_only:
             features = StaticStationSerializer(filtered_queryset, many=True)
         else:
-            features = StationSerializer(filtered_queryset, many=True)
+            features = StationSerializer(
+                filtered_queryset, many=True, context={'request': request}
+            )
         return Response(data={'type': 'FeatureCollection', 'features': features.data})
 
 

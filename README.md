@@ -62,7 +62,7 @@ VSCode hints:
   - Configure "Python > Formatting Provider": "Black" (`"python.formatting.provider": "black"`)
 - Make sure your VSCode Python Version in "Python: Select interpreter" sie same as your docker terminal `root@123406906c90:/code# which python`
 
-### Docker support
+### VSCode Docker support
 
 Using the [Docker extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker)
 is recommended to develop in VSCode. It requires special `./.devcontainer` setting files hat a fellow developer can provide.
@@ -71,50 +71,77 @@ is recommended to develop in VSCode. It requires special `./.devcontainer` setti
 
 Configuration options are set through environment variables, all of which are listed in [`docker-compose.yml`](./docker-compose.yml).
 
-### AWS Backend
+## Products
 
-.
+### [`/reports`: Radbügel Meldedialog](./reports)
 
-### General Debugging
+- Production Backend: https://api.fixmyberlin.de/admin/reports/
+- Production Frontend: https://fixmyberlin.de/meldungen/radbuegel/friedrichshain-kreuzberg/landing, https://radbuegel-aachen.de/meldungen
 
-.
+### [`/fixmyapp`: Xhain-Terrassen / Gastro app](./fixmyapp)
+
+- Production Backend: https://api.fixmyberlin.de/admin/fixmyapp/gastrosignup/
+- Production Frontend: https://fixmyberlin.de/friedrichshain-kreuzberg/terrassen
+
+### [`/permits`: Permits app](./permits)
+
+- [ ] `TODO` What are permits again?
+
+- Production Backend: https://api.fixmyberlin.de/admin/permits/
+- Production Frontend: `TODO`
+
+### [`/fixmyapp`: Planungskarte, Happy-Bike-Index (HBI)](./permits)
+
+- Production Backend: https://api.fixmyberlin.de/admin/fixmyapp/
+  - Part of this are `/profile` (used by the HBI), `/project` ("Planungen"), `/question` (FAQ for the "Planungen panel"), `/section`, `/sectiondetails`, `/sectionaccidents`
+- Production Frontend: https://fixmyberlin.de/planungen, https://fixmyberlin.de/zustand
+
+#### Environment variables
+
+- See [`docker-compose.yml`](./docker-compose.yml)
+- `EVENT_RECIPIENT` (string): An email address to which email notifications for
+  accepted or rejected applications are sent be forwarded to the actual recipients.
+- `EVENT_SIGNUPS_OPEN` (string): An iso 8601 formatted datetime which defines the
+  beginning of the event permit application signup timeframe.
+
+  If undefined, applications are always open. If the value can not be parsed, sign
+  ups are always closed.
+
+- `EVENT_SIGNUPS_CLOSE` (string): Equivalent for closing date and time.
+
+### [`/fixmyapp`: Spielstraßen / Playstreets app](./fixmyapp)
+
+- Production Backend: https://api.fixmyberlin.de/admin/fixmyapp/playstreetsignup/
+- Production Frontend: https://fixmyberlin.de/friedrichshain-kreuzberg/spielstrassen
+
+### [`/fahrradparken`: radparken.info](./fahrradparken)
+
+- Production Backend: https://api.fixmyberlin.de/admin/fahrradparken/
+- Production Frontend: https://www.radparken.info
+
+### [`/survey`: Studie zur subjektiven Sicherheit im Radverkehr](./fahrradparken)
+
+- Production Backend: https://api.fixmyberlin.de/admin/survey/
+- Production Frontend:
+  - Survey: N/A
+  - Report: https://fixmyberlin.de/research/subjektive-sicherheit
+
+## Components
+
+- User, Groups
+- `TODO`
 
 ### E-Mail Service
 
-.
+`TODO`
 
 ### Mapbox service
 
-.
+`TODO`
 
 ### Newsletter service
 
-.
-
-### [Reports app](./reports)
-
-.
-
-### [Gastro app](.#todo)
-
-_TODO: Does this have a folder?_
-
-### [Permits app](./permits)
-
-`EVENT_RECIPIENT` (string): An email address to which email notifications for
-accepted or rejected applications are sent be forwarded to the actual recipients.
-
-`EVENT_SIGNUPS_OPEN` (string): An iso 8601 formatted datetime which defines the
-beginning of the event permit application signup timeframe.
-
-If undefined, applications are always open. If the value can not be parsed, sign
-ups are always closed.
-
-`EVENT_SIGNUPS_CLOSE` (string): Equivalent for closing date and time.
-
-### [Playstreets app](#todo)
-
-_TODO: Does this have a folder?_
+`TODO`
 
 ## Django commands
 

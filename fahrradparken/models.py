@@ -107,9 +107,10 @@ class Station(BaseModel):
         """
         rv = defaultdict(int)
         for sr in self.survey_responses.all():
-            for annoyance in sr.annoyances.split(','):
-                if len(annoyance) > 0:
-                    rv[annoyance] += 1
+            if sr.annoyances:
+                for annoyance in sr.annoyances.split(','):
+                    if len(annoyance) > 0:
+                        rv[annoyance] += 1
         return rv
 
     @property

@@ -132,8 +132,11 @@ _TODO: Does this have a folder?_
   python manage.py test
   ```
 
-- `./manage.py test --pdb` TODO NAME Interaktvier debugger in dre shell.
-  TODO Resaearch: Wie kann man das in der IDE machen? Also in VS Code?
+- Run the test suite with pdb for debugging
+
+  ```
+  ./manage.py test --pdb
+  ```
 
 ## Debugging
 

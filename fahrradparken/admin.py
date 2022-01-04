@@ -94,7 +94,9 @@ class ParkingFacilityAdmin(FMBGeoAdmin, VersionAdmin):
     truncated_fingerprint.admin_order_field = 'fingerprint'
 
 
+# TODO Delete, will not be used.
 admin.site.register(Signup, SignupAdmin)
+# TODO Delete, will not be used.
 admin.site.register(EventSignup, EventSignupAdmin)
 admin.site.register(Station, StationAdmin)
 admin.site.register(SurveyStation, SurveyStationAdmin)

@@ -63,7 +63,7 @@
             "station": 2,
             "survey_version": 1,
             "npr": 6,
-            "annoyances": "3",
+            "annoyances": null,
             "annoyance_custom": "",
             "requested_location": "Ausgang Stadt",
             "photo": "",

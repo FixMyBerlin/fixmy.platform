@@ -189,6 +189,10 @@ class StationTest(TestCase):
         response = self.client.get(url, content_type='application/json')
         self.assertEqual(response.status_code, 404, response.content)
 
+    def test_annoyances(self):
+        response = self.client.get('/api/fahrradparken/stations/2')
+        self.assertIn('annoyances', response.json().get('properties', {}))
+
 
 class SurveyStationTest(TestCase):
     fixtures = ['station']

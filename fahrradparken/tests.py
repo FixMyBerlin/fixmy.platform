@@ -119,7 +119,7 @@ class SignupTest(TestCase):
 
 
 class StationTest(TestCase):
-    fixtures = ['station', 'survey_station']
+    fixtures = ['station', 'survey_station', 'parking_facilities']
 
     def setUp(self):
         self.client = Client()

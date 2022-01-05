@@ -93,7 +93,12 @@ Configuration options are set through environment variables, all of which are li
 ### [`/fixmyapp`: Planungskarte, Happy-Bike-Index (HBI)](./permits)
 
 - Production Backend: https://api.fixmyberlin.de/admin/fixmyapp/
-  - Part of this are `/profile` (used by the HBI), `/project` ("Planungen"), `/question` (FAQ for the "Planungen panel"), `/section`, `/sectiondetails`, `/sectionaccidents`
+  - [`/project`](https://api.fixmyberlin.de/admin/fixmyapp/project/) ("Planungen") are part of the Planungskarte. The segments are created manually to reflect a "Planung".
+    - This also use the [`/question`](https://api.fixmyberlin.de/admin/fixmyapp/question/) (FAQ for the "Planungen panel")
+    - Images are static in S3 and updated via an Excel-Import (filename in column); Might be change to a Django upload based approach.
+  - [`/section`](https://api.fixmyberlin.de/admin/fixmyapp/section/), [`/sectiondetails`](https://api.fixmyberlin.de/admin/fixmyapp/sectiondetails/) are what make up the HBI. The segments are extract from offical street data.
+  - `/sectionaccidents`
+  - [`/profile`](https://api.fixmyberlin.de/admin/fixmyapp/profile/) are part of the HBI to create custom HBI versions; not used anymore.
 - Production Frontend: https://fixmyberlin.de/planungen, https://fixmyberlin.de/zustand
 
 #### Environment variables
@@ -113,6 +118,8 @@ Configuration options are set through environment variables, all of which are li
 
 - Production Backend: https://api.fixmyberlin.de/admin/fixmyapp/playstreetsignup/
 - Production Frontend: https://fixmyberlin.de/friedrichshain-kreuzberg/spielstrassen
+
+Note there is also [spielstraßen.de](http://xn--spielstraen-36a.de/uebersicht.php) which might be using the static geojson extract of this from [github.com/FixMyBerlin/fixmy.spielstrassen](https://github.com/FixMyBerlin/fixmy.spielstrassen/blob/master/play_streets.geojson)
 
 ### [`/fahrradparken`: radparken.info](./fahrradparken)
 

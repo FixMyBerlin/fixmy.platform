@@ -81,14 +81,8 @@ Configuration options are set through environment variables, all of which are li
 ### [`/fixmyapp`: Xhain-Terrassen / Gastro app](./fixmyapp)
 
 - Production Backend: https://api.fixmyberlin.de/admin/fixmyapp/gastrosignup/
+  - Part of this is [`/permits`](./permits), https://api.fixmyberlin.de/admin/permits/ which are events that temporary take up parking space.
 - Production Frontend: https://fixmyberlin.de/friedrichshain-kreuzberg/terrassen
-
-### [`/permits`: Permits app](./permits)
-
-- [ ] `TODO` What are permits again?
-
-- Production Backend: https://api.fixmyberlin.de/admin/permits/
-- Production Frontend: `TODO`
 
 ### [`/fixmyapp`: Planungskarte, Happy-Bike-Index (HBI)](./permits)
 

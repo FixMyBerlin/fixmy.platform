@@ -138,11 +138,12 @@ class ParkingFacilitySerializer(serializers.ModelSerializer):
 
         confirm = validated_data.pop('confirm', None)
 
+        # Docs at https://github.com/FixMyBerlin/fixmy.fahrradparken/blob/develop/src/components/RecordStructure/RecordStructure.tsx#L100
         if confirm is not None:
             if confirm:
                 instance.confirmations += 1
             else:
-                instance.confirmations = 0
+                instance.confirmations = 1
 
         validated_data['fingerprint'] = fingerprint(self.context.get('request'))
 

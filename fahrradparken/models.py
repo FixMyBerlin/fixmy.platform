@@ -351,7 +351,6 @@ class ParkingFacility(BaseModel):
     def occupancy_survey_responses(self):
         return [v[0] for v in self.parkingfacilityoccupancy_set.values_list('value')]
 
-
     @classmethod
     def next_external_id(cls, station):
         objects = cls.objects.filter(station_id=station.id).all()

@@ -6,7 +6,8 @@ from django.conf import settings
 from django.db.models import Count
 from django.http.response import Http404
 from rest_framework import permissions, status, generics, filters
-from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -30,6 +31,12 @@ from .serializers import (
     SurveyStationSerializer,
     SurveyStationShortSerializer,
 )
+
+
+class DefaultPagination(PageNumberPagination):
+    max_page_size = 1000
+    page_size = 10
+    page_size_query_param = 'page_size'
 
 
 class CheckPreviousBicycleSurvey(APIView):
@@ -235,7 +242,9 @@ class RawBicycleUsageSurveyListing(generics.ListAPIView):
         return Response(data=serialized.data)
 
 
-class ParkingFacilityList(CreateAPIView):
+class ParkingFacilityList(ListCreateAPIView):
+    pagination_class = DefaultPagination
+    page_size_query_param = 'page_size'
     permission_classes = (permissions.AllowAny,)
     queryset = ParkingFacility.objects.all()
     serializer_class = ParkingFacilitySerializer

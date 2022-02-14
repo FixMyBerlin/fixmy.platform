@@ -58,10 +58,16 @@ class ParkingFacilityPhotoSerializer(serializers.ModelSerializer):
         fields = ('description', 'is_published', 'photo_url', 'terms_accepted')
 
 
+class IntegerListField(serializers.ListField):
+    child = serializers.IntegerField()
+
+
 class ParkingFacilitySerializer(serializers.ModelSerializer):
     condition = serializers.IntegerField(required=False)
+    condition_survey_responses = IntegerListField(read_only=True)
     confirm = serializers.BooleanField(write_only=True)
     occupancy = serializers.IntegerField(required=False)
+    occupancy_survey_responses = IntegerListField(read_only=True)
     photo = ParkingFacilityPhotoSerializer(required=False, write_only=True)
     photos = ParkingFacilityPhotoSerializer(many=True, read_only=True)
     station = serializers.PrimaryKeyRelatedField(
@@ -73,6 +79,7 @@ class ParkingFacilitySerializer(serializers.ModelSerializer):
         fields = [
             'capacity',
             'condition',
+            'condition_survey_responses',
             'confirm',
             'confirmations',
             'covered',
@@ -82,6 +89,7 @@ class ParkingFacilitySerializer(serializers.ModelSerializer):
             'id',
             'location',
             'occupancy',
+            'occupancy_survey_responses',
             'parking_garage',
             'photo',
             'photos',

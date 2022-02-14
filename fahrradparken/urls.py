@@ -1,4 +1,6 @@
 from django.urls import path
+from django.views.decorators.cache import cache_page
+
 from .views import (
     CheckPreviousBicycleSurvey,
     ParkingFacilityList,
@@ -61,7 +63,7 @@ urlpatterns = [
     ),
     path(
         'parking-facilities',
-        ParkingFacilityList.as_view(),
+        cache_page(60)(ParkingFacilityList.as_view()),
         name='parkingfacility-list',
     ),
     path(

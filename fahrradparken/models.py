@@ -336,12 +336,21 @@ class ParkingFacility(BaseModel):
             )
 
     @property
+    def condition_survey_responses(self):
+        return [v[0] for v in self.parkingfacilitycondition_set.values_list('value')]
+
+    @property
     def occupancy(self):
         avg = self.parkingfacilityoccupancy_set.aggregate(Avg('value'))['value__avg']
         if avg is not None:
             return decimal.Decimal(avg).to_integral_value(
                 rounding=decimal.ROUND_HALF_UP
             )
+
+    @property
+    def occupancy_survey_responses(self):
+        return [v[0] for v in self.parkingfacilityoccupancy_set.values_list('value')]
+
 
     @classmethod
     def next_external_id(cls, station):

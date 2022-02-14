@@ -348,11 +348,13 @@ class ParkingFacilityTest(TestCase):
         self.assertIn('id', response.json())
         self.assertIn('url', response.json())
         self.assertEqual(response.json().get('condition'), 0)
+        self.assertEqual(response.json().get('condition_survey_responses'), [0])
         self.assertFalse(response.json().get('confirmations'), 0)
         self.assertEqual(
             response.json().get('description'), 'Lorem ipsum dolor sit amet'
         )
         self.assertEqual(response.json().get('occupancy'), 0)
+        self.assertEqual(response.json().get('occupancy_survey_responses'), [0])
         self.assertEqual(len(response.json().get('photos', [])), 1)
         self.assertFalse(response.json()['photos'][0].get('is_published'))
         self.assertIsNone(response.json()['photos'][0].get('photo_url'))
@@ -384,8 +386,10 @@ class ParkingFacilityTest(TestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json().get('condition'), 2)
+        self.assertEqual(response.json().get('condition_survey_responses'), [0, 3])
         self.assertEqual(response.json().get('confirmations'), 1)
         self.assertEqual(response.json().get('occupancy'), 1)
+        self.assertEqual(response.json().get('occupancy_survey_responses'), [0, 2])
         self.assertEqual(len(response.json().get('photos', [])), 2)
 
         confirmed_report = {
@@ -409,8 +413,10 @@ class ParkingFacilityTest(TestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json().get('condition'), 1)
+        self.assertEqual(response.json().get('condition_survey_responses'), [0, 3, 0])
         self.assertEqual(response.json().get('confirmations'), 2)
         self.assertEqual(response.json().get('occupancy'), 1)
+        self.assertEqual(response.json().get('occupancy_survey_responses'), [0, 2, 0])
 
         response = self.client.get('/api/fahrradparken/stations/2')
         self.assertIn('parking_facilities', response.json()['properties'])

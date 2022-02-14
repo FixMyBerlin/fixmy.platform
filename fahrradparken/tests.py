@@ -479,3 +479,8 @@ class ParkingFacilityTest(TestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertIsNone(response.json().get('type'))
+
+    def test_list_parking_facilities(self):
+        response = self.client.get('/api/fahrradparken/parking-facilities')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), [])

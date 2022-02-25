@@ -95,7 +95,7 @@ class GastroSignup(BaseModel):
         'xhain2': [date(2020, 7, 16), date(2020, 10, 31)],
         'xhain3': [date(2020, 8, 31), date(2020, 10, 31)],
         'xhain2021': [date(2021, 3, 1), date(2021, 12, 31)],
-        'xhain2022': [date(2022, 4, 1), date(2022, 12, 31)],
+        'xhain2022': [date(2021, 3, 14), date(2021, 10, 31)],
         'tempelberg': None,
     }
 
@@ -136,6 +136,13 @@ class GastroSignup(BaseModel):
     )
     traffic_order_check_note = models.CharField(
         _('traffic order check notes'), max_length=255, blank=True, null=True
+    )
+
+    fee_paid = models.BooleanField(
+        _('fee paid'), default=False
+    )
+    invoice_number = models.CharField(
+        _('invoice number'), max_length=13, blank=True, null=True
     )
 
     shop_name = models.CharField(_('shop name'), max_length=255)

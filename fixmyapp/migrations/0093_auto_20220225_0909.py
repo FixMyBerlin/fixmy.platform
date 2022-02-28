@@ -18,6 +18,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='gastrosignup',
             name='invoice_number',
-            field=models.CharField(blank=True, max_length=13, null=True, verbose_name='invoice number'),
+            field=models.CharField(
+                blank=True, max_length=13, null=True, verbose_name='invoice number'
+            ),
         ),
     ]

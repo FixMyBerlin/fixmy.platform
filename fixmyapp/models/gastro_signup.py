@@ -106,7 +106,7 @@ class GastroSignup(BaseModel):
         'xhain2': None,
         'xhain3': None,
         'xhain2021': None,
-        'xhain2022': None
+        'xhain2022': None,
     }
 
     campaign = models.CharField(_('campaign'), choices=CAMPAIGN_CHOICES, max_length=32)
@@ -138,9 +138,7 @@ class GastroSignup(BaseModel):
         _('traffic order check notes'), max_length=255, blank=True, null=True
     )
 
-    fee_paid = models.BooleanField(
-        _('fee paid'), default=False
-    )
+    fee_paid = models.BooleanField(_('fee paid'), default=False)
     invoice_number = models.CharField(
         _('invoice number'), max_length=13, blank=True, null=True
     )

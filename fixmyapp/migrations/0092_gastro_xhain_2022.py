@@ -13,13 +13,17 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='gastrosignup',
             name='campaign',
-            field=models.CharField(choices=[
-                ('xhain', 'Xhain Mai 2020'), 
-                ('xhain2', 'Xhain Juli 2020'), 
-                ('xhain3', 'Xhain Verlängerungen ab Sep 2020'), 
-                ('xhain2021', 'Xhain 2021'), 
-                ('xhain2022', 'Xhain 2022'), 
-                ('tempelberg', 'Tempelhof-Schöneberg 2020')
-            ], max_length=32, verbose_name='campaign'),
+            field=models.CharField(
+                choices=[
+                    ('xhain', 'Xhain Mai 2020'),
+                    ('xhain2', 'Xhain Juli 2020'),
+                    ('xhain3', 'Xhain Verlängerungen ab Sep 2020'),
+                    ('xhain2021', 'Xhain 2021'),
+                    ('xhain2022', 'Xhain 2022'),
+                    ('tempelberg', 'Tempelhof-Schöneberg 2020'),
+                ],
+                max_length=32,
+                verbose_name='campaign',
+            ),
         ),
     ]

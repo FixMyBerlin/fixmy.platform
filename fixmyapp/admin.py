@@ -227,7 +227,6 @@ class TrafficOrderCheckFilter(SimpleListFilter):
             return queryset
 
 
-
 class FeePaidCheckFilter(SimpleListFilter):
     """Filter entries where fee paid have been checked"""
 

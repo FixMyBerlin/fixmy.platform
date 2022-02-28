@@ -274,6 +274,7 @@ class GastroRegistrationSerializer(serializers.ModelSerializer):
             'permit_end',
             'renewal_application',
             'note',
+            'invoice_number',
         ]
 
         read_only_fields = [

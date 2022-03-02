@@ -266,6 +266,32 @@ class SurveyInfoViewTest(TestCase):
         self.assertEqual(
             response.json().get('survey_confirmed_parking_facilities_count', 0), 4
         )
+        self.assertEqual(
+            response.json().get('survey_parking_facilities_capacity_sum', -1), 78
+        )
+        self.assertEqual(
+            response.json().get('survey_parking_facilities_covered_count', -1), 2
+        )
+        self.assertEqual(
+            response.json().get('survey_parking_facilities_covered_capacity_sum', -1),
+            16,
+        )
+        self.assertEqual(
+            response.json().get('survey_parking_facilities_secured_count', -1), 3
+        )
+        self.assertEqual(
+            response.json().get('survey_parking_facilities_secured_capacity_sum', -1),
+            34,
+        )
+        self.assertEqual(
+            response.json().get('survey_parking_facilities_parking_garage_count', -1), 3
+        )
+        self.assertEqual(
+            response.json().get(
+                'survey_parking_facilities_parking_garage_capacity_sum', -1
+            ),
+            42,
+        )
 
 
 class UniqueUUIDTest(TestCase):

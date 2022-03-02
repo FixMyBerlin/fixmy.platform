@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE_VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-28 08:43+0000\n"
+"POT-Creation-Date: 2022-02-25 09:13+0000\n"
 "PO-Revision-Date: 2021-10-20 12:28+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.0\n"
 
-#: fahrradparken/admin.py:84 fahrradparken/models.py:303
+#: fahrradparken/admin.py:93 fahrradparken/models.py:304
 msgid "fingerprint"
 msgstr ""
 
@@ -28,13 +28,13 @@ msgstr "Kommune / Institution"
 
 #: fahrradparken/models.py:15
 #: fixmyapp/management/commands/exportgastrosignups.py:17
-#: fixmyapp/models/gastro_signup.py:136 permits/models.py:117
+#: fixmyapp/models/gastro_signup.py:149 permits/models.py:117
 msgid "first name"
 msgstr "Vorname"
 
 #: fahrradparken/models.py:16
 #: fixmyapp/management/commands/exportgastrosignups.py:18
-#: fixmyapp/models/gastro_signup.py:137 fixmyapp/tests.py:582
+#: fixmyapp/models/gastro_signup.py:150 fixmyapp/tests.py:582
 #: permits/models.py:118
 msgid "last name"
 msgstr "Nachname"
@@ -46,12 +46,12 @@ msgstr "Position"
 #: fahrradparken/models.py:18
 #: fixmyapp/management/commands/exportgastrosignups.py:19
 #: fixmyapp/management/commands/exportplaystreets.py:14
-#: fixmyapp/models/gastro_signup.py:138 fixmyapp/models/playstreet_signup.py:17
+#: fixmyapp/models/gastro_signup.py:151 fixmyapp/models/playstreet_signup.py:17
 #: permits/models.py:48
 msgid "email"
 msgstr "E-Mail"
 
-#: fahrradparken/models.py:20 fixmyapp/models/gastro_signup.py:140
+#: fahrradparken/models.py:20 fixmyapp/models/gastro_signup.py:153
 #: permits/models.py:120
 msgid "telephone number"
 msgstr "Telefonnummer"
@@ -158,7 +158,7 @@ msgstr "U-Bahnhof"
 msgid "community"
 msgstr "Gemeinde"
 
-#: fahrradparken/models.py:62 fahrradparken/models.py:312
+#: fahrradparken/models.py:62 fahrradparken/models.py:313
 msgid "station"
 msgstr "Bahnhof"
 
@@ -166,362 +166,362 @@ msgstr "Bahnhof"
 msgid "stations"
 msgstr "Bahnhöfe"
 
-#: fahrradparken/models.py:166 fahrradparken/models.py:209 survey/models.py:68
+#: fahrradparken/models.py:167 fahrradparken/models.py:210 survey/models.py:68
 msgid "session"
 msgstr "Sitzung"
 
-#: fahrradparken/models.py:170 fahrradparken/models.py:210
+#: fahrradparken/models.py:171 fahrradparken/models.py:211
 msgid "survey version"
 msgstr "Umfrage-Version"
 
-#: fahrradparken/models.py:171
+#: fahrradparken/models.py:172
 msgid "net promoter rating"
 msgstr "Net-Promoter-Rating"
 
-#: fahrradparken/models.py:172
+#: fahrradparken/models.py:173
 msgid "annoyances"
 msgstr "Störfaktoren"
 
-#: fahrradparken/models.py:174
+#: fahrradparken/models.py:175
 msgid "annoyance custom"
 msgstr "Störfaktor (Freitext)"
 
-#: fahrradparken/models.py:177
+#: fahrradparken/models.py:178
 msgid "requested bike parking location"
 msgstr "Wunschstandort"
 
-#: fahrradparken/models.py:185 fahrradparken/models.py:395
+#: fahrradparken/models.py:186 fahrradparken/models.py:404
 #: fixmyapp/models/photo.py:17
 msgid "photo"
 msgstr "Foto"
 
-#: fahrradparken/models.py:191
+#: fahrradparken/models.py:192
 msgid "photo upload terms accepted"
 msgstr "Zustimmung zu Foto-Upload-Vereinbarung"
 
-#: fahrradparken/models.py:193
+#: fahrradparken/models.py:194
 msgid "photo description"
 msgstr "Foto-Beschreibung"
 
-#: fahrradparken/models.py:194 fahrradparken/models.py:385
+#: fahrradparken/models.py:195 fahrradparken/models.py:394
 msgid "photo published"
 msgstr "Foto veröffentlicht"
 
-#: fahrradparken/models.py:202
+#: fahrradparken/models.py:203
 msgid "Station survey"
 msgstr "Umfrage zu Bahnhof"
 
-#: fahrradparken/models.py:203
+#: fahrradparken/models.py:204
 msgid "Station surveys"
 msgstr "Umfragen zu Bahnhöfen"
 
-#: fahrradparken/models.py:213
+#: fahrradparken/models.py:214
 msgid "(almost) daily"
 msgstr "(Fast) täglich"
 
-#: fahrradparken/models.py:214
+#: fahrradparken/models.py:215
 msgid "1-3 days a week"
 msgstr "1-3 Tage pro Woche"
 
-#: fahrradparken/models.py:215
+#: fahrradparken/models.py:216
 msgid "1-3 days a month"
 msgstr "1-3 Tage im Monat"
 
-#: fahrradparken/models.py:216
+#: fahrradparken/models.py:217
 msgid "less than once a month"
 msgstr "Weniger als einmal pro Monat"
 
-#: fahrradparken/models.py:217
+#: fahrradparken/models.py:218
 msgid "(almost) never"
 msgstr "(Fast) nie"
 
-#: fahrradparken/models.py:219
+#: fahrradparken/models.py:220
 msgid "frequency"
 msgstr "Häufigkeit"
 
-#: fahrradparken/models.py:221
+#: fahrradparken/models.py:222
 msgid "reasons"
 msgstr "Gründe"
 
-#: fahrradparken/models.py:222
+#: fahrradparken/models.py:223
 msgid "reasons (free text)"
 msgstr "Begründung"
 
-#: fahrradparken/models.py:225
+#: fahrradparken/models.py:226
 msgid "less than 5 minutes"
 msgstr "Weniger als 5 Minuten"
 
-#: fahrradparken/models.py:226
+#: fahrradparken/models.py:227
 msgid "5-10 minutes"
 msgstr "5-10 Minuten"
 
-#: fahrradparken/models.py:227
+#: fahrradparken/models.py:228
 msgid "10-15 minutes"
 msgstr "10-15 Minuten"
 
-#: fahrradparken/models.py:228
+#: fahrradparken/models.py:229
 msgid "15-20 minutes"
 msgstr "15-20 Minuten"
 
-#: fahrradparken/models.py:229
+#: fahrradparken/models.py:230
 msgid "20-25 minutes"
 msgstr "20-25 Minuten"
 
-#: fahrradparken/models.py:230
+#: fahrradparken/models.py:231
 msgid "25-30 minutes"
 msgstr "25-30 Minuten"
 
-#: fahrradparken/models.py:231
+#: fahrradparken/models.py:232
 msgid "30 minutes and above"
 msgstr "30 Minuten und mehr"
 
-#: fahrradparken/models.py:233 survey/models.py:73
+#: fahrradparken/models.py:234 survey/models.py:73
 msgid "duration"
 msgstr "Dauer"
 
-#: fahrradparken/models.py:235
+#: fahrradparken/models.py:236
 msgid "with children"
 msgstr "Mit Kindern unterwegs"
 
-#: fahrradparken/models.py:238
+#: fahrradparken/models.py:239
 msgid "work"
 msgstr "Arbeit"
 
-#: fahrradparken/models.py:239
+#: fahrradparken/models.py:240
 msgid "work related"
 msgstr "Arbeit"
 
-#: fahrradparken/models.py:240
+#: fahrradparken/models.py:241
 msgid "education"
 msgstr "Ausbildung"
 
-#: fahrradparken/models.py:241
+#: fahrradparken/models.py:242
 msgid "shopping"
 msgstr "Einkauf"
 
-#: fahrradparken/models.py:242
+#: fahrradparken/models.py:243
 msgid "errands"
 msgstr "Erledigungen"
 
-#: fahrradparken/models.py:243
+#: fahrradparken/models.py:244
 msgid "leisure"
 msgstr "Freizeitaktivität"
 
-#: fahrradparken/models.py:244
+#: fahrradparken/models.py:245
 msgid "transport of persons"
 msgstr "Bringen / holen von Personen"
 
-#: fahrradparken/models.py:245 fixmyapp/models/profile.py:12
+#: fahrradparken/models.py:246 fixmyapp/models/profile.py:12
 msgid "other"
 msgstr "anders"
 
-#: fahrradparken/models.py:247
+#: fahrradparken/models.py:248
 msgid "purpose"
 msgstr "Zweck"
 
-#: fahrradparken/models.py:254
+#: fahrradparken/models.py:255
 msgid "bicycle racks"
 msgstr "Fahrradabstellplätze"
 
-#: fahrradparken/models.py:256
+#: fahrradparken/models.py:257
 msgid "sheltered bicycle racks"
 msgstr "Überdachte Abstellplätze"
 
-#: fahrradparken/models.py:259
+#: fahrradparken/models.py:260
 msgid "bicycle box"
 msgstr "Fahrradparkhaus"
 
-#: fahrradparken/models.py:262
+#: fahrradparken/models.py:263
 msgid "bicycle quality"
 msgstr "Qualität des Fahrrads"
 
-#: fahrradparken/models.py:265
+#: fahrradparken/models.py:266
 msgid "road network"
 msgstr "Radwegequalität"
 
-#: fahrradparken/models.py:268
+#: fahrradparken/models.py:269
 msgid "train network"
 msgstr "Zugverbindungen"
 
-#: fahrradparken/models.py:270
+#: fahrradparken/models.py:271
 msgid "services"
 msgstr "Dienstleistungen"
 
-#: fahrradparken/models.py:273
+#: fahrradparken/models.py:274
 msgid "less than 5€"
 msgstr "Weniger als 5€"
 
-#: fahrradparken/models.py:274
+#: fahrradparken/models.py:275
 msgid "5-10€"
 msgstr "5-10€"
 
-#: fahrradparken/models.py:275
+#: fahrradparken/models.py:276
 msgid "10-15€"
 msgstr "10-15€"
 
-#: fahrradparken/models.py:276
+#: fahrradparken/models.py:277
 msgid "15-20€"
 msgstr "15-20€"
 
-#: fahrradparken/models.py:277
+#: fahrradparken/models.py:278
 msgid "more than 20€"
 msgstr "Mehr als 20€"
 
-#: fahrradparken/models.py:279
+#: fahrradparken/models.py:280
 msgid "price"
 msgstr "Preis"
 
-#: fahrradparken/models.py:282
+#: fahrradparken/models.py:283
 msgid "under 18"
 msgstr "Unter 18"
 
-#: fahrradparken/models.py:283
+#: fahrradparken/models.py:284
 msgid "18-24"
 msgstr "18-24"
 
-#: fahrradparken/models.py:284
+#: fahrradparken/models.py:285
 msgid "25-29"
 msgstr "25-29"
 
-#: fahrradparken/models.py:285
+#: fahrradparken/models.py:286
 msgid "30-39"
 msgstr "30-39"
 
-#: fahrradparken/models.py:286
+#: fahrradparken/models.py:287
 msgid "40-49"
 msgstr "40-49"
 
-#: fahrradparken/models.py:287
+#: fahrradparken/models.py:288
 msgid "50-64"
 msgstr "50-64"
 
-#: fahrradparken/models.py:288
+#: fahrradparken/models.py:289
 msgid "65-74"
 msgstr "65-74"
 
-#: fahrradparken/models.py:289
+#: fahrradparken/models.py:290
 msgid "75 and above"
 msgstr "Über 74"
 
-#: fahrradparken/models.py:291 fixmyapp/models/profile.py:37
+#: fahrradparken/models.py:292 fixmyapp/models/profile.py:37
 msgid "age"
 msgstr "Alter"
 
-#: fahrradparken/models.py:295
+#: fahrradparken/models.py:296
 msgid "capacity"
 msgstr "Anzahl Stellplätze"
 
-#: fahrradparken/models.py:296
+#: fahrradparken/models.py:297
 msgid "confirmations"
 msgstr "Bestätigungen"
 
-#: fahrradparken/models.py:297
+#: fahrradparken/models.py:298
 msgid "covered"
 msgstr "überdacht"
 
-#: fahrradparken/models.py:298 fahrradparken/models.py:384
+#: fahrradparken/models.py:299 fahrradparken/models.py:393
 #: fixmyapp/models/project.py:102 fixmyapp/models/report.py:47
 #: reports/models/report.py:57
 msgid "description"
 msgstr "Beschreibung"
 
-#: fahrradparken/models.py:300
+#: fahrradparken/models.py:301
 msgid "facility ID"
 msgstr "Anlagen-ID"
 
-#: fahrradparken/models.py:305 fixmyapp/models/gastro_signup.py:145
+#: fahrradparken/models.py:306 fixmyapp/models/gastro_signup.py:158
 msgid "location"
 msgstr "Standort"
 
-#: fahrradparken/models.py:306
+#: fahrradparken/models.py:307
 msgid "part of parking garage"
 msgstr "Ist Teil eines Fahrradparkhauses"
 
-#: fahrradparken/models.py:307
+#: fahrradparken/models.py:308
 msgid "secured"
 msgstr "Zugangssicherung"
 
-#: fahrradparken/models.py:308 fixmyapp/models/section_accidents.py:24
+#: fahrradparken/models.py:309 fixmyapp/models/section_accidents.py:24
 msgid "source"
 msgstr "Quelle"
 
-#: fahrradparken/models.py:309
+#: fahrradparken/models.py:310
 msgid "stands"
 msgstr "Radbügel"
 
-#: fahrradparken/models.py:316
+#: fahrradparken/models.py:317
 msgid "two tier"
 msgstr "Doppelstockanlage"
 
-#: fahrradparken/models.py:319
+#: fahrradparken/models.py:320
 msgid "enclosed compound"
 msgstr "Sammelschließanlage"
 
-#: fahrradparken/models.py:320
+#: fahrradparken/models.py:321
 msgid "bicycle locker"
 msgstr "Fahrradbox"
 
-#: fahrradparken/models.py:321
+#: fahrradparken/models.py:322
 msgid "bicycle parking tower"
 msgstr "Fahrradparkturm"
 
-#: fahrradparken/models.py:323
+#: fahrradparken/models.py:324
 msgid "type"
 msgstr "Typ"
 
-#: fahrradparken/models.py:326
+#: fahrradparken/models.py:327
 msgid "parking facility"
 msgstr "Fahrradparkanlage"
 
-#: fahrradparken/models.py:327
+#: fahrradparken/models.py:328
 msgid "parking facilities"
 msgstr "Fahrradparkanlagen"
 
-#: fahrradparken/models.py:355
+#: fahrradparken/models.py:364
 msgid "very bad"
 msgstr "sehr schlecht"
 
-#: fahrradparken/models.py:356
+#: fahrradparken/models.py:365
 msgid "bad"
 msgstr "schlecht"
 
-#: fahrradparken/models.py:357
+#: fahrradparken/models.py:366
 msgid "good"
 msgstr "gut"
 
-#: fahrradparken/models.py:358
+#: fahrradparken/models.py:367
 msgid "very good"
 msgstr "sehr gut"
 
-#: fahrradparken/models.py:363
+#: fahrradparken/models.py:372
 msgid "condition"
 msgstr "Zustand"
 
-#: fahrradparken/models.py:369
+#: fahrradparken/models.py:378
 msgid "overcapacity"
 msgstr "überlastet"
 
-#: fahrradparken/models.py:370
+#: fahrradparken/models.py:379
 msgid "high"
 msgstr "hoch"
 
-#: fahrradparken/models.py:371
+#: fahrradparken/models.py:380
 msgid "medium"
 msgstr "mittel"
 
-#: fahrradparken/models.py:372
+#: fahrradparken/models.py:381
 msgid "low"
 msgstr "gering"
 
-#: fahrradparken/models.py:377
+#: fahrradparken/models.py:386
 msgid "occupancy"
 msgstr "Auslastung"
 
-#: fahrradparken/models.py:387 fixmyapp/models/photo.py:14
+#: fahrradparken/models.py:396 fixmyapp/models/photo.py:14
 msgid "file"
 msgstr "Datei"
 
-#: fahrradparken/models.py:391
+#: fahrradparken/models.py:400
 msgid "upload terms accepted"
 msgstr "Zustimmung zu Foto-Upload-Vereinbarung"
 
@@ -538,7 +538,7 @@ msgid "section"
 msgstr "Abschnitt"
 
 #: fixmyapp/admin.py:173 fixmyapp/admin.py:177
-#: fixmyapp/models/gastro_signup.py:119 permits/admin.py:21 permits/admin.py:25
+#: fixmyapp/models/gastro_signup.py:125 permits/admin.py:21 permits/admin.py:25
 #: permits/models.py:51
 msgid "Notice sent"
 msgstr "Bescheid versandt"
@@ -565,84 +565,96 @@ msgstr "Verkehrsrechtliche Anordnung geprüft"
 msgid "Traffic order not checked"
 msgstr "Verkehrsrechtliche Anordnung ungeprüft"
 
-#: fixmyapp/admin.py:233
+#: fixmyapp/admin.py:234
+msgid "Fee paid"
+msgstr "Gebühr bezahlt"
+
+#: fixmyapp/admin.py:239
+msgid "Fee paid checked"
+msgstr "Gebühr bezahlt"
+
+#: fixmyapp/admin.py:240
+msgid "Fee paid not checked"
+msgstr "Gebühr nicht bezahlt"
+
+#: fixmyapp/admin.py:255
 msgid "Kampagne"
 msgstr "Kampagne"
 
-#: fixmyapp/admin.py:248
+#: fixmyapp/admin.py:270
 msgid "Renewal offer"
 msgstr "Angebot für Folgeantrag"
 
-#: fixmyapp/admin.py:252
+#: fixmyapp/admin.py:274
 msgid "Sent"
 msgstr "Versandt"
 
-#: fixmyapp/admin.py:252
+#: fixmyapp/admin.py:274
 msgid "Not sent"
 msgstr "Nicht versandt"
 
-#: fixmyapp/admin.py:303 fixmyapp/admin.py:317 fixmyapp/admin.py:335
-#: fixmyapp/admin.py:356 fixmyapp/admin.py:373 fixmyapp/admin.py:387
+#: fixmyapp/admin.py:326 fixmyapp/admin.py:340 fixmyapp/admin.py:358
+#: fixmyapp/admin.py:379 fixmyapp/admin.py:396 fixmyapp/admin.py:410
 #: permits/admin.py:171 permits/admin.py:185
 msgid "Permalinks are available after saving for the first time"
 msgstr "Permalinks sind nach dem ersten Speichern verfügbar"
 
-#: fixmyapp/admin.py:313
+#: fixmyapp/admin.py:336
 msgid "application form"
 msgstr "Anmeldeformular"
 
-#: fixmyapp/admin.py:320 fixmyapp/views.py:281
+#: fixmyapp/admin.py:343 fixmyapp/views.py:281
 msgid "No renewal defined for this campaign"
 msgstr "Für diese Kampagne ist noch kein Zeitraum für Verlängerungen definiert"
 
-#: fixmyapp/admin.py:331
+#: fixmyapp/admin.py:354
 msgid "renewal form"
 msgstr "Formular für Folgeantrag"
 
-#: fixmyapp/admin.py:338
+#: fixmyapp/admin.py:361
 msgid "No renewal application available"
 msgstr "Folgeantrag liegt nicht vor"
 
-#: fixmyapp/admin.py:352 fixmyapp/models/gastro_signup.py:179
+#: fixmyapp/admin.py:375 fixmyapp/models/gastro_signup.py:192
 msgid "renewal application"
 msgstr "Folgeantrag"
 
-#: fixmyapp/admin.py:361
+#: fixmyapp/admin.py:384
 msgid "This is the initial application"
 msgstr "Dies ist der Initialantrag"
 
-#: fixmyapp/admin.py:369
+#: fixmyapp/admin.py:392
 msgid "previous application link"
 msgstr "Vorgängerantrag"
 
-#: fixmyapp/admin.py:383 permits/admin.py:181
+#: fixmyapp/admin.py:406 permits/admin.py:181
 msgid "permit"
 msgstr "Genehmigung / Erlaubnis"
 
-#: fixmyapp/admin.py:397 permits/admin.py:195
+#: fixmyapp/admin.py:420 permits/admin.py:195
 msgid "traffic order"
 msgstr "Verkehrsrechtliche Anordnung"
 
-#: fixmyapp/admin.py:406
+#: fixmyapp/admin.py:429
 #, python-brace-format
 msgid "{numaffected} signup set to 'in verification'"
 msgid_plural "{numaffected} signups set to 'in verification'"
 msgstr[0] "{numaffected} Anmeldung auf ‚in Prüfung‘ gesetzt"
 msgstr[1] "{numaffected} Anmeldungen auf ‚in Prüfung‘ gesetzt"
 
-#: fixmyapp/admin.py:413 reports/admin.py:14
+#: fixmyapp/admin.py:436 reports/admin.py:14
 msgid "set status to \"verification\""
 msgstr "Status auf „in Prüfung“ setzen"
 
-#: fixmyapp/admin.py:459
+#: fixmyapp/admin.py:482
 msgid "send registation requests"
 msgstr "Antragsformular versenden"
 
-#: fixmyapp/admin.py:512 permits/admin.py:255
+#: fixmyapp/admin.py:535 permits/admin.py:255
 msgid "send application notices"
 msgstr "Bescheide versenden"
 
-#: fixmyapp/admin.py:567
+#: fixmyapp/admin.py:590
 msgid "send renewal offer"
 msgstr "Angebot für Folgeantrag senden"
 
@@ -652,18 +664,18 @@ msgid "Kennziffer"
 msgstr ""
 
 #: fixmyapp/management/commands/exportgastrosignups.py:13
-#: fixmyapp/models/gastro_signup.py:135
+#: fixmyapp/models/gastro_signup.py:148
 msgid "shop name"
 msgstr "Name des Betriebs"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:14
-#: fixmyapp/models/gastro_signup.py:143 fixmyapp/models/report.py:43
+#: fixmyapp/models/gastro_signup.py:156 fixmyapp/models/report.py:43
 #: permits/models.py:124 reports/models/report.py:53
 msgid "address"
 msgstr "Anschrift"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:16
-#: fixmyapp/models/gastro_signup.py:144
+#: fixmyapp/models/gastro_signup.py:157
 msgid "shopfront length"
 msgstr "Länge der Ladenfront"
 
@@ -672,23 +684,23 @@ msgid "phone"
 msgstr "Telefonnummer"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:21
-#: fixmyapp/models/gastro_signup.py:142 fixmyapp/models/profile.py:56
+#: fixmyapp/models/gastro_signup.py:155 fixmyapp/models/profile.py:56
 msgid "usage"
 msgstr "Nutzung"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:22
-#: fixmyapp/models/gastro_signup.py:116 fixmyapp/models/project.py:108
+#: fixmyapp/models/gastro_signup.py:122 fixmyapp/models/project.py:108
 #: permits/models.py:102
 msgid "category"
 msgstr "Kategorie"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:23
-#: fixmyapp/models/gastro_signup.py:111
+#: fixmyapp/models/gastro_signup.py:117
 msgid "regulation"
 msgstr "Regulation"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:24
-#: fixmyapp/models/gastro_signup.py:114
+#: fixmyapp/models/gastro_signup.py:120
 msgid "opening hours"
 msgstr "Öffnungszeiten"
 
@@ -697,7 +709,7 @@ msgid "note"
 msgstr "Anmerkung"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:27
-#: fixmyapp/models/gastro_signup.py:168 permits/models.py:57
+#: fixmyapp/models/gastro_signup.py:181 permits/models.py:57
 msgid "internal note"
 msgstr "Interne Anmerkung"
 
@@ -706,39 +718,49 @@ msgid "Status"
 msgstr "Status"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:29
-#: fixmyapp/models/gastro_signup.py:124 permits/models.py:105
+#: fixmyapp/models/gastro_signup.py:130 permits/models.py:105
 msgid "permit checked"
 msgstr "Sondernutzung geprüft"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:30
-#: fixmyapp/models/gastro_signup.py:126 permits/models.py:107
+#: fixmyapp/models/gastro_signup.py:132 permits/models.py:107
 msgid "permit check notes"
 msgstr "Bearbeitungsvermerk zur Sondernutzung"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:31
-#: fixmyapp/models/gastro_signup.py:129 permits/models.py:110
+#: fixmyapp/models/gastro_signup.py:135 permits/models.py:110
 msgid "traffic order checked"
 msgstr "Verkehrsrechtliche Anordnung geprüft"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:32
-#: fixmyapp/models/gastro_signup.py:132 permits/models.py:113
+#: fixmyapp/models/gastro_signup.py:138 permits/models.py:113
 msgid "traffic order check notes"
 msgstr "Bearbeitungsvermerk zur verkehrsrechtlichen Anordnung"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:33
+#: fixmyapp/models/gastro_signup.py:142
+msgid "fee paid"
+msgstr "Geführ bezahlt"
+
+#: fixmyapp/management/commands/exportgastrosignups.py:34
+#: fixmyapp/models/gastro_signup.py:145
+msgid "invoice number"
+msgstr "Kassenzeichen"
+
+#: fixmyapp/management/commands/exportgastrosignups.py:35
 #: fixmyapp/management/commands/exportplaystreets.py:17
-#: fixmyapp/models/gastro_signup.py:159 fixmyapp/models/playstreet_signup.py:18
+#: fixmyapp/models/gastro_signup.py:172 fixmyapp/models/playstreet_signup.py:18
 #: permits/models.py:59
 msgid "tos_accepted"
 msgstr "Bedingungen akzeptiert"
 
-#: fixmyapp/management/commands/exportgastrosignups.py:34
-#: fixmyapp/models/gastro_signup.py:161 permits/models.py:61
+#: fixmyapp/management/commands/exportgastrosignups.py:36
+#: fixmyapp/models/gastro_signup.py:174 permits/models.py:61
 msgid "follow-up accepted"
 msgstr "Benachrichtigung bei Möglichkeit Folgeantrag gewünscht"
 
-#: fixmyapp/management/commands/exportgastrosignups.py:35
-#: fixmyapp/models/gastro_signup.py:160 permits/models.py:60
+#: fixmyapp/management/commands/exportgastrosignups.py:37
+#: fixmyapp/models/gastro_signup.py:173 permits/models.py:60
 msgid "agreement accepted"
 msgstr "Vereinbarung angenommen"
 
@@ -843,50 +865,50 @@ msgstr "Wochentage"
 msgid "whole week"
 msgstr "Ganze Woche"
 
-#: fixmyapp/models/gastro_signup.py:106 fixmyapp/models/playstreet_signup.py:13
+#: fixmyapp/models/gastro_signup.py:112 fixmyapp/models/playstreet_signup.py:13
 #: permits/models.py:100
 msgid "campaign"
 msgstr "Kampagne"
 
-#: fixmyapp/models/gastro_signup.py:108 fixmyapp/models/project.py:134
+#: fixmyapp/models/gastro_signup.py:114 fixmyapp/models/project.py:134
 #: fixmyapp/models/report.py:53 permits/models.py:45
 #: reports/models/report.py:63 reports/models/status_notice.py:20
 msgid "status"
 msgstr "Status"
 
-#: fixmyapp/models/gastro_signup.py:118 permits/models.py:50
+#: fixmyapp/models/gastro_signup.py:124 permits/models.py:50
 msgid "Application received"
 msgstr "Antragseingang"
 
-#: fixmyapp/models/gastro_signup.py:121 permits/models.py:53
+#: fixmyapp/models/gastro_signup.py:127 permits/models.py:53
 msgid "Permit valid from"
 msgstr "Genehmigung gültig ab"
 
-#: fixmyapp/models/gastro_signup.py:122 permits/models.py:54
+#: fixmyapp/models/gastro_signup.py:128 permits/models.py:54
 msgid "Permit valid until"
 msgstr "Genehmigung gültig bis"
 
-#: fixmyapp/models/gastro_signup.py:148 permits/models.py:189
+#: fixmyapp/models/gastro_signup.py:161 permits/models.py:189
 msgid "installation area"
 msgstr "Aufstellfläche"
 
-#: fixmyapp/models/gastro_signup.py:153
+#: fixmyapp/models/gastro_signup.py:166
 msgid "registration certificate"
 msgstr "Gewerbeanmeldung / Vereinsregister"
 
-#: fixmyapp/models/gastro_signup.py:167 permits/models.py:56
+#: fixmyapp/models/gastro_signup.py:180 permits/models.py:56
 msgid "note for the registrant"
 msgstr "Anmerkung an Antragsteller:in"
 
-#: fixmyapp/models/gastro_signup.py:175
+#: fixmyapp/models/gastro_signup.py:188
 msgid "offer to apply for renewal sent on"
 msgstr "Angebot für Folgeantrag versandt am"
 
-#: fixmyapp/models/gastro_signup.py:188
+#: fixmyapp/models/gastro_signup.py:201
 msgid "gastro_signup"
 msgstr "Antrag auf Ausnahmegenehmigung"
 
-#: fixmyapp/models/gastro_signup.py:189
+#: fixmyapp/models/gastro_signup.py:202
 msgid "gastro_signups"
 msgstr "Anträge auf Ausnahmegenehmigung"
 

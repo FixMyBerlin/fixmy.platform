@@ -3,7 +3,7 @@ import sys
 
 from datetime import datetime
 from django.conf import settings
-from django.db.models import Count
+from django.db.models import Count, Sum
 from django.http.response import Http404
 from rest_framework import permissions, status, generics, filters
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView
@@ -98,6 +98,28 @@ class SurveyInfoView(APIView):
             ParkingFacility.objects.distinct('station').count()
         )
 
+        parking_facilities_capacity_sum = ParkingFacility.objects.all().aggregate(
+            Sum('capacity')
+        )['capacity__sum']
+        parking_facilities_covered_count = ParkingFacility.objects.filter(
+            covered=True
+        ).count()
+        parking_facilities_covered_capacity_sum = ParkingFacility.objects.filter(
+            covered=True
+        ).aggregate(Sum('capacity'))['capacity__sum']
+        parking_facilities_secured_count = ParkingFacility.objects.filter(
+            secured=True
+        ).count()
+        parking_facilities_secured_capacity_sum = ParkingFacility.objects.filter(
+            secured=True
+        ).aggregate(Sum('capacity'))['capacity__sum']
+        parking_facilities_parking_garage_count = ParkingFacility.objects.filter(
+            parking_garage=True
+        ).count()
+        parking_facilities_parking_garage_capacity_sum = ParkingFacility.objects.filter(
+            parking_garage=True
+        ).aggregate(Sum('capacity'))['capacity__sum']
+
         return Response(
             {
                 "survey_stations_count": survey_stations_count,
@@ -107,6 +129,13 @@ class SurveyInfoView(APIView):
                 "survey_stations_with_nps_count": stations_with_nps_count,
                 "survey_parking_facilities_count": parking_facilities_count,
                 "survey_confirmed_parking_facilities_count": confirmed_parking_facilities_count,
+                "survey_parking_facilities_capacity_sum": parking_facilities_capacity_sum,
+                "survey_parking_facilities_covered_count": parking_facilities_covered_count,
+                "survey_parking_facilities_covered_capacity_sum": parking_facilities_covered_capacity_sum,
+                "survey_parking_facilities_secured_count": parking_facilities_secured_count,
+                "survey_parking_facilities_secured_capacity_sum": parking_facilities_secured_capacity_sum,
+                "survey_parking_facilities_parking_garage_count": parking_facilities_parking_garage_count,
+                "survey_parking_facilities_parking_garage_capacity_sum": parking_facilities_parking_garage_capacity_sum,
             }
         )
 

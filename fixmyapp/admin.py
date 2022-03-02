@@ -227,6 +227,27 @@ class TrafficOrderCheckFilter(SimpleListFilter):
             return queryset
 
 
+class FeePaidCheckFilter(SimpleListFilter):
+    """Filter entries where fee paid have been checked"""
+
+    title = _('Fee paid')
+    parameter_name = 'fee_paid'
+
+    def lookups(self, request, model_admin):
+        return (
+            ('checked', _('Fee paid checked')),
+            ('unchecked', _('Fee paid not checked')),
+        )
+
+    def queryset(self, request, queryset):
+        if self.value() == 'checked':
+            return queryset.filter(fee_paid=True)
+        elif self.value() == 'unchecked':
+            return queryset.exclude(fee_paid=True)
+        else:
+            return queryset
+
+
 class CampaignFilter(SimpleListFilter):
     """Filter entries by campaign"""
 
@@ -276,6 +297,7 @@ class GastroSignupAdmin(FMBGastroAdmin):
         NoticeSentFilter,
         PermitCheckFilter,
         TrafficOrderCheckFilter,
+        FeePaidCheckFilter,
         RenewalOfferSentFilter,
         'regulation',
         'category',

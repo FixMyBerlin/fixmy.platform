@@ -4,7 +4,7 @@ coverage==5.5
 debugpy==1.4.1
 django-anymail==8.5
 django-auto-prefetching==0.1.10
-django-cors-headers==3.7.0
+django-cors-headers==3.11.0
 django-heroku==0.3.1
 django-markdownx==3.0.1
 django-nose==1.4.7

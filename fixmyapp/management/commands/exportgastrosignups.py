@@ -30,6 +30,8 @@ FIELDNAMES = {
     'permit_check_note': _('permit check notes'),
     'traffic_order_checked': _('traffic order checked'),
     'traffic_order_check_note': _('traffic order check notes'),
+    'fee_paid': _('fee paid'),
+    'invoice_number': _('invoice number'),
     'tos_accepted': _('tos_accepted'),
     'followup_accepted': _('follow-up accepted'),
     'agreement_accepted': _('agreement accepted'),

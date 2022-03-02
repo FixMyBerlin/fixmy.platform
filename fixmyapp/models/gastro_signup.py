@@ -74,14 +74,18 @@ class GastroSignup(BaseModel):
         ('xhain2', 'Xhain Juli 2020'),
         ('xhain3', 'Xhain Verlängerungen ab Sep 2020'),
         ('xhain2021', 'Xhain 2021'),
+        ('xhain2022', 'Xhain 2022'),
         ('tempelberg', 'Tempelhof-Schöneberg 2020'),
     ]
 
+    # This becomes part of the URLs that are sent to applicants when their
+    # applications are granted
     CAMPAIGN_PATHS = {
         'xhain': 'friedrichshain-kreuzberg',
         'xhain2': 'friedrichshain-kreuzberg',
         'xhain3': 'friedrichshain-kreuzberg',
         'xhain2021': 'friedrichshain-kreuzberg',
+        'xhain2022': 'friedrichshain-kreuzberg',
         'tempelberg': 'tempelhof-schoeneberg',
     }
 
@@ -91,6 +95,7 @@ class GastroSignup(BaseModel):
         'xhain2': [date(2020, 7, 16), date(2020, 10, 31)],
         'xhain3': [date(2020, 8, 31), date(2020, 10, 31)],
         'xhain2021': [date(2021, 3, 1), date(2021, 12, 31)],
+        'xhain2022': [date(2022, 3, 14), date(2022, 10, 31)],
         'tempelberg': None,
     }
 
@@ -101,6 +106,7 @@ class GastroSignup(BaseModel):
         'xhain2': None,
         'xhain3': None,
         'xhain2021': None,
+        'xhain2022': None,
     }
 
     campaign = models.CharField(_('campaign'), choices=CAMPAIGN_CHOICES, max_length=32)
@@ -130,6 +136,11 @@ class GastroSignup(BaseModel):
     )
     traffic_order_check_note = models.CharField(
         _('traffic order check notes'), max_length=255, blank=True, null=True
+    )
+
+    fee_paid = models.BooleanField(_('fee paid'), default=False)
+    invoice_number = models.CharField(
+        _('invoice number'), max_length=13, blank=True, null=True
     )
 
     shop_name = models.CharField(_('shop name'), max_length=255)

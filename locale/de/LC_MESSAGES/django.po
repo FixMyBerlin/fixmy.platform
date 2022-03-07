@@ -740,7 +740,7 @@ msgstr "Bearbeitungsvermerk zur verkehrsrechtlichen Anordnung"
 #: fixmyapp/management/commands/exportgastrosignups.py:33
 #: fixmyapp/models/gastro_signup.py:142
 msgid "fee paid"
-msgstr "Geführ bezahlt"
+msgstr "Gebühr bezahlt"
 
 #: fixmyapp/management/commands/exportgastrosignups.py:34
 #: fixmyapp/models/gastro_signup.py:145

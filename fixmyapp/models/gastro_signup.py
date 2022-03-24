@@ -75,7 +75,6 @@ class GastroSignup(BaseModel):
         ('xhain3', 'Xhain Verlängerungen ab Sep 2020'),
         ('xhain2021', 'Xhain 2021'),
         ('xhain2022', 'Xhain 2022'),
-        ('tempelberg', 'Tempelhof-Schöneberg 2020'),
     ]
 
     # This becomes part of the URLs that are sent to applicants when their
@@ -86,7 +85,6 @@ class GastroSignup(BaseModel):
         'xhain3': 'friedrichshain-kreuzberg',
         'xhain2021': 'friedrichshain-kreuzberg',
         'xhain2022': 'friedrichshain-kreuzberg',
-        'tempelberg': 'tempelhof-schoeneberg',
     }
 
     # date constructor uses 1-based month number, i.e. january is 1
@@ -96,7 +94,6 @@ class GastroSignup(BaseModel):
         'xhain3': [date(2020, 8, 31), date(2020, 10, 31)],
         'xhain2021': [date(2021, 3, 1), date(2021, 12, 31)],
         'xhain2022': [date(2022, 3, 14), date(2022, 10, 31)],
-        'tempelberg': None,
     }
 
     # Maps campaigns to the campaign that a renewal will be created in.

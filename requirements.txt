@@ -23,6 +23,6 @@ numpy==1.21.2
 psycopg2==2.9.3
 PyJWT==1.7.1
 pytz==2020.4
-requests==2.25.0
+requests==2.27.1
 tblib==1.7.0
 whitenoise==6.0.0

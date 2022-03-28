@@ -14,7 +14,7 @@ Django==3.2.12
 djangorestframework-gis==0.18
 djangorestframework-simplejwt==5.1.0
 djangorestframework==3.13.1
-djoser==2.0.3
+djoser==2.1.0
 drf-extra-fields==3.2.1
 flake8==4.0.1
 gunicorn==20.1.0

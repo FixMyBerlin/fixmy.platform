@@ -1,4 +1,4 @@
-name: Lightsail staging deployment
+name: Radparken staging deployment
 
 on:
   workflow_run:

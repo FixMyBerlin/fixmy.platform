@@ -1,4 +1,4 @@
-name: Lightsail production deployment
+name: Radparken production deployment
 
 on:
   release:

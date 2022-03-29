@@ -87,12 +87,12 @@ jobs:
 
     - name: Push the app image
       run: |
-        aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/n0p8j4k5
+        aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/n0p8j4k5/fixmyberlin
         docker push public.ecr.aws/n0p8j4k5/fixmyberlin/app:${GITHUB_SHA}
 
     - name: Push the nginx image
       run: |
-        aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/n0p8j4k5
+        aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/n0p8j4k5/fixmyberlin
         docker push public.ecr.aws/n0p8j4k5/fixmyberlin/nginx:${GITHUB_SHA}
 
     - name: Create container_with_image.yml

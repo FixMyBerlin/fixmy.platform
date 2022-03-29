@@ -62,7 +62,7 @@ jobs:
         with:
           python-version: 3.8.12
       - name: Install Python dependencies
-        run: pip install -r requirements.txt
+        run: pip install black
       - name: Run linters
         uses: wearerequired/lint-action@v1
         with:

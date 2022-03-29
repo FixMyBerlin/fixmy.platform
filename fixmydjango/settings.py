@@ -14,7 +14,6 @@ import datetime
 import logging
 import os
 
-import django_heroku
 from corsheaders.defaults import default_headers
 
 from .utils import get_templates_config
@@ -291,14 +290,6 @@ USE_X_FORWARDED_HOST = bool(os.getenv('USE_X_FORWARDED_HOST', False))
 SECURE_PROXY_SSL_HEADER = (
     ('HTTP_X_FORWARDED_PROTO', 'https') if USE_X_FORWARDED_HOST else None
 )
-
-
-# Activate Django-Heroku
-# https://devcenter.heroku.com/articles/django-app-configuration
-
-if os.getenv('DATABASE_URL'):
-    django_heroku.settings(locals(), logging=False)
-    DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
 
 
 # Feature-Toggles

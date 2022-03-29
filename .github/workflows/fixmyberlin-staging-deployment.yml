@@ -1,4 +1,4 @@
-name: Radparken staging deployment
+name: "FixMyBerlin staging deployment"
 
 on:
   workflow_run:
@@ -97,7 +97,7 @@ jobs:
 
     - name: Create container_with_image.yml
       run: |
-        cat .github/workflows/container.yml.tpl | envsubst > container_with_image.yml
+        cat .github/workflows/fixmyberlin-container.yml.tpl | envsubst > container_with_image.yml
         cat container_with_image.yml
 
     - name: Deploy to Lightsail

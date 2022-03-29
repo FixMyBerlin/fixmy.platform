@@ -18,6 +18,17 @@ from corsheaders.defaults import default_headers
 
 from .utils import get_templates_config
 
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
+# Sentry 
+sentry_sdk.init(
+    dsn="https://457d75df60f344078366c585b325cf73@o1174824.ingest.sentry.io/6274598",
+    integrations=[DjangoIntegration()],
+    traces_sample_rate=.0,
+    send_default_pii=True
+)
+
 # Logging
 
 LOGGING = {

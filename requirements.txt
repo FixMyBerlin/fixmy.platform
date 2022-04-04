@@ -13,7 +13,7 @@ django-storages==1.10.1
 Django==3.1.6
 djangorestframework-gis==0.17
 djangorestframework-simplejwt==4.3.0
-djangorestframework==3.12.2
+djangorestframework==3.13.1
 djoser==2.0.3
 drf-extra-fields==3.0.3
 flake8==3.7.8

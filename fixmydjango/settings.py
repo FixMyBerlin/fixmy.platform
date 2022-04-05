@@ -59,7 +59,6 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     'anymail',
     'corsheaders',
-    'django_nose',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

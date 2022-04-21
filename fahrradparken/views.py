@@ -145,7 +145,7 @@ class StationList(generics.ListAPIView):
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['name', 'community']
     ordering = ['-travellers', 'community', '-is_long_distance', 'name']
-
+    serializer_class = StaticStationSerializer
     def list(self, request):
         """Searchable station listing as GeoJSON.
 
@@ -248,6 +248,7 @@ class RawStationSurveyListing(generics.ListAPIView):
     queryset = SurveyStation.objects.all()
     filter_backends = [filters.OrderingFilter]
     ordering = ['station']
+    serializer_class = SurveyStationSerializer;
 
     def list(self, request):
         queryset = self.get_queryset()
@@ -258,6 +259,7 @@ class RawStationSurveyListing(generics.ListAPIView):
 
 class RawBicycleUsageSurveyListing(generics.ListAPIView):
     queryset = SurveyBicycleUsage.objects.all()
+    serializer_class = SurveyBicycleUsageSerializer
 
     def list(self, request):
         queryset = self.get_queryset()

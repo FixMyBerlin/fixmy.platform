@@ -13,14 +13,14 @@ jobs:
     runs-on: ubuntu-latest
 
     environment: "fixmyberlin-staging"
-    
+
     env:
       ACTIVATION_FRONTEND_URL: ${{ secrets.ACTIVATION_FRONTEND_URL }}
       ACTIVATION_URL: ${{ secrets.ACTIVATION_URL }}
-      LIGHTSAIL_STORAGE_ACCESS_KEY_ID: ${{ secrets.LIGHTSAIL_STORAGE_ACCESS_KEY_ID }}
-      LIGHTSAIL_STORAGE_REGION_NAME: eu-central-1
-      LIGHTSAIL_STORAGE_SECRET_ACCESS_KEY: ${{ secrets.LIGHTSAIL_STORAGE_SECRET_ACCESS_KEY }}
-      LIGHTSAIL_STORAGE_BUCKET_NAME: ${{ secrets.LIGHTSAIL_STORAGE_BUCKET_NAME }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_S3_REGION_NAME: eu-central-1
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_STORAGE_BUCKET_NAME: ${{ secrets.AWS_STORAGE_BUCKET_NAME }}
       DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
       DATABASE_NAME: ${{ secrets.DATABASE_NAME }}
       DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
@@ -51,12 +51,12 @@ jobs:
       TOGGLE_GASTRO_REGISTRATIONS: ${{ secrets.TOGGLE_GASTRO_REGISTRATIONS }}
       TOGGLE_NEWSLETTER: ${{ secrets.TOGGLE_NEWSLETTER }}
       USE_X_FORWARDED_HOST: ${{ secrets.USE_X_FORWARDED_HOST }}
-    
+
     steps:
     - uses: actions/checkout@v2
 
     - name: Upgrade AWS CLI version and setup lightsailctl
-      run: | 
+      run: |
        aws --version
        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
        unzip awscliv2.zip

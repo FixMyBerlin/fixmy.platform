@@ -5,10 +5,12 @@ name: CI
 on:
   push:
     branches: ["develop"]
+    paths-ignore:
+    - '**.md'
   pull_request:
-  # Don't run, if only docs changed
-  paths-ignore:
-      - '**.md'
+    # Don't run, if only docs changed
+    paths-ignore:
+        - '**.md'
 
 concurrency:
   group: ${{ github.ref }}

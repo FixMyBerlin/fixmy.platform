@@ -2,7 +2,7 @@ name: Radparken staging deployment
 
 on:
   workflow_run:
-    branches: [master]
+    branches: ["develop"]
     workflows: ["CI"]
     types: [completed]
 
@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     environment: "lightsail-staging"
-    
+
     env:
       ACTIVATION_FRONTEND_URL: ${{ secrets.ACTIVATION_FRONTEND_URL }}
       ACTIVATION_URL: ${{ secrets.ACTIVATION_URL }}
@@ -51,12 +51,12 @@ jobs:
       TOGGLE_GASTRO_REGISTRATIONS: ${{ secrets.TOGGLE_GASTRO_REGISTRATIONS }}
       TOGGLE_NEWSLETTER: ${{ secrets.TOGGLE_NEWSLETTER }}
       USE_X_FORWARDED_HOST: ${{ secrets.USE_X_FORWARDED_HOST }}
-    
+
     steps:
     - uses: actions/checkout@v2
 
     - name: Upgrade AWS CLI version and setup lightsailctl
-      run: | 
+      run: |
        aws --version
        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
        unzip awscliv2.zip
@@ -97,7 +97,7 @@ jobs:
 
     - name: Create container_with_image.yml
       run: |
-        cat .github/workflows/container.yml.tpl | envsubst > container_with_image.yml
+        cat .github/workflows/radparken-container.yml.tpl | envsubst > container_with_image.yml
         cat container_with_image.yml
 
     - name: Deploy to Lightsail

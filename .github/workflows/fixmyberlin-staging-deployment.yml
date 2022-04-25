@@ -2,7 +2,7 @@ name: "FixMyBerlin staging deployment"
 
 on:
   workflow_run:
-    branches: [master]
+    branches: ["develop"]
     workflows: ["CI"]
     types: [completed]
 

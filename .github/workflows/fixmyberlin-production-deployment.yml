@@ -7,7 +7,8 @@ on:
 
 jobs:
   build_and_deploy_to_lightsail_container_service:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    # Disable successful check temporarily
+    # if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     runs-on: ubuntu-latest
 

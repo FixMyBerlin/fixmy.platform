@@ -52,7 +52,7 @@ jobs:
       USE_X_FORWARDED_HOST: ${{ secrets.USE_X_FORWARDED_HOST }}
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Upgrade AWS CLI version and setup lightsailctl
       run: |

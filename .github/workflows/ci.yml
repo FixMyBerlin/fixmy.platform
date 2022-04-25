@@ -1,14 +1,14 @@
 name: CI
 
 # Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the master branch
+# events but only for the develop branch
 on:
   push:
     branches: ["develop"]
   pull_request:
 
 concurrency:
-  group: ${{ github.head_ref }}
+  group: ${{ github.ref }}
   cancel-in-progress: true
 
 jobs:

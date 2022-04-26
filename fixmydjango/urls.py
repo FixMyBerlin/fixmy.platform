@@ -37,7 +37,7 @@ urlpatterns = [
     path(
         'openapi',
         get_schema_view(
-            title="Your Project", description="API for all things …", version="1.0.0"
+            title="FMC API", description="The API documentation for fixmy.frontend, fixmy.radparken ....", version="1.0.0"
         ),
         name='openapi-schema',
     ),

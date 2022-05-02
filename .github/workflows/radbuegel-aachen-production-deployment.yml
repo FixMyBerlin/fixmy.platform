@@ -1,4 +1,4 @@
-name: "Radbuegel Aachen deployment"
+name: "Radbuegel Aachen production deployment"
 
 on:
   release:

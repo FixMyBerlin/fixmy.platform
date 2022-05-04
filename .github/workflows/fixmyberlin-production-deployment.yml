@@ -3,10 +3,12 @@ name: "FixMyBerlin production deployment"
 on:
   release:
     types: [published]
+  workflow_dispatch:
 
 jobs:
   build_and_deploy_to_lightsail_container_service:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    # Disable successful check temporarily
+    # if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     runs-on: ubuntu-latest
 
@@ -51,7 +53,7 @@ jobs:
       USE_X_FORWARDED_HOST: ${{ secrets.USE_X_FORWARDED_HOST }}
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Upgrade AWS CLI version and setup lightsailctl
       run: |

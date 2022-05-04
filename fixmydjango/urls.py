@@ -21,6 +21,7 @@ from django.views.generic import TemplateView
 from rest_framework.schemas import get_schema_view
 from rest_framework.schemas.openapi import SchemaGenerator
 
+
 def reset(request, uid, token):
     url = settings.DJOSER.get('PASSWORD_RESET_CONFIRM_FRONTEND_URL')
     return redirect(url.format(uid=uid, token=token))
@@ -30,7 +31,6 @@ def activate(request, uid, token):
     url = settings.DJOSER.get('ACTIVATION_FRONTEND_URL')
     query = request.GET.urlencode()
     return redirect(url.format(uid=uid, token=token, query=query))
-
 
 
 # specify wich routes should be exposed in the /openapi endpoint
@@ -52,7 +52,6 @@ class GetSchemaGenerator(SchemaGenerator):
         return schema
 
 
-
 urlpatterns = [
     path(
         'openapi',
@@ -61,7 +60,7 @@ urlpatterns = [
             description="The API documentation for fixmy.frontend, fixmy.radparken ....",
             version="1.0.0",
             patterns=schema_url_patterns,
-            generator_class=GetSchemaGenerator
+            generator_class=GetSchemaGenerator,
         ),
         name='openapi-schema',
     ),

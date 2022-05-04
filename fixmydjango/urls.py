@@ -17,9 +17,7 @@ from django.conf import settings
 from django.contrib.gis import admin
 from django.shortcuts import redirect
 from django.urls import include, path
-from django.views.generic import TemplateView
 from rest_framework.schemas import get_schema_view
-from rest_framework.schemas.openapi import SchemaGenerator
 
 
 def reset(request, uid, token):
@@ -32,46 +30,7 @@ def activate(request, uid, token):
     query = request.GET.urlencode()
     return redirect(url.format(uid=uid, token=token, query=query))
 
-
-# specify wich routes should be exposed in the /openapi endpoint
-schema_url_patterns = [
-    path('api/fahrradparken/', include('fahrradparken.urls')),
-]
-
-# modify the generated schema s.t. there are only get methods
-class GetSchemaGenerator(SchemaGenerator):
-    def get_schema(self, *args, **kwargs):
-        schema = super().get_schema(*args, **kwargs)
-        paths = schema['paths']
-        ro_paths = {}
-        for p in paths:
-            if 'get' in paths[p]:
-                ro_paths[p] = {'get': paths[p]['get']}
-        print(ro_paths)
-        schema['paths'] = ro_paths
-        return schema
-
-
 urlpatterns = [
-    path(
-        'api/fahrradparken/openapi',
-        get_schema_view(
-            title="The Fahrradparken-API documentation",
-            description="The API documentation for radparken.info",
-            version="1.0.0",
-            patterns=schema_url_patterns,
-            generator_class=GetSchemaGenerator,
-        ),
-        name='radparken-openapi',
-    ),
-    path(
-        'api/fahrradparken/swagger-ui/',
-        TemplateView.as_view(
-            template_name='swagger-ui.html',
-            extra_context={'schema_url': 'radparken-openapi'},
-        ),
-        name='swagger-ui',
-    ),
     path('admin/', admin.site.urls),
     path('api/', include('fixmyapp.urls')),
     path('api/', include('reports.urls')),

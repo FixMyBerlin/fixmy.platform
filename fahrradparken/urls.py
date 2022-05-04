@@ -98,15 +98,16 @@ urlpatterns += [
             description="The API documentation for radparken.info",
             version="1.0.0",
             patterns=urlpatterns,
+            url='/api/fahrradparken',
             generator_class=GetSchemaGenerator,
         ),
-        name='radparken-openapi',
+        name='openapi',
     ),
     path(
         'swagger-ui/',
         TemplateView.as_view(
             template_name='swagger-ui.html',
-            extra_context={'schema_url': 'radparken-openapi'},
+            extra_context={'schema_url': app_name+':openapi'},
         ),
         name='swagger-ui',
     ),

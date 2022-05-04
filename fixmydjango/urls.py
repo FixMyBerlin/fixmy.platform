@@ -17,7 +17,6 @@ from django.conf import settings
 from django.contrib.gis import admin
 from django.shortcuts import redirect
 from django.urls import include, path
-from rest_framework.schemas import get_schema_view
 
 
 def reset(request, uid, token):

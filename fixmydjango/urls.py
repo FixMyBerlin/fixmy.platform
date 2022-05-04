@@ -38,7 +38,7 @@ schema_url_patterns = [
     path('api/fahrradparken/', include('fahrradparken.urls')),
 ]
 
-# modify the generated schema s.t. there are just read only
+# modify the generated schema s.t. there are only get methods
 class GetSchemaGenerator(SchemaGenerator):
     def get_schema(self, *args, **kwargs):
         schema = super().get_schema(*args, **kwargs)
@@ -54,21 +54,21 @@ class GetSchemaGenerator(SchemaGenerator):
 
 urlpatterns = [
     path(
-        'openapi',
+        'api/fahrradparken/openapi',
         get_schema_view(
-            title="FMC API",
-            description="The API documentation for fixmy.frontend, fixmy.radparken ....",
+            title="The Fahrradparken-API documentation",
+            description="The API documentation for radparken.info",
             version="1.0.0",
             patterns=schema_url_patterns,
             generator_class=GetSchemaGenerator,
         ),
-        name='openapi-schema',
+        name='radparken-openapi',
     ),
     path(
-        'swagger-ui/',
+        'api/fahrradparken/swagger-ui/',
         TemplateView.as_view(
             template_name='swagger-ui.html',
-            extra_context={'schema_url': 'openapi-schema'},
+            extra_context={'schema_url': 'radparken-openapi'},
         ),
         name='swagger-ui',
     ),

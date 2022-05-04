@@ -324,19 +324,7 @@ class GastroRenewalView(APIView):
         return Response(serialization)
 
 
-class ProfileDetail(generics.UpdateAPIView):
-    queryset = Profile.objects.all()
-    lookup_url_kwarg = "profile_id"
-    serializer_class = ProfileSerializer
-
-
-class ProfileCreate(generics.CreateAPIView):
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
-
-
 @api_view(['PUT'])
-@permission_classes((permissions.AllowAny,))
 def profile(request, profile_id):
     try:
         obj = Profile.objects.get(pk=profile_id)

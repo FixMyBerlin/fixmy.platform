@@ -19,8 +19,7 @@ from django.shortcuts import redirect
 from django.urls import include, path
 from django.views.generic import TemplateView
 from rest_framework.schemas import get_schema_view
-from django.conf.urls.static import static
-
+from rest_framework.schemas.openapi import SchemaGenerator
 
 def reset(request, uid, token):
     url = settings.DJOSER.get('PASSWORD_RESET_CONFIRM_FRONTEND_URL')
@@ -33,6 +32,27 @@ def activate(request, uid, token):
     return redirect(url.format(uid=uid, token=token, query=query))
 
 
+
+# specify wich routes should be exposed in the /openapi endpoint
+schema_url_patterns = [
+    path('api/fahrradparken/', include('fahrradparken.urls')),
+]
+
+# modify the generated schema s.t. there are just read only
+class GetSchemaGenerator(SchemaGenerator):
+    def get_schema(self, *args, **kwargs):
+        schema = super().get_schema(*args, **kwargs)
+        paths = schema['paths']
+        ro_paths = {}
+        for p in paths:
+            if 'get' in paths[p]:
+                ro_paths[p] = {'get': paths[p]['get']}
+        print(ro_paths)
+        schema['paths'] = ro_paths
+        return schema
+
+
+
 urlpatterns = [
     path(
         'openapi',
@@ -40,6 +60,8 @@ urlpatterns = [
             title="FMC API",
             description="The API documentation for fixmy.frontend, fixmy.radparken ....",
             version="1.0.0",
+            patterns=schema_url_patterns,
+            generator_class=GetSchemaGenerator
         ),
         name='openapi-schema',
     ),

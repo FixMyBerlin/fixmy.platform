@@ -107,7 +107,7 @@ urlpatterns += [
         'swagger-ui/',
         TemplateView.as_view(
             template_name='swagger-ui.html',
-            extra_context={'schema_url': app_name+':openapi'},
+            extra_context={'schema_url': app_name + ':openapi'},
         ),
         name='swagger-ui',
     ),

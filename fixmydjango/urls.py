@@ -30,6 +30,7 @@ def activate(request, uid, token):
     query = request.GET.urlencode()
     return redirect(url.format(uid=uid, token=token, query=query))
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('fixmyapp.urls')),

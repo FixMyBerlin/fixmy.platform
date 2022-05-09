@@ -9,7 +9,7 @@ hiermit erhalten Sie gemäß Ihres Antrags:
 - eine Straßenverkehrsrechtliche Anordnung:
   {{ link_traffic_order}}{% endif %}
 
-{% if is_boardwalk %}Dieses Dokument ist{% endif %}{% if not is_boardwalk %}Beide Dokumente sind{% endif %} auszudrucken und sichtbar straßenseitig an der 
+{% if is_boardwalk %}Dieses Dokument ist{% endif %}{% if not is_boardwalk %}Beide Dokumente sind{% endif %} auszudrucken und sichtbar straßenseitig an der
 Sondernutzungsfläche anzubringen!
 
 Als weitere Anlagen erhalten Sie:
@@ -23,19 +23,14 @@ Als weitere Anlagen erhalten Sie:
 - Regelpläne Straßenraum
   https://fixmyberlin.de/uploads/offene-terrassen/Regelplaene_Strassenraum.pdf{% endif %}
 
-{% if not is_boardwalk %}Um die Straßenverkehrsrechtliche Anordnung durchzuführen, müssen Sie 
-selbständig eine Beschilderungsfirma mit der Aufstellung der Verkehrszeichen 
+{% if not is_boardwalk %}Um die Straßenverkehrsrechtliche Anordnung durchzuführen, müssen Sie
+selbständig eine Beschilderungsfirma mit der Aufstellung der Verkehrszeichen
 oder Absperrungen beauftragen, weitere Hinweise finden Sie unter:
 
 https://fixmyberlin.de/uploads/offene-terrassen/Straßenverkehrsrechtliche_Anordnung_XHain_Terrassen.pdf
 
-{% endif %}Wenn Sie von ihrem Antrag zurücktreten möchten, können Sie dies über eine 
-formlose Email an aufsicht.sga@ba-fk.berlin.de tun. 
-
-Haben Sie noch Fragen? Bitte nutzen Sie unsere telefonische Beratung:
-Mittwoch von 11:00 - 15:00 Uhr
-Freitag von 13:00 - 17:00 Uhr
-Telefon: 030 - 90 298 4216
+{% endif %}Wenn Sie von ihrem Antrag zurücktreten möchten, können Sie dies über eine
+formlose Email an aufsicht.sga@ba-fk.berlin.de tun.
 
 Mit freundlichen Grüßen,
 Ihr Bezirksamt Friedrichshain-Kreuzberg
@@ -43,5 +38,5 @@ Straßenverkehrsbehörde
 
 ---
 
-Dieses Schreiben wurde mit Hilfe der Informationstechnik gefertigt und ist 
+Dieses Schreiben wurde mit Hilfe der Informationstechnik gefertigt und ist
 daher ohne Unterschrift gültig.

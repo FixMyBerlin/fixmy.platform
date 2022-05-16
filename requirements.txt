@@ -5,7 +5,7 @@ debugpy==1.6.0
 django-anymail==8.5
 django-auto-prefetching==0.2.11
 django-heroku==0.3.1
-django-cors-headers==3.11.0
+django-cors-headers==3.12.0
 django-markdownx==4.0.0b1
 django-reversion==5.0.0
 django-storages==1.12.3

@@ -1,4 +1,4 @@
-name: "FixMyBerlin staging deployment"
+name: "Radbuegel Aachen staging deployment"
 
 on:
   workflow_run:
@@ -12,7 +12,7 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    environment: "fixmyberlin-staging"
+    environment: "radbuegel-aachen-staging"
 
     env:
       ACTIVATION_FRONTEND_URL: ${{ secrets.ACTIVATION_FRONTEND_URL }}
@@ -77,27 +77,27 @@ jobs:
       run: >
         docker build .
         --file ./docker/app/Dockerfile
-        --tag public.ecr.aws/n0p8j4k5/fixmyberlin/app:${GITHUB_SHA}
+        --tag public.ecr.aws/n0p8j4k5/radbuegel-aachen/app:${GITHUB_SHA}
 
     - name: Build nginx image
       run: >
         docker build .
         --file ./docker/nginx/Dockerfile
-        --tag public.ecr.aws/n0p8j4k5/fixmyberlin/nginx:${GITHUB_SHA}
+        --tag public.ecr.aws/n0p8j4k5/radbuegel-aachen/nginx:${GITHUB_SHA}
 
     - name: Push the app image
       run: |
-        aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/n0p8j4k5/fixmyberlin
-        docker push public.ecr.aws/n0p8j4k5/fixmyberlin/app:${GITHUB_SHA}
+        aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/n0p8j4k5
+        docker push public.ecr.aws/n0p8j4k5/radbuegel-aachen/app:${GITHUB_SHA}
 
     - name: Push the nginx image
       run: |
-        aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/n0p8j4k5/fixmyberlin
-        docker push public.ecr.aws/n0p8j4k5/fixmyberlin/nginx:${GITHUB_SHA}
+        aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/n0p8j4k5
+        docker push public.ecr.aws/n0p8j4k5/radbuegel-aachen/nginx:${GITHUB_SHA}
 
     - name: Create container_with_image.yml
       run: |
-        cat .github/workflows/fixmyberlin-container.yml.tpl | envsubst > container_with_image.yml
+        cat .github/workflows/radbuegel-aachen-container.yml.tpl | envsubst > container_with_image.yml
         cat container_with_image.yml
 
     - name: Deploy to Lightsail

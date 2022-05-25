@@ -1,13 +1,20 @@
-# This is a basic workflow to help you get started with Actions
-
 name: CI
 
 # Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the master branch
+# events but only for the develop branch
 on:
   push:
-    branches: [master]
+    branches: ["develop"]
+    paths-ignore:
+    - '**.md'
   pull_request:
+    # Don't run, if only docs changed
+    paths-ignore:
+        - '**.md'
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   tests:
@@ -15,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Docker build
         run: docker-compose build
       - name: Run tests
@@ -34,14 +41,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Docker build
         run: docker-compose build
       - name: Collect coverage
         # Use -T parameter to avoid input device not being recognized
         # https://github.com/docker/compose/issues/5696#issuecomment-425112003
         run: docker-compose run -T app scripts/coverage.sh
-      - uses: codecov/codecov-action@v1
+      - uses: codecov/codecov-action@v2
         with:
           file: ./coverage.xml
 
@@ -56,9 +63,9 @@ jobs:
 
     steps:
       - name: Check out Git repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Set up Python
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v3
         with:
           python-version: 3.9
       - name: Install Python dependencies

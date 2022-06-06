@@ -22,4 +22,4 @@ psycopg2==2.9.3
 pytz==2022.1
 requests==2.27.1
 tblib==1.7.0
-whitenoise==6.1.0
+whitenoise==6.2.0

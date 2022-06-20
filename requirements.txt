@@ -10,7 +10,7 @@ django-markdownx==4.0.0b1
 django-reversion==5.0.1
 django-storages==1.12.3
 Django==4.0.3
-djangorestframework-gis==0.18
+djangorestframework-gis==1.0
 djangorestframework-simplejwt==4.8.0
 djangorestframework==3.13.1
 djoser==2.1.0

@@ -13,7 +13,7 @@ This project has a docker-compose.yml file, which will start the Django applicat
 Clone the repository and start the development environment in the created directory:
 
 ```
-docker-compose up -d
+docker compose up -d
 ```
 
 (Should you recieve errors [like `docker/transport/unixconn.py`](https://github.com/prisma/prisma1/issues/5120#issue-700225976), try starting docker desktop first, then run the compose command.)
@@ -32,7 +32,7 @@ curl http://localhost:8000/api/
 Access the console of the Docker container running the backend app:
 
 ```
-docker-compose exec app bash
+docker compose exec app bash
 ```
 
 #### 3.1 Create a new user for Django's admin console
@@ -149,14 +149,14 @@ Note there is also [spielstraßen.de](http://xn--spielstraen-36a.de/uebersicht.p
 - Get an overview of all commands available:
 
   ```
-  docker-compose exec app bash
+  docker compose exec app bash
   python manage.py
   ```
 
 - Run the test suite:
 
   ```
-  docker-compose exec app bash
+  docker compose exec app bash
   python manage.py test
   ```
 

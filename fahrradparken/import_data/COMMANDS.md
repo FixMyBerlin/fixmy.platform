@@ -1,7 +1,7 @@
 # Command line documentation to check, delete and import data
 
 ```
-docker-compose up -d
+docker compose up -d
 ```
 
 ## Copy Data-Folder into the Docker instance
@@ -13,7 +13,7 @@ docker-compose up -d
 ## Reset data / delete everything
 
 ```
-docker-compose exec app bash
+docker compose exec app bash
 
 ./manage.py shell
 from fahrradparken.models import Station, ParkingFacility
@@ -31,7 +31,7 @@ ParkingFacility.objects.count()
 ## Import stations
 
 ```
-docker-compose exec app bash
+docker compose exec app bash
 
 ./manage.py importstations ./fahrradparken/import_data/2021-12-06/stations-v1.0-original.geojson  2>&1 | tee ./fahrradparken/import_data/2021-12-06/stations-v1.0-original.log
 
@@ -54,7 +54,7 @@ ParkingFacility.objects.filter(source__startswith='©').delete()
 ## Import parkingfacilities
 
 ```
-docker-compose exec app bash
+docker compose exec app bash
 
 // Check
 ./manage.py shell

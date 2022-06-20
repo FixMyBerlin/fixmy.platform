@@ -249,7 +249,8 @@ python manage.py updatehbi
 Imports sections from shape file. The file is usually downloaded from S3 with `downloadfiles`.
 
 ```
-python manage.py importsections /tmp/sections.shp
+python manage.py importsections /tmp/road_sections-v1.1.shp
+python manage.py importsections /tmp/intersections-v1.1.shp
 ```
 
 ### importsectiondetails
@@ -257,7 +258,7 @@ python manage.py importsections /tmp/sections.shp
 Imports section details including pictures and traffic information from CSV file. The file is usually downloaded from S3 with `downloadfiles`.
 
 ```
-python manage.py importsectiondetails /tmp/section_details.csv
+python manage.py importsectiondetails /tmp/section_details-v1.1.csv
 ```
 
 ### importsectionaccidents
@@ -265,7 +266,7 @@ python manage.py importsectiondetails /tmp/section_details.csv
 Import section accident data set, which references previously imported sections.
 
 ```
-python manage.py importsectionaccidents /tmp/section_accidents.csv
+python manage.py importsectionaccidents /tmp/section_accidents-v1.1.csv
 ```
 
 ### updateprojectgeometries

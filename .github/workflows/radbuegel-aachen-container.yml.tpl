@@ -2,7 +2,7 @@ serviceName: ${SERVICE_NAME}
 containers:
   nginx:
     command: []
-    image: public.ecr.aws/n0p8j4k5/fixmyberlin/nginx:${GITHUB_SHA}
+    image: public.ecr.aws/n0p8j4k5/radbuegel-aachen/nginx:${GITHUB_SHA}
     ports:
       "80": HTTP
   app:
@@ -43,7 +43,7 @@ containers:
       TOGGLE_GASTRO_REGISTRATIONS: "${TOGGLE_GASTRO_REGISTRATIONS}"
       TOGGLE_NEWSLETTER: "${TOGGLE_NEWSLETTER}"
       USE_X_FORWARDED_HOST: "${USE_X_FORWARDED_HOST}"
-    image: public.ecr.aws/n0p8j4k5/fixmyberlin/app:${GITHUB_SHA}
+    image: public.ecr.aws/n0p8j4k5/radbuegel-aachen/app:${GITHUB_SHA}
 publicEndpoint:
   containerName: nginx
   containerPort: 80

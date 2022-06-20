@@ -1,18 +1,18 @@
-name: "FixMyBerlin staging deployment"
+name: "FixMyBerlin production deployment"
 
 on:
-  workflow_run:
-    branches: ["develop"]
-    workflows: ["CI"]
-    types: [completed]
+  release:
+    types: [published]
+  workflow_dispatch:
 
 jobs:
   build_and_deploy_to_lightsail_container_service:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    # Disable successful check temporarily
+    # if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     runs-on: ubuntu-latest
 
-    environment: "fixmyberlin-staging"
+    environment: "fixmyberlin"
 
     env:
       ACTIVATION_FRONTEND_URL: ${{ secrets.ACTIVATION_FRONTEND_URL }}

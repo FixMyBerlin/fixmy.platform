@@ -14,10 +14,21 @@ import datetime
 import logging
 import os
 
-import django_heroku
 from corsheaders.defaults import default_headers
 
 from .utils import get_templates_config
+
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
+# Sentry
+SENTRY_DSN = os.getenv('SENTRY_DSN', '')
+sentry_sdk.init(
+    dsn=SENTRY_DSN,
+    integrations=[DjangoIntegration()],
+    traces_sample_rate=0.0,
+    send_default_pii=True,
+)
 
 # Logging
 
@@ -290,11 +301,6 @@ USE_X_FORWARDED_HOST = bool(os.getenv('USE_X_FORWARDED_HOST', False))
 SECURE_PROXY_SSL_HEADER = (
     ('HTTP_X_FORWARDED_PROTO', 'https') if USE_X_FORWARDED_HOST else None
 )
-
-# DJANGO HEROKU
-if os.getenv('DATABASE_URL'):
-    django_heroku.settings(locals(), logging=False)
-    DATABASES['default']['ENGINE'] = 'django.contrib.gis.db.backends.postgis'
 
 # Feature-Toggles
 

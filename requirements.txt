@@ -2,7 +2,7 @@ black==22.3.0
 boto3==1.24.12
 coverage==6.4.1
 debugpy==1.6.0
-Django==4.0.5
+Django==4.0.6
 django-anymail==8.6
 django-auto-prefetching==0.2.11
 django-cors-headers==3.12.0

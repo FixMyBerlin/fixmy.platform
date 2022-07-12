@@ -2,7 +2,6 @@ from django.urls import path
 from django.views.decorators.cache import cache_page
 from django.views.generic import TemplateView
 from rest_framework.schemas import get_schema_view
-from rest_framework.schemas.openapi import SchemaGenerator
 
 from .views import (
     CheckPreviousBicycleSurvey,
@@ -20,9 +19,12 @@ from .views import (
     StationSurveysByUUID,
 )
 
+from .openapi import ReadOnlySchemaGenerator
+
 app_name = 'fahrradparken'
 
-urlpatterns = [
+# urls which are included in the openapi documentation
+publicurls = [
     path(
         'signup',
         SignupView.as_view(),
@@ -47,16 +49,6 @@ urlpatterns = [
         name='fahrradparken-survey-bicycle-usage',
     ),
     path(
-        'uuid/<uuid:session>',
-        StationSurveysByUUID.as_view(),
-        name='fahrradparken-survey-station-by-session',
-    ),
-    path(
-        'uuid/<uuid:session>/bicycle-usage-survey',
-        CheckPreviousBicycleSurvey.as_view(),
-        name='fahrradparken-previous-bicycle-survey-by-session',
-    ),
-    path(
         'survey-results/stations',
         RawStationSurveyListing.as_view(),
     ),
@@ -76,39 +68,31 @@ urlpatterns = [
     ),
 ]
 
-# class to modify the generated schema s.t. there are only get methods
-class GetSchemaGenerator(SchemaGenerator):
-    def get_schema(self, *args, **kwargs):
-        schema = super().get_schema(*args, **kwargs)
-        paths = schema['paths']
-        ro_paths = {}
-        for p in paths:
-            if 'get' in paths[p]:
-                ro_paths[p] = {'get': paths[p]['get']}
-        print(ro_paths)
-        schema['paths'] = ro_paths
-        return schema
+# urls that are excluded from the openapi documentation
+privateurls = [
+    path(
+        'uuid/<uuid:session>',
+        StationSurveysByUUID.as_view(),
+        name='fahrradparken-survey-station-by-session',
+    ),
+    path(
+        'uuid/<uuid:session>/bicycle-usage-survey',
+        CheckPreviousBicycleSurvey.as_view(),
+        name='fahrradparken-previous-bicycle-survey-by-session',
+    )
+    ]
 
-
-urlpatterns += [
+urlpatterns = publicurls + privateurls + [
     path(
         'openapi',
         get_schema_view(
             title="The Fahrradparken-API documentation",
             description="The API documentation for radparken.info",
             version="1.0.0",
-            patterns=urlpatterns,
+            patterns=publicurls,
             url='/api/fahrradparken',
-            generator_class=GetSchemaGenerator,
+            generator_class=ReadOnlySchemaGenerator,
         ),
         name='openapi',
-    ),
-    path(
-        'swagger-ui/',
-        TemplateView.as_view(
-            template_name='swagger-ui.html',
-            extra_context={'schema_url': app_name + ':openapi'},
-        ),
-        name='swagger-ui',
-    ),
+    )
 ]

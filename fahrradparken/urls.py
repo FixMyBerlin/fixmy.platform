@@ -79,20 +79,24 @@ privateurls = [
         'uuid/<uuid:session>/bicycle-usage-survey',
         CheckPreviousBicycleSurvey.as_view(),
         name='fahrradparken-previous-bicycle-survey-by-session',
-    )
-    ]
-
-urlpatterns = publicurls + privateurls + [
-    path(
-        'openapi',
-        get_schema_view(
-            title="The Fahrradparken-API documentation",
-            description="The API documentation for radparken.info",
-            version="1.0.0",
-            patterns=publicurls,
-            url='/api/fahrradparken',
-            generator_class=ReadOnlySchemaGenerator,
-        ),
-        name='openapi',
-    )
+    ),
 ]
+
+urlpatterns = (
+    [
+        path(
+            'openapi',
+            get_schema_view(
+                title="The Fahrradparken-API documentation",
+                description="The API documentation for radparken.info",
+                version="1.0.0",
+                patterns=publicurls,
+                url='/api/fahrradparken',
+                generator_class=ReadOnlySchemaGenerator,
+            ),
+            name='openapi',
+        )
+    ]
+    + publicurls
+    + privateurls
+)

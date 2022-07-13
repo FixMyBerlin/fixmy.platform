@@ -5,11 +5,9 @@ class ReadOnlySchemaGenerator(SchemaGenerator):
     def get_schema(self, *args, **kwargs):
         schema = super().get_schema(*args, **kwargs)
         paths = schema['paths']
-        print(paths)
         ro_paths = {}
         for p in paths:
             if 'get' in paths[p]:
                 ro_paths[p] = {'get': paths[p]['get']}
-        print(ro_paths)
         schema['paths'] = ro_paths
         return schema

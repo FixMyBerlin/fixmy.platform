@@ -6,7 +6,7 @@ from django.conf import settings
 from django.db.models import Count, Sum
 from django.http.response import Http404
 from rest_framework import permissions, status, generics, filters
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView, RetrieveAPIView
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.response import Response
@@ -157,19 +157,10 @@ class StationList(generics.ListAPIView):
         return Response(data={'type': 'FeatureCollection', 'features': features.data})
 
 
-class StationView(APIView):
+class StationView(RetrieveAPIView):
     permission_classes = (permissions.AllowAny,)
-
-    def get_object(self, pk):
-        try:
-            return Station.objects.prefetch_related('survey_responses').get(pk=pk)
-        except Station.DoesNotExist:
-            raise Http404
-
-    def get(self, request, pk):
-        station = self.get_object(pk)
-        serializer = StationSerializer(station, context={'request': request})
-        return Response(serializer.data)
+    queryset = Station.objects.prefetch_related('survey_responses')
+    serializer_class = StationSerializer
 
 
 class SurveyStationView(APIView):

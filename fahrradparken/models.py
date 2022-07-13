@@ -49,7 +49,7 @@ class Station(BaseModel):
     ]
 
     id = models.IntegerField(_('station number'), primary_key=True)
-    name = models.CharField(_('name'), max_length=255)
+    name = models.CharField(_('name'), max_length=255, help_text="Name der Haltestelle")
     location = models.PointField(_('geometry'), srid=4326)
     travellers = models.IntegerField(_('traveller count'), choices=TRAVELLERS_CHOICES)
     post_code = models.CharField(_('post code'), max_length=16, blank=True, null=True)

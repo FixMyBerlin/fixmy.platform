@@ -6,7 +6,12 @@ from django.conf import settings
 from django.db.models import Count, Sum
 from django.http.response import Http404
 from rest_framework import permissions, status, filters
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView, RetrieveAPIView, ListAPIView
+from rest_framework.generics import (
+    ListCreateAPIView,
+    RetrieveUpdateAPIView,
+    RetrieveAPIView,
+    ListAPIView,
+)
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.response import Response

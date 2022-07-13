@@ -80,8 +80,8 @@ INSTALLED_APPS = [
     'djoser',
     'fixmyapp.apps.FixmyappConfig',
     'markdownx',
-    'rest_framework_gis',
     'rest_framework',
+    'rest_framework_gis',
     'reversion',
     'survey',
     'reports',
@@ -259,6 +259,7 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ],
     'DEFAULT_RENDERER_CLASSES': ['rest_framework.renderers.JSONRenderer'],
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework_gis.schema.GeoFeatureAutoSchema',
 }
 
 

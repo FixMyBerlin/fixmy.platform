@@ -5,6 +5,7 @@ import json
 from django.conf import settings
 from drf_extra_fields.fields import HybridImageField
 from rest_framework import serializers
+from rest_framework_gis.serializers import GeoFeatureModelSerializer
 
 from .models import (
     EventSignup,
@@ -158,7 +159,7 @@ class ParkingFacilitySerializer(serializers.ModelSerializer):
         return super().update(instance, validated_data)
 
 
-class StationSerializer(serializers.ModelSerializer):
+class StationSerializer(GeoFeatureModelSerializer):
     annoyances_custom = serializers.ReadOnlyField()
     annoyances = serializers.ReadOnlyField()
     net_promoter_score = serializers.ReadOnlyField()
@@ -168,18 +169,11 @@ class StationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Station
-        exclude = ('created_date', 'modified_date', 'location')
-
-    def to_representation(self, instance):
-        props = super().to_representation(instance)
-        return {
-            'type': 'Feature',
-            'geometry': json.loads(instance.location.json),
-            'properties': props,
-        }
+        exclude = ('created_date', 'modified_date')
+        geo_field = 'location'
 
 
-class StaticStationSerializer(serializers.ModelSerializer):
+class StaticStationSerializer(GeoFeatureModelSerializer):
     """This serializer doesn't output dynamic user data."""
 
     class Meta:
@@ -193,14 +187,7 @@ class StaticStationSerializer(serializers.ModelSerializer):
             'is_long_distance',
             'is_light_rail',
         )
-
-    def to_representation(self, instance):
-        props = super().to_representation(instance)
-        return {
-            'type': 'Feature',
-            'geometry': json.loads(instance.location.json),
-            'properties': props,
-        }
+        geo_field = 'location'
 
 
 class SurveyStationSerializer(serializers.ModelSerializer):

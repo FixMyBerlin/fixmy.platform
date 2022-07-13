@@ -152,17 +152,10 @@ class StationList(ListAPIView):
     ordering = ['-travellers', 'community', '-is_long_distance', 'name']
     serializer_class = StaticStationSerializer
 
-    def list(self, request):
-        """Searchable station listing as GeoJSON.
-
-        Use the `search` URL parameter to filter by station name and community."""
-        queryset = self.get_queryset()
-        filtered_queryset = self.filter_queryset(queryset)
-        features = StaticStationSerializer(filtered_queryset, many=True)
-        return Response(data={'type': 'FeatureCollection', 'features': features.data})
-
-
 class StationView(RetrieveAPIView):
+    """
+    Returns the station with the specified `id` in the system.
+    """
     permission_classes = (permissions.AllowAny,)
     queryset = Station.objects.prefetch_related('survey_responses')
     serializer_class = StationSerializer

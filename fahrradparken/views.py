@@ -5,8 +5,8 @@ from datetime import datetime
 from django.conf import settings
 from django.db.models import Count, Sum
 from django.http.response import Http404
-from rest_framework import permissions, status, generics, filters
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView, RetrieveAPIView
+from rest_framework import permissions, status, filters
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView, RetrieveAPIView, ListAPIView
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.response import Response
@@ -140,7 +140,7 @@ class SurveyInfoView(APIView):
         )
 
 
-class StationList(generics.ListAPIView):
+class StationList(ListAPIView):
     queryset = Station.objects.all()
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['name', 'community']
@@ -178,7 +178,7 @@ class SurveyStationView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class StationSurveysByUUID(generics.ListAPIView):
+class StationSurveysByUUID(ListAPIView):
     serializer_class = SurveyStationShortSerializer
 
     def get_queryset(self):
@@ -236,7 +236,7 @@ class PhotoUploadView(APIView):
         return Response({'path': s3_key})
 
 
-class RawStationSurveyListing(generics.ListAPIView):
+class RawStationSurveyListing(ListAPIView):
     queryset = SurveyStation.objects.all()
     filter_backends = [filters.OrderingFilter]
     ordering = ['station']
@@ -249,7 +249,7 @@ class RawStationSurveyListing(generics.ListAPIView):
         return Response(data=serialized.data)
 
 
-class RawBicycleUsageSurveyListing(generics.ListAPIView):
+class RawBicycleUsageSurveyListing(ListAPIView):
     queryset = SurveyBicycleUsage.objects.all()
     serializer_class = SurveyBicycleUsageSerializer
 

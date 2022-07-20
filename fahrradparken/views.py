@@ -152,10 +152,12 @@ class StationList(ListAPIView):
     ordering = ['-travellers', 'community', '-is_long_distance', 'name']
     serializer_class = StaticStationSerializer
 
+
 class StationView(RetrieveAPIView):
     """
     Returns the station with the specified `id` in the system.
     """
+
     permission_classes = (permissions.AllowAny,)
     queryset = Station.objects.prefetch_related('survey_responses')
     serializer_class = StationSerializer

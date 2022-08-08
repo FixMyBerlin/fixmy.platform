@@ -6,7 +6,7 @@ django-anymail==8.6
 django-auto-prefetching==0.2.11
 django-cors-headers==3.13.0
 django-markdownx==4.0.0b1
-django-reversion==5.0.1
+django-reversion==5.0.2
 django-storages==1.12.3
 djangorestframework-gis==1.0
 Django==3.2.13

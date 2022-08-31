@@ -2,14 +2,15 @@ black==22.6.0
 boto3==1.24.2
 coverage==6.4.4
 debugpy==1.6.3
+boto3==1.24.12
 django-anymail==8.6
 django-auto-prefetching==0.2.11
 django-cors-headers==3.13.0
 django-markdownx==4.0.0b1
 django-reversion==5.0.2
 django-storages==1.12.3
+Django==4.0.7
 djangorestframework-gis==1.0
-Django==3.2.13
 djangorestframework-simplejwt==4.7.2
 djangorestframework==3.13.1
 djoser==2.1.0

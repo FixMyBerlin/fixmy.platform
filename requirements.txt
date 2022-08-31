@@ -8,7 +8,7 @@ django-auto-prefetching==0.2.11
 django-cors-headers==3.13.0
 django-markdownx==4.0.0b1
 django-reversion==5.0.2
-django-storages==1.12.3
+django-storages==1.13.1
 Django==4.0.7
 djangorestframework-gis==1.0
 djangorestframework-simplejwt==4.7.2

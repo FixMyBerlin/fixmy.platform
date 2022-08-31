@@ -24,17 +24,17 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Docker build
-        run: docker-compose build
+        run: docker compose build
       - name: Run tests
         # Use -T parameter to avoid input device not being recognized
         # https://github.com/docker/compose/issues/5696#issuecomment-425112003
-        run: docker-compose run -T app python manage.py test --parallel
+        run: docker compose run -T app python manage.py test --parallel
       - name: List running containers for debugging
         if: always()
         run: docker ps -a
       - name: Show logs for debugging
         if: always()
-        run: docker-compose logs -t
+        run: docker compose logs -t
 
   coverage:
     name: Coverage
@@ -43,11 +43,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Docker build
-        run: docker-compose build
+        run: docker compose build
       - name: Collect coverage
         # Use -T parameter to avoid input device not being recognized
         # https://github.com/docker/compose/issues/5696#issuecomment-425112003
-        run: docker-compose run -T app scripts/coverage.sh
+        run: docker compose run -T app scripts/coverage.sh
       - uses: codecov/codecov-action@v2
         with:
           file: ./coverage.xml

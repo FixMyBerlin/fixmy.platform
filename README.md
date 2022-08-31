@@ -13,7 +13,7 @@ This project has a docker-compose.yml file, which will start the Django applicat
 Clone the repository and start the development environment in the created directory:
 
 ```
-docker-compose up -d
+docker compose up -d
 ```
 
 (Should you recieve errors [like `docker/transport/unixconn.py`](https://github.com/prisma/prisma1/issues/5120#issue-700225976), try starting docker desktop first, then run the compose command.)
@@ -32,7 +32,7 @@ curl http://localhost:8000/api/
 Access the console of the Docker container running the backend app:
 
 ```
-docker-compose exec app bash
+docker compose exec app bash
 ```
 
 #### 3.1 Create a new user for Django's admin console
@@ -149,14 +149,14 @@ Note there is also [spielstraßen.de](http://xn--spielstraen-36a.de/uebersicht.p
 - Get an overview of all commands available:
 
   ```
-  docker-compose exec app bash
+  docker compose exec app bash
   python manage.py
   ```
 
 - Run the test suite:
 
   ```
-  docker-compose exec app bash
+  docker compose exec app bash
   python manage.py test
   ```
 
@@ -249,7 +249,8 @@ python manage.py updatehbi
 Imports sections from shape file. The file is usually downloaded from S3 with `downloadfiles`.
 
 ```
-python manage.py importsections /tmp/sections.shp
+python manage.py importsections /tmp/road_sections-v1.1.shp
+python manage.py importsections /tmp/intersections-v1.1.shp
 ```
 
 ### importsectiondetails
@@ -257,7 +258,7 @@ python manage.py importsections /tmp/sections.shp
 Imports section details including pictures and traffic information from CSV file. The file is usually downloaded from S3 with `downloadfiles`.
 
 ```
-python manage.py importsectiondetails /tmp/section_details.csv
+python manage.py importsectiondetails /tmp/section_details-v1.1.csv
 ```
 
 ### importsectionaccidents
@@ -265,7 +266,7 @@ python manage.py importsectiondetails /tmp/section_details.csv
 Import section accident data set, which references previously imported sections.
 
 ```
-python manage.py importsectionaccidents /tmp/section_accidents.csv
+python manage.py importsectionaccidents /tmp/section_accidents-v1.1.csv
 ```
 
 ### updateprojectgeometries

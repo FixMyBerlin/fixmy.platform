@@ -64,6 +64,7 @@ DEBUG = bool(os.getenv('DEBUG', False))
 
 ALLOWED_HOSTS = ['*']
 
+CSRF_TRUSTED_ORIGINS = ['https://api.fixmyberlin.de', 'https://api-staging.fixmyberlin.de', 'https://api.radparken.info', 'https://api-staging.radparken.info', 'https://api.radbuegel-aachen.de', 'https://api-staging.radbuegel-aachen.de']
 
 # Application definition
 

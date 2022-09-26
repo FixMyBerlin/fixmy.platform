@@ -6,6 +6,7 @@ services:
       context: .
       dockerfile: ./docker/app/Dockerfile
     entrypoint: ./docker/wait-for-it.sh db:5432 -t 15 -s --
+    container_name: fmc-webapp
     environment:
       AWS_ACCESS_KEY_ID:
       AWS_SECRET_ACCESS_KEY:
@@ -63,6 +64,7 @@ services:
       context: .
       dockerfile: ./docker/db/Dockerfile
     restart: always
+    container_name: fmc-db
     environment:
       POSTGRES_DB: docker
       POSTGRES_USER: docker

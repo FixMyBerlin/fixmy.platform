@@ -8,7 +8,7 @@ django-cors-headers==3.13.0
 django-markdownx==4.0.0b1
 django-reversion==5.0.2
 django-storages==1.12.3
-Django==4.0.7
+Django==4.0.9
 djangorestframework-gis==1.0
 djangorestframework-simplejwt==4.7.2
 djangorestframework==3.13.1

@@ -26,6 +26,7 @@ jobs:
       EMAIL_BACKEND: ${{ secrets.EMAIL_BACKEND }}
       EVENT_SIGNUPS_OPEN: ${{ secrets.EVENT_SIGNUPS_OPEN }}
       EVENT_SIGNUPS_CLOSE: ${{ secrets.EVENT_SIGNUPS_CLOSE }}
+      FRONTEND_URL: ${{ secrets.FRONTEND_URL }}
       GASTRO_SIGNUPS_OPEN: ${{ secrets.GASTRO_SIGNUPS_OPEN }}
       GASTRO_SIGNUPS_CLOSE: ${{ secrets.GASTRO_SIGNUPS_CLOSE }}
       MAILJET_API_KEY: ${{ secrets.MAILJET_API_KEY }}

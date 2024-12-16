@@ -3,7 +3,7 @@ boto3==1.24.2
 coverage==6.4.4
 debugpy==1.6.3
 boto3==1.24.12
-django-anymail==8.6
+django-anymail==12.0
 django-auto-prefetching==0.2.11
 django-cors-headers==3.13.0
 django-markdownx==4.0.0b1
